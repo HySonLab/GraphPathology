@@ -27,9 +27,12 @@ def main():
  for control in ['A4','A5','A6']:
   d=random[random.graph_control_type==control];graphrows.append([control,len(d),f'{d.changed_edge_fraction.min():.1%}–{d.changed_edge_fraction.max():.1%}',str(bool(d.degree_distribution_preserved.all())),str(bool(d.degree_preserved.all())),str(bool(d.distance_distribution_preserved.all())),f'{d.edge_length_ks_rounded_0_001_um.max():.3f}'])
  candidate_text=', '.join(sorted(candidates.gene.unique())) or 'None'
+ candidate_detail=(f"Their primary distance-control gains range from {candidates.delta_A6.min():+.4f} to {candidates.delta_A6.max():+.4f}. Counts by panel are "+', '.join(f'{panel}: {len(candidates[candidates.panel==panel])}' for panel in PANELS)+". These small effects are sensitive to the predeclared development tolerances; the 0.02 threshold is not a biological boundary." if len(candidates) else 'No genes meet the descriptive candidate criteria.')
  justification='YES' if status=='PASS_SPATIAL_SPECIFICITY' else ('NOT YET' if status=='MIXED_SPATIAL_SPECIFICITY' else 'NO')
  # A C3A pass authorizes a scale experiment, not a multiresolution architecture.
  architecture='NOT YET' if status in ['PASS_SPATIAL_SPECIFICITY','MIXED_SPATIAL_SPECIFICITY'] else 'NO'
+ q1=('Yes, for the robust subset under this development protocol; this is not external or population-level validation.' if status=='PASS_SPATIAL_SPECIFICITY' else 'A reproducible spatial-specificity advantage was not established under the predeclared gate. Positive individual-gene differences must be read alongside the matched-control distributions, error changes and patient sensitivity below.')
+ q2=('There is a supported subset under the frozen rule.' if len(robust) else 'Not reproducibly under the frozen rule: no gene-panel result clears the full control, uncertainty, error and patient-consistency requirements.')
  gate_text=('The predefined spatial-specificity gate passed. C3B is the next authorized stage; this report alone does not justify a multiresolution architecture.' if status=='PASS_SPATIAL_SPECIFICITY' else 'The predefined spatial-specificity gate did not pass. Stop here: C3B was not created or executed. No multiresolution model is justified by this checkpoint.')
  text=f'''C3A status: {status}
 C3B status: NOT_RUN
@@ -42,6 +45,8 @@ Overall C3 status: {status}
 Technical audit: **{audit['status']}**. All frozen C0/C1/C2 hashes are unchanged. No C1/C2 model was refitted, retuned or replayed. Their saved predictions and exact metrics were imported as immutable references.
 
 ## Question 1 — Does true tissue topology outperform matched randomized topology?
+
+**{q1}**
 
 The table below reports the primary-patient results for all controls. A0 is frozen local MLP; A1 is self-only SAGE; A2 is frozen mean pooling + MLP; A3 is frozen true-spatial SAGE; A4 permutes vertex labels; A5 rewires edges with exact node degrees; A6 rewires edges with exact node degrees and physical-length-bin counts. Every random control uses **five graph seeds crossed with three training seeds**.
 
@@ -77,13 +82,17 @@ These are **conditional patient-sensitivity analyses, not unbiased cross-validat
 
 ## Question 2 — Is any benefit more than simple averaging or self-only prediction?
 
+**{q2}**
+
 A pass requires a meaningful subset that exceeds **each** of self-only SAGE, frozen mean pooling, fully shuffled, degree-preserving and distance-matched controls, not just frozen local MLP. There are **{len(robust)} robust gene-panel rows covering {robust.gene.nunique()} unique genes** under that rule. Inspect the A1/A2 gains above alongside the graph-null gains; gains relative to A0 alone do not demonstrate spatial specificity.
 
 A1 feeds `[x_i, x_i]` into the exact C2 SAGE dimensions/hidden width/dropout. Both branches have trainable weights and only local information; nominal and active parameter counts match A3 exactly. The duplicated branches remain functionally redundant, so identical parameter count does not imply identical function-space dimension or regularization. A2 uses the exact frozen C2 self-inclusive mean formulation and selected geometry. In S2-280 its radius150 graph differs from A3's capped kNN6, so that comparison includes validation-selected graph geometry. SAGE itself is one linear neighbor aggregation before GELU and readout; it is also expressible as an MLP on local-plus-neighbor features, not evidence that a deep message-passing network is necessary.
 
 ## Question 3 — Which genes have the strongest descriptive true-spatial benefit?
 
-The frozen candidate criteria identify **{len(candidates)} gene-panel rows and {candidates.gene.nunique()} distinct genes**: {candidate_text}. These are descriptive development candidates, not population-significant or biological findings. The table ranks the strongest primary mean A6 correlation gains, whether or not they qualify, to expose rejection by error or patient criteria:
+The frozen candidate criteria identify **{len(candidates)} gene-panel rows and {candidates.gene.nunique()} distinct genes**: {candidate_text}. These are descriptive development candidates, not population-significant or biological findings. {candidate_detail}
+
+The table ranks the strongest primary mean A6 correlation gains, whether or not they qualify, to expose rejection by error or patient criteria:
 
 {table(['Panel','Gene','Δ local','Δ degree','Δ distance','MSE change vs distance','Positive patient directions','Candidate','Robust'],gene_rows)}
 
@@ -111,12 +120,17 @@ A6 changes only {distance.changed_edge_fraction.min():.1%}–{distance.changed_e
 
 ![Graph diagnostics](figures/graph_diagnostics.png)
 
+![S2-280 graph diagnostics](figures/graph_diagnostics_knn6.png)
+
+The degree histograms overlap exactly because their distributions are preserved.
+
 ## Reproducibility and execution
 
 - {audit['new_models_replayed']} new fits and saved-checkpoint prediction replays; maximum absolute replay difference {audit['maximum_absolute_prediction_error']:.3g}.
 - {audit['evaluations']} evaluated/reused model outcomes: 192 new primary fits, 288 new conditional fits, and 180 immutable reference outcomes.
 - All {audit['graphs_reconstructed']} stored graph variants reconstructed exactly; 120 are randomized controls.
 - {audit['frozen_scaler_training_only_checks']} scaler mean/scale checks against the correct training patients; no refitting used for prediction.
+- A test/audit module initially resolved the frozen C2 runner because both runner files share a name. Its import was made explicit; the retained initial test log documents this harness error. The training runner, predictions, and pre-test scientific specification did not change.
 - Eight unit tests cover randomization constraints/determinism, label-free graph inputs, self-only locality, capacity matching and the balanced seed schedule.
 - Frozen C0/C1/C2 hash audits pass; zero C1/C2 model runs. New preprocessing, encoder extraction, S3 inputs, explainability, enrichment and biological interpretation were not introduced.
 - {audit['registry_events']} events are appended to the global registry. Its original header/prefix remains byte-identical because prior checkpoint hashes cover it. [C3A_REGISTRY_EXTENSIONS.csv](C3A_REGISTRY_EXTENSIONS.csv) supplies the new schema fields keyed by `(event, run_id)`; multi-slide fit events also retain their per-slide graph references.

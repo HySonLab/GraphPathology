@@ -16,6 +16,7 @@ Execution from the repository root (do not regenerate a frozen checkpoint):
 .venv/bin/python C3/C3A/analyze.py
 .venv/bin/python C3/C3A/verify.py
 .venv/bin/python C3/C3A/figures.py
+.venv/bin/python C3/C3A/graph_figure_knn.py
 .venv/bin/python C3/C3A/report.py
 .venv/bin/python C3/freeze.py
 ```
