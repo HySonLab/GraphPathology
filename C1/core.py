@@ -149,7 +149,9 @@ def train_mlp(x,y,xv,yv,config,training,seed,fixed_epochs=None):
 
 def predict(model,x,kind):
     if kind=='B0': return np.repeat(np.asarray(model)[None,:],len(x),axis=0)
-    if kind=='B1': return model.predict(x)
+    if kind=='B1':
+        result=model.predict(x)
+        return result[:,None] if result.ndim==1 else result
     with torch.inference_mode():
         return np.concatenate([model(torch.from_numpy(x[i:i+2048])).numpy() for i in range(0,len(x),2048)])
 

@@ -47,3 +47,11 @@ def test_mlp_seed_reproducibility_and_fixed_epoch_without_validation():
  b,_=c.train_mlp(x,y,None,None,cfg,training,2,fixed_epochs=3)
  np.testing.assert_array_equal(c.predict(a,x,'B2'),c.predict(b,x,'B2'))
  assert info['best_epoch']==3
+
+
+def test_ridge_single_gene_keeps_matrix_contract():
+ rng=np.random.default_rng(9);x=rng.normal(size=(30,4));y=x[:,:1]
+ model=c.Ridge(alpha=1).fit(x,y)
+ p=c.predict(model,x,'B1')
+ assert p.shape==(30,1)
+ assert c.gene_metrics(y,p)['pearson'][0]>.99

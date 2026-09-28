@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/son/Research/GraphPathology/C1/run.py", line 233, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/son/Research/GraphPathology/C1/run.py", line 232, in main
+    with threadpool_limits(CFG['threads']):globals()[args.stage]()
+                                           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/son/Research/GraphPathology/C1/run.py", line 121, in select
+    r=fit_run(f'tune_{panel}_B1_a{a:g}','selection',panel,'B1',0,xt,yt,xvt,yvt,train_ids,val_ids,{'alpha':a},folder)
+  File "/home/son/Research/GraphPathology/C1/run.py", line 81, in fit_run
+    info['validation_median_pearson']=finite_stat(column_corr(yv,vp),'median')
+                                                  ~~~~~~~~~~~^^^^^^^
+  File "/home/son/Research/GraphPathology/C1/core.py", line 31, in column_corr
+    raise ValueError('Correlation matrices must have matching finite shapes')
+ValueError: Correlation matrices must have matching finite shapes
