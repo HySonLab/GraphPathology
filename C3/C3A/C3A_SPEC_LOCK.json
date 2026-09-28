@@ -1,0 +1,262 @@
+{
+  "timestamp": "2026-09-28T22:42:04.541802+00:00",
+  "source_commit": "46e8fc2186046e323ba41481d8691a8c5908c0db",
+  "parent_C2_lock_sha256": "d4ceb39cc1b2237e3ba39cc61b713a12cbf7e020f6d1271ec48d05596746b584",
+  "C3_new_test_evaluation_started": false,
+  "prior_C1_C2_test_results_known": true,
+  "protocol": {
+    "checkpoint": "C3A",
+    "panels": [
+      "S1",
+      "S2-50",
+      "S2-250",
+      "S2-280"
+    ],
+    "training_seeds": [
+      0,
+      1,
+      2
+    ],
+    "graph_randomization_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "primary_new_controls": [
+      "A1",
+      "A4",
+      "A5",
+      "A6"
+    ],
+    "conditional_lopo_new_controls": [
+      "A1",
+      "A6"
+    ],
+    "reused_controls": {
+      "A0": "Frozen C1 B2 metrics and saved predictions; no C1 inference or fitting",
+      "A2": "Frozen C2 MEAN, exact self-inclusive averaging and selected geometry",
+      "A3": "Frozen C2 SAGE, same selected geometry/configuration and saved models/predictions"
+    },
+    "A1": "Self-only SAGE input [x_i, x_i]: same 1024 input dimensions, hidden width, initialization, dropout, optimizer, nominal and active parameter count as A3. Both branches contain only the local feature vector. Redundant local branches reduce effective functional rank; this is a parameterization control, not extra information.",
+    "A4": "Independent vertex permutation per sample/geometry/random seed, exact degree histogram, not per-node degrees",
+    "A5": "Double-edge swaps, exact node degrees, target 5 accepted swaps per edge, maximum 100 attempts per edge",
+    "A6": "Local double-edge swaps, exact node degrees and exact global physical-length-bin counts. Candidate second endpoint lies within 275 um. Target 5 accepted swaps per edge, maximum 1000 attempts per edge. Sampling is reproducible but is not claimed uniform over constrained graphs.",
+    "distance_bins_um": [
+      0,
+      175,
+      250,
+      "infinity"
+    ],
+    "distance_bin_rationale": "Frozen C0 coordinates show a 100 um lattice, immediate cardinal/diagonal links at 100/141 um and occasional 200/224 um gap edges. Bin [0,175) groups immediate neighbors, [175,250) groups longer links, and [250,infinity) retains boundary/long-edge mass. A coordinate-only training/validation pilot found narrow bins permit <2% edge turnover; chosen broader bins allow >10%. No C3 prediction or target values informed bins.",
+    "graph_audit_limits": {
+      "A4_A5_min_changed_edge_fraction": 0.9,
+      "A6_min_changed_edge_fraction": 0.1,
+      "A6_max_edge_length_KS": 0.2,
+      "A6_max_absolute_relative_mean_length_change": 0.1
+    },
+    "primary_training": "Frozen C2 SAGE parameters and frozen C1 training protocol; validation MSE early stopping separately for each control/seed. No new hyperparameter search. Pair all five randomizations with all three training seeds.",
+    "conditional_lopo_training": "All four patients and all four panels, A1 and strongest matched control A6, five graph seeds crossed with three training seeds. Frozen C2 SAGE fixed LOPO epoch counts for all new controls. Reuse exact C1 fold-training scalers, verified against training-only data. No fold early stopping or retuning. Reuse A0/A2/A3 frozen LOPO predictions. A4/A5 are primary-only.",
+    "candidate_rule": {
+      "true_pearson_gt": 0,
+      "mean_gain_over_A0_A5_A6_gt": 0,
+      "maximum_relative_primary_MSE_increase_vs_A0": 0.02,
+      "minimum_lopo_patients_with_positive_mean_A6_gain": 3,
+      "minimum_worst_patient_mean_A6_gain": -0.05,
+      "maximum_worst_patient_relative_MSE_increase_vs_A0": 0.25
+    },
+    "robust_gene_rule": {
+      "must_be_candidate": true,
+      "minimum_primary_mean_gain_over_each_A1_A2_A4_A5_A6": 0.02,
+      "positive_A6_gain_all_training_seeds": true,
+      "primary_A6_gain_exceeds_one_graph_randomization_SD": true,
+      "primary_MSE_no_increase_vs_A0_and_A6": true,
+      "mean_lopo_MSE_no_increase_vs_A6": true
+    },
+    "gate": {
+      "technical": "FAIL_TECHNICAL if graph preservation/mixing limits, frozen-input hash audits, replay or schedule checks fail",
+      "PASS_SPATIAL_SPECIFICITY": "At least 3 distinct robust genes and at least one multi-gene panel with max(3, ceil(0.02 * panel size)) robust genes; all graph audits pass",
+      "MIXED_SPATIAL_SPECIFICITY": "If no PASS: at least one candidate, or at least 3 distinct primary genes with A6 Pearson gain >=0.02 and non-increasing A6 MSE",
+      "FAIL_SPATIAL_SPECIFICITY": "Otherwise; no reproducible meaningful subset demonstrated under these descriptive rules"
+    },
+    "uncertainty": "For each randomization average the three training seeds first, then report mean/sample SD across five graph seeds; also retain all 15 outcomes and per-training-seed contrasts. No population significance claim.",
+    "predeclared_candidates_from_C2": [
+      "CCDC80",
+      "FBLN1",
+      "LRRC15",
+      "LUM",
+      "MMP2",
+      "SELL"
+    ],
+    "A7": "Omitted optional feature-nearest graph; focus on required matched controls and patient sensitivity",
+    "registry": "Preserve frozen global CSV header/prefix, append all events; C3A_REGISTRY_EXTENSIONS.csv contains new fields keyed by event/run_id and graph references. Changing the old header would violate C0-C2 freezes.",
+    "stop": "Do not create C3B unless C3A PASS_SPATIAL_SPECIFICITY. No multiresolution architecture in C3."
+  },
+  "selected_C2": {
+    "S1": {
+      "MEAN": {
+        "graph": {
+          "name": "delaunay_cap250",
+          "kind": "delaunay",
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 128,
+          "dropout": 0.0
+        },
+        "lopo_epochs": 11
+      },
+      "GCN": {
+        "graph": {
+          "name": "delaunay_cap250",
+          "kind": "delaunay",
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 128,
+          "dropout": 0.0
+        },
+        "lopo_epochs": 11
+      },
+      "SAGE": {
+        "graph": {
+          "name": "delaunay_cap250",
+          "kind": "delaunay",
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 64,
+          "dropout": 0.0
+        },
+        "lopo_epochs": 12
+      }
+    },
+    "S2-50": {
+      "MEAN": {
+        "graph": {
+          "name": "delaunay_cap250",
+          "kind": "delaunay",
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 128,
+          "dropout": 0.1
+        },
+        "lopo_epochs": 14
+      },
+      "GCN": {
+        "graph": {
+          "name": "delaunay_cap250",
+          "kind": "delaunay",
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 128,
+          "dropout": 0.1
+        },
+        "lopo_epochs": 14
+      },
+      "SAGE": {
+        "graph": {
+          "name": "delaunay_cap250",
+          "kind": "delaunay",
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 67,
+          "dropout": 0.1
+        },
+        "lopo_epochs": 7
+      }
+    },
+    "S2-250": {
+      "MEAN": {
+        "graph": {
+          "name": "delaunay_cap250",
+          "kind": "delaunay",
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 256,
+          "dropout": 0.0
+        },
+        "lopo_epochs": 17
+      },
+      "GCN": {
+        "graph": {
+          "name": "delaunay_cap250",
+          "kind": "delaunay",
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 256,
+          "dropout": 0.0
+        },
+        "lopo_epochs": 17
+      },
+      "SAGE": {
+        "graph": {
+          "name": "delaunay_cap250",
+          "kind": "delaunay",
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 153,
+          "dropout": 0.0
+        },
+        "lopo_epochs": 11
+      }
+    },
+    "S2-280": {
+      "MEAN": {
+        "graph": {
+          "name": "radius150",
+          "kind": "radius",
+          "radius_um": 150
+        },
+        "params": {
+          "hidden": 256,
+          "dropout": 0.1
+        },
+        "lopo_epochs": 17
+      },
+      "GCN": {
+        "graph": {
+          "name": "radius150",
+          "kind": "radius",
+          "radius_um": 150
+        },
+        "params": {
+          "hidden": 256,
+          "dropout": 0.1
+        },
+        "lopo_epochs": 18
+      },
+      "SAGE": {
+        "graph": {
+          "name": "knn6_cap250",
+          "kind": "knn",
+          "k": 6,
+          "max_edge_um": 250
+        },
+        "params": {
+          "hidden": 156,
+          "dropout": 0.1
+        },
+        "lopo_epochs": 13
+      }
+    }
+  },
+  "source_sha256": {
+    "C3/C3A/lock.py": "4f1c9db440072e147c172ffce47878a6e27c6a42c0dbac21f249f06ab604232e",
+    "C3/C3A/graph_controls.py": "1a81ab3163bb4edcf58496dc044e62a4f8a68650b55312295bc0e7a8f799be5d",
+    "C3/C3A/run.py": "5b522bc25f9c78e114770d25bc3ccdde45eccac348cd332138c2b9ec6474298c",
+    "C3/C3A/common.py": "9d8e7f7bfd4b359b6a564856f2cfac0af22757806f3dd427866759e029af963b",
+    "C3/C3A/configs/protocol.json": "f03cfa8bb5308a8a5f1606fb15280e3d5e4e6133ac9502acf81b3f6214541490",
+    "C3/C3_EXECUTION_PLAN_UPDATED.md": "a88e1f586c5b881dbee8169eb4f4cbf76a805fe1d3bc1299c86b3b13b4d3fa6d",
+    "C1/core.py": "e50863a45c152b428bf3c4a175db6e387936e5c59c73b0988569e69093eb056b",
+    "C2/run.py": "7c03695e797fc350d24ea2678e88fb919ba9e15360e1c24606a2b9892e26f09d",
+    "C2/graph.py": "e63c6c77218c00e5b6ab248d5fbc65d383aff8eeb7925e88297b7f23edc810a3"
+  }
+}
