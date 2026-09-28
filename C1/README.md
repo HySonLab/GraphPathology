@@ -23,3 +23,14 @@ A constant predictor has undefined Pearson/Spearman and co-expression correlatio
 `results/experiment_registry.csv` is append-only with separate fit/evaluation events. Candidate fits are included. Reported peak RSS is sampled process RSS (including resident input arrays), not isolated model allocation. CPU thread counts are fixed at four.
 
 Model checkpoints and prediction arrays are retained locally under `C1/models` and `C1/predictions`, excluded from Git to avoid large binary history. Their checksums are recorded in run logs and the final specification. Source, configurations, metrics, figures, scalers, logs and reports are versioned. Reproduction on a different machine requires reconstructing the verified C0 caches first and running in a fresh separately versioned output location rather than overwriting this freeze.
+
+After the fitting/evaluation stages, assemble the full deliverables:
+
+```bash
+.venv/bin/python C1/summarize.py --figures
+.venv/bin/python C1/verify.py
+.venv/bin/python C1/build_report.py
+.venv/bin/python C1/freeze.py
+```
+
+After freezing, use `.venv/bin/python C1/freeze.py --verify` for a read-only hash audit and `.venv/bin/python C1/verify.py` for a read-only model-replay audit. Do not rerun table/figure/report writers over frozen outputs. The final report contains the checkpoint decision and C2 recommendation; C2 was not executed.
