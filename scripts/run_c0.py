@@ -97,8 +97,8 @@ def main():
             'feature_cache':str(feat_path.relative_to(ROOT)),'feature_sha256':sha(feat_path),
             'feature_shapes':dims,'feature_provenance':json.loads(feat_path.with_suffix('.json').read_text()),
             'target_cache':str(normalized.relative_to(ROOT)),'target_sha256':sha(normalized),
-            'source_study':str(metadata.loc[sample,'study_link']),
-            'source_page':str(metadata.loc[sample,'download_page_link1'])})
+            'source_study':str(metadata.loc[sample,'study_link']).strip(),
+            'source_page':str(metadata.loc[sample,'download_page_link1']).strip()})
     downloads = json.loads((out/'C0_DOWNLOADS.json').read_text())
     for record in downloads['files']:
         if sha(ROOT/record['path']) != record['sha256']:
@@ -122,7 +122,7 @@ def main():
             'hardware':platform.platform(),'elapsed_seconds':time.monotonic()-start,
             'peak_rss_kib':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
             'limitations':['Four patients only; no publication-level statistical claim',
-                          f'{len(genes)} biological targets shared biological targets after control exclusion and identifier harmonization of 541 assay features; 1000/3000-gene panels unavailable',
+                          f'{len(genes)} shared biological targets after control exclusion and identifier harmonization of 541 assay features; 1000/3000-gene panels unavailable',
                           'Generic ImageNet ResNet18 reference, not pathology foundation embeddings',
                           'No validated cell/nucleus labels; RGB and texture summaries only',
                           'Simulated square/circular masks; tissue-area coverage unavailable',
