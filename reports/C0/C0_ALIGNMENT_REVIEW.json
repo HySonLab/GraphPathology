@@ -1,0 +1,18 @@
+{
+  "status": "passed_thumbnail_and_patch_audit",
+  "reviewer": "Codex visual inspection; not pathologist certification",
+  "scope": "Gross H&E/spot alignment and deterministic patch spot-checks only",
+  "figures": ["alignment/cohort_overlay.png", "alignment/patch_spotcheck.png", "alignment/mask_geometries.png"],
+  "findings": [
+    "All four overlays place the retained spot grids over the expected tissue regions without an obvious global axis swap or offset.",
+    "Barcode-joined patch centers agree numerically with expression coordinates after row/column conversion.",
+    "Twelve coordinate-centered thumbnail crops show tissue/background and broad color correspondence with cached patches.",
+    "NCBI785 includes only a rectangular assay region within the larger histology field. No claims are made about unmeasured locations outside the available assay region.",
+    "Square hidden blocks and circular observed windows retain their specified geometry; exact spot fractions vary when boundary distances tie."
+  ],
+  "limitations": [
+    "Low-resolution thumbnails cannot certify cell-level H&E/Xenium registration.",
+    "Tissue islands can make a geometric window intersect disconnected tissue; no tissue connectivity claim is made.",
+    "A pathologist and study investigator should review cohort suitability before biological interpretation."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "filename": "Codex_Execution_Plan_Spatial_Transcriptomics_v4.pdf",
+  "sha256": "76d3ed9a6b13200c5493ab415cb4fdddbc8b598f035d83b736f8aadbdfba89d5",
+  "version": "4.0",
+  "scope_executed": "C0 development data/alignment/masks/leakage audit",
+  "subsequent_checkpoints": "Not executed; checkpoint review requested by the research plan",
+  "implementation_decisions": {
+    "cohort": "Public HEST-Benchmark IDC, four patients",
+    "split": "Two NCBI training slides, TENX95 validation, TENX99 test; development only",
+    "genes": "280 shared biological targets after control removal and name harmonization",
+    "panels": "1, 50 and 250 training log-count variance-ranked; 1000 unavailable",
+    "encoder": "Frozen ImageNet ResNet18 reference, not pathology foundation model",
+    "mask_geometry": "Random observed spots, hidden square, observed circle; three replicas per coverage",
+    "alignment": "Numerical barcode/coordinate audit and Codex visual inspection of thumbnails/12 patches",
+    "deferred": "1000/3000-gene cohorts, pathology encoder, expert review, C1-C8 experiments"
+  }
+}

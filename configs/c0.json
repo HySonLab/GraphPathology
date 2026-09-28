@@ -1,0 +1,44 @@
+{
+  "checkpoint": "C0",
+  "dataset": "MahmoodLab/hest-bench",
+  "revision": "b039b5965ed7092f280d4f336da7972ef9a10e1a",
+  "cohort": "IDC",
+  "splits": {
+    "train": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": [
+      "TENX95"
+    ],
+    "test": [
+      "TENX99"
+    ]
+  },
+  "seed": 20260927,
+  "coverage_fractions": [
+    0.05,
+    0.1,
+    0.2,
+    0.4,
+    0.6,
+    0.8
+  ],
+  "mask_replicates": 3,
+  "panel_sizes": [
+    1,
+    50,
+    250,
+    1000
+  ],
+  "normalization": "log1p(raw counts), training-only gene means and standard deviations",
+  "encoder": "torchvision ResNet18 IMAGENET1K_V1, frozen, official preprocessing",
+  "encoder_note": "Generic ImageNet vision reference; not a pathology foundation model",
+  "alignment_review": "reports/C0/C0_ALIGNMENT_REVIEW.json",
+  "excluded_feature_prefixes": [
+    "NegControl",
+    "BLANK_",
+    "Unassigned",
+    "Deprecated"
+  ]
+}
