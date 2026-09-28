@@ -1,0 +1,54 @@
+{
+  "checkpoint": "C2",
+  "threads": 4,
+  "device": "cpu",
+  "panels": [
+    "S1",
+    "S2-50",
+    "S2-250",
+    "S2-280"
+  ],
+  "models": [
+    "MEAN",
+    "GCN",
+    "SAGE"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "graphs": [
+    {
+      "name": "knn6_cap250",
+      "kind": "knn",
+      "k": 6,
+      "max_edge_um": 250
+    },
+    {
+      "name": "radius150",
+      "kind": "radius",
+      "radius_um": 150
+    },
+    {
+      "name": "radius250",
+      "kind": "radius",
+      "radius_um": 250
+    },
+    {
+      "name": "delaunay_cap250",
+      "kind": "delaunay",
+      "max_edge_um": 250
+    }
+  ],
+  "graph_selection": "Per panel and model, seed 0 only: highest validation median gene Pearson, then lowest validation MSE, then graph name. No test graph selection.",
+  "architecture": "One aggregation layer followed by GELU, frozen C1 dropout and a direct output head. MEAN uses row-normalized A+I; GCN uses symmetric D^-1/2(A+I)D^-1/2; SAGE concatenates self features with neighbor-only row means. Aggregation of frozen input embeddings is precomputed, exactly equivalent to one-layer learned linear GCN/mean-GraphSAGE.",
+  "capacity": "MEAN/GCN match frozen C1 hidden width and parameter count. SAGE width is the nearest integer matching C1 parameter count after accounting for doubled input dimension. No new architecture sweep.",
+  "training": "Frozen C1 AdamW, learning rate, weight decay, batch size, patience, minimum improvement and max epochs. Primary early stopping uses validation MSE. Three main seeds.",
+  "scaling": "Use frozen C1 primary feature/target scalers before aggregation. Conditional LOPO uses the existing C1 fold-specific scalers read-only; no new learned scaling or C1 refitting.",
+  "controls": "S2-50, each selected model, seeds 0/1/2: independently permute graph vertex labels per slide, preserving degree/edge structure but breaking physical proximity. No labels enter graph construction. Train/validation/test all receive deterministic permuted graphs.",
+  "lopo": "All four panels, three models, seeds 0/1/2 and four evaluation patients. Use primary-selected graphs and fixed rounded median primary best epoch. Compare to frozen C1 LOPO B2 metrics by identical patient/panel/seed. Conditional sensitivity only, not unbiased validation.",
+  "contextual_gain": "Gene Pearson(model) minus frozen gene Pearson(C1 B2), paired by panel, patient, seed. Also report gains over selected MEAN pooling, MSE/MAE changes, and validation graph sensitivity.",
+  "candidate_gene_rule": "Freeze descriptive validation shortlist per multi-gene panel and graph model before test access: mean graph-minus-MEAN Pearson >=0.05, all three seed graph-minus-MEAN gains positive, and mean MSE change <=0. Frozen C1 validation per-gene predictions were not stored, so no new C1 inference is performed to create them. Report test/conditional-LOPO gains over frozen C1 local and MEAN for the unchanged shortlist.",
+  "prohibitions": "No C1 fitting/replay/retuning, new encoder, observed neighboring expression, S3 masks, multiresolution fusion, GAT, explanation or biological interpretation. No C3 execution."
+}
