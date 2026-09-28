@@ -1,0 +1,28 @@
+F.......                                                                 [100%]
+=================================== FAILURES ===================================
+__________________ test_self_only_has_no_neighbor_information __________________
+
+    def test_self_only_has_no_neighbor_information():
+     # Rows can change independently: no other node participates in a self-only input.
+     d={'x':np.zeros((3,512),np.float32)}
+>    x,_=run.features('unused',d,'S1','A1',-1)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+C3/C3A/tests/test_contracts.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+sample = 'unused'
+data = {'x': array([[0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.]], shape=(3, 512), dtype=float32)}
+panel = 'S1', model = 'A1', config = -1, heldout = None, shuffle_seed = None
+
+    def features(sample,data,panel,model,config,heldout=None,shuffle_seed=None):
+>    key=(sample,panel,model,config['name'],heldout,shuffle_seed)
+                             ^^^^^^^^^^^^^^
+E    TypeError: 'int' object is not subscriptable
+
+C2/run.py:74: TypeError
+=========================== short test summary info ============================
+FAILED C3/C3A/tests/test_contracts.py::test_self_only_has_no_neighbor_information
+1 failed, 7 passed in 1.68s
