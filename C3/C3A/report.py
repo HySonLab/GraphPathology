@@ -96,7 +96,7 @@ The table ranks the strongest primary mean A6 correlation gains, whether or not 
 
 {table(['Panel','Gene','Δ local','Δ degree','Δ distance','MSE change vs distance','Positive patient directions','Candidate','Robust'],gene_rows)}
 
-[C3A_CANDIDATE_AUDIT.csv](C3A_CANDIDATE_AUDIT.csv) records every gene, each criterion, every rejection and both candidate/robust flags. The six C2 candidate identities were retained in the specification for traceability, but C3A does not assume they are spatially specific. Candidate spatial maps, when candidates exist, are saved as `figures/map_<panel>_<gene>.png`; maps share a color scale between measured, local, true-graph and distance-control predictions and carry no mechanistic interpretation.
+[C3A_CANDIDATE_AUDIT.csv](C3A_CANDIDATE_AUDIT.csv) records every gene, each criterion, every rejection and both candidate/robust flags. The six C2 candidate identities were retained in the specification for traceability, but C3A does not assume they are spatially specific. Candidate spatial maps, when candidates exist, are saved as `figures/map_<panel>_<gene>.png`; maps share a color scale between measured, local, true-graph and distance-control predictions and carry no mechanistic interpretation. Prediction maps average the available training/graph seeds; these diagnostic ensemble maps are not used to recompute the reported per-run metrics.
 
 ![All gene spatial gains](figures/gene_spatial_gains.png)
 
