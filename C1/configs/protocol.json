@@ -1,0 +1,21 @@
+{
+  "checkpoint": "C1",
+  "threads": 4,
+  "device": "cpu",
+  "panels": ["S1", "S2-50", "S2-250", "S2-280"],
+  "ridge_alphas": [0.0001, 0.001, 0.01, 0.1, 1, 10, 100],
+  "mlp_candidates": [{"hidden":128,"dropout":0.0},{"hidden":128,"dropout":0.1},{"hidden":256,"dropout":0.0},{"hidden":256,"dropout":0.1}],
+  "mlp": {"learning_rate":0.001,"weight_decay":0.0001,"batch_size":512,"max_epochs":80,"patience":10,"min_delta":0.0001,"optimizer":"AdamW"},
+  "seeds": [0,1,2],
+  "selection_seed": 0,
+  "ridge_selection": "validation median gene Pearson, then lower validation MSE, then smaller alpha",
+  "mlp_selection": "lowest validation MSE among four seed-0 candidates; early stopping on validation MSE",
+  "negative_controls": "S2-50, NC1 label-row permutation and NC2 embedding-row permutation; primary-selected hyperparameters, separate seed-specific permutation; early stopping on unchanged validation patient",
+  "lopo": "all four settings; B0, B1 and B2 seeds 0/1/2; fold-training-only feature and target scalers on frozen C0 values; primary-selected hyperparameters; fixed rounded median best epoch across primary B2 seeds",
+  "metrics_space": "frozen C0 normalized target units, after inversion of additional C1 target scaler",
+  "constant_prediction_correlation": "undefined (NaN), including B0; do not assign artificial zero correlation",
+  "variance_for_gene_maps": "training log1p(raw counts) variance; high/median/lowest-positive within each frozen panel",
+  "test_access": "No primary test cache loaded by fitting stage; evaluation begins only after SELECTION_LOCK.json is written",
+  "registry": "append-only results/experiment_registry.csv; all fits including candidates are registered",
+  "resource_peak": "process RSS sampled every 20 ms during fit/inference; includes arrays resident at start; no per-location biological replication claims"
+}
