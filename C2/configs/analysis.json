@@ -1,0 +1,15 @@
+{
+  "written_before_primary_test_access":true,
+  "gain_denominator":"Frozen C1 B2, paired by panel, patient and seed; graph-vs-MEAN also paired by panel/patient/seed, each method using its own validation-selected graph.",
+  "gene_support_rule":{
+    "validation_candidate_required":true,
+    "primary_mean_delta_local_min":0.05,
+    "primary_mean_delta_mean_strictly_positive":true,
+    "primary_delta_local_positive_all_three_seeds":true,
+    "primary_mean_mse_change_vs_local_nonpositive":true,
+    "lopo_positive_delta_local_and_mean_in_at_least_patients":3,
+    "lopo_total_patients":4,
+    "interpretation":"Descriptive prioritization, not a significance test or proof of independent replication. Conditional folds overlap and reuse frozen panels."
+  },
+  "reporting":"Report all genes, not only shortlisted genes, including negative gains and disagreement between correlation and error. No selection from primary test metrics or retrospective graph search."
+}
