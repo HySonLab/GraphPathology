@@ -1,0 +1,44 @@
+{
+  "run_id": "C2_primary_S1_SAGE_s1",
+  "phase": "primary",
+  "panel": "S1",
+  "model": "SAGE",
+  "graph": {
+    "name": "delaunay_cap250",
+    "kind": "delaunay",
+    "max_edge_um": 250
+  },
+  "seed": 1,
+  "params": {
+    "hidden": 64,
+    "dropout": 0.0
+  },
+  "train_slides": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation_slides": [
+    "TENX95"
+  ],
+  "heldout": null,
+  "shuffled": false,
+  "preprocessing": "C1/preprocessing/primary/S1",
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "target_scaler_sha256": "73eff1da2c80644949697360bf1da5b6282c46b3e76f1d4b1299ca97a844a854",
+  "model_path": "C2/models/C2_primary_S1_SAGE_s1.pt",
+  "model_sha256": "37abbb1cdd71f9a3be863ecb9ac3421e9fc3c244076b5b9acdfcb14543e1fff8",
+  "input_dim": 1024,
+  "output_dim": 1,
+  "n_train": 7015,
+  "local_parameters": 65793,
+  "source_commit": "b36899b2c1c9f5ce11724f686a0a1089ece51328",
+  "prepare_seconds": 0.06841261999215931,
+  "peak_rss_mb": 672.87109375,
+  "train_seconds": 0.32885669625829905,
+  "validation_seconds": 0.0875535192899406,
+  "best_epoch": 14,
+  "epochs_run": 24,
+  "parameters": 65665,
+  "validation_median_pearson": 0.7356267867516774,
+  "validation_mse": 0.3001068004361249
+}

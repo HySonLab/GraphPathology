@@ -1,0 +1,44 @@
+{
+  "run_id": "C2_tune_S2-280_SAGE_radius150",
+  "phase": "selection",
+  "panel": "S2-280",
+  "model": "SAGE",
+  "graph": {
+    "name": "radius150",
+    "kind": "radius",
+    "radius_um": 150
+  },
+  "seed": 0,
+  "params": {
+    "hidden": 156,
+    "dropout": 0.1
+  },
+  "train_slides": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation_slides": [
+    "TENX95"
+  ],
+  "heldout": null,
+  "shuffled": false,
+  "preprocessing": "C1/preprocessing/primary/S2-280",
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "target_scaler_sha256": "fdb3e6de7c1e55618f974146ff31b56b460198b920eeb2fd79cdabb9eb15c4b9",
+  "model_path": "C2/models/C2_tune_S2-280_SAGE_radius150.pt",
+  "model_sha256": "5841350bbad92d9ae88928b5f078ea24562e1521c1125e28514864bdc3d90291",
+  "input_dim": 1024,
+  "output_dim": 280,
+  "n_train": 7015,
+  "local_parameters": 203288,
+  "source_commit": "b36899b2c1c9f5ce11724f686a0a1089ece51328",
+  "prepare_seconds": 0.08468264492694288,
+  "peak_rss_mb": 850.23046875,
+  "train_seconds": 0.7490801815874875,
+  "validation_seconds": 0.19632605812512338,
+  "best_epoch": 11,
+  "epochs_run": 21,
+  "parameters": 203860,
+  "validation_median_pearson": 0.5636638776515973,
+  "validation_mse": 1.1247905266704452
+}

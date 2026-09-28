@@ -1,0 +1,45 @@
+{
+  "run_id": "C2_tune_S2-280_GCN_knn6_cap250",
+  "phase": "selection",
+  "panel": "S2-280",
+  "model": "GCN",
+  "graph": {
+    "name": "knn6_cap250",
+    "kind": "knn",
+    "k": 6,
+    "max_edge_um": 250
+  },
+  "seed": 0,
+  "params": {
+    "hidden": 256,
+    "dropout": 0.1
+  },
+  "train_slides": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation_slides": [
+    "TENX95"
+  ],
+  "heldout": null,
+  "shuffled": false,
+  "preprocessing": "C1/preprocessing/primary/S2-280",
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "target_scaler_sha256": "fdb3e6de7c1e55618f974146ff31b56b460198b920eeb2fd79cdabb9eb15c4b9",
+  "model_path": "C2/models/C2_tune_S2-280_GCN_knn6_cap250.pt",
+  "model_sha256": "06ea7aa197c87bb1bce4f1582e6e511ac4662fd0da36f5078287993d1606bc80",
+  "input_dim": 512,
+  "output_dim": 280,
+  "n_train": 7015,
+  "local_parameters": 203288,
+  "source_commit": "b36899b2c1c9f5ce11724f686a0a1089ece51328",
+  "prepare_seconds": 0.07383122702594846,
+  "peak_rss_mb": 807.46484375,
+  "train_seconds": 1.506153505644761,
+  "validation_seconds": 0.33263486716896296,
+  "best_epoch": 28,
+  "epochs_run": 38,
+  "parameters": 203288,
+  "validation_median_pearson": 0.46458710870686026,
+  "validation_mse": 1.1823253513338101
+}

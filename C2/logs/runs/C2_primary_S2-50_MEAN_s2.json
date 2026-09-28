@@ -1,0 +1,44 @@
+{
+  "run_id": "C2_primary_S2-50_MEAN_s2",
+  "phase": "primary",
+  "panel": "S2-50",
+  "model": "MEAN",
+  "graph": {
+    "name": "delaunay_cap250",
+    "kind": "delaunay",
+    "max_edge_um": 250
+  },
+  "seed": 2,
+  "params": {
+    "hidden": 128,
+    "dropout": 0.1
+  },
+  "train_slides": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation_slides": [
+    "TENX95"
+  ],
+  "heldout": null,
+  "shuffled": false,
+  "preprocessing": "C1/preprocessing/primary/S2-50",
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "target_scaler_sha256": "53c082753b4756db62f28fb2ef91f010d84359979245ed1a7eb89edbf4e001a4",
+  "model_path": "C2/models/C2_primary_S2-50_MEAN_s2.pt",
+  "model_sha256": "67f73e616b622f89eade6abb5884b9ac0e7b0cc71ffec37a53459ec7c47f4c53",
+  "input_dim": 512,
+  "output_dim": 50,
+  "n_train": 7015,
+  "local_parameters": 72114,
+  "source_commit": "b36899b2c1c9f5ce11724f686a0a1089ece51328",
+  "prepare_seconds": 0.060407586046494544,
+  "peak_rss_mb": 649.7265625,
+  "train_seconds": 0.4412132544675842,
+  "validation_seconds": 0.08165275945793837,
+  "best_epoch": 14,
+  "epochs_run": 24,
+  "parameters": 72114,
+  "validation_median_pearson": 0.6367041950601136,
+  "validation_mse": 0.7173676782091739
+}

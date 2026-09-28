@@ -1,0 +1,44 @@
+{
+  "run_id": "C2_tune_S2-280_MEAN_radius150",
+  "phase": "selection",
+  "panel": "S2-280",
+  "model": "MEAN",
+  "graph": {
+    "name": "radius150",
+    "kind": "radius",
+    "radius_um": 150
+  },
+  "seed": 0,
+  "params": {
+    "hidden": 256,
+    "dropout": 0.1
+  },
+  "train_slides": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation_slides": [
+    "TENX95"
+  ],
+  "heldout": null,
+  "shuffled": false,
+  "preprocessing": "C1/preprocessing/primary/S2-280",
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "target_scaler_sha256": "fdb3e6de7c1e55618f974146ff31b56b460198b920eeb2fd79cdabb9eb15c4b9",
+  "model_path": "C2/models/C2_tune_S2-280_MEAN_radius150.pt",
+  "model_sha256": "9013fb91775ccc05d1b32a96042b4ec3bf782276eec14e7551efa12e19268011",
+  "input_dim": 512,
+  "output_dim": 280,
+  "n_train": 7015,
+  "local_parameters": 203288,
+  "source_commit": "b36899b2c1c9f5ce11724f686a0a1089ece51328",
+  "prepare_seconds": 0.08427640597801656,
+  "peak_rss_mb": 807.4765625,
+  "train_seconds": 0.984854432172142,
+  "validation_seconds": 0.21765107579994947,
+  "best_epoch": 15,
+  "epochs_run": 25,
+  "parameters": 203288,
+  "validation_median_pearson": 0.5018634818835939,
+  "validation_mse": 1.177607794202552
+}

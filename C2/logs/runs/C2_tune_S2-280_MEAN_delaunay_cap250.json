@@ -1,0 +1,44 @@
+{
+  "run_id": "C2_tune_S2-280_MEAN_delaunay_cap250",
+  "phase": "selection",
+  "panel": "S2-280",
+  "model": "MEAN",
+  "graph": {
+    "name": "delaunay_cap250",
+    "kind": "delaunay",
+    "max_edge_um": 250
+  },
+  "seed": 0,
+  "params": {
+    "hidden": 256,
+    "dropout": 0.1
+  },
+  "train_slides": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation_slides": [
+    "TENX95"
+  ],
+  "heldout": null,
+  "shuffled": false,
+  "preprocessing": "C1/preprocessing/primary/S2-280",
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "target_scaler_sha256": "fdb3e6de7c1e55618f974146ff31b56b460198b920eeb2fd79cdabb9eb15c4b9",
+  "model_path": "C2/models/C2_tune_S2-280_MEAN_delaunay_cap250.pt",
+  "model_sha256": "29c3f4ed70c84c7a9d17ad31ef7432ce495c49c535bdeaf3272a5cea3006694d",
+  "input_dim": 512,
+  "output_dim": 280,
+  "n_train": 7015,
+  "local_parameters": 203288,
+  "source_commit": "b36899b2c1c9f5ce11724f686a0a1089ece51328",
+  "prepare_seconds": 0.07429874502122402,
+  "peak_rss_mb": 807.484375,
+  "train_seconds": 1.6408743102801964,
+  "validation_seconds": 0.3539751439820975,
+  "best_epoch": 32,
+  "epochs_run": 42,
+  "parameters": 203288,
+  "validation_median_pearson": 0.4956394289308653,
+  "validation_mse": 1.148104187307262
+}
