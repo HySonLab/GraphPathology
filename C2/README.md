@@ -21,3 +21,16 @@ The selection stage writes its lock before test access. Validation per-gene C1 p
 Conditional LOPO retains primary-selected graphs/configurations and fixed primary-derived epoch counts. Its targets and hyperparameters were not selected independently per fold; it is patient-dependence sensitivity, not unbiased or external validation.
 
 Large models and predictions are stored locally and hashed, but excluded from Git. Code, scalers referenced by immutable hashes, graph files, metrics, figures, logs and reports are versioned. Run IDs are unique and the global registry is append-only. Stop after C2; C3 requires review.
+
+Final reporting and read-only integrity verification:
+
+```bash
+.venv/bin/python C2/summarize.py
+.venv/bin/python C2/graph_figures.py
+.venv/bin/python C2/verify.py
+.venv/bin/python C2/build_report.py
+.venv/bin/python C2/freeze.py
+.venv/bin/python C2/freeze.py --verify
+```
+
+After freezing, use only the final `--verify` command to audit the checkpoint; do not regenerate frozen outputs. See [C2_REPORT.md](C2_REPORT.md) for the completed `MIXED_CONTEXT_SIGNAL` decision, limitations, and review gate before C3.

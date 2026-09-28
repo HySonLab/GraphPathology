@@ -40,3 +40,13 @@ def test_capacity_match():
 def test_duplicate_and_nonfinite_coordinates_rejected():
  for xy in [np.zeros((4,2)),np.full((4,2),np.nan)]:
   with pytest.raises(ValueError):build_graph(xy,{'kind':'radius','radius_um':100})
+
+
+def test_aggregation_is_local_and_cannot_cross_disconnected_regions():
+ xy=np.array([[0.,0.],[100.,0.],[1000.,0.],[1100.,0.]])
+ a=build_graph(xy,{'kind':'radius','radius_um':150})
+ x=np.zeros((4,2),dtype=np.float32);changed=x.copy();changed[0]=1
+ for model in ['MEAN','GCN','SAGE']:
+  before=aggregate(a,x,model);after=aggregate(a,changed,model)
+  np.testing.assert_array_equal(before[2:],after[2:])
+  assert np.any(before[:2]!=after[:2])
