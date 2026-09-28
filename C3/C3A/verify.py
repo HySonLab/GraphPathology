@@ -3,7 +3,7 @@ from common import *
 import time
 from scipy import sparse
 from graph_controls import randomize,audit,canonical_hash
-import run
+spec=importlib.util.spec_from_file_location('c3_runtime',OUT/'run.py');run=importlib.util.module_from_spec(spec);spec.loader.exec_module(run)
 import torch
 from threadpoolctl import threadpool_limits
 
@@ -31,6 +31,20 @@ def verify():
   graphs+=1
   if graphs%20==0:print('RECONSTRUCTED',graphs,flush=True)
  paths=sorted((OUT/'logs/runs').glob('*.json'));assert len(paths)==480,len(paths)
+ assert len(list((OUT/'models').glob('*.pt')))==480
+ expected=set()
+ for phase,heldouts,controls in [('primary',[None],CFG['primary_new_controls']),('lopo',IDS,CFG['conditional_lopo_new_controls'])]:
+  for heldout in heldouts:
+   for panel in PANELS:
+    for control in controls:
+     for seed in CFG['training_seeds']:
+      for gs in ([-1] if control=='A1' else CFG['graph_randomization_seeds']):expected.add((phase,heldout,panel,control,seed,gs))
+ actual=set()
+ for path in paths:
+  rec=json.loads(path.read_text());actual.add((rec['phase'],rec['heldout'],rec['panel'],rec['control'],rec['training_seed'],rec['graph_randomization_seed']))
+  assert rec['params']==SELECTED[rec['panel']]['SAGE']['params']
+  if rec['heldout']:assert rec['best_epoch']==SELECTED[rec['panel']]['SAGE']['lopo_epochs'] and rec['validation_slides']==[]
+ assert actual==expected
  maxerr=0.;n=0
  for path in paths:
   r=json.loads(path.read_text());sample=r['heldout'] or SPLITS['splits']['test'][0];ev=json.loads((OUT/'logs/evaluation'/f'{r["run_id"]}_{sample}.json').read_text())
@@ -56,6 +70,8 @@ def verify():
  assert not new.duplicated(['event','run_id']).any()
  events=list((OUT/'logs/registry').glob('*.json'));assert len(new)==len(events),(len(new),len(events))
  test=json.loads((OUT/'logs/TEST_ACCESS.json').read_text());lock=json.loads((OUT/'C3A_SPEC_LOCK.json').read_text());assert lock['timestamp']<test['timestamp'] and test['spec_sha256']==sha(OUT/'C3A_SPEC_LOCK.json')
+ analysis=json.loads((OUT/'ANALYSIS_IMPLEMENTATION_LOCK.json').read_text());assert analysis['timestamp']<test['timestamp']
+ for p,h in analysis['source_sha256'].items():assert sha(ROOT/p)==h
  result={'status':'PASS','new_models_replayed':n,'maximum_absolute_prediction_error':maxerr,'graphs_reconstructed':graphs,'frozen_scaler_training_only_checks':scaler_checks,'evaluations':len(evals),'reused_frozen_evaluations':180,'registry_events':len(events),'frozen_C0_C1_C2':'unchanged','C1_C2_models_rerun':0,'spec_predates_C3_test_evaluation':True,'seconds':time.perf_counter()-start}
  dump(OUT/'logs/INTEGRITY_AUDIT.json',result);print(json.dumps(result,indent=2))
 if __name__=='__main__':

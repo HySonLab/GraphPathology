@@ -3,7 +3,8 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import numpy as np
 from common import CFG,PANELS,SELECTED,core,preprocessing,scaler
-import run
+import importlib.util
+spec=importlib.util.spec_from_file_location('c3_runtime',Path(__file__).resolve().parents[1]/'run.py');run=importlib.util.module_from_spec(spec);spec.loader.exec_module(run)
 
 def test_self_only_has_no_neighbor_information():
  # Rows can change independently: no other node participates in a self-only input.
