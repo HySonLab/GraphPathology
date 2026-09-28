@@ -1,0 +1,26 @@
+{
+  "label": "Conditional four-patient robustness sensitivity analysis \u2014 not unbiased validation",
+  "train_slides": [
+    "NCBI783",
+    "NCBI785",
+    "TENX99"
+  ],
+  "evaluation_slide": "TENX95",
+  "gene_panel": [
+    "FOXA1"
+  ],
+  "fixed_epochs": 14,
+  "primary_parameters": {
+    "ridge": {
+      "alpha": 100
+    },
+    "mlp": {
+      "hidden": 128,
+      "dropout": 0.0
+    },
+    "selected_mlp_candidate": "tune_S1_B2_c0",
+    "lopo_fixed_epochs": 14
+  },
+  "feature_scaler_sha256": "93c2e954e85ec991d7f6219db555e38ce2d6c32dd8a2d18b1df8f45fe9011ca7",
+  "target_scaler_sha256": "5f79ac31e55b8ae6d6f8403265a39e3559737c8a1ee7724f1b15a4ee90e1e99b"
+}
