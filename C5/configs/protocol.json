@@ -1,0 +1,104 @@
+{
+  "panels": [
+    "S2-50",
+    "S2-250",
+    "S2-280"
+  ],
+  "encoders": [
+    "resnet18_reference",
+    "pathology_encoder_1"
+  ],
+  "masks": "All 216 immutable C0 masks, all three regimes, 5/10/20/40/60/80 percent nominal coverage, three mask replicates; realized coverage and geometry always retained",
+  "primary": "Frozen C0 two training, one validation, one primary test patient. Test observed anchors are permitted sparse inputs; hidden primary labels only score final predictions. Prior C0-C4 results were known.",
+  "sensitivity": "Four conditional held-out patients; S2-50/S2-280, 10/20/40 percent, all three regimes and all three mask seeds. Train B4 and image PCA on the other three patients, retain primary-selected interpolation/fusion/regularization settings. Reuse frozen C4 fold-specific B1 predictions. Not unbiased cross-validation.",
+  "models": [
+    "B0",
+    "B1",
+    "B2a",
+    "B2b",
+    "B3",
+    "B4"
+  ],
+  "B0": "Mean of permitted training anchors from each training slide's frozen random 60 percent replicate-0 mask. Never a held-out or hidden-label mean.",
+  "B1": "Equal average of all three frozen C4 selected local MLP seeds; reuse saved primary/fold held-out predictions. For C5 training/validation locations without saved predictions, read-only inference through the frozen C4 heads. No previous fit is rerun or retuned.",
+  "B2a": {
+    "k_grid": [
+      1,
+      4,
+      8,
+      16
+    ]
+  },
+  "B2b": {
+    "neighbors": 16,
+    "power_grid": [
+      1,
+      2,
+      3
+    ]
+  },
+  "B3": {
+    "lambda_grid": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "formula": "lambda * frozen image prediction + (1-lambda) * validation-selected stronger B2 family"
+  },
+  "selection": "Per panel and geometry, choose k and power by mean validation hidden-location MSE across all coverages and mask replicates (equal mask weights). Choose the stronger B2 family likewise. Choose lambda separately by encoder/panel/geometry using the same validation-only mean MSE. No test selection.",
+  "B4": {
+    "description": "Compact two-hop linear graph propagation with learned per-gene residual heads over B3. Node inputs contain image PCA, observed indicator and zero-filled observed expression. Frozen C2 kNN6-cap250 graph. Features include local/one-hop/two-hop image PCA, observed indicator/masses, nearest-anchor distance, B1, B3, own observed expression, and normalized one/two-hop observed-expression messages. Hidden own-expression inputs are exactly zero. No cross-gene hidden inputs.",
+    "image_PCA_dimensions": 8,
+    "alpha_grid": [
+      1,
+      100,
+      10000
+    ],
+    "training_hidden_rows_per_mask": 256,
+    "selection": "One alpha per encoder/panel by mean validation MSE across all masks, after B2/B3 choices are established. Same grid and deterministic fitting for both encoders. No learned fusion head beyond this compact propagation family.",
+    "loss": "Only training-patient hidden expression is supervised main loss, separated from feature construction. It never enters molecular inputs, scaling, retrieval or auxiliary targets. No held-out main-loss labels. No auxiliary losses.",
+    "scaling": "Frozen C0 target units, no new expression-derived scaler. Image-only standardization/PCA fit on training H&E. Graph molecular messages use only observed anchors and observed-indicator normalization."
+  },
+  "negative_controls": {
+    "panel": "S2-50",
+    "mask": "primary test random nominal 20 percent replicate 0",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "NC1": "Permute observed vectors among observed positions",
+    "NC2": "Permute positions assigned to intact observed vectors; equivalent association-null family, not an independent biological mechanism",
+    "NC3": "Permute image features and frozen image predictions among locations; molecular anchors fixed",
+    "scope": "NC1/NC2 for B2a/B2b/B3/B4, NC3 for B1/B3/B4, both encoders where applicable. No retuning."
+  },
+  "leakage": "Predictor accepts only image/coordinate scene plus observed-only anchor payload. Each final run checks NaN and random corruption of all hidden genes before payload extraction; compare both predictions exactly with uncorrupted predictions. Observed/hidden barcode lists and mask checksum are stored in every prediction.",
+  "distance_bins_um": [
+    0,
+    150,
+    300,
+    600,
+    1200,
+    2400,
+    "infinity"
+  ],
+  "distance_bin_correlation_minimum_locations": 20,
+  "metrics": "Hidden locations only; per-gene Pearson/Spearman/MSE/MAE; panel mean/median and Pearson fractions. Fixed C0 normalized units. Constant prediction correlation undefined, never recoded as zero in stored metrics.",
+  "fidelity": "No validated scalar fidelity cutoff, horizon or minimum gene coverage is claimed. Report continuous distance curves and full gene-by-coverage matrix.",
+  "figures": "Predeclared map: TENX99, all three regimes, 20 percent replicate 0, first frozen S2-50 gene, ResNet18 B3. Fixed examples, no score-based selection.",
+  "gate": {
+    "sparse_setting": "At least 2 of 3 masks: B2 selected over B1 has panel median Pearson gain >=0.02 and mean MSE reduction >=2percent",
+    "fusion_setting": "Across three masks, median gene-paired B3-minus-B2 Pearson gain >=0.01, mean MSE nonincrease, and max(3,ceil(5percent panel)) genes with mean Pearson gain >=0.05, positive gain in >=2 masks, non-increasing mean MSE",
+    "patient_support": "Same encoder/panel/geometry has a qualifying fusion setting and a sparse setting in at least two of four conditional patients at 10/20/40percent",
+    "contiguous_ability": "Same encoder/panel in at least one contiguous geometry: B3 median Pearson >=0.20 and MSE <=0.9*B0 in >=2 masks, both primary and >=2 conditional patients",
+    "coherence": "For selected B2 random masks, increasing coverage correlates positively with median Pearson and negatively with MSE in at least two of three primary panels, using Spearman across mask-averaged realized coverages",
+    "PASS": "At least one panel/encoder has >=2 primary sparse settings and >=2 primary fusion settings, each counted across nominal coverage/geometry, patient support, contiguous ability, coherence, complete distance diagnostics and integrity pass",
+    "MIXED": "No PASS, but at least one primary sparse setting or at least one qualifying fusion setting exists",
+    "FAIL": "Otherwise after technical integrity passes",
+    "TECHNICAL": "Any hidden-label invariance, order, model replay, parent hash, mask or input-identity audit failure"
+  },
+  "B4_gain_rule": "Descriptive only: B4 over B3 mean MSE nonincrease and median gene-paired Pearson gain >=0.01 across three masks, with positive mask gain in >=2 masks and support in >=2 conditional patients. No complexity escalation if absent.",
+  "recommendation": "PASS with >=10percent relative random B2 MSE change between lowest/highest coverage -> PROCEED_TO_SAMPLING_OPTIMIZATION; other PASS -> PROCEED_TO_EXTERNAL_VALIDATION; MIXED/FAIL -> NEED_SPARSE_ST_REVIEW; technical failure -> STOP_TECHNICAL. Recommendations only; stop after C5."
+}
