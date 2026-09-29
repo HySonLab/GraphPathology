@@ -5,6 +5,10 @@ def table(headers,rows):return '\n'.join(['| '+' | '.join(headers)+' |','| '+' |
 def fmt(s):return f'{s.mean():.3f}'+(f' ± {s.std(ddof=1):.3f}' if len(s)>1 else ' (deterministic)')
 def main():
  gate=json.loads((A/'logs/GATE_RESULT.json').read_text());audit=json.loads((A/'logs/INTEGRITY_AUDIT.json').read_text());status=gate['status'] if audit['status']=='PASS' else 'FAIL_TECHNICAL';p=pd.read_csv(A/'C4A_PANEL_METRICS.csv');g=pd.read_csv(A/'C4A_GENE_SUPPORT.csv');primary=p[p.phase=='primary'];gain=pd.read_csv(A/'C4A_GAIN_SUMMARY.csv');extract=[json.loads(f.read_text()) for f in (A/'logs/extraction').glob('*.json')]
+ selection=json.loads((A/'SELECTION_LOCK.json').read_text())['selected'];selectionrows=[]
+ for encoder in ['resnet18_reference','pathology_encoder_1']:
+  for panel in PANELS:
+   d=selection[encoder][panel];selectionrows.append(['ResNet18' if encoder=='resnet18_reference' else 'Phikon',panel,d['D0']['params']['alpha'],d['D1']['params']['hidden'],d['D1']['params']['dropout'],d['D1']['lopo_epochs']])
  rows=[]
  for panel in PANELS:
   for model in ['D0','D1']:
@@ -41,6 +45,10 @@ D0 is Ridge; D1 is a one-hidden-layer MLP. MLP values are mean ± sample SD acro
 ### Matched downstream design
 
 Both encoders use the same five Ridge alphas `[0.1, 1, 10, 100, 1000]` and the same four MLP candidates: hidden width 128/256 crossed with dropout 0/0.1. Seed-0 validation median Pearson chooses the configuration, with validation MSE and a canonical config tie-break. The unchanged C1 AdamW, learning-rate, weight-decay, batch-size, patience and maximum-epoch settings apply to both representations. Three MLP primary seeds follow selection. This C4 ResNet18 probe is a new matched-budget benchmark; it does not replace or change frozen C1 results.
+
+{table(['Encoder','Panel','Selected Ridge alpha','MLP width','MLP dropout','Fixed sensitivity epochs'],selectionrows)}
+
+All Ridge selections reached the upper boundary of the small predeclared alpha grid. Phikon MLP validation often selected an early epoch (one epoch for the multi-gene sensitivity configurations). These are limitations of this compact probe and its cross-patient transfer; the grid and optimization schedule were not expanded after selection.
 
 Feature and target scalers are fitted on the C4 training patients only. Gene lists/order, C0 target normalization and patient split remain unchanged. Model families, hidden widths and tuning budgets match; **absolute parameter counts differ because inputs are 512 versus 768 dimensions**. Ridge is an additional check across model families. [C4A_RESOURCE_PROFILE.csv](C4A_RESOURCE_PROFILE.csv) records the actual counts and training resources.
 
