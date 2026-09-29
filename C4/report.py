@@ -21,7 +21,10 @@ def main():
  for panel in PANELS:
   for sample in IDS:
    d=g[(g.phase=='lopo')&(g.model=='D1')&(g.panel==panel)&(g.sample_id==sample)];foldrows.append([panel,sample,f'{d.delta_encoder.median():+.3f}',f'{d.delta_mse.mean():+.3f}',f'{(d.mse_pathology.mean()/d.mse_resnet.mean()-1):+.1%}'])
- top=g[(g.phase=='primary')&(g.model=='D1')].sort_values('delta_encoder',ascending=False).head(15);tops=[[r.panel,r.gene,f'{r.delta_encoder:+.3f}',f'{r.delta_mse:+.3f}',str(r.strong_gene)] for r in top.itertuples()]
+ top=g[(g.phase=='primary')&(g.model=='D1')].sort_values('delta_encoder',ascending=False).head(15);tops=[]
+ for r in top.itertuples():
+  folds=g[(g.phase=='lopo')&(g.model=='D1')&(g.panel==r.panel)&(g.gene==r.gene)]
+  tops.append([r.panel,r.gene,f'{r.delta_encoder:+.3f}',f'{r.delta_mse:+.3f}',str(r.strong_gene),int((folds.delta_encoder>0).sum()),int(((folds.delta_encoder>0)&(folds.delta_mse>=0)).sum())])
  controls=[[r['model'],r['control'],f"{r['mean_median_Pearson']:.3f}",f"{r['drop']:.3f}",str(r['pass'])] for r in gate['negative_controls']]
  patches=[[r['sample_id'],r['n_locations'],f"{r['estimated_FOV_um']:.2f}",f"{r['estimated_resized_mpp']:.4f}",f"{r['alignment_max_error_px']:.3f}",f"{r['seconds']:.1f}"] for r in extract]
  recommendation='STOP_TECHNICAL' if status=='FAIL_TECHNICAL' else ('PROCEED_TO_SPARSE_ST_RECONSTRUCTION' if status=='FAIL_PATHOLOGY_REPRESENTATION' else 'NEED_REPRESENTATION_REVIEW')
@@ -62,7 +65,7 @@ The primary scientific quantities are gene-paired encoder Pearson gain and MSE r
 
 A strong descriptive gene requires mean primary Pearson gain ≥0.05, positive gain in every MLP seed and non-increasing mean MSE. This is a development threshold, not biological significance. The following top gains are shown irrespective of whether every rule passes; all genes remain in [C4A_ENCODER_GAIN.csv](C4A_ENCODER_GAIN.csv) and [C4A_GENE_SUPPORT.csv](C4A_GENE_SUPPORT.csv).
 
-{table(['Panel','Gene','Mean Pearson gain','Mean MSE reduction','Strong descriptive gene'],tops)}
+{table(['Panel','Gene','Mean Pearson gain','Mean MSE reduction','Strong descriptive gene','Folds with positive Pearson gain / 4','Folds improving both / 4'],tops)}
 
 ![Per-gene gain and error](figures/gene_gain_vs_error.png)
 
