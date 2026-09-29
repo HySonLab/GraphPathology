@@ -6,6 +6,8 @@ The immutable [scientific specification](C4A/C4A_SPEC_LOCK.json) records the sou
 
 ## Execution
 
+Prerequisites are the frozen C0–C3 data/artifacts and the recorded base environment. For a separate reproduction, prepare C4-only directories and packages with `.venv/bin/python C4/bootstrap.py --install-isolated-dependencies`; this never upgrades the base environment.
+
 From the repository root, using the unchanged `.venv`:
 
 ```bash
