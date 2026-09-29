@@ -9,6 +9,11 @@ def main():
  for encoder in ['resnet18_reference','pathology_encoder_1']:
   for panel in PANELS:
    d=selection[encoder][panel];selectionrows.append(['ResNet18' if encoder=='resnet18_reference' else 'Phikon',panel,d['D0']['params']['alpha'],d['D1']['params']['hidden'],d['D1']['params']['dropout'],d['D1']['lopo_epochs']])
+ allgain=[]
+ for (phase,sample,panel,model),d in g.groupby(['phase','sample_id','panel','model']):
+  allgain.append({'phase':phase,'sample_id':sample,'panel':panel,'model':model,'mean_encoder_gain':d.delta_encoder.mean(),'median_encoder_gain':d.delta_encoder.median(),'fraction_Pearson_improved':(d.delta_encoder>0).mean(),'fraction_both_improved':((d.delta_encoder>0)&(d.delta_mse>0)).mean(),'mean_MSE_reduction':d.delta_mse.mean(),'relative_MSE_increase':d.mse_pathology.mean()/d.mse_resnet.mean()-1})
+ allgain=pd.DataFrame(allgain);allgain.to_csv(A/'C4A_ENCODER_GAIN_SUMMARY.csv',index=False)
+ allgainrows=[[r.panel,r.model,f'{r.mean_encoder_gain:+.3f}',f'{r.median_encoder_gain:+.3f}',f'{r.fraction_Pearson_improved:.1%}',f'{r.fraction_both_improved:.1%}'] for r in allgain[allgain.phase=='primary'].itertuples()]
  rows=[]
  for panel in PANELS:
   for model in ['D0','D1']:
@@ -25,8 +30,11 @@ def main():
  for r in top.itertuples():
   folds=g[(g.phase=='lopo')&(g.model=='D1')&(g.panel==r.panel)&(g.gene==r.gene)]
   tops.append([r.panel,r.gene,f'{r.delta_encoder:+.3f}',f'{r.delta_mse:+.3f}',str(r.strong_gene),int((folds.delta_encoder>0).sum()),int(((folds.delta_encoder>0)&(folds.delta_mse>=0)).sum())])
- controls=[[r['model'],r['control'],f"{r['mean_median_Pearson']:.3f}",f"{r['drop']:.3f}",str(r['pass'])] for r in gate['negative_controls']]
- patches=[[r['sample_id'],r['n_locations'],f"{r['estimated_FOV_um']:.2f}",f"{r['estimated_resized_mpp']:.4f}",f"{r['alignment_max_error_px']:.3f}",f"{r['seconds']:.1f}"] for r in extract]
+ controls=[]
+ for r in gate['negative_controls']:
+  d=p[(p.phase=='negative')&(p.model==r['model'])&(p.control==r['control'])].sort_values('seed')
+  controls.append([r['model'],r['control'],', '.join(f'{v:.3f}' for v in d.median_pearson),f"{r['mean_median_Pearson']:.3f}",f"{r['drop']:.3f}",str(r['pass'])])
+ patches=[[r['sample_id'],r['patient'],r['n_locations'],f"{r['estimated_FOV_um']:.2f}",f"{r['estimated_resized_mpp']:.4f}",f"{r['alignment_max_error_px']:.3f}",f"{r['seconds']:.1f}"] for r in extract]
  recommendation='STOP_TECHNICAL' if status=='FAIL_TECHNICAL' else ('PROCEED_TO_SPARSE_ST_RECONSTRUCTION' if status=='FAIL_PATHOLOGY_REPRESENTATION' else 'NEED_REPRESENTATION_REVIEW')
  answer='The predeclared representation gate passes on this development cohort; a minimal C4B spatial recheck is authorized.' if status=='PASS_PATHOLOGY_REPRESENTATION' else 'A clear representation pass was not established under the predeclared gate. C4B is not authorized; stop for review.'
  text=f'''C4A status: {status}
@@ -61,6 +69,10 @@ The specification and gate were hashed before new test evaluation. Only training
 
 The primary scientific quantities are gene-paired encoder Pearson gain and MSE reduction. Positive values mean Phikon improves. Median paired gene gains need not equal the difference of panel median correlations.
 
+{table(['Panel','Model','Mean gene gain','Median gene gain','Pearson improved','Both endpoints improved'],allgainrows)}
+
+The complete phase/patient/model summaries are in [C4A_ENCODER_GAIN_SUMMARY.csv](C4A_ENCODER_GAIN_SUMMARY.csv). The following table applies the locked MLP representation gate to the three multi-gene panels:
+
 {table(['Panel (MLP)','Median gene gain','Mean gene gain','Pearson improved','Both endpoints improved','Strong genes','Folds improved in both','Panel gate pass'],gainrows)}
 
 A strong descriptive gene requires mean primary Pearson gain ≥0.05, positive gain in every MLP seed and non-increasing mean MSE. This is a development threshold, not biological significance. The following top gains are shown irrespective of whether every rule passes; all genes remain in [C4A_ENCODER_GAIN.csv](C4A_ENCODER_GAIN.csv) and [C4A_GENE_SUPPORT.csv](C4A_GENE_SUPPORT.csv).
@@ -85,7 +97,7 @@ All four patients and all four panels were evaluated with both models and both e
 
 Only training image/expression pairings are permuted; validation/test stay intact. NC1 permutes training labels, NC2 permutes training feature locations. Each uses three seeds for both D0 and D1 on Phikon S2-50.
 
-{table(['Model','Control','Mean median Pearson','Drop from paired','Pass'],controls)}
+{table(['Model','Control','Median Pearson by seed (0,1,2)','Mean median Pearson','Drop from paired','Pass'],controls)}
 
 ![Negative controls](figures/negative_controls.png)
 
@@ -97,7 +109,7 @@ UNI2-h and UNI returned HTTP 401 gated-weight responses with no configured acces
 
 The exact 224×224 RGB C0 pixel arrays are reused with the official image processor: scaling by 1/255 and ImageNet channel means/standard deviations; no stain normalization, color augmentation or recropping. Approximate physical calibration supports the usual 20× interpretation, but scanner-level calibration is not independently certified. Source patch fields of view and alignment errors are:
 
-{table(['Sample','Locations','Source FOV µm','Resized µm/pixel','Max alignment error px','Phikon extraction seconds'],patches)}
+{table(['Sample','Patient','Locations','Source FOV µm','Resized µm/pixel','Max alignment error px','Phikon extraction seconds'],patches)}
 
 **Preprocessing is part of the compared encoder pipeline.** Phikon consumes the whole 224-pixel source tile. The frozen ResNet18 official transform had resized it to 256 pixels then center-cropped 224, retaining about 87.5% of the source width (approximately 98 µm rather than 112 µm). Thus this benchmark does not isolate pretraining from architecture, feature dimension or effective crop field of view. No C0 patch/cache was altered to conceal that difference. Public-pretraining overlap has not been independently excluded at individual-slide level.
 
