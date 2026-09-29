@@ -16,6 +16,7 @@ def main():
   print('PASS:',len(lock['artifact_sha256']),'C4 artifacts, registry prefix, and all frozen parents');return
  assert not path.exists(),'C4 already frozen'
  status=json.loads((OUT/'C4_STATUS.json').read_text());assert status['technical_audit']['status']=='PASS'
+ assert not (status['C4A_status']=='PASS_PATHOLOGY_REPRESENTATION' and status['C4B_status']=='NOT_RUN'),'Complete the authorized C4B recheck before final freeze'
  skip={'__pycache__','.pytest_cache','deps','.git','CMRCNet'}
  files={str(p.relative_to(ROOT)):sha(p) for p in OUT.rglob('*') if p.is_file() and not skip.intersection(p.relative_to(OUT).parts) and p.name not in ['C4_MANIFEST.json','C4_MANIFEST.sha256']}
  reg=ROOT/'results/experiment_registry.csv'

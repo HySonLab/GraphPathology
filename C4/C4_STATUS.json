@@ -1,9 +1,8 @@
 {
   "C4A_status": "PASS_PATHOLOGY_REPRESENTATION",
-  "C4B_status": "NOT_RUN",
-  "overall_C4_status": "PASS_PATHOLOGY_REPRESENTATION",
+  "C4B_status": "MIXED_SPATIAL_RECHECK",
+  "overall_C4_status": "MIXED_SPATIAL_RECHECK",
   "recommendation": "NEED_REPRESENTATION_REVIEW",
-  "C4B_allowed": true,
   "C4A_gate": {
     "status": "PASS_PATHOLOGY_REPRESENTATION",
     "panel_rules": [
@@ -91,19 +90,65 @@
     "fits": 244,
     "evaluations": 172
   },
+  "C4B_gate": {
+    "status": "MIXED_SPATIAL_RECHECK",
+    "panels": [
+      {
+        "panel": "S2-280",
+        "robust_genes": 1,
+        "required_genes": 6,
+        "primary_candidates": 29,
+        "median_spatial_gene_gain": -0.011355875224987988,
+        "median_matched_gene_gain": 0.008262364329721139,
+        "mean_spatial_MSE_reduction": -0.013943955036468213,
+        "mean_matched_MSE_reduction": 0.06301900317090642
+      },
+      {
+        "panel": "S2-50",
+        "robust_genes": 0,
+        "required_genes": 3,
+        "primary_candidates": 0,
+        "median_spatial_gene_gain": -0.021672984776932858,
+        "median_matched_gene_gain": 0.0013239742636493683,
+        "mean_spatial_MSE_reduction": -0.041092418627766684,
+        "mean_matched_MSE_reduction": 0.0006949707249645137
+      }
+    ],
+    "descriptive_rules_only": true
+  },
   "technical_audit": {
     "status": "PASS",
-    "saved_models_replayed": 244,
-    "evaluation_predictions_replayed": 172,
-    "selection_metric_replays": 72,
-    "maximum_prediction_error": 0.0,
-    "sampled_embedding_max_error": 0.0,
-    "sampled_embedding_rows": 64,
-    "patch_hashes_verified": 35536,
-    "embedding_caches_checked": 8,
-    "scaler_training_only_checks": 80,
-    "registry_events": 420,
-    "frozen_C0_C3": "unchanged",
-    "seconds": 99.86440099205356
-  }
+    "C4A": {
+      "status": "PASS",
+      "saved_models_replayed": 244,
+      "evaluation_predictions_replayed": 172,
+      "selection_metric_replays": 72,
+      "maximum_prediction_error": 0.0,
+      "sampled_embedding_max_error": 0.0,
+      "sampled_embedding_rows": 64,
+      "patch_hashes_verified": 35536,
+      "embedding_caches_checked": 8,
+      "scaler_training_only_checks": 80,
+      "registry_events": 420,
+      "frozen_C0_C3": "unchanged",
+      "seconds": 99.86440099205356
+    },
+    "C4B": {
+      "status": "PASS",
+      "saved_models_replayed": 210,
+      "heldout_predictions_replayed": 210,
+      "primary_validation_replays": 42,
+      "reused_local_evaluations_checked": 30,
+      "reused_metric_CSV_roundtrip_max_error": 4.440892098500626e-16,
+      "reused_prediction_files_byte_identical": true,
+      "maximum_prediction_error": 0.0,
+      "graphs_checked": 56,
+      "registry_events": 506,
+      "C4A_frozen_artifacts_checked": 1834,
+      "C0_C3": "unchanged",
+      "seconds": 100.85905716195703
+    }
+  },
+  "C0_C3_unchanged": true,
+  "later_checkpoints_executed": false
 }

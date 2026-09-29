@@ -20,8 +20,6 @@ From the repository root, using the unchanged `.venv`:
 .venv/bin/python C4/verify.py
 .venv/bin/python C4/figures.py
 .venv/bin/python C4/report.py
-.venv/bin/python C4/freeze.py
-.venv/bin/python C4/freeze.py --verify
 ```
 
 These commands document execution, not permission to rerun frozen experiments. `select`, specification creation and final freeze refuse to overwrite locks. Completed fits and extraction caches are reused only after applicable hash checks. The isolated extraction packages under `C4/deps` are recorded in [the environment record](C4A/configs/execution_environment.json); the old environment is unchanged. Restore matching dependencies and source weights before a fresh reproduction in a separate output directory.
@@ -32,12 +30,19 @@ C4B is conditional on a clear C4A pass. In this execution the predeclared S2-50 
 .venv/bin/python C4/b_lock.py
 .venv/bin/python C4/b_spatial.py primary
 .venv/bin/python C4/b_spatial.py final
-.venv/bin/python C4/b_analyze.py
+.venv/bin/python C4/b_analysis_runner.py
 .venv/bin/python C4/b_verify.py
 MPLCONFIGDIR=/tmp/c4-mpl .venv/bin/python C4/b_report.py
 ```
 
-These also document the completed execution; do not rewrite existing locks or frozen outputs. Final `C4/freeze.py` runs only after both stages finish. Do not launch it for mixed, failed or technical-failure results. The final report and status file record whether this gate was reached. Stop after C4 for user review.
+The analysis runner preserves CSV control labels as text (pandas otherwise infers the single label TRUE as Boolean). The parser correction is recorded in `C4B/logs/ANALYSIS_PARSER_CORRECTION.json`; the locked analysis formulas are unchanged.
+
+These also document the completed execution; do not rewrite existing locks or frozen outputs. Final freeze runs after the required gated stages and reports finish:
+
+```bash
+.venv/bin/python C4/freeze.py
+.venv/bin/python C4/freeze.py --verify
+``` Do not launch it for mixed, failed or technical-failure results. The final report and status file record whether this gate was reached. Stop after C4 for user review.
 
 ## Artifacts
 

@@ -111,7 +111,9 @@ Sensitivity entries are equal-weight means of four patient-specific gene medians
 
 ## Integrity and recommendation
 
-Audit: **{audit['status']}**. All {audit['saved_models_replayed']} new models and held-out predictions replayed, plus {audit['primary_validation_replays']} primary validation outputs; maximum prediction difference {audit['maximum_prediction_error']:.3g}. All 30 reused local outcomes, 56 graph references, all frozen C4A artifacts and all C0–C3 hashes passed. The registry has {audit['registry_events']} C4B events appended without changing its prior header/prefix. Per-fit parameter counts, timings and peak RAM are in [C4B_RESOURCE_PROFILE.csv](C4B_RESOURCE_PROFILE.csv).
+Audit: **{audit['status']}**. All {audit['saved_models_replayed']} new models and held-out predictions replayed, plus {audit['primary_validation_replays']} primary validation outputs; maximum prediction difference {audit['maximum_prediction_error']:.3g}. Reused local prediction files are byte-identical; metric CSV round-tripping differs by at most {audit['reused_metric_CSV_roundtrip_max_error']:.3g}. All 30 reused local outcomes, 56 graph references, all frozen C4A artifacts and all C0–C3 hashes passed. The registry has {audit['registry_events']} C4B events appended without changing its prior header/prefix. Per-fit parameter counts, timings and peak RAM are in [C4B_RESOURCE_PROFILE.csv](C4B_RESOURCE_PROFILE.csv).
+
+A CSV parser correction was necessary: pandas inferred the per-run control label TRUE as Boolean. The typed reader adapter restores text labels before executing the unchanged locked analysis source. Saved metrics/predictions and scientific decision rules were not changed; the correction and regression test are logged.
 
 Final recommendation: **{recommendation}**. Stop after C4 for user review. No multiresolution, partial-ST reconstruction, interpretation, explainability or clinical claims were executed.
 '''
@@ -119,6 +121,7 @@ Final recommendation: **{recommendation}**. Stop after C4 for user review. No mu
  ap=pd.read_csv(A/'C4A_PANEL_METRICS.csv');arows=[]
  for panel in ['S1','S2-50','S2-250','S2-280']:
   d=ap[(ap.phase=='primary')&(ap.model=='D1')].groupby(['panel','encoder'])[['median_pearson','mean_mse']].mean();r=d.loc[(panel,'resnet18_reference')];h=d.loc[(panel,'pathology_encoder_1')];arows.append([panel,f'{r.median_pearson:.3f}',f'{h.median_pearson:.3f}',f'{r.mean_mse:.3f}',f'{h.mean_mse:.3f}'])
+ encgenes=pd.read_csv(A/'C4A_GENE_SUPPORT.csv');encgenes=encgenes[(encgenes.phase=='primary')&(encgenes.model=='D1')&(encgenes.panel=='S2-50')&encgenes.strong_gene].sort_values('delta_encoder',ascending=False).head(5);leading_genes=', '.join(f"{r.gene} ({r.delta_encoder:+.3f})" for r in encgenes.itertuples())
  root=f'''C4A status: PASS_PATHOLOGY_REPRESENTATION
 C4B status: {status}
 Overall C4 status: {status}
@@ -131,17 +134,17 @@ Overall C4 status: {status}
 
 {table(['Panel','ResNet MLP median Pearson','Phikon MLP median Pearson','ResNet MLP mean MSE','Phikon MLP mean MSE'],arows)}
 
-These are means over three training seeds on the primary patient. Full Ridge/MLP metrics, individual seeds, gene gains and controls are in [C4A_REPORT.md](C4A/C4A_REPORT.md). UNI2-h and UNI were gated without configured access, so Phikon was the single planned public fallback. Both encoders received the same compact downstream grid; no extra encoder was added. The conclusion applies to this encoder pipeline and cohort, not all pathology foundation models.
+These are means over three training seeds on the primary patient. Full Ridge/MLP metrics, individual seeds, gene gains and controls are in [C4A_REPORT.md](C4A/C4A_REPORT.md). UNI2-h and UNI were gated without configured access, so Phikon was the single planned public fallback. The C4A report is the frozen snapshot written before B; the final B status is shown above. Both encoders received the same compact downstream grid; no extra encoder was added. The conclusion applies to this encoder pipeline and cohort, not all pathology foundation models.
 
 ## 2. Which panels and genes benefit most?
 
-S1 and S2-50 benefit most on the primary test patient. Fifteen S2-50 genes meet the encoder strong-gain criterion. Their identities, full per-gene correlation/error changes and fold support are in [C4A_GENE_SUPPORT.csv](C4A/C4A_GENE_SUPPORT.csv) and the detailed C4A report. Spatial gene-specific gains and failure cases are in [C4B_GENE_SUPPORT.csv](C4B/C4B_GENE_SUPPORT.csv). No biological significance, pathway or clinical interpretation is assigned to these identities.
+S1 and S2-50 benefit most on the primary test patient. Fifteen S2-50 genes meet the encoder strong-gain criterion. The largest primary Pearson gains among these are **{leading_genes}**. Their identities, full per-gene correlation/error changes and fold support are in [C4A_GENE_SUPPORT.csv](C4A/C4A_GENE_SUPPORT.csv) and the detailed C4A report. Spatial gene-specific gains and failure cases are in [C4B_GENE_SUPPORT.csv](C4B/C4B_GENE_SUPPORT.csv). No biological significance, pathway or clinical interpretation is assigned to these identities.
 
 {table(['Panel','Spatial robust genes','Required','Primary candidates','Median spatial gain','Median matched gain','Mean spatial MSE reduction','Mean matched MSE reduction'],gates)}
 
 ## 3. Are gains reproducible across conditional held-out patients?
 
-C4A's S2-50 gain meets the joint correlation/error condition in two of four patients, with important error deterioration in NCBI785. It is patient dependent. All four sensitivity folds preserve frozen panels/normalization and primary-selected configurations, fit C4 scalers using fold-training patients only, and avoid held-out early stopping. These are conditional analyses, not external validation or unbiased cross-validation. Full stage-specific patient tables are retained.
+C4A's S2-50 gain meets the joint correlation/error condition in two of four patients, with important error deterioration in NCBI785. It is patient dependent. All four sensitivity folds preserve frozen panels/normalization and primary-selected configurations, fit C4 scalers using fold-training patients only, and avoid held-out early stopping. These are conditional analyses, not external validation or unbiased cross-validation. Full stage-specific patient tables are retained. The following table reports **C4B spatial contrasts**, not encoder gains; positive reductions favor true topology.
 
 {table(['Panel','Held-out sample','Median local gain','Median matched gain','Mean local MSE reduction','Mean matched MSE reduction','Relative MSE increase vs local','Relative MSE increase vs matched'],folds)}
 
@@ -164,6 +167,8 @@ Stop here for review. No later checkpoint was executed. A full CMRCNet reproduct
 ## Limits and reproducibility
 
 C0–C3 remain unchanged. C4A replayed 244 stored models with zero prediction discrepancy, checked all 35,536 RGB patch hashes, eight caches and 80 training-only scaler fits, and exactly replayed 64 sampled encoder rows. C4B replayed 210 new models with maximum prediction discrepancy {audit['maximum_prediction_error']:.3g}, verified 30 reused local outcomes and 56 graph files, and preserved the complete frozen C4A artifact set. The registry contains 420 C4A plus 506 C4B events appended to the existing header/prefix. Code, configurations, reports, metrics and hashes are versioned; large weights/caches/checkpoints/predictions remain local and are hashed in the final manifest.
+
+A logged CSV-reader correction preserved TRUE as a text control label; the locked analysis formulas and thresholds remained unchanged.
 
 The compared encoder pipelines also differ in architecture, feature dimension and effective crop field of view: Phikon uses the full approximately 112 µm source tile; frozen ResNet18 retained approximately 98 µm after its official crop. Public-pretraining slide overlap has not been independently excluded. All Ridge selections reached the maximum predeclared alpha; Phikon MLPs often selected epoch 1. Negative controls pass their frozen average-over-seeds criterion, but some individual label-permutation seeds retain positive correlation (up to approximately 0.42); the individual results are disclosed and are not evidence of null signal in every run. Prior checkpoint/test outcomes were known, thresholds are descriptive, and no statistical, external-validation, causal or clinical claim follows.
 '''

@@ -33,11 +33,12 @@ def main():
   m=core.gene_metrics(data[sample]['y'][:,ix(r['panel'])],pred);stored=pd.read_csv(ROOT/ev['gene_metrics_path'])
   for k,v in m.items():assert np.allclose(v,stored[k],rtol=1e-9,atol=1e-9,equal_nan=True),(r['run_id'],k)
   if (i+1)%40==0:print('REPLAY',i+1,flush=True)
- evs=[json.loads(f.read_text()) for f in (B/'logs/evaluation').glob('*.json')];assert len(evs)==240;reused=0
+ evs=[json.loads(f.read_text()) for f in (B/'logs/evaluation').glob('*.json')];assert len(evs)==240;reused=0;csv_error=0.
  for ev in evs:
   if ev['control']!='LOCAL':continue
   source=json.loads((ROOT/ev['reused_from']).read_text());assert ev['prediction_sha256']==source['prediction_sha256']==sha(ROOT/ev['prediction_path']);one=pd.read_csv(ROOT/ev['gene_metrics_path']);two=pd.read_csv(ROOT/source['gene_metrics_path'])
-  for col in ['pearson','spearman','mse','mae','target_variance','prediction_variance']:assert np.allclose(one[col],two[col],equal_nan=True,rtol=0,atol=0)
+  for col in ['pearson','spearman','mse','mae','target_variance','prediction_variance']:
+   err=float(np.nanmax(abs(one[col]-two[col])));csv_error=max(csv_error,err);assert np.allclose(one[col],two[col],equal_nan=True,rtol=0,atol=1e-14)
   reused+=1
  assert reused==30;events=list((B/'logs/registry').glob('*.json'));reg=pd.read_csv(ROOT/'results/experiment_registry.csv');reg=reg[reg.run_id.str.startswith('C4B_')];assert len(reg)==len(events)==506 and not reg.duplicated(['event','run_id']).any()
  # Verify every C4A registry row still equals its frozen lossless event record.
@@ -50,7 +51,7 @@ def main():
    if isinstance(row.get(k),list):row[k]='|'.join(row[k])
   buffer=io.StringIO();writer=csv.DictWriter(buffer,fieldnames=fields,extrasaction='ignore');writer.writeheader();writer.writerow(row);buffer.seek(0);expected=next(csv.DictReader(buffer));assert expected==actual[(r['event'],r['run_id'])],r['run_id']
  subprocess.run([str(ROOT/'.venv/bin/python'),str(ROOT/'C3/freeze.py'),'--verify'],check=True)
- result={'status':'PASS','saved_models_replayed':len(records),'heldout_predictions_replayed':210,'primary_validation_replays':vcount,'reused_local_evaluations_checked':reused,'maximum_prediction_error':error,'graphs_checked':graphs,'registry_events':len(events),'C4A_frozen_artifacts_checked':len(lock['C4A_artifacts_sha256']),'C0_C3':'unchanged','seconds':time.perf_counter()-t};dump(B/'logs/INTEGRITY_AUDIT.json',result);print(json.dumps(result,indent=2))
+ result={'status':'PASS','saved_models_replayed':len(records),'heldout_predictions_replayed':210,'primary_validation_replays':vcount,'reused_local_evaluations_checked':reused,'reused_metric_CSV_roundtrip_max_error':csv_error,'reused_prediction_files_byte_identical':True,'maximum_prediction_error':error,'graphs_checked':graphs,'registry_events':len(events),'C4A_frozen_artifacts_checked':len(lock['C4A_artifacts_sha256']),'C0_C3':'unchanged','seconds':time.perf_counter()-t};dump(B/'logs/INTEGRITY_AUDIT.json',result);print(json.dumps(result,indent=2))
 if __name__=='__main__':
  torch.set_num_threads(4);torch.use_deterministic_algorithms(True)
  with threadpool_limits(4):main()
