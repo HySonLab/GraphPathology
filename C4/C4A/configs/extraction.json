@@ -1,0 +1,18 @@
+{
+  "encoder": "owkin/phikon",
+  "revision": "057cc0295895c2df3dd7681a89680da6015cbefe",
+  "source": "https://huggingface.co/owkin/phikon",
+  "architecture": "ViT-B/16, 12 layers, CLS token after final LayerNorm, no pooler",
+  "embedding_dimension": 768,
+  "frozen": true,
+  "preprocessing": "Official ViTImageProcessor, 224x224 RGB, rescale 1/255, ImageNet mean/std, no stain normalization or augmentation",
+  "source_patches": "Exact C0 HEST RGB arrays; no recropping",
+  "device": "CPU Intel Core i7-14700",
+  "threads": 8,
+  "precision": "float32",
+  "batch_size": 16,
+  "attention": "PyTorch SDPA",
+  "transformers": "4.57.3",
+  "magnification": "Approximately 20x (0.5 um per resized pixel), derived from estimated frozen C0 calibration; not scanner-certified",
+  "selection": "UNI2-h and UNI weights returned HTTP 401; one public CPU-practical fallback. No model selection on test outcomes."
+}
