@@ -1,0 +1,86 @@
+{
+  "status": "PASS_SPARSE_ST_RECONSTRUCTION",
+  "recommendation": "PROCEED_TO_SAMPLING_OPTIMIZATION",
+  "panel_encoder_rules": [
+    {
+      "panel": "S2-50",
+      "encoder": "resnet18_reference",
+      "primary_sparse_settings": 5,
+      "primary_fusion_settings": 14,
+      "supporting_patients_same_geometry": 4,
+      "contiguous_ability_supported": true,
+      "pass": true
+    },
+    {
+      "panel": "S2-50",
+      "encoder": "pathology_encoder_1",
+      "primary_sparse_settings": 4,
+      "primary_fusion_settings": 14,
+      "supporting_patients_same_geometry": 0,
+      "contiguous_ability_supported": true,
+      "pass": false
+    },
+    {
+      "panel": "S2-250",
+      "encoder": "resnet18_reference",
+      "primary_sparse_settings": 6,
+      "primary_fusion_settings": 14,
+      "supporting_patients_same_geometry": 0,
+      "contiguous_ability_supported": false,
+      "pass": false
+    },
+    {
+      "panel": "S2-250",
+      "encoder": "pathology_encoder_1",
+      "primary_sparse_settings": 6,
+      "primary_fusion_settings": 13,
+      "supporting_patients_same_geometry": 0,
+      "contiguous_ability_supported": false,
+      "pass": false
+    },
+    {
+      "panel": "S2-280",
+      "encoder": "resnet18_reference",
+      "primary_sparse_settings": 6,
+      "primary_fusion_settings": 14,
+      "supporting_patients_same_geometry": 4,
+      "contiguous_ability_supported": true,
+      "pass": true
+    },
+    {
+      "panel": "S2-280",
+      "encoder": "pathology_encoder_1",
+      "primary_sparse_settings": 6,
+      "primary_fusion_settings": 12,
+      "supporting_patients_same_geometry": 0,
+      "contiguous_ability_supported": true,
+      "pass": false
+    }
+  ],
+  "coherence": [
+    {
+      "panel": "S2-50",
+      "Pearson_coverage_rho": 1.0,
+      "MSE_coverage_rho": -1.0,
+      "coherent": true,
+      "MSE_low_to_high_relative_reduction": 0.4555501347483515
+    },
+    {
+      "panel": "S2-250",
+      "Pearson_coverage_rho": 1.0,
+      "MSE_coverage_rho": -1.0,
+      "coherent": true,
+      "MSE_low_to_high_relative_reduction": 0.36281804939777684
+    },
+    {
+      "panel": "S2-280",
+      "Pearson_coverage_rho": 1.0,
+      "MSE_coverage_rho": -1.0,
+      "coherent": true,
+      "MSE_low_to_high_relative_reduction": 0.35094552112110344
+    }
+  ],
+  "technical_audit_required": true,
+  "prediction_runs": 3456,
+  "settings": 252
+}

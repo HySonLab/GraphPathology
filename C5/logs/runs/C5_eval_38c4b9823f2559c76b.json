@@ -1,0 +1,116 @@
+{
+  "run_id": "C5_eval_38c4b9823f2559c76b",
+  "cohort": "TENX95",
+  "phase": "sensitivity",
+  "sample_id": "TENX95",
+  "patient_id": "patient 2",
+  "panel": "S2-280",
+  "mask_id": "TENX95_block_q0.40_r2",
+  "mask_checksum": "eafc8f2843b88683e5d8ec224ac3b4d9763b93af72029a4576464d4f683290e5",
+  "regime": "block",
+  "nominal_coverage": 0.4,
+  "realized_coverage": 0.3993556701030928,
+  "replicate": 2,
+  "model": "B3",
+  "encoder": "resnet18_reference",
+  "control": null,
+  "seed": 0,
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.5,
+    "alpha": null
+  },
+  "feature_cache_hash": "89c6da8a507d48c4a49e97402db3f89902adfd07851343d52109e7b3f33572e1",
+  "scaler_hash": "2049bb7b85f74e1c709cb1c4ea0466b27a273e4de4e32170e4901676a1d955e3",
+  "checkpoint_hash": "adf3d8b8a637a2513496f714587dd31a394f30b2b722c8f0fa2ef52cafe5059a",
+  "frozen_image_prediction_hash": "c7585bd3dbda7d6a9cd294227ab36076b93da43618ffb84b9e87ce5caa17aa19",
+  "source_commit": "464f0cbcd530248f5bb66c43fba48a6b4825b80d",
+  "prediction_path": "C5/predictions/C5_eval_38c4b9823f2559c76b.npz",
+  "prediction_sha256": "00c4d2838a9761229b683a31598e4cb493220227548bf77c45b56ad98883e1f2",
+  "n_hidden": 4661,
+  "n_observed": 3099,
+  "invariance_errors": [
+    0.0,
+    0.0
+  ],
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 100,
+      "mse": 0.5380865931510925,
+      "mae": 0.5522779822349548,
+      "median_pearson": 0.699170386470672
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 100,
+      "mse": 0.5974249243736267,
+      "mae": 0.5822719931602478,
+      "median_pearson": 0.6421834598676617
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 291,
+      "mse": 0.632581889629364,
+      "mae": 0.6033669114112854,
+      "median_pearson": 0.6413679250884113
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 553,
+      "mse": 0.7108234763145447,
+      "mae": 0.6366811394691467,
+      "median_pearson": 0.6469033233257863
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 1088,
+      "mse": 0.6787019371986389,
+      "mae": 0.6248555779457092,
+      "median_pearson": 0.432550470666911
+    },
+    {
+      "lower_um": 2400,
+      "upper_um": null,
+      "n_hidden": 2529,
+      "mse": 0.715691864490509,
+      "mae": 0.6445733904838562,
+      "median_pearson": 0.39476458611264775
+    }
+  ],
+  "mean_pearson": 0.4553260141776173,
+  "median_pearson": 0.48863914323278884,
+  "mean_spearman": 0.3642794366489825,
+  "median_spearman": 0.3685699092568361,
+  "mean_mse": 0.6949432011975437,
+  "median_mse": 0.5264120030947472,
+  "mean_mae": 0.6331449092401192,
+  "median_mae": 0.5882618557092558,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 280,
+  "fraction_pearson_gt_0": 1.0,
+  "n_pearson_gt_0.1": 274,
+  "fraction_pearson_gt_0.1": 0.9785714285714285,
+  "n_pearson_gt_0.2": 250,
+  "fraction_pearson_gt_0.2": 0.8928571428571429,
+  "n_pearson_gt_0.3": 213,
+  "fraction_pearson_gt_0.3": 0.7607142857142857,
+  "median_prediction_variance": 0.11177672441192454,
+  "inference_audit_metric_seconds": 0.36507769394665956,
+  "peak_rss_mb": 1162.578125
+}
