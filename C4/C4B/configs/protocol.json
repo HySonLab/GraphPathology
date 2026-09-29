@@ -1,0 +1,20 @@
+{
+ "panels":["S2-50","S2-280"],
+ "encoder":"Exact C4A Phikon caches; no new extraction or encoder training",
+ "models":["LOCAL","MEAN","TRUE","MATCHED"],
+ "LOCAL":"Reuse exact C4A selected MLP predictions, three seeds, both tasks, primary and all four sensitivity folds",
+ "MEAN":"Frozen C2 self-inclusive mean operator, selected geometry, hidden width/dropout and fixed sensitivity epochs",
+ "TRUE":"Frozen C2 one-hop mean-aggregating GraphSAGE operator [x_i, mean_neighbors(x)] and selected geometry/configuration",
+ "MATCHED":"Identical GraphSAGE model and training to TRUE with exact frozen C3 A6 distance-bin-preserving adjacency matrices, five graph seeds crossed with three training seeds",
+ "training_seeds":[0,1,2],
+ "graph_seeds":[0,1,2,3,4],
+ "primary":"Frozen C2 selected MEAN/SAGE parameters, frozen C1 optimizer and validation-MSE early stopping; no architecture or graph search. Lock all 42 primary model records before C4B test predictions.",
+ "sensitivity":"All four held-out patients. Reuse audited C4A fold-training feature/target scalers. Frozen C2 fixed epoch counts, unchanged for true/matched graphs, with no held-out early stopping. This preserves the C3 spatial-model schedule for representation comparison.",
+ "comparability":"Spatial model geometry, hidden width, dropout and training protocol are frozen C2/C3 choices. Local comparator is the requested C4A matched-budget MLP, so its selected width/epochs can differ from C3 local. Dimensions and parameter counts differ across encoders. Interpret the C3 comparison accordingly.",
+ "graph_audit":{"exact_node_degree":true,"exact_global_distance_bin_counts":true,"minimum_edge_turnover":0.1,"maximum_length_KS":0.2,"maximum_absolute_relative_mean_length_change":0.1},
+ "gene_rule":{"minimum_primary_mean_Pearson_gain_over_local_mean_and_matched":0.02,"positive_local_and_matched_gain_all_training_seeds":true,"matched_gain_exceeds_one_graph_randomization_SD":true,"primary_MSE_no_increase_vs_local_and_matched":true,"minimum_conditional_patients_positive_local_and_matched_gain_with_MSE_increase_at_most_2percent_against_both":2,"maximum_mean_fold_relative_MSE_increase_vs_matched":0.05},
+ "gate":{"PASS_SPATIAL_RECHECK":"At least one panel has max(3, ceil(0.02 * panel size)) genes meeting every rule, plus all technical audits pass","MIXED_SPATIAL_RECHECK":"No PASS, but at least three genes in a panel have primary matched gain >=0.02, positive local gain and non-increasing primary MSE against both local/matched","FAIL_SPATIAL_RECHECK":"Otherwise","FAIL_TECHNICAL":"Any graph, identity, frozen-source, replay or training-schedule audit fails"},
+ "uncertainty":"First average three training seeds within each matched graph, then report graph-seed sample SD across five frozen randomizations. Keep all 15 matched outcomes. No significance or population-level claim.",
+ "prior_outcomes_known":"C0-C3 and C4A outcomes known; this is a gated sequential development recheck, not untouched confirmation",
+ "stop":"No multiresolution, new graph radius, partial-ST input, interpretation or later checkpoint"
+}

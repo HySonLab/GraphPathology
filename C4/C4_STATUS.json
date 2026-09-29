@@ -1,0 +1,109 @@
+{
+  "C4A_status": "PASS_PATHOLOGY_REPRESENTATION",
+  "C4B_status": "NOT_RUN",
+  "overall_C4_status": "PASS_PATHOLOGY_REPRESENTATION",
+  "recommendation": "NEED_REPRESENTATION_REVIEW",
+  "C4B_allowed": true,
+  "C4A_gate": {
+    "status": "PASS_PATHOLOGY_REPRESENTATION",
+    "panel_rules": [
+      {
+        "panel": "S2-50",
+        "median_panel_correlation_increase": 0.020391006974002646,
+        "median_gene_gain": 0.02614634446042761,
+        "mean_gene_gain": 0.010426972071556488,
+        "fraction_Pearson_improved": 0.62,
+        "fraction_both_improved": 0.36,
+        "primary_relative_MSE_increase": -0.009452926285484664,
+        "strong_genes": 15,
+        "required_strong_genes": 3,
+        "conditional_patients_improved_in_both": 2,
+        "conditional_mean_relative_MSE_increase": -0.03206262638669974,
+        "ridge_median_gene_gain": 0.04649624217558551,
+        "pass": true
+      },
+      {
+        "panel": "S2-250",
+        "median_panel_correlation_increase": -0.1476580832619498,
+        "median_gene_gain": -0.06926889051358352,
+        "mean_gene_gain": -0.09050100794268906,
+        "fraction_Pearson_improved": 0.276,
+        "fraction_both_improved": 0.124,
+        "primary_relative_MSE_increase": 0.14213470793988936,
+        "strong_genes": 18,
+        "required_strong_genes": 13,
+        "conditional_patients_improved_in_both": 3,
+        "conditional_mean_relative_MSE_increase": 0.02171747956185724,
+        "ridge_median_gene_gain": -0.05314925697840807,
+        "pass": false
+      },
+      {
+        "panel": "S2-280",
+        "median_panel_correlation_increase": -0.14646656796700674,
+        "median_gene_gain": -0.06218500892733445,
+        "mean_gene_gain": -0.09363430556844712,
+        "fraction_Pearson_improved": 0.2785714285714286,
+        "fraction_both_improved": 0.15,
+        "primary_relative_MSE_increase": 0.10943214143315316,
+        "strong_genes": 16,
+        "required_strong_genes": 14,
+        "conditional_patients_improved_in_both": 3,
+        "conditional_mean_relative_MSE_increase": -0.011260701921101152,
+        "ridge_median_gene_gain": -0.05267048409964167,
+        "pass": false
+      }
+    ],
+    "negative_controls": [
+      {
+        "model": "D0",
+        "control": "NC1",
+        "mean_median_Pearson": -0.021261209794204067,
+        "unpermuted": 0.7164383397406995,
+        "drop": 0.7376995495349036,
+        "pass": true
+      },
+      {
+        "model": "D0",
+        "control": "NC2",
+        "mean_median_Pearson": -0.14670772776141708,
+        "unpermuted": 0.7164383397406995,
+        "drop": 0.8631460675021165,
+        "pass": true
+      },
+      {
+        "model": "D1",
+        "control": "NC1",
+        "mean_median_Pearson": 0.1323729546932609,
+        "unpermuted": 0.7100625349951586,
+        "drop": 0.5776895803018977,
+        "pass": true
+      },
+      {
+        "model": "D1",
+        "control": "NC2",
+        "mean_median_Pearson": -0.022109818628374713,
+        "unpermuted": 0.7100625349951586,
+        "drop": 0.7321723536235333,
+        "pass": true
+      }
+    ],
+    "C4B_allowed": true,
+    "fits": 244,
+    "evaluations": 172
+  },
+  "technical_audit": {
+    "status": "PASS",
+    "saved_models_replayed": 244,
+    "evaluation_predictions_replayed": 172,
+    "selection_metric_replays": 72,
+    "maximum_prediction_error": 0.0,
+    "sampled_embedding_max_error": 0.0,
+    "sampled_embedding_rows": 64,
+    "patch_hashes_verified": 35536,
+    "embedding_caches_checked": 8,
+    "scaler_training_only_checks": 80,
+    "registry_events": 420,
+    "frozen_C0_C3": "unchanged",
+    "seconds": 99.86440099205356
+  }
+}

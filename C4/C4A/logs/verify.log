@@ -1,0 +1,31 @@
+PASS: C1 lock and 875 C1 artifacts plus 262 C0 inputs match
+PASS: C2 lock, 1450 artifacts, registry prefix and frozen parent inputs match
+PASS: 5054 C3 artifacts, registry prefix, and all frozen parents
+REPLAY 40 max error 0.0
+REPLAY 80 max error 0.0
+REPLAY 120 max error 0.0
+REPLAY 160 max error 0.0
+REPLAY 200 max error 0.0
+REPLAY 240 max error 0.0
+Some weights of the model checkpoint at /home/son/Research/GraphPathology/C4/weights/phikon were not used when initializing ViTModel: ['pooler.dense.bias', 'pooler.dense.weight']
+- This IS expected if you are initializing ViTModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing ViTModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+EMBEDDING REPLAY NCBI783 0.0
+EMBEDDING REPLAY NCBI785 0.0
+EMBEDDING REPLAY TENX95 0.0
+EMBEDDING REPLAY TENX99 0.0
+{
+  "status": "PASS",
+  "saved_models_replayed": 244,
+  "evaluation_predictions_replayed": 172,
+  "selection_metric_replays": 72,
+  "maximum_prediction_error": 0.0,
+  "sampled_embedding_max_error": 0.0,
+  "sampled_embedding_rows": 64,
+  "patch_hashes_verified": 35536,
+  "embedding_caches_checked": 8,
+  "scaler_training_only_checks": 80,
+  "registry_events": 420,
+  "frozen_C0_C3": "unchanged",
+  "seconds": 99.86440099205356
+}

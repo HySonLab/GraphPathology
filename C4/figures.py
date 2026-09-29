@@ -24,7 +24,7 @@ def main():
  for ax,metric,title in zip(axes,['delta_encoder','delta_mse'],['Median paired gene Pearson gain','Mean per-gene MSE reduction']):
   t=fold.pivot_table(index='sample_id',columns='panel',values=metric,aggfunc='median' if metric=='delta_encoder' else 'mean').reindex(index=IDS,columns=panels);v=t.to_numpy();bound=max(abs(v).max(),1e-6);im=ax.imshow(v,vmin=-bound,vmax=bound,cmap='RdBu',aspect='auto');ax.set_xticks(range(4),panels);ax.set_yticks(range(4),IDS);ax.set_title(title)
   for i in range(4):
-   for j in range(4):ax.text(j,i,f'{v[i,j]:+.3f}',ha='center',va='center',fontsize=9)
+   for j in range(4):ax.text(j,i,f'{v[i,j]:+.3f}',ha='center',va='center',fontsize=9,color='white' if abs(v[i,j])/bound>.5 else 'black')
   fig.colorbar(im,ax=ax)
  fig.suptitle('MLP conditional patient sensitivity; positive means Phikon improves; not unbiased cross-validation');fig.tight_layout();save(fig,'patient_sensitivity.png')
  fig,axes=plt.subplots(1,2,figsize=(10,4))
