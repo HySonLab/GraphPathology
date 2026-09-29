@@ -17,5 +17,6 @@ def test_permutation_preserves_marginals_breaks_pairing():
   a,b,p=core.permute_training(x,y,mode,2);assert sorted(p)==list(range(20)) and not np.array_equal(p,np.arange(20));assert np.array_equal(np.sort(a,axis=0),np.sort(x,axis=0));assert np.array_equal(np.sort(b,axis=0),np.sort(y,axis=0))
 
 def test_gain_sign_conventions():
- # Encoder correlation gain and error reduction both point upward when improved.
- assert .6-.5>0 and .8-.7>0
+ # Perfect rank/linear association does not imply calibrated expression values.
+ y=np.arange(1,6,dtype=float)[:,None];m=core.gene_metrics(y,2*y)
+ assert np.isclose(m['pearson'][0],1.) and m['mse'][0]>0

@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-09-29T00:15:08.114709+00:00",
+  "source_commit": "3f4a720d71770e415c1cf6e75eaca0a69c5c0243",
+  "parent_C3_manifest_sha256": "b76ff4af09cdea28c56228664e0d3cb57b8a7c1080c03b4de9af3ce3b4ec4267",
+  "protocol": {
+    "encoders": [
+      "resnet18_reference",
+      "pathology_encoder_1"
+    ],
+    "models": [
+      "D0",
+      "D1"
+    ],
+    "panels": [
+      "S1",
+      "S2-50",
+      "S2-250",
+      "S2-280"
+    ],
+    "ridge_alphas": [
+      0.1,
+      1,
+      10,
+      100,
+      1000
+    ],
+    "mlp_candidates": [
+      {
+        "hidden": 128,
+        "dropout": 0.0
+      },
+      {
+        "hidden": 128,
+        "dropout": 0.1
+      },
+      {
+        "hidden": 256,
+        "dropout": 0.0
+      },
+      {
+        "hidden": 256,
+        "dropout": 0.1
+      }
+    ],
+    "training_seeds": [
+      0,
+      1,
+      2
+    ],
+    "selection": "Identical seed-0 grid for both encoders; highest validation median per-gene Pearson, then lowest MSE, then canonical config. No encoder sweep. D0 is deterministic and fitted once for selected config; D1 has three seeds. Frozen C1 optimizer/training settings for all D1 fits.",
+    "scaling": "C4 feature and target scalers fitted on primary training patients, or the other three fold-training patients for conditional sensitivity. Frozen C0 targets/panels/order unchanged.",
+    "conditional": "All four panels, both models, both encoders, all four held-out patients. Primary-selected configs fixed. D1 epoch count is rounded median primary best epoch per encoder/panel. No held-out early stopping.",
+    "negative_controls": "Phikon S2-50, D0 and D1, training-label permutation and training-feature-location permutation, seeds 0/1/2. Validation/test unchanged. Store permutation hashes.",
+    "candidate_rule": {
+      "primary_mean_Pearson_gain_min": 0.05,
+      "all_MLP_seed_gains_positive": true,
+      "primary_MSE_no_increase": true
+    },
+    "gate": {
+      "primary_model": "D1",
+      "minimum_panel_median_Pearson_increase": 0.02,
+      "minimum_median_paired_gene_gain": 0.02,
+      "maximum_primary_mean_MSE_relative_increase": 0.02,
+      "minimum_fraction_genes_improved_in_both": 0.2,
+      "minimum_strong_genes": "max(3, ceil(0.05 * panel size))",
+      "minimum_conditional_patients_with_positive_median_gain_and_MSE_increase_at_most_2percent": 2,
+      "maximum_conditional_average_MSE_relative_increase": 0.05,
+      "same_panel_Ridge_median_gene_gain_at_least": 0.0,
+      "negative_controls_max_median_Pearson": 0.2,
+      "negative_controls_min_drop_vs_unpermuted": 0.15,
+      "PASS": "At least one multi-gene panel meets all primary/subset/patient/Ridge criteria, both negative controls pass for both models, integrity passes",
+      "MIXED": "No PASS, but at least one multi-gene D1 panel has median paired gain >=0.01 or at least 5 percent genes meet the strong-gene rule",
+      "FAIL": "Otherwise",
+      "TECHNICAL": "Any failed extraction/order/replay/frozen-input audit or failed negative control overrides status to FAIL_TECHNICAL"
+    },
+    "capacity_note": "Identical hidden-width/dropout families and tuning budgets. Input dimension differs (512 versus 768), so absolute downstream parameter counts differ; no claim of exact parameter matching. Ridge provides an additional family check.",
+    "test_discipline": "Model/release/extraction config fixed without outcomes. Extract train/validation first; write selection lock before test-image extraction and final expression evaluation. Prior C0-C3 test results are already known: development, not untouched confirmation.",
+    "stop": "C4B only after clear PASS_PATHOLOGY_REPRESENTATION; otherwise stop for review. No optional second encoder, no multiresolution or sparse-ST execution."
+  },
+  "encoder": {
+    "encoder": "owkin/phikon",
+    "revision": "057cc0295895c2df3dd7681a89680da6015cbefe",
+    "source": "https://huggingface.co/owkin/phikon",
+    "architecture": "ViT-B/16, 12 layers, CLS token after final LayerNorm, no pooler",
+    "embedding_dimension": 768,
+    "frozen": true,
+    "preprocessing": "Official ViTImageProcessor, 224x224 RGB, rescale 1/255, ImageNet mean/std, no stain normalization or augmentation",
+    "source_patches": "Exact C0 HEST RGB arrays; no recropping",
+    "device": "CPU Intel Core i7-14700",
+    "threads": 8,
+    "precision": "float32",
+    "batch_size": 16,
+    "attention": "PyTorch SDPA",
+    "transformers": "4.57.3",
+    "magnification": "Approximately 20x (0.5 um per resized pixel), derived from estimated frozen C0 calibration; not scanner-certified",
+    "selection": "UNI2-h and UNI weights returned HTTP 401; one public CPU-practical fallback. No model selection on test outcomes."
+  },
+  "source_sha256": {
+    "C4/common.py": "11cdcbb343083ec8713e5a630d1266c334659fa0a226ec7c71c42176d2d02e1a",
+    "C4/run.py": "6261ed477eafedc0a1c5dea19102b425d4614a3cd2fff1f76be629177e796353",
+    "C4/extract.py": "32cc3907e86ce6e68402cbca8ef3bdd32db05bc129e216a1dc9b0086c0ba864f",
+    "C4/analyze.py": "8d97bc5240f933f416209383044f55f15a27e79eddc99f6751c31f48f276f429",
+    "C4/C4A/configs/protocol.json": "dd5003b0d1ff46c0b2a05e3788cf353438811eb37262b4a84ead7d3cf74e03d4",
+    "C4/C4A/configs/extraction.json": "f0e182831f2b039f497ae15c37e6a7012a61c3a567ec049bcd76bb4c3383138e",
+    "C4/C4A/configs/encoder_files.json": "29bda52f0bc285878b0dd1d35af27e129804841a1c7d19fc7e2ba517acd826db"
+  },
+  "test_evaluation_started": false,
+  "prior_checkpoint_test_results_known": true
+}

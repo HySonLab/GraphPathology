@@ -1,0 +1,22 @@
+# CMRCNet compatibility assessment
+
+**Decision: defer faithful reproduction to a separate publication-benchmark checkpoint. No CMRCNet model was trained, and no approximate surrogate is labeled CMRCNet.**
+
+The official source was inspected at commit `4c4d1576a3d0ef3cf10b75bc7c364f97f4e9fcc6`; file hashes are in `sources/CMRCNet_SOURCE_LOCK.json`. The local source checkout is retained but excluded from this repository's Git history.
+
+| Aspect | Finding for the frozen IDC cohort |
+| --- | --- |
+| Dataset | Direct sample overlap: the official README lists NCBI783, NCBI785, TENX95 and TENX99 as its IDC cohort. The HEST HDF5 patches and AnnData format are compatible. |
+| Image resolution | The loader consumes RGB image arrays, applies training flips/rotations and ImageNet normalization. The image model accepts 224×224 inputs with 32-pixel token patches; the cached C0 image dimensions fit. Physical magnification still needs the frozen C0 calibration caveat. |
+| Gene panels | Official preprocessing intersects assay genes, then forms a union of per-slide top-1,000 HVGs. C4 instead fixes its existing 1/50/250/280 panels. The shared biological assay here has 280 genes, so the nominal 1,000-HVG procedure cannot be interpreted as a 1,000-gene task. |
+| Target normalization | Official preprocessing uses library-size normalization followed by log1p. C0 uses frozen log1p(raw counts) and training-derived standardization. Changing C0 targets would violate this checkpoint; replacing the official preprocessing would be a protocol adaptation. |
+| Splits | Official scripts create shuffled slide folds plus random 80/20 within-slide train/validation barcodes. C4 keeps a patient-disjoint primary validation patient and conditional sensitivity folds. These are different evaluation protocols. |
+| Training | CMRCNet jointly learns image and expression projections with contrastive and masked reconstruction losses. It is not a frozen-image-feature Ridge/MLP probe. Running this faithfully would add substantial end-to-end training beyond the representation-only experiment. |
+| Inference | Official inference queries training expression embeddings and averages the top 50 retrieved training expression vectors. It also computes test expression embeddings in its general export routine; a future audit must verify that test expression is never included in the retrieval key or prediction path. |
+| Dependencies | Source imports PyTorch/torchvision, CUDA AMP, NumPy, pandas, h5py, Scanpy, scikit-learn and tqdm plus repository modules. The inspected repository does not provide a pinned, complete environment lock. A separate environment and numerical smoke tests are needed. |
+| CPU/GPU | Training and inference contain unconditional `.cuda()` calls despite a device-selection line elsewhere. The default is 60 epochs at batch size 64 with a trainable image transformer. A functioning CUDA environment is needed for the code as written; this host currently has no working NVIDIA driver. No defensible full-run wall-time estimate was measured. |
+| Metric audit | The inference block commented as gene-wise correlation initially iterates over rows and correlates across genes within a location. That particular block is location-wise, not the gene-wise held-out endpoint used here. A future reproduction must distinguish these metrics and review all reported branches. |
+
+Dataset compatibility is strong, but **an exact, inexpensive reproduction under the frozen C4 targets, splits, and encoder rules is not currently available**. Resolving the differences requires a documented separate protocol and GPU environment, not silently adapting CMRCNet and treating its scores as directly comparable.
+
+Sources: [official README](https://github.com/ngfufdrdh/CMRCNet/blob/4c4d1576a3d0ef3cf10b75bc7c364f97f4e9fcc6/README.md), [preprocessing](https://github.com/ngfufdrdh/CMRCNet/blob/4c4d1576a3d0ef3cf10b75bc7c364f97f4e9fcc6/utils_data/pre_process.py), [splits](https://github.com/ngfufdrdh/CMRCNet/blob/4c4d1576a3d0ef3cf10b75bc7c364f97f4e9fcc6/utils_data/splits.py), [image loader](https://github.com/ngfufdrdh/CMRCNet/blob/4c4d1576a3d0ef3cf10b75bc7c364f97f4e9fcc6/utils_data/dataset.py), [training](https://github.com/ngfufdrdh/CMRCNet/blob/4c4d1576a3d0ef3cf10b75bc7c364f97f4e9fcc6/train.py), [model](https://github.com/ngfufdrdh/CMRCNet/blob/4c4d1576a3d0ef3cf10b75bc7c364f97f4e9fcc6/model/models.py), [inference](https://github.com/ngfufdrdh/CMRCNet/blob/4c4d1576a3d0ef3cf10b75bc7c364f97f4e9fcc6/inference.py).
