@@ -1,0 +1,17 @@
+{
+ "encoders":["resnet18_reference","pathology_encoder_1"],
+ "models":["D0","D1"],
+ "panels":["S1","S2-50","S2-250","S2-280"],
+ "ridge_alphas":[0.1,1,10,100,1000],
+ "mlp_candidates":[{"hidden":128,"dropout":0.0},{"hidden":128,"dropout":0.1},{"hidden":256,"dropout":0.0},{"hidden":256,"dropout":0.1}],
+ "training_seeds":[0,1,2],
+ "selection":"Identical seed-0 grid for both encoders; highest validation median per-gene Pearson, then lowest MSE, then canonical config. No encoder sweep. D0 is deterministic and fitted once for selected config; D1 has three seeds. Frozen C1 optimizer/training settings for all D1 fits.",
+ "scaling":"C4 feature and target scalers fitted on primary training patients, or the other three fold-training patients for conditional sensitivity. Frozen C0 targets/panels/order unchanged.",
+ "conditional":"All four panels, both models, both encoders, all four held-out patients. Primary-selected configs fixed. D1 epoch count is rounded median primary best epoch per encoder/panel. No held-out early stopping.",
+ "negative_controls":"Phikon S2-50, D0 and D1, training-label permutation and training-feature-location permutation, seeds 0/1/2. Validation/test unchanged. Store permutation hashes.",
+ "candidate_rule":{"primary_mean_Pearson_gain_min":0.05,"all_MLP_seed_gains_positive":true,"primary_MSE_no_increase":true},
+ "gate":{"primary_model":"D1","minimum_panel_median_Pearson_increase":0.02,"minimum_median_paired_gene_gain":0.02,"maximum_primary_mean_MSE_relative_increase":0.02,"minimum_fraction_genes_improved_in_both":0.2,"minimum_strong_genes":"max(3, ceil(0.05 * panel size))","minimum_conditional_patients_with_positive_median_gain_and_MSE_increase_at_most_2percent":2,"maximum_conditional_average_MSE_relative_increase":0.05,"same_panel_Ridge_median_gene_gain_at_least":0.0,"negative_controls_max_median_Pearson":0.2,"negative_controls_min_drop_vs_unpermuted":0.15,"PASS":"At least one multi-gene panel meets all primary/subset/patient/Ridge criteria, both negative controls pass for both models, integrity passes","MIXED":"No PASS, but at least one multi-gene D1 panel has median paired gain >=0.01 or at least 5 percent genes meet the strong-gene rule","FAIL":"Otherwise","TECHNICAL":"Any failed extraction/order/replay/frozen-input audit or failed negative control overrides status to FAIL_TECHNICAL"},
+ "capacity_note":"Identical hidden-width/dropout families and tuning budgets. Input dimension differs (512 versus 768), so absolute downstream parameter counts differ; no claim of exact parameter matching. Ridge provides an additional family check.",
+ "test_discipline":"Model/release/extraction config fixed without outcomes. Extract train/validation first; write selection lock before test-image extraction and final expression evaluation. Prior C0-C3 test results are already known: development, not untouched confirmation.",
+ "stop":"C4B only after clear PASS_PATHOLOGY_REPRESENTATION; otherwise stop for review. No optional second encoder, no multiresolution or sparse-ST execution."
+}
