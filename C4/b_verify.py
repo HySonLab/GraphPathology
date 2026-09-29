@@ -1,6 +1,6 @@
 """Replay C4B, verify exact graph reuse, schedules, references and frozen C4A artifacts."""
 from common import *
-import torch,time
+import torch,time,io
 from scipy import sparse
 from threadpoolctl import threadpool_limits
 spec=importlib.util.spec_from_file_location('c4_b_runtime',OUT/'b_spatial.py');b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
@@ -40,6 +40,15 @@ def main():
   for col in ['pearson','spearman','mse','mae','target_variance','prediction_variance']:assert np.allclose(one[col],two[col],equal_nan=True,rtol=0,atol=0)
   reused+=1
  assert reused==30;events=list((B/'logs/registry').glob('*.json'));reg=pd.read_csv(ROOT/'results/experiment_registry.csv');reg=reg[reg.run_id.str.startswith('C4B_')];assert len(reg)==len(events)==506 and not reg.duplicated(['event','run_id']).any()
+ # Verify every C4A registry row still equals its frozen lossless event record.
+ with (ROOT/'results/experiment_registry.csv').open(newline='') as f:
+  reader=csv.DictReader(f);fields=reader.fieldnames;actual={(r['event'],r['run_id']):r for r in reader if r['run_id'].startswith('C4A_')}
+ assert len(actual)==420
+ for f in (A/'logs/registry').glob('*.json'):
+  r=json.loads(f.read_text());row={**r,'model':r.get('model',r.get('encoder','')),'cpu':'Intel Core i7-14700','threads':r.get('threads',4)}
+  for k in ['train_slides','evaluation_slides']:
+   if isinstance(row.get(k),list):row[k]='|'.join(row[k])
+  buffer=io.StringIO();writer=csv.DictWriter(buffer,fieldnames=fields,extrasaction='ignore');writer.writeheader();writer.writerow(row);buffer.seek(0);expected=next(csv.DictReader(buffer));assert expected==actual[(r['event'],r['run_id'])],r['run_id']
  subprocess.run([str(ROOT/'.venv/bin/python'),str(ROOT/'C3/freeze.py'),'--verify'],check=True)
  result={'status':'PASS','saved_models_replayed':len(records),'heldout_predictions_replayed':210,'primary_validation_replays':vcount,'reused_local_evaluations_checked':reused,'maximum_prediction_error':error,'graphs_checked':graphs,'registry_events':len(events),'C4A_frozen_artifacts_checked':len(lock['C4A_artifacts_sha256']),'C0_C3':'unchanged','seconds':time.perf_counter()-t};dump(B/'logs/INTEGRITY_AUDIT.json',result);print(json.dumps(result,indent=2))
 if __name__=='__main__':
