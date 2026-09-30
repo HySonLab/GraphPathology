@@ -1,0 +1,112 @@
+{
+  "policy_id": "C6_policy_14aa2903c2b31e4e94",
+  "cohort": "primary",
+  "sample_id": "TENX95",
+  "patient_id": "patient 2",
+  "encoder": "resnet18_reference",
+  "regime": "open",
+  "strategy": "A2",
+  "seed": 0,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_14aa2903c2b31e4e94.npz",
+  "policy_sha256": "9fac3fce7e5d82c68f619cb2a75a8f47c317e2ce14a3e72d21ff6a8d1f7d1a1d",
+  "run_id": "C6_eval_1591131189f996e494",
+  "phase": "validation",
+  "panel": "S2-50",
+  "nominal_budget": 0.2,
+  "realized_budget": 0.2,
+  "n_observed": 1552,
+  "n_hidden": 6208,
+  "n_unmeasured": 6208,
+  "role": "primary",
+  "model": "B4",
+  "config": {
+    "interpolation": {
+      "B2a": 4,
+      "B2b": 2,
+      "best_family": "B2b",
+      "best_param": 2,
+      "lambda": {
+        "resnet18_reference": 0.25,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.25
+  },
+  "checkpoint_path": "C5/models/B4_primary_resnet18_reference_S2-50_a10000.npz",
+  "checkpoint_hash": "01b997a399fcd537e608f794b0cf7b15962595279e472154615c211b819f418a",
+  "image_prediction_hash": "c926ad8a9b792314698e375724f49e040663add73ab4e9a91ae5ff175e82a4ff",
+  "scaler_hash": "606834ab0624cedb19c101e2ef4ae59d7b224d8bb4c7b8afc9b39866f8e7b415",
+  "feature_cache_hash": "89c6da8a507d48c4a49e97402db3f89902adfd07851343d52109e7b3f33572e1",
+  "mean_pearson": 0.7671908804187474,
+  "median_pearson": 0.8010850727551364,
+  "mean_spearman": 0.6944360242131719,
+  "median_spearman": 0.7352006873372541,
+  "mean_mse": 0.28748462393850277,
+  "median_mse": 0.2543036582672315,
+  "mean_mae": 0.41480763250687114,
+  "median_mae": 0.40335160990092345,
+  "n_genes": 50,
+  "n_defined_pearson": 50,
+  "n_pearson_gt_0": 50,
+  "fraction_pearson_gt_0": 1.0,
+  "n_pearson_gt_0.1": 50,
+  "fraction_pearson_gt_0.1": 1.0,
+  "n_pearson_gt_0.2": 50,
+  "fraction_pearson_gt_0.2": 1.0,
+  "n_pearson_gt_0.3": 50,
+  "fraction_pearson_gt_0.3": 1.0,
+  "median_prediction_variance": 0.29978433144621386,
+  "mean_anchor_distance_um": 157.98746267976335,
+  "median_anchor_distance_um": 141.4213562373092,
+  "p90_anchor_distance_um": 282.8427124746187,
+  "max_anchor_distance_um": 509.9019513592785,
+  "spatial_coverage_radius_um": 509.9019513592785,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.2659857173395979,
+  "morphology_p90_nearest_distance": 0.3158461322912325,
+  "observed_morphology_mean_pairwise_squared_distance": 1.5532823819424064,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 4146,
+      "mse": 0.2920089364051819,
+      "mae": 0.4198704957962036,
+      "median_pearson": 0.8180781195901541
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 1592,
+      "mse": 0.2871898412704468,
+      "mae": 0.4118864834308624,
+      "median_pearson": 0.7146636125870275
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 470,
+      "mse": 0.24857297539710999,
+      "mae": 0.3800412118434906,
+      "median_pearson": 0.6429538104756782
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "aab238ade03e8c8d7e8f0b41c22ad984b2f09683",
+  "prediction_path": "C6/C6A/predictions/C6_eval_1591131189f996e494.npz",
+  "prediction_sha256": "daf448663c3082d1efe9e3a1c13c899139ba8ed157281c05be418afd915b7834",
+  "runtime_seconds": 0.1646605299320072,
+  "peak_rss_mb": 510.21875,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access",
+  "evaluation_slides": [
+    "TENX95"
+  ],
+  "event": "evaluation",
+  "timestamp": "2026-09-30T02:09:35.801364+00:00",
+  "checkpoint": "C6A"
+}

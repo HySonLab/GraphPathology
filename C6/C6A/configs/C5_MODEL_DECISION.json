@@ -1,0 +1,65 @@
+{
+  "rule": "Compare frozen C5 validation MSE of selected B3 and B4 configurations, equal weights across the same 54 validation masks. No C5 test performance is consulted. Keep the validation-selected B2 family as the simple molecular-only baseline.",
+  "decisions": [
+    {
+      "encoder": "resnet18_reference",
+      "panel": "S2-50",
+      "equal_C5_validation_mask_MSE": {
+        "B3": 0.4335777836817282,
+        "B4": 0.41133642858929104
+      },
+      "selected": "B4",
+      "C5_selection_run_ids": [
+        "C5_select_47808982f31663c95c",
+        "C5_select_be1657bc20ed47758d",
+        "C5_select_b1a17faed5db9f9e42",
+        "C5_select_c0bff416c1c1bf3b6e"
+      ]
+    },
+    {
+      "encoder": "resnet18_reference",
+      "panel": "S2-280",
+      "equal_C5_validation_mask_MSE": {
+        "B3": 0.6814070906904007,
+        "B4": 0.66584915805746
+      },
+      "selected": "B4",
+      "C5_selection_run_ids": [
+        "C5_select_23d29cd2ff9ef1b450",
+        "C5_select_d61a4efebafa48d295",
+        "C5_select_ae519217aee2d95578",
+        "C5_select_817355bc59c12b783f"
+      ]
+    },
+    {
+      "encoder": "pathology_encoder_1",
+      "panel": "S2-50",
+      "equal_C5_validation_mask_MSE": {
+        "B3": 0.45355950406304113,
+        "B4": 0.4624888758968424
+      },
+      "selected": "B3",
+      "C5_selection_run_ids": [
+        "C5_select_59e1b1e3ea964701aa",
+        "C5_select_1404fc7f45071676db",
+        "C5_select_583f79fe7ac70740af",
+        "C5_select_7215deee4e558dca38"
+      ]
+    },
+    {
+      "encoder": "pathology_encoder_1",
+      "panel": "S2-280",
+      "equal_C5_validation_mask_MSE": {
+        "B3": 0.7245911834416566,
+        "B4": 0.7425464308924146
+      },
+      "selected": "B3",
+      "C5_selection_run_ids": [
+        "C5_select_63e0437fd9772f2202",
+        "C5_select_83a4f1e119ada47aba",
+        "C5_select_4061a4337fc49539db",
+        "C5_select_885ebb9b0d50be1bba"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "budgets": [
+    0.05,
+    0.1,
+    0.2,
+    0.4
+  ],
+  "count_rule": "floor(N * nominal_budget + 0.5); same exact count across strategies; denominator all tissue locations, including unavailable stress region",
+  "panels": [
+    "S2-50",
+    "S2-280"
+  ],
+  "encoders": [
+    "resnet18_reference",
+    "pathology_encoder_1"
+  ],
+  "primary_model": {
+    "resnet18_reference": "B4",
+    "pathology_encoder_1": "B3"
+  },
+  "simple_baseline": "Validation-selected C5 B2a/B2b for the matching geometry; no refit or retuning",
+  "cohorts": "Primary frozen train/validation/test plus all four C5 conditional patient folds; frozen C5 predictors/scalers/checkpoints only",
+  "regimes": {
+    "open": "All tissue locations eligible; score every unmeasured location. Evaluation membership depends on strategy, an operational unmeasured-tissue estimand.",
+    "contiguous": "Freeze C0 block mask nominal 60% observed, replicate 0. The complement is a permanently unavailable contiguous region. All anchors must be outside it; score only that exact same region for every strategy and budget. Other unmeasured locations also have no expression input."
+  },
+  "policies": {
+    "A0": "Uniform random permutation, seeds 0..9, nested budget prefixes. Report all 10 outcomes.",
+    "A1": "Exact greedy farthest-point sampling on physical XY normalized by within-tissue RMS radial distance. Initial point farthest from eligible centroid; ties use first barcode index.",
+    "A2": "Exact greedy farthest-point sampling on the eight frozen C5 training-only whitened image PCA components divided by sqrt(8), same initialization and tie rule; no expression clustering.",
+    "A3": "Exact FPS on concatenated sqrt(alpha)*spatial and sqrt(1-alpha)*morphology coordinates, i.e. weighted squared Euclidean distance. Alpha grid [0.25,0.5,0.75].",
+    "A4": "Skipped: no calibrated frozen uncertainty acquisition score is available; do not invent an uncertainty method in C6A."
+  },
+  "alpha_selection": "One alpha per encoder. Minimize validation primary-reconstruction MSE averaged equally over both panels, both regimes and all four budgets. Select the best nonrandom strategy for a potential C6B comparator by this same validation score.",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "negative_controls": "Primary patient, both encoders/panels/regimes and both reconstruction roles, 10%/20%; seeds 0,1,2. NC2 permutes morphology before A2/A3 selection only. NC3 permutes coordinates before A1 selection only. Reconstruct on true coordinates/images.",
+  "metrics": "C5 hidden-location gene Pearson/Spearman/MSE/MAE and panel summaries/fractions; whole expression vector hidden. Positive Pearson gain and positive random-minus-strategy MSE reduction mean improvement.",
+  "AUC": "Trapezoidal integration over realized 5/10/20/40% fractions divided by their budget span, separately per strategy/seed; no fidelity or monetary threshold.",
+  "distance_bins_um": [
+    0,
+    150,
+    300,
+    600,
+    1200,
+    2400,
+    "infinity"
+  ],
+  "distance_minimum_locations_for_Pearson": 20,
+  "geometry": "Distances over scored hidden sites. Spatial coverage radius is their maximum nearest-anchor distance. All-unmeasured components on frozen C2 graph counted if >=50 nodes. Image coverage is nearest-anchor distance in the C5 PCA space; diversity is exact mean squared pairwise image distance among anchors.",
+  "selection_audit": "Freeze every primary/conditional/control full trajectory before any C6 held-out labels are read. Full order and selected-score replay under all-location NaN/random expression corruption, plus independent replay of every test policy.",
+  "prediction_audit": "Every run corrupts the entire expression vector at every unobserved location with NaN/random, including outside the stress scoring region; require exact predictions.",
+  "setting_gate": "Pearson gain over 10-random-seed mean >=max(0.01, random Pearson SD), relative mean MSE reduction >=2%, and beat at least 8 of 10 seeds on BOTH Pearson and MSE.",
+  "PASS_gate": "Same nonrandom strategy/encoder/panel on primary reconstruction: >=2 primary open budgets and >=1 primary stress budget qualify; >=2 conditional patients have qualifying open settings and >=2 have qualifying stress settings. Mean relative MSE reduction across primary+conditional settings nonnegative and at most 25% settings worsen MSE by >2%. Integrity audits pass.",
+  "MIXED_gate": "No PASS, but any primary-reconstruction qualifying setting exists, or material changes occur in >=2 conditional patients. Material means absolute Pearson difference >=max(0.01, random SD) AND absolute relative MSE difference >=2%; it may be harm.",
+  "NO_EFFECT_gate": "Otherwise after integrity pass; C5 remains valid.",
+  "C6B_gate": "Run only after audited C6A PASS_SAMPLING_EFFECT. Freeze a separate adaptive spec first; no C6B files or experiments before that gate.",
+  "recommendations": "MIXED -> NEED_SAMPLING_REVIEW; NO_EFFECT -> PROCEED_TO_EXTERNAL_VALIDATION with simple policy; technical failure -> STOP_TECHNICAL. PASS requires authorized C6B before final C6 recommendation. No external validation is executed.",
+  "figures": "Fixed TENX99, ResNet18, 10% budget, both geometries, A0 seed0 and A1/A2/A3, over original embedded H&E thumbnail. Other plots retain all patients/strategies, raw random distributions and distances.",
+  "interpretation": "Four-patient conditional development, inherited C0 panels and target normalization, overlapping training folds and known prior outcomes. No unbiased external validation, clinical utility, cost savings, or molecular interpretation."
+}
