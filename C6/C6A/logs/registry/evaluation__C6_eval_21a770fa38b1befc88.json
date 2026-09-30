@@ -1,0 +1,128 @@
+{
+  "policy_id": "C6_policy_254ef4c2f756d61474",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "pathology_encoder_1",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 3,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_254ef4c2f756d61474.npz",
+  "policy_sha256": "7d4c6ddb0cfac9882f4801cfa184544575ec26a2402c5d28c8df72e883d90c46",
+  "run_id": "C6_eval_21a770fa38b1befc88",
+  "phase": "sensitivity",
+  "panel": "S2-50",
+  "nominal_budget": 0.1,
+  "realized_budget": 0.1,
+  "n_observed": 401,
+  "n_hidden": 1627,
+  "n_unmeasured": 3609,
+  "role": "baseline",
+  "model": "B2a",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.5
+      }
+    },
+    "lambda": null
+  },
+  "checkpoint_path": "C5/SELECTION_LOCK.json",
+  "checkpoint_hash": "adf3d8b8a637a2513496f714587dd31a394f30b2b722c8f0fa2ef52cafe5059a",
+  "image_prediction_hash": "7c621f60bbdb487a14c2eaa025c70c59b744dbbd99790470111f50ec921608a9",
+  "scaler_hash": "f7c52c952ac85cad318a4302597dd77fbbe1fa8a37bb00f572cec5071a823888",
+  "feature_cache_hash": "4687e86cba3aa858a3b99055ce5206ded0b49e115ed8c56df2accbee202bd34b",
+  "mean_pearson": 0.4785949857602194,
+  "median_pearson": 0.5439488905812686,
+  "mean_spearman": 0.46375778434750836,
+  "median_spearman": 0.5403412211380335,
+  "mean_mse": 0.5526643697830277,
+  "median_mse": 0.559062338477184,
+  "mean_mae": 0.5681004015397476,
+  "median_mae": 0.5739696382372637,
+  "n_genes": 50,
+  "n_defined_pearson": 50,
+  "n_pearson_gt_0": 50,
+  "fraction_pearson_gt_0": 1.0,
+  "n_pearson_gt_0.1": 47,
+  "fraction_pearson_gt_0.1": 0.94,
+  "n_pearson_gt_0.2": 42,
+  "fraction_pearson_gt_0.2": 0.84,
+  "n_pearson_gt_0.3": 39,
+  "fraction_pearson_gt_0.3": 0.78,
+  "median_prediction_variance": 0.3000038785158643,
+  "mean_anchor_distance_um": 801.302612489527,
+  "median_anchor_distance_um": 707.1067811865485,
+  "p90_anchor_distance_um": 1500.000000000001,
+  "max_anchor_distance_um": 2100.0,
+  "spatial_coverage_radius_um": 2100.0,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.19296175338754876,
+  "morphology_p90_nearest_distance": 0.26449294685077646,
+  "observed_morphology_mean_pairwise_squared_distance": 0.6994788473883553,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 58,
+      "mse": 0.4493660628795624,
+      "mae": 0.5395697951316833,
+      "median_pearson": 0.6613720275810253
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 144,
+      "mse": 0.3748927712440491,
+      "mae": 0.4704578220844269,
+      "median_pearson": 0.6746644991290671
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 435,
+      "mse": 0.4283854067325592,
+      "mae": 0.5078918933868408,
+      "median_pearson": 0.6780338125643431
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 624,
+      "mse": 0.5368248820304871,
+      "mae": 0.557273268699646,
+      "median_pearson": 0.6347396583795734
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 366,
+      "mse": 0.8136906623840332,
+      "mae": 0.7010570764541626,
+      "median_pearson": 0.210860904652423
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_21a770fa38b1befc88.npz",
+  "prediction_sha256": "c974a57cd214e07986ae7d8aa2c5d864a3f4a48b5889bbf05628243260636fd0",
+  "runtime_seconds": 0.03344882698729634,
+  "peak_rss_mb": 776.83984375,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access",
+  "evaluation_slides": [
+    "NCBI785"
+  ],
+  "event": "evaluation",
+  "timestamp": "2026-09-30T02:32:08.007855+00:00",
+  "checkpoint": "C6A"
+}

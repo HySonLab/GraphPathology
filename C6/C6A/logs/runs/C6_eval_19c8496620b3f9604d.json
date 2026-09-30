@@ -1,0 +1,122 @@
+{
+  "policy_id": "C6_policy_4396beadd327236483",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "resnet18_reference",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 0,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_4396beadd327236483.npz",
+  "policy_sha256": "b87a3303da0438f104681a2d9d4d4f0f590c595dcaa8c9038b87b5d66e1c9cbf",
+  "run_id": "C6_eval_19c8496620b3f9604d",
+  "phase": "sensitivity",
+  "panel": "S2-280",
+  "nominal_budget": 0.05,
+  "realized_budget": 0.05012468827930175,
+  "n_observed": 201,
+  "n_hidden": 1627,
+  "n_unmeasured": 3809,
+  "role": "primary",
+  "model": "B4",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.5
+  },
+  "checkpoint_path": "C5/models/B4_NCBI785_resnet18_reference_S2-280_a10000.npz",
+  "checkpoint_hash": "b5005fb9bdc0418e45d7635db031b0d43d6e868ee1c5dd4a2a9771ab94e341ac",
+  "image_prediction_hash": "a71d563d254c82ca787e25b1b44b51672af4b73b01caaeec29e878daeef6517e",
+  "scaler_hash": "e1259eec7227226b53b0cf8e998bb6d0271907beabc1f6d959ea476f36cc244b",
+  "feature_cache_hash": "63a18bff44a973253520927dfca5e5af1030efde2c5ffe7fe6fca95aaf8bcc84",
+  "mean_pearson": 0.5425294661649189,
+  "median_pearson": 0.5825851396004849,
+  "mean_spearman": 0.5165500152234052,
+  "median_spearman": 0.5619430438512656,
+  "mean_mse": 0.8666055227744569,
+  "median_mse": 0.7387515792765476,
+  "mean_mae": 0.7270972473969972,
+  "median_mae": 0.709229720511672,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 278,
+  "fraction_pearson_gt_0": 0.9928571428571429,
+  "n_pearson_gt_0.1": 269,
+  "fraction_pearson_gt_0.1": 0.9607142857142857,
+  "n_pearson_gt_0.2": 256,
+  "fraction_pearson_gt_0.2": 0.9142857142857143,
+  "n_pearson_gt_0.3": 231,
+  "fraction_pearson_gt_0.3": 0.825,
+  "median_prediction_variance": 0.32724792454253204,
+  "mean_anchor_distance_um": 822.340478735253,
+  "median_anchor_distance_um": 761.5773105863908,
+  "p90_anchor_distance_um": 1500.0000000000005,
+  "max_anchor_distance_um": 2102.379604162865,
+  "spatial_coverage_radius_um": 2102.379604162865,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.48690830102287797,
+  "morphology_p90_nearest_distance": 0.6654640448983933,
+  "observed_morphology_mean_pairwise_squared_distance": 2.2560029288768053,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 42,
+      "mse": 0.8177063465118408,
+      "mae": 0.6981541514396667,
+      "median_pearson": 0.66434634605585
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 131,
+      "mse": 0.8227607011795044,
+      "mae": 0.7158108949661255,
+      "median_pearson": 0.6238452334823926
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 426,
+      "mse": 0.8516050577163696,
+      "mae": 0.7186354398727417,
+      "median_pearson": 0.5484268630648759
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 657,
+      "mse": 0.868034303188324,
+      "mae": 0.7269226908683777,
+      "median_pearson": 0.5694171381734972
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 371,
+      "mse": 0.9023169279098511,
+      "mae": 0.7443842887878418,
+      "median_pearson": 0.5654227945592111
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_19c8496620b3f9604d.npz",
+  "prediction_sha256": "943a8a371010ecc0eac566a34c1d56e8cec757bca41d9f35b0dc3cca45d14b7c",
+  "runtime_seconds": 0.2723352911416441,
+  "peak_rss_mb": 818.7265625,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}

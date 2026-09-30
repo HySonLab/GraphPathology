@@ -1,0 +1,128 @@
+{
+  "policy_id": "C6_policy_722b4b61ea0770d539",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "pathology_encoder_1",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 2,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_722b4b61ea0770d539.npz",
+  "policy_sha256": "ebd8449c65b4ffc6fab3d6a264d3bedbdecbcf71b5291937de09e08da4ec9d4c",
+  "run_id": "C6_eval_38d42c6e5d274d55c2",
+  "phase": "sensitivity",
+  "panel": "S2-50",
+  "nominal_budget": 0.2,
+  "realized_budget": 0.2,
+  "n_observed": 802,
+  "n_hidden": 1627,
+  "n_unmeasured": 3208,
+  "role": "baseline",
+  "model": "B2a",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.5
+      }
+    },
+    "lambda": null
+  },
+  "checkpoint_path": "C5/SELECTION_LOCK.json",
+  "checkpoint_hash": "adf3d8b8a637a2513496f714587dd31a394f30b2b722c8f0fa2ef52cafe5059a",
+  "image_prediction_hash": "7c621f60bbdb487a14c2eaa025c70c59b744dbbd99790470111f50ec921608a9",
+  "scaler_hash": "f7c52c952ac85cad318a4302597dd77fbbe1fa8a37bb00f572cec5071a823888",
+  "feature_cache_hash": "4687e86cba3aa858a3b99055ce5206ded0b49e115ed8c56df2accbee202bd34b",
+  "mean_pearson": 0.41408653075764384,
+  "median_pearson": 0.4526235252205741,
+  "mean_spearman": 0.4135525345822466,
+  "median_spearman": 0.45265772308590224,
+  "mean_mse": 0.7253401667688021,
+  "median_mse": 0.7044365531059816,
+  "mean_mae": 0.6423662896218673,
+  "median_mae": 0.6431640380055866,
+  "n_genes": 50,
+  "n_defined_pearson": 50,
+  "n_pearson_gt_0": 50,
+  "fraction_pearson_gt_0": 1.0,
+  "n_pearson_gt_0.1": 49,
+  "fraction_pearson_gt_0.1": 0.98,
+  "n_pearson_gt_0.2": 46,
+  "fraction_pearson_gt_0.2": 0.92,
+  "n_pearson_gt_0.3": 37,
+  "fraction_pearson_gt_0.3": 0.74,
+  "median_prediction_variance": 0.3726039978706492,
+  "mean_anchor_distance_um": 757.7188568722964,
+  "median_anchor_distance_um": 700.0,
+  "p90_anchor_distance_um": 1431.7821063276356,
+  "max_anchor_distance_um": 2002.4984394500796,
+  "spatial_coverage_radius_um": 2002.4984394500796,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.1768719238195111,
+  "morphology_p90_nearest_distance": 0.24273113849485942,
+  "observed_morphology_mean_pairwise_squared_distance": 0.6813974460258202,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 106,
+      "mse": 0.4288429021835327,
+      "mae": 0.5050098299980164,
+      "median_pearson": 0.7366870617918815
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 171,
+      "mse": 0.495923787355423,
+      "mae": 0.5284833312034607,
+      "median_pearson": 0.5991764702140381
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 411,
+      "mse": 0.5190653204917908,
+      "mae": 0.5353549122810364,
+      "median_pearson": 0.6147936383091026
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 593,
+      "mse": 0.8025965690612793,
+      "mae": 0.6780019998550415,
+      "median_pearson": 0.4777482649943486
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 346,
+      "mse": 1.0421748161315918,
+      "mae": 0.8067691922187805,
+      "median_pearson": 0.06723347253497562
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_38d42c6e5d274d55c2.npz",
+  "prediction_sha256": "656a30a501edf9d18f0dcac756855a8c1b8e95841a0113b863c6ac63671b3122",
+  "runtime_seconds": 0.036338466918095946,
+  "peak_rss_mb": 776.82421875,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access",
+  "evaluation_slides": [
+    "NCBI785"
+  ],
+  "event": "evaluation",
+  "timestamp": "2026-09-30T02:32:06.785769+00:00",
+  "checkpoint": "C6A"
+}

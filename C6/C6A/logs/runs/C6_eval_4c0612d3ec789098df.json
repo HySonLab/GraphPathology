@@ -1,0 +1,122 @@
+{
+  "policy_id": "C6_policy_eb2b122a2285df9835",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "resnet18_reference",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 7,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_eb2b122a2285df9835.npz",
+  "policy_sha256": "14de57a46369f0e2de230fbbf3ad0dc06ad8aee07920369be006e808697a4210",
+  "run_id": "C6_eval_4c0612d3ec789098df",
+  "phase": "sensitivity",
+  "panel": "S2-280",
+  "nominal_budget": 0.05,
+  "realized_budget": 0.05012468827930175,
+  "n_observed": 201,
+  "n_hidden": 1627,
+  "n_unmeasured": 3809,
+  "role": "primary",
+  "model": "B4",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.5
+  },
+  "checkpoint_path": "C5/models/B4_NCBI785_resnet18_reference_S2-280_a10000.npz",
+  "checkpoint_hash": "b5005fb9bdc0418e45d7635db031b0d43d6e868ee1c5dd4a2a9771ab94e341ac",
+  "image_prediction_hash": "a71d563d254c82ca787e25b1b44b51672af4b73b01caaeec29e878daeef6517e",
+  "scaler_hash": "e1259eec7227226b53b0cf8e998bb6d0271907beabc1f6d959ea476f36cc244b",
+  "feature_cache_hash": "63a18bff44a973253520927dfca5e5af1030efde2c5ffe7fe6fca95aaf8bcc84",
+  "mean_pearson": 0.5410067109881077,
+  "median_pearson": 0.5803972664495645,
+  "mean_spearman": 0.5143792271849102,
+  "median_spearman": 0.5569639755306035,
+  "mean_mse": 0.8933634234661951,
+  "median_mse": 0.7780434703129822,
+  "mean_mae": 0.7435100135319326,
+  "median_mae": 0.7239184071991023,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 278,
+  "fraction_pearson_gt_0": 0.9928571428571429,
+  "n_pearson_gt_0.1": 268,
+  "fraction_pearson_gt_0.1": 0.9571428571428572,
+  "n_pearson_gt_0.2": 258,
+  "fraction_pearson_gt_0.2": 0.9214285714285714,
+  "n_pearson_gt_0.3": 232,
+  "fraction_pearson_gt_0.3": 0.8285714285714286,
+  "median_prediction_variance": 0.33896401296034084,
+  "mean_anchor_distance_um": 855.2571485992332,
+  "median_anchor_distance_um": 800.0,
+  "p90_anchor_distance_um": 1503.3296378372918,
+  "max_anchor_distance_um": 2061.552812808831,
+  "spatial_coverage_radius_um": 2061.552812808831,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.48168266252847175,
+  "morphology_p90_nearest_distance": 0.6489024374152148,
+  "observed_morphology_mean_pairwise_squared_distance": 2.344526017305365,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 32,
+      "mse": 0.9088261127471924,
+      "mae": 0.7638083100318909,
+      "median_pearson": 0.697345520941999
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 97,
+      "mse": 0.8176809549331665,
+      "mae": 0.7207302451133728,
+      "median_pearson": 0.6343776634021709
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 419,
+      "mse": 0.857467532157898,
+      "mae": 0.72458416223526,
+      "median_pearson": 0.5604078318509573
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 672,
+      "mse": 0.8967660665512085,
+      "mae": 0.74457848072052,
+      "median_pearson": 0.5679820026665401
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 407,
+      "mse": 0.941521167755127,
+      "mae": 0.7650628685951233,
+      "median_pearson": 0.5568912219040201
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_4c0612d3ec789098df.npz",
+  "prediction_sha256": "f01b9e57420f0bec1021cb8786939adc8593faaf942120ab6f1a0b26fad58cf4",
+  "runtime_seconds": 0.30167955602519214,
+  "peak_rss_mb": 829.90625,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}

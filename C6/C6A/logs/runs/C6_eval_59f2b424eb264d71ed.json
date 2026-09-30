@@ -1,0 +1,130 @@
+{
+  "policy_id": "C6_policy_fce4a3ee5c8c95310e",
+  "cohort": "NCBI783",
+  "sample_id": "NCBI783",
+  "patient_id": "patient 5",
+  "encoder": "resnet18_reference",
+  "regime": "contiguous",
+  "strategy": "A2",
+  "seed": 0,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_fce4a3ee5c8c95310e.npz",
+  "policy_sha256": "97144c4ba9e7506191bdbd2d4d1a59586367d07345616e22425aef73ae51e913",
+  "run_id": "C6_eval_59f2b424eb264d71ed",
+  "phase": "sensitivity",
+  "panel": "S2-50",
+  "nominal_budget": 0.4,
+  "realized_budget": 0.4,
+  "n_observed": 1202,
+  "n_hidden": 1244,
+  "n_unmeasured": 1803,
+  "role": "baseline",
+  "model": "B2a",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.5
+      }
+    },
+    "lambda": null
+  },
+  "checkpoint_path": "C5/SELECTION_LOCK.json",
+  "checkpoint_hash": "adf3d8b8a637a2513496f714587dd31a394f30b2b722c8f0fa2ef52cafe5059a",
+  "image_prediction_hash": "fd199d2e4151f8106d4db6a2495a1708b3d4e2cf2313cdf6149c60ee4cead667",
+  "scaler_hash": "7b2d6d637254990415d1cf83d17618e27360708ef6caaf6e0ee42e2e0e9dc6e9",
+  "feature_cache_hash": "be4559ea736b3a6d7791a0f8599d681695d80d91431309e54e879a7511308da2",
+  "mean_pearson": 0.3353361769225718,
+  "median_pearson": 0.33231217832664856,
+  "mean_spearman": 0.3199926440666871,
+  "median_spearman": 0.33755915274439696,
+  "mean_mse": 1.0040096659249649,
+  "median_mse": 1.0322273375037878,
+  "mean_mae": 0.8082992436564562,
+  "median_mae": 0.8361700377643683,
+  "n_genes": 50,
+  "n_defined_pearson": 50,
+  "n_pearson_gt_0": 50,
+  "fraction_pearson_gt_0": 1.0,
+  "n_pearson_gt_0.1": 48,
+  "fraction_pearson_gt_0.1": 0.96,
+  "n_pearson_gt_0.2": 44,
+  "fraction_pearson_gt_0.2": 0.88,
+  "n_pearson_gt_0.3": 33,
+  "fraction_pearson_gt_0.3": 0.66,
+  "median_prediction_variance": 0.3667644919564018,
+  "mean_anchor_distance_um": 1082.5039039100868,
+  "median_anchor_distance_um": 1000.0,
+  "p90_anchor_distance_um": 2102.379604162863,
+  "max_anchor_distance_um": 3200.0,
+  "spatial_coverage_radius_um": 3200.0,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.443308310699583,
+  "morphology_p90_nearest_distance": 0.5973007911557516,
+  "observed_morphology_mean_pairwise_squared_distance": 4.591528697778944,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 72,
+      "mse": 0.5705685615539551,
+      "mae": 0.5956921577453613,
+      "median_pearson": 0.6735489227776578
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 96,
+      "mse": 0.6073620319366455,
+      "mae": 0.6149047017097473,
+      "median_pearson": 0.6563494176440028
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 230,
+      "mse": 0.9135010838508606,
+      "mae": 0.7597170472145081,
+      "median_pearson": 0.35370311546604244
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 352,
+      "mse": 1.0058220624923706,
+      "mae": 0.817809522151947,
+      "median_pearson": 0.3811829323467195
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 434,
+      "mse": 1.1426063776016235,
+      "mae": 0.8706601858139038,
+      "median_pearson": 0.18584306033209302
+    },
+    {
+      "lower_um": 2400,
+      "upper_um": null,
+      "n_hidden": 60,
+      "mse": 1.492576003074646,
+      "mae": 1.0522197484970093,
+      "median_pearson": 0.23910844985331037
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_59f2b424eb264d71ed.npz",
+  "prediction_sha256": "b613eff4b23f61587939ddcf3f8df573acb42c3596b0ba201136d84e99d043b4",
+  "runtime_seconds": 0.03796741412952542,
+  "peak_rss_mb": 720.29296875,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}

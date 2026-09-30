@@ -1,0 +1,122 @@
+{
+  "policy_id": "C6_policy_daf51765ae97f006a1",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "resnet18_reference",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 3,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_daf51765ae97f006a1.npz",
+  "policy_sha256": "7d4c6ddb0cfac9882f4801cfa184544575ec26a2402c5d28c8df72e883d90c46",
+  "run_id": "C6_eval_9cb3c397af3fd2da18",
+  "phase": "sensitivity",
+  "panel": "S2-280",
+  "nominal_budget": 0.05,
+  "realized_budget": 0.05012468827930175,
+  "n_observed": 201,
+  "n_hidden": 1627,
+  "n_unmeasured": 3809,
+  "role": "primary",
+  "model": "B4",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.5
+  },
+  "checkpoint_path": "C5/models/B4_NCBI785_resnet18_reference_S2-280_a10000.npz",
+  "checkpoint_hash": "b5005fb9bdc0418e45d7635db031b0d43d6e868ee1c5dd4a2a9771ab94e341ac",
+  "image_prediction_hash": "a71d563d254c82ca787e25b1b44b51672af4b73b01caaeec29e878daeef6517e",
+  "scaler_hash": "e1259eec7227226b53b0cf8e998bb6d0271907beabc1f6d959ea476f36cc244b",
+  "feature_cache_hash": "63a18bff44a973253520927dfca5e5af1030efde2c5ffe7fe6fca95aaf8bcc84",
+  "mean_pearson": 0.5304007825249295,
+  "median_pearson": 0.571428394848793,
+  "mean_spearman": 0.5021064645633733,
+  "median_spearman": 0.5507167923615126,
+  "mean_mse": 0.8528725655611743,
+  "median_mse": 0.7297603757681994,
+  "mean_mae": 0.7191068609459895,
+  "median_mae": 0.7084402445428788,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 276,
+  "fraction_pearson_gt_0": 0.9857142857142858,
+  "n_pearson_gt_0.1": 267,
+  "fraction_pearson_gt_0.1": 0.9535714285714286,
+  "n_pearson_gt_0.2": 255,
+  "fraction_pearson_gt_0.2": 0.9107142857142857,
+  "n_pearson_gt_0.3": 226,
+  "fraction_pearson_gt_0.3": 0.8071428571428572,
+  "median_prediction_variance": 0.3338801270495817,
+  "mean_anchor_distance_um": 982.2198766292042,
+  "median_anchor_distance_um": 905.5385138137416,
+  "p90_anchor_distance_um": 1802.7756377319947,
+  "max_anchor_distance_um": 2220.360331117452,
+  "spatial_coverage_radius_um": 2220.360331117452,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.49519947126163666,
+  "morphology_p90_nearest_distance": 0.6711024189110911,
+  "observed_morphology_mean_pairwise_squared_distance": 2.3579452112427073,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 32,
+      "mse": 1.040700912475586,
+      "mae": 0.8093106150627136,
+      "median_pearson": 0.5054022120045104
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 95,
+      "mse": 0.8384022116661072,
+      "mae": 0.733079195022583,
+      "median_pearson": 0.5720185613150242
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 362,
+      "mse": 0.8460150361061096,
+      "mae": 0.7212420701980591,
+      "median_pearson": 0.5553602409594172
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 556,
+      "mse": 0.831950306892395,
+      "mae": 0.7135313749313354,
+      "median_pearson": 0.5808533121147486
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 582,
+      "mse": 0.8691601157188416,
+      "mae": 0.7158648371696472,
+      "median_pearson": 0.5442560803956112
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_9cb3c397af3fd2da18.npz",
+  "prediction_sha256": "51cef0331daad3b4e7f823b6cee78abc26efd3c47fc91bf7fa231bed91a45879",
+  "runtime_seconds": 0.2942027549725026,
+  "peak_rss_mb": 829.65234375,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}

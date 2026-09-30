@@ -1,0 +1,122 @@
+{
+  "policy_id": "C6_policy_6acc6923be4966a72d",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "resnet18_reference",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 6,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_6acc6923be4966a72d.npz",
+  "policy_sha256": "ccfeb963b9442a1297913b1a08ed5242d0e145876bffa8acf4f78c52bb57c951",
+  "run_id": "C6_eval_3c41933cf98ad56745",
+  "phase": "sensitivity",
+  "panel": "S2-280",
+  "nominal_budget": 0.2,
+  "realized_budget": 0.2,
+  "n_observed": 802,
+  "n_hidden": 1627,
+  "n_unmeasured": 3208,
+  "role": "primary",
+  "model": "B4",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.5
+  },
+  "checkpoint_path": "C5/models/B4_NCBI785_resnet18_reference_S2-280_a10000.npz",
+  "checkpoint_hash": "b5005fb9bdc0418e45d7635db031b0d43d6e868ee1c5dd4a2a9771ab94e341ac",
+  "image_prediction_hash": "a71d563d254c82ca787e25b1b44b51672af4b73b01caaeec29e878daeef6517e",
+  "scaler_hash": "e1259eec7227226b53b0cf8e998bb6d0271907beabc1f6d959ea476f36cc244b",
+  "feature_cache_hash": "63a18bff44a973253520927dfca5e5af1030efde2c5ffe7fe6fca95aaf8bcc84",
+  "mean_pearson": 0.5198906068847323,
+  "median_pearson": 0.5513022165098671,
+  "mean_spearman": 0.49871563564913785,
+  "median_spearman": 0.5365915981900113,
+  "mean_mse": 0.9484756168573492,
+  "median_mse": 0.8367442943563455,
+  "mean_mae": 0.7691354818140086,
+  "median_mae": 0.758468138264779,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 279,
+  "fraction_pearson_gt_0": 0.9964285714285714,
+  "n_pearson_gt_0.1": 271,
+  "fraction_pearson_gt_0.1": 0.9678571428571429,
+  "n_pearson_gt_0.2": 259,
+  "fraction_pearson_gt_0.2": 0.925,
+  "n_pearson_gt_0.3": 230,
+  "fraction_pearson_gt_0.3": 0.8214285714285714,
+  "median_prediction_variance": 0.41650536711447145,
+  "mean_anchor_distance_um": 778.1945341435526,
+  "median_anchor_distance_um": 707.1067811865474,
+  "p90_anchor_distance_um": 1456.0219778561043,
+  "max_anchor_distance_um": 2009.975124224179,
+  "spatial_coverage_radius_um": 2009.975124224179,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.39776770720401133,
+  "morphology_p90_nearest_distance": 0.5436441249621943,
+  "observed_morphology_mean_pairwise_squared_distance": 2.3478629350911078,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 83,
+      "mse": 0.9129894375801086,
+      "mae": 0.7659060955047607,
+      "median_pearson": 0.6396099567210711
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 165,
+      "mse": 0.904863178730011,
+      "mae": 0.7513651847839355,
+      "median_pearson": 0.5633294148567323
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 418,
+      "mse": 0.9289385676383972,
+      "mae": 0.7534803748130798,
+      "median_pearson": 0.5253108838755111
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 608,
+      "mse": 0.9499203562736511,
+      "mae": 0.7715372443199158,
+      "median_pearson": 0.5553200597722222
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 353,
+      "mse": 0.9978508353233337,
+      "mae": 0.792602002620697,
+      "median_pearson": 0.48504183184745175
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_3c41933cf98ad56745.npz",
+  "prediction_sha256": "60d8c7dcbb50c7c5cb335827acb6c6b44e037ab3dcce64fe5fd20ccc2e52b567",
+  "runtime_seconds": 0.3127211728133261,
+  "peak_rss_mb": 820.41796875,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}

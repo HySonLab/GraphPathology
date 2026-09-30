@@ -1,0 +1,122 @@
+{
+  "policy_id": "C6_policy_eb2b122a2285df9835",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "resnet18_reference",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 7,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_eb2b122a2285df9835.npz",
+  "policy_sha256": "14de57a46369f0e2de230fbbf3ad0dc06ad8aee07920369be006e808697a4210",
+  "run_id": "C6_eval_8f36e83006682e9ccd",
+  "phase": "sensitivity",
+  "panel": "S2-280",
+  "nominal_budget": 0.4,
+  "realized_budget": 0.4,
+  "n_observed": 1604,
+  "n_hidden": 1627,
+  "n_unmeasured": 2406,
+  "role": "primary",
+  "model": "B4",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.5
+  },
+  "checkpoint_path": "C5/models/B4_NCBI785_resnet18_reference_S2-280_a10000.npz",
+  "checkpoint_hash": "b5005fb9bdc0418e45d7635db031b0d43d6e868ee1c5dd4a2a9771ab94e341ac",
+  "image_prediction_hash": "a71d563d254c82ca787e25b1b44b51672af4b73b01caaeec29e878daeef6517e",
+  "scaler_hash": "e1259eec7227226b53b0cf8e998bb6d0271907beabc1f6d959ea476f36cc244b",
+  "feature_cache_hash": "63a18bff44a973253520927dfca5e5af1030efde2c5ffe7fe6fca95aaf8bcc84",
+  "mean_pearson": 0.5279497598082772,
+  "median_pearson": 0.5636023447827553,
+  "mean_spearman": 0.5058740941815432,
+  "median_spearman": 0.5479803927715448,
+  "mean_mse": 0.9413061897972981,
+  "median_mse": 0.819511366989073,
+  "mean_mae": 0.7639709390171522,
+  "median_mae": 0.7457577135931761,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 279,
+  "fraction_pearson_gt_0": 0.9964285714285714,
+  "n_pearson_gt_0.1": 272,
+  "fraction_pearson_gt_0.1": 0.9714285714285714,
+  "n_pearson_gt_0.2": 260,
+  "fraction_pearson_gt_0.2": 0.9285714285714286,
+  "n_pearson_gt_0.3": 235,
+  "fraction_pearson_gt_0.3": 0.8392857142857143,
+  "median_prediction_variance": 0.4267276369434605,
+  "mean_anchor_distance_um": 745.0630260282019,
+  "median_anchor_distance_um": 699.9999999999995,
+  "p90_anchor_distance_um": 1403.5668847618208,
+  "max_anchor_distance_um": 2002.4984394500796,
+  "spatial_coverage_radius_um": 2002.4984394500796,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.35969670882145455,
+  "morphology_p90_nearest_distance": 0.4896982306531271,
+  "observed_morphology_mean_pairwise_squared_distance": 2.274580568218313,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 137,
+      "mse": 0.9068278074264526,
+      "mae": 0.7571590542793274,
+      "median_pearson": 0.6354954163482227
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 150,
+      "mse": 0.8969100713729858,
+      "mae": 0.7441492080688477,
+      "median_pearson": 0.5747735591968821
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 412,
+      "mse": 0.9147258996963501,
+      "mae": 0.7475607395172119,
+      "median_pearson": 0.5569539738045177
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 585,
+      "mse": 0.9529181718826294,
+      "mae": 0.7690930962562561,
+      "median_pearson": 0.5515790425146089
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 343,
+      "mse": 0.9866153597831726,
+      "mae": 0.7863354682922363,
+      "median_pearson": 0.48956914393546447
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_8f36e83006682e9ccd.npz",
+  "prediction_sha256": "936e967fda4f25eae0d135839c4a986e3d2696abf5993590d6f41dcadeb7feae",
+  "runtime_seconds": 0.2852533950936049,
+  "peak_rss_mb": 825.65234375,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}

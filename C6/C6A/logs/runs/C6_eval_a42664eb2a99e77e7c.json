@@ -1,0 +1,122 @@
+{
+  "policy_id": "C6_policy_d2d0547f1821e05d2b",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "resnet18_reference",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 9,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_d2d0547f1821e05d2b.npz",
+  "policy_sha256": "bd552511959a498b2bb8e1da3d123869d5cc7f3b62d1e7fb9afa77b05b9b8558",
+  "run_id": "C6_eval_a42664eb2a99e77e7c",
+  "phase": "sensitivity",
+  "panel": "S2-280",
+  "nominal_budget": 0.05,
+  "realized_budget": 0.05012468827930175,
+  "n_observed": 201,
+  "n_hidden": 1627,
+  "n_unmeasured": 3809,
+  "role": "primary",
+  "model": "B4",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.5
+  },
+  "checkpoint_path": "C5/models/B4_NCBI785_resnet18_reference_S2-280_a10000.npz",
+  "checkpoint_hash": "b5005fb9bdc0418e45d7635db031b0d43d6e868ee1c5dd4a2a9771ab94e341ac",
+  "image_prediction_hash": "a71d563d254c82ca787e25b1b44b51672af4b73b01caaeec29e878daeef6517e",
+  "scaler_hash": "e1259eec7227226b53b0cf8e998bb6d0271907beabc1f6d959ea476f36cc244b",
+  "feature_cache_hash": "63a18bff44a973253520927dfca5e5af1030efde2c5ffe7fe6fca95aaf8bcc84",
+  "mean_pearson": 0.528743225647583,
+  "median_pearson": 0.5635425924343703,
+  "mean_spearman": 0.5023093837612933,
+  "median_spearman": 0.5517134770026713,
+  "mean_mse": 0.8696119832918394,
+  "median_mse": 0.7327254939461022,
+  "mean_mae": 0.72688190514263,
+  "median_mae": 0.7025255716258179,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 278,
+  "fraction_pearson_gt_0": 0.9928571428571429,
+  "n_pearson_gt_0.1": 269,
+  "fraction_pearson_gt_0.1": 0.9607142857142857,
+  "n_pearson_gt_0.2": 256,
+  "fraction_pearson_gt_0.2": 0.9142857142857143,
+  "n_pearson_gt_0.3": 229,
+  "fraction_pearson_gt_0.3": 0.8178571428571428,
+  "median_prediction_variance": 0.3303046405834558,
+  "mean_anchor_distance_um": 890.5901962482997,
+  "median_anchor_distance_um": 824.6211251235321,
+  "p90_anchor_distance_um": 1524.4662736026194,
+  "max_anchor_distance_um": 2088.0613017821106,
+  "spatial_coverage_radius_um": 2088.0613017821106,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.4830459669380347,
+  "morphology_p90_nearest_distance": 0.6705798616870998,
+  "observed_morphology_mean_pairwise_squared_distance": 2.1490862002257516,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 17,
+      "mse": 0.7667115330696106,
+      "mae": 0.6952493786811829,
+      "median_pearson": null
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 81,
+      "mse": 0.898482084274292,
+      "mae": 0.7403548359870911,
+      "median_pearson": 0.5794742125262065
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 406,
+      "mse": 0.8519419431686401,
+      "mae": 0.7176030874252319,
+      "median_pearson": 0.5430317764092758
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 689,
+      "mse": 0.8528791069984436,
+      "mae": 0.7205830812454224,
+      "median_pearson": 0.5546022858283246
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 434,
+      "mse": 0.9113489985466003,
+      "mae": 0.7442864179611206,
+      "median_pearson": 0.549923111385969
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_a42664eb2a99e77e7c.npz",
+  "prediction_sha256": "9a45946138daa7aa2d6389918e4076395981b3315aab7b32344bc23b5f6cbd88",
+  "runtime_seconds": 0.2761424749623984,
+  "peak_rss_mb": 830.234375,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}

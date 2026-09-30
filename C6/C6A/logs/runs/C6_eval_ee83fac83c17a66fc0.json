@@ -1,0 +1,122 @@
+{
+  "policy_id": "C6_policy_bf63af99ea64b1a7a1",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "resnet18_reference",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 4,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_bf63af99ea64b1a7a1.npz",
+  "policy_sha256": "ea7514d96efde68ca6ace8edb21f0b4f463c97e4d536b545e4aee443cbfdefc9",
+  "run_id": "C6_eval_ee83fac83c17a66fc0",
+  "phase": "sensitivity",
+  "panel": "S2-280",
+  "nominal_budget": 0.05,
+  "realized_budget": 0.05012468827930175,
+  "n_observed": 201,
+  "n_hidden": 1627,
+  "n_unmeasured": 3809,
+  "role": "primary",
+  "model": "B4",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.5
+  },
+  "checkpoint_path": "C5/models/B4_NCBI785_resnet18_reference_S2-280_a10000.npz",
+  "checkpoint_hash": "b5005fb9bdc0418e45d7635db031b0d43d6e868ee1c5dd4a2a9771ab94e341ac",
+  "image_prediction_hash": "a71d563d254c82ca787e25b1b44b51672af4b73b01caaeec29e878daeef6517e",
+  "scaler_hash": "e1259eec7227226b53b0cf8e998bb6d0271907beabc1f6d959ea476f36cc244b",
+  "feature_cache_hash": "63a18bff44a973253520927dfca5e5af1030efde2c5ffe7fe6fca95aaf8bcc84",
+  "mean_pearson": 0.5413839048429692,
+  "median_pearson": 0.58406416499754,
+  "mean_spearman": 0.5157956306635909,
+  "median_spearman": 0.5610522192244021,
+  "mean_mse": 0.854697279933912,
+  "median_mse": 0.7269214324232784,
+  "mean_mae": 0.7207423018466185,
+  "median_mae": 0.7049354278195858,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 279,
+  "fraction_pearson_gt_0": 0.9964285714285714,
+  "n_pearson_gt_0.1": 270,
+  "fraction_pearson_gt_0.1": 0.9642857142857143,
+  "n_pearson_gt_0.2": 254,
+  "fraction_pearson_gt_0.2": 0.9071428571428571,
+  "n_pearson_gt_0.3": 234,
+  "fraction_pearson_gt_0.3": 0.8357142857142857,
+  "median_prediction_variance": 0.34091436504205486,
+  "mean_anchor_distance_um": 833.7454956353888,
+  "median_anchor_distance_um": 761.5773105863908,
+  "p90_anchor_distance_um": 1503.3296378372909,
+  "max_anchor_distance_um": 2088.061301782111,
+  "spatial_coverage_radius_um": 2088.061301782111,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.4745743784418786,
+  "morphology_p90_nearest_distance": 0.6482780532599146,
+  "observed_morphology_mean_pairwise_squared_distance": 2.2374371823265755,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 48,
+      "mse": 0.9050498008728027,
+      "mae": 0.7550030946731567,
+      "median_pearson": 0.5915960302867074
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 122,
+      "mse": 0.8336630463600159,
+      "mae": 0.7211184501647949,
+      "median_pearson": 0.5914254746648235
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 434,
+      "mse": 0.8297709226608276,
+      "mae": 0.7072159051895142,
+      "median_pearson": 0.5707131566600179
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 621,
+      "mse": 0.8469440937042236,
+      "mae": 0.7163757681846619,
+      "median_pearson": 0.5862452599569424
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 402,
+      "mse": 0.8939559459686279,
+      "mae": 0.7378857731819153,
+      "median_pearson": 0.5471629012231525
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_ee83fac83c17a66fc0.npz",
+  "prediction_sha256": "00ed0d8fc808b2d7130ac9788c5bb2eb3f39cc593e53603d2e196f4d0a05f511",
+  "runtime_seconds": 0.28923702286556363,
+  "peak_rss_mb": 829.66015625,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}

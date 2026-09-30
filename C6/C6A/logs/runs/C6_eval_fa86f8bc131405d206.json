@@ -1,0 +1,122 @@
+{
+  "policy_id": "C6_policy_b5199d39675c07d83b",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "resnet18_reference",
+  "regime": "contiguous",
+  "strategy": "A1",
+  "seed": 0,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_b5199d39675c07d83b.npz",
+  "policy_sha256": "e3c519a689b4a024622c32baebc2a0737d1222f2a791591d7230c25bfbf18a89",
+  "run_id": "C6_eval_fa86f8bc131405d206",
+  "phase": "sensitivity",
+  "panel": "S2-280",
+  "nominal_budget": 0.05,
+  "realized_budget": 0.05012468827930175,
+  "n_observed": 201,
+  "n_hidden": 1627,
+  "n_unmeasured": 3809,
+  "role": "primary",
+  "model": "B4",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.5
+  },
+  "checkpoint_path": "C5/models/B4_NCBI785_resnet18_reference_S2-280_a10000.npz",
+  "checkpoint_hash": "b5005fb9bdc0418e45d7635db031b0d43d6e868ee1c5dd4a2a9771ab94e341ac",
+  "image_prediction_hash": "a71d563d254c82ca787e25b1b44b51672af4b73b01caaeec29e878daeef6517e",
+  "scaler_hash": "e1259eec7227226b53b0cf8e998bb6d0271907beabc1f6d959ea476f36cc244b",
+  "feature_cache_hash": "63a18bff44a973253520927dfca5e5af1030efde2c5ffe7fe6fca95aaf8bcc84",
+  "mean_pearson": 0.5388058128646218,
+  "median_pearson": 0.5774218967748495,
+  "mean_spearman": 0.5139958980616872,
+  "median_spearman": 0.5609429495184449,
+  "mean_mse": 0.8816702147910778,
+  "median_mse": 0.7563535182573088,
+  "mean_mae": 0.7350118776465241,
+  "median_mae": 0.7159060413798431,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 278,
+  "fraction_pearson_gt_0": 0.9928571428571429,
+  "n_pearson_gt_0.1": 270,
+  "fraction_pearson_gt_0.1": 0.9642857142857143,
+  "n_pearson_gt_0.2": 258,
+  "fraction_pearson_gt_0.2": 0.9214285714285714,
+  "n_pearson_gt_0.3": 230,
+  "fraction_pearson_gt_0.3": 0.8214285714285714,
+  "median_prediction_variance": 0.3582742219867639,
+  "mean_anchor_distance_um": 763.6180186338403,
+  "median_anchor_distance_um": 700.0,
+  "p90_anchor_distance_um": 1431.7821063276365,
+  "max_anchor_distance_um": 2009.9751242241784,
+  "spatial_coverage_radius_um": 2009.9751242241784,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.4781031060360086,
+  "morphology_p90_nearest_distance": 0.6495292761234079,
+  "observed_morphology_mean_pairwise_squared_distance": 2.333680539442294,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 91,
+      "mse": 0.891811192035675,
+      "mae": 0.7508262991905212,
+      "median_pearson": 0.6063584977039003
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 171,
+      "mse": 0.9301899075508118,
+      "mae": 0.7527061700820923,
+      "median_pearson": 0.5379436657302303
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 430,
+      "mse": 0.8715856075286865,
+      "mae": 0.7313744425773621,
+      "median_pearson": 0.5641597679530206
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 590,
+      "mse": 0.869823157787323,
+      "mae": 0.727973461151123,
+      "median_pearson": 0.578158710259534
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 345,
+      "mse": 0.8877757787704468,
+      "mae": 0.7386404871940613,
+      "median_pearson": 0.5357885604016136
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_fa86f8bc131405d206.npz",
+  "prediction_sha256": "ea0211949b7ff461fe3d84941323db8a102a50e3ce8390c57e0f91421b97ca3a",
+  "runtime_seconds": 0.28575997706502676,
+  "peak_rss_mb": 804.265625,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}

@@ -1,0 +1,122 @@
+{
+  "policy_id": "C6_policy_e97e9563c7d10112a6",
+  "cohort": "NCBI785",
+  "sample_id": "NCBI785",
+  "patient_id": "patient 4",
+  "encoder": "pathology_encoder_1",
+  "regime": "contiguous",
+  "strategy": "A0",
+  "seed": 8,
+  "alpha": null,
+  "control": null,
+  "policy_path": "C6/C6A/policies/C6_policy_e97e9563c7d10112a6.npz",
+  "policy_sha256": "ef6ced73586efb9ac0aeca39ae474119e83469907980246d9e595ad4db811f07",
+  "run_id": "C6_eval_6825a1a442a312ccf0",
+  "phase": "sensitivity",
+  "panel": "S2-280",
+  "nominal_budget": 0.05,
+  "realized_budget": 0.05012468827930175,
+  "n_observed": 201,
+  "n_hidden": 1627,
+  "n_unmeasured": 3809,
+  "role": "primary",
+  "model": "B3",
+  "config": {
+    "interpolation": {
+      "B2a": 16,
+      "B2b": 1,
+      "best_family": "B2a",
+      "best_param": 16,
+      "lambda": {
+        "resnet18_reference": 0.5,
+        "pathology_encoder_1": 0.25
+      }
+    },
+    "lambda": 0.25
+  },
+  "checkpoint_path": "C5/SELECTION_LOCK.json",
+  "checkpoint_hash": "adf3d8b8a637a2513496f714587dd31a394f30b2b722c8f0fa2ef52cafe5059a",
+  "image_prediction_hash": "51707712af0a554bdd6b49bc2ad03e654fb5696b7882d445aeabbc7c2e4d03a0",
+  "scaler_hash": "f7c52c952ac85cad318a4302597dd77fbbe1fa8a37bb00f572cec5071a823888",
+  "feature_cache_hash": "4687e86cba3aa858a3b99055ce5206ded0b49e115ed8c56df2accbee202bd34b",
+  "mean_pearson": 0.40967797486146945,
+  "median_pearson": 0.3922772151501733,
+  "mean_spearman": 0.40848605905972757,
+  "median_spearman": 0.3878458762719037,
+  "mean_mse": 0.7836232968601954,
+  "median_mse": 0.7858423715712788,
+  "mean_mae": 0.7160216351225056,
+  "median_mae": 0.7237058093695636,
+  "n_genes": 280,
+  "n_defined_pearson": 280,
+  "n_pearson_gt_0": 278,
+  "fraction_pearson_gt_0": 0.9928571428571429,
+  "n_pearson_gt_0.1": 262,
+  "fraction_pearson_gt_0.1": 0.9357142857142857,
+  "n_pearson_gt_0.2": 241,
+  "fraction_pearson_gt_0.2": 0.8607142857142858,
+  "n_pearson_gt_0.3": 193,
+  "fraction_pearson_gt_0.3": 0.6892857142857143,
+  "median_prediction_variance": 0.12746901373300534,
+  "mean_anchor_distance_um": 830.3246756170713,
+  "median_anchor_distance_um": 761.5773105863905,
+  "p90_anchor_distance_um": 1500.0000000000005,
+  "max_anchor_distance_um": 2061.5528128088313,
+  "spatial_coverage_radius_um": 2061.5528128088313,
+  "unmeasured_components_at_least_50": 1,
+  "morphology_mean_nearest_distance": 0.21422125605816614,
+  "morphology_p90_nearest_distance": 0.2924068661067706,
+  "observed_morphology_mean_pairwise_squared_distance": 0.6538021546453137,
+  "distance_bins": [
+    {
+      "lower_um": 0,
+      "upper_um": 150,
+      "n_hidden": 31,
+      "mse": 0.5926452875137329,
+      "mae": 0.6190202236175537,
+      "median_pearson": 0.5775522785999772
+    },
+    {
+      "lower_um": 150,
+      "upper_um": 300,
+      "n_hidden": 108,
+      "mse": 0.6716002821922302,
+      "mae": 0.6632215976715088,
+      "median_pearson": 0.4658826797038483
+    },
+    {
+      "lower_um": 300,
+      "upper_um": 600,
+      "n_hidden": 452,
+      "mse": 0.6631927490234375,
+      "mae": 0.6534872651100159,
+      "median_pearson": 0.4325712894621122
+    },
+    {
+      "lower_um": 600,
+      "upper_um": 1200,
+      "n_hidden": 669,
+      "mse": 0.7907131910324097,
+      "mae": 0.721930205821991,
+      "median_pearson": 0.4024951667465385
+    },
+    {
+      "lower_um": 1200,
+      "upper_um": 2400,
+      "n_hidden": 367,
+      "mse": 0.9681199789047241,
+      "mae": 0.8060002326965332,
+      "median_pearson": 0.2954056442042916
+    }
+  ],
+  "invariance_errors": [
+    0,
+    0
+  ],
+  "source_commit": "c6847974df19b79ddb7bed6ff58adfa57d6d5533",
+  "prediction_path": "C6/C6A/predictions/C6_eval_6825a1a442a312ccf0.npz",
+  "prediction_sha256": "72ba41fd8e503b2783ca007b22617c87770aac61fd306018b02af8f097f44ec1",
+  "runtime_seconds": 0.11579088284634054,
+  "peak_rss_mb": 845.41796875,
+  "observed_label_reveal_sequence": "Exact prefix in observed_indices / observed_barcodes; no earlier molecular policy access"
+}
