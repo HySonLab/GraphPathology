@@ -1,6 +1,7 @@
 """Independent C8 replay, fold exclusion, frozen-baseline and artifact audit."""
 from contract import *
-import run as pipeline
+import importlib.util
+_spec=importlib.util.spec_from_file_location('c8_pipeline_replay',OUT/'run.py');pipeline=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(pipeline)
 from threadpoolctl import threadpool_limits
 
 def main():
@@ -20,20 +21,23 @@ def main():
    tr=json.loads((ROOT/r['scaler_path']).read_text())['train_patients'];assert r['sample_id'] not in tr and not set(tr)&set(held)
   chosen,_=select(df[df.model=='E2'].to_dict('records'),'transform');assert chosen==rec['selected_transform'];fit_selections+=1
   if (B/'C8B_SPEC_LOCK.json').exists():
-   bl=json.loads((B/'C8B_SPEC_LOCK.json').read_text());op=ROOT/bl['fold_objects'][fold]['path'];assert sha(op)==bl['fold_objects'][fold]['sha256'];obj=json.loads(op.read_text());assert set(obj['train_patients'])==set(rec['train_patients']);index=json.loads((A/'logs'/f'{fold}_INNER_CACHE.json').read_text());records=[]
+   bl=json.loads((B/'C8B_SPEC_LOCK.json').read_text());assert bl['timestamp']<json.loads((B/'logs/OUTER_ACCESS.json').read_text())['timestamp'];op=ROOT/bl['fold_objects'][fold]['path'];assert sha(op)==bl['fold_objects'][fold]['sha256'];obj=json.loads(op.read_text());assert set(obj['train_patients'])==set(rec['train_patients']);index=json.loads((A/'logs'/f'{fold}_INNER_CACHE.json').read_text());records=[]
    for rr in index:
     if rr['transform']!=chosen:continue
     assert rr['sample_id'] in rec['train_patients'];assert sha(ROOT/rr['path'])==rr['sha256']
     with np.load(ROOT/rr['path']) as f:v={k:f[k].copy() for k in ['image','st','features','distance','scale','center']};t=f['truth'].copy()
     records.append({**rr,'v':v,'truth':t})
    gate=fit_gate(records);assert gate==obj['family_models']['F3'];assert gate['optimization_success'],gate;gate_replays+=1
-   trials=pd.read_csv(B/'logs'/f'{fold}_CALIBRATION_METRICS.csv');win,_=select(trials.to_dict('records'),'candidate');assert win.split('_')[0]==obj['selected_family'];fit_selections+=1
+   trials=pd.read_csv(B/'logs'/f'{fold}_CALIBRATION_METRICS.csv');win,_=select(trials.to_dict('records'),'candidate');assert win.split('_')[0]==obj['selected_family'];pool=[{'family':'F0'}]+[{'family':'F1','lambda':v/10} for v in range(11)]+[{'family':'F2','weights':list(t)} for t in itertools.combinations_with_replacement([0.,.1,.25,.5,1.],3)]+[gate];assert obj['selected_model']==pool[int(win.rsplit('_',1)[1])];
+   for fam in ['F0','F1','F2','F3']:
+    name,_=select(trials[trials.family==fam].to_dict('records'),'candidate');assert obj['family_models'][fam]==pool[int(name.rsplit('_',1)[1])]
+   fit_selections+=1
  set_forbidden([])
  c7rows=[json.loads(p.read_text()) for p in (ROOT/'C7/C7B/logs/runs').glob('*.json')];baseline={(r['mask_id'],r['nominal_budget'],r['model']):r for r in c7rows if r['panel']=='S2-50' and not r['control']};count=0;replays=0;corrupt=0;zero=0;records=[]
  for stage in ['C8A','C8B','C8C']:
   if not (OUT/stage/'logs/runs').exists():continue
   for path in sorted((OUT/stage/'logs/runs').glob('*.json')):
-   r=json.loads(path.read_text());records.append(r);pp=ROOT/r['prediction_path'];assert sha(pp)==r['prediction_sha256'];assert r['hidden_corruption_checks']==2;assert r['sample_id'] in cfg()['folds'][r['fold']];obj=json.loads((A/'scalers'/f'{r["fold"]}_{r["transform"]}.json').read_text());assert r['sample_id'] not in obj['train_patients'];assert sha(ROOT/r['mask_path'])==r['mask_sha256']
+   r=json.loads(path.read_text());records.append(r);pp=ROOT/r['prediction_path'];assert sha(pp)==r['prediction_sha256'];assert r['hidden_corruption_checks']==2;assert r['sample_id'] in cfg()['folds'][r['fold']];obj=json.loads((A/'scalers'/f'{r["fold"]}_{r["transform"]}.json').read_text());assert r['sample_id'] not in obj['train_patients'];assert sha(ROOT/r['mask_path'])==r['mask_sha256'];assert sha(ROOT/r['calibration_object_path'])==r['calibration_object_sha256'];assert sha(A/'scalers'/f'{r["fold"]}_{r["transform"]}.json')==r['scaler_sha256']
    with np.load(pp) as f,np.load(ROOT/r['mask_path']) as mask:
     obs,h,order=arrays(r);assert np.array_equal(h,f['hidden_indices']) and np.array_equal(order,f['observed_indices']);assert np.array_equal(mask['barcodes'][h],f['hidden_barcodes']) and np.array_equal(mask['barcodes'][order],f['observed_barcodes']);assert list(f['genes'])==GENES;assert np.array_equal(inverse(f['prediction_native'],obj),f['prediction_common']);dist=np.round(cKDTree(mask['xy_um'][order]).query(mask['xy_um'][h])[0],6);assert np.array_equal(dist,f['distance_um']);count+=1
     if stage=='C8A' and r['transform']=='T0':
@@ -46,6 +50,8 @@ def main():
      cal=json.loads((ROOT/r['calibration_object_path']).read_text());model=cal['selected_model'] if r['model']=='SELECTED' else cal['family_models'][r['model']];vv,mo=pipeline.control_inputs(v,model,r['control'],r['control_seed']) if r['control'] else (v,model);pred=pipeline.predict_B(vv,mo)
     assert np.array_equal(pred,f['prediction_native']);met=core.gene_metrics(convert(y[h],obj),pred)
     for k,val in met.items():assert np.array_equal(val,f[k],equal_nan=True)
+    for k,val in core.summarize(met).items():assert val==r[k] or (not np.isfinite(val) and r[k] is None)
+    assert np.isclose(np.mean((y[h]-f['prediction_common'])**2),r['common_mse'],atol=1e-12,rtol=1e-12)
     for bad in [np.nan,808.]:
      alt=y.copy();alt[~obs]=bad;vv=inputs(r,obj,alt)
      if stage=='C8A':pred2=predict_A(vv,obj,r['model'],r['regime'])

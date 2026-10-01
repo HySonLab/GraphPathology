@@ -1,0 +1,116 @@
+{
+  "C8A_status": "PASS_TARGET_HARMONIZATION",
+  "C8B_status": "MIXED_FUSION_CALIBRATION",
+  "C8C_status": "NOT_RUN_C8B_DID_NOT_PASS",
+  "C8_status": "MIXED_CROSS_PLATFORM_CALIBRATION",
+  "recommendation": "NEED_METHOD_REVIEW",
+  "technical_audit": {
+    "status": "PASS",
+    "prediction_files_verified": 7296,
+    "exact_C7_T0_prediction_replays": 1440,
+    "independent_prediction_metric_replays": 1248,
+    "independent_corruption_checks": 2496,
+    "recorded_outer_corruption_checks": 14592,
+    "fold_scalers_rebuilt_with_heldout_access_forbidden": 84,
+    "inner_selections_replayed": 8,
+    "gates_refit_exactly": 4,
+    "registry_events": 11388,
+    "original_registry_prefix_unchanged": true,
+    "scaler_and_prediction_identity_and_distances_verified": true,
+    "fit_objects_sealed_before_outer_evaluation": true,
+    "seconds": 30.735222788061947
+  },
+  "C0_C7_unchanged": true,
+  "C7_zero_shot_preserved_exactly": true,
+  "HER2ST_role": "method-development transportability; not final external validation",
+  "patients": 8,
+  "outer_folds": 4,
+  "primary_genes": 40,
+  "secondary_panel": "not run, optional",
+  "A_gate": {
+    "status": "PASS_TARGET_HARMONIZATION",
+    "selected_transforms": {
+      "fold0": "T1",
+      "fold1": "T1",
+      "fold2": "T1",
+      "fold3": "T1"
+    },
+    "non_T0_folds": 4,
+    "V1_20_median_paired_Pearson_gain": 0.01372148860318851,
+    "V1_20_median_relative_common_MSE_reduction": 0.7998700550147996,
+    "V1_20_joint_support_patients": 7,
+    "selected_common_MSE_IQR": 0.025188879961396626,
+    "T0_common_MSE_IQR": 0.06440097831811287,
+    "error_instability_not_increased": true,
+    "V1_supported_budgets": 3,
+    "V2_safe_MSE_patients": 8,
+    "V2_median_Pearson_gain": 0.008612851613103205,
+    "proceed_B": true
+  },
+  "B_gate": {
+    "status": "MIXED_FUSION_CALIBRATION",
+    "selected_families": {
+      "fold0": "F1",
+      "fold1": "F1",
+      "fold2": "F1",
+      "fold3": "F3"
+    },
+    "budget_support": [
+      {
+        "budget": 0.1,
+        "median_Pearson_gain": 0.007788240898513953,
+        "median_relative_common_MSE_reduction": 0.018835964466588598,
+        "joint_improved_patients": 3,
+        "supported": false
+      },
+      {
+        "budget": 0.2,
+        "median_Pearson_gain": 0.00856215240395003,
+        "median_relative_common_MSE_reduction": 0.009950707325954579,
+        "joint_improved_patients": 3,
+        "supported": false
+      },
+      {
+        "budget": 0.4,
+        "median_Pearson_gain": 0.005688296323517222,
+        "median_relative_common_MSE_reduction": -0.007932495349021374,
+        "joint_improved_patients": 5,
+        "supported": false
+      }
+    ],
+    "geometry_support": [
+      {
+        "geometry": 0,
+        "median_Pearson_gain": 0.010073731845147628,
+        "median_relative_MSE_reduction": -0.009632113644776716,
+        "supported": false
+      },
+      {
+        "geometry": 1,
+        "median_Pearson_gain": 0.03310707261691645,
+        "median_relative_MSE_reduction": 0.006671966213793643,
+        "supported": true
+      },
+      {
+        "geometry": 2,
+        "median_Pearson_gain": 0.024725090227674596,
+        "median_relative_MSE_reduction": -0.008616507473402087,
+        "supported": false
+      }
+    ],
+    "fraction_V1_settings_MSE_harm_gt2pct": 0.375,
+    "V2_median_Pearson_gain": 0.02786831379755991,
+    "V2_median_relative_MSE_reduction": 0.008327720867331233,
+    "proceed_C": false
+  },
+  "source_spec_commit": "b75b764f725e9da394f8efd230bc6f589d38dcc7",
+  "source_spec_sha256": "3d087940666ec8c0662fbd241d0d66f234f0a4401ba22c2364dcb501c477fcc0",
+  "main_outer_evaluations": 6720,
+  "negative_controls": 576,
+  "inner_A_evaluations": 3888,
+  "target_fit_registry_events": 12,
+  "fusion_candidate_fit_events": 192,
+  "registry_events": 11388,
+  "no_encoder_or_graph_changes": true,
+  "stopped_after_C8": true
+}
