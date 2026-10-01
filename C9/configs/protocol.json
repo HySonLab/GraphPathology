@@ -1,0 +1,235 @@
+{
+  "dataset": "Wu et al. 2021 local six-patient Visium cohort, Zenodo 4739739",
+  "patients": [
+    "1142243F",
+    "1160920F",
+    "CID4290",
+    "CID4465",
+    "CID44971",
+    "CID4535"
+  ],
+  "calibration_patients": [
+    "1142243F",
+    "CID4465",
+    "CID4535"
+  ],
+  "evaluation_patients": [
+    "1160920F",
+    "CID4290",
+    "CID44971"
+  ],
+  "split_rule": "Fixed paired split: 1142243F calibration /1160920F evaluation (independent lab TNBC); CID4465 calibration /CID44971 evaluation (local TNBC); CID4535 calibration /CID4290 evaluation (local ER). Declared before gene expression values or outcomes.",
+  "genes": [
+    "FOXA1",
+    "SCD",
+    "KRT7",
+    "ERBB2",
+    "POSTN",
+    "CEACAM6",
+    "SERHL2",
+    "ANKRD30A",
+    "EPCAM",
+    "ABCC11",
+    "TACSTD2",
+    "GATA3",
+    "FASN",
+    "MLPH",
+    "S100A14",
+    "CDH1",
+    "CD9",
+    "KRT8",
+    "CCND1",
+    "DSP",
+    "SERPINA3",
+    "LYPD3",
+    "TFAP2A",
+    "TPD52",
+    "PTGDS",
+    "LUM",
+    "MYO5B",
+    "SFRP4",
+    "KRT14",
+    "TOP2A",
+    "IL7R",
+    "AR",
+    "KRT5",
+    "PCLAF",
+    "KLF5",
+    "SFRP1",
+    "TRAF4",
+    "CXCR4",
+    "MYH11",
+    "TENT5C",
+    "TCIM",
+    "NARS",
+    "ACTG2",
+    "PDK4",
+    "CD3E",
+    "TRAC",
+    "JUP",
+    "LYZ",
+    "CENPF",
+    "CCDC80"
+  ],
+  "panel": "S2-50 exact original order, all 50 genes",
+  "secondary_panel": "S2-280 overlap documented; optional evaluation omitted prospectively",
+  "count_files": {
+    "1142243F": {
+      "matrix": "C9/raw/extracted/filtered_count_matrices/1142243F_filtered_count_matrix/matrix.mtx.gz",
+      "features": "C9/raw/extracted/filtered_count_matrices/1142243F_filtered_count_matrix/features.tsv.gz",
+      "barcodes": "C9/raw/extracted/filtered_count_matrices/1142243F_filtered_count_matrix/barcodes.tsv.gz"
+    },
+    "1160920F": {
+      "matrix": "C9/raw/extracted/filtered_count_matrices/1160920F_filtered_count_matrix/matrix.mtx.gz",
+      "features": "C9/raw/extracted/filtered_count_matrices/1160920F_filtered_count_matrix/features.tsv.gz",
+      "barcodes": "C9/raw/extracted/filtered_count_matrices/1160920F_filtered_count_matrix/barcodes.tsv.gz"
+    },
+    "CID4290": {
+      "matrix": "C9/raw/extracted/filtered_count_matrices/CID4290_filtered_count_matrix/matrix.mtx.gz",
+      "features": "C9/raw/extracted/filtered_count_matrices/CID4290_filtered_count_matrix/features.tsv.gz",
+      "barcodes": "C9/raw/extracted/filtered_count_matrices/CID4290_filtered_count_matrix/barcodes.tsv.gz"
+    },
+    "CID4465": {
+      "matrix": "C9/raw/extracted/filtered_count_matrices/CID4465_filtered_count_matrix/matrix.mtx.gz",
+      "features": "C9/raw/extracted/filtered_count_matrices/CID4465_filtered_count_matrix/features.tsv.gz",
+      "barcodes": "C9/raw/extracted/filtered_count_matrices/CID4465_filtered_count_matrix/barcodes.tsv.gz"
+    },
+    "CID44971": {
+      "matrix": "C9/raw/extracted/filtered_count_matrices/CID44971_filtered_count_matrix/matrix.mtx.gz",
+      "features": "C9/raw/extracted/filtered_count_matrices/CID44971_filtered_count_matrix/features.tsv.gz",
+      "barcodes": "C9/raw/extracted/filtered_count_matrices/CID44971_filtered_count_matrix/barcodes.tsv.gz"
+    },
+    "CID4535": {
+      "matrix": "C9/raw/extracted/filtered_count_matrices/CID4535_filtered_count_matrix/matrix.mtx.gz",
+      "features": "C9/raw/extracted/filtered_count_matrices/CID4535_filtered_count_matrix/features.tsv.gz",
+      "barcodes": "C9/raw/extracted/filtered_count_matrices/CID4535_filtered_count_matrix/barcodes.tsv.gz"
+    }
+  },
+  "primary_encoder": "resnet18_reference",
+  "models": {
+    "M0": "Frozen C4 primary D1 three-seed image ensemble in original C0 normalized log-count units",
+    "M1": "C5/C7 spatial interpolation: inverse-distance power2 with up to16 nearest observed anchors V1, unweighted mean16 V2",
+    "M2": "C8 T1 patient-weighted per-gene z-score; destination fit on calibration patients only; interpolate, then inverse-map to common C0 normalized log-count units",
+    "M3": "Exactly 0.2 calibrated image +0.8 M2; source moments from original NCBI783/NCBI785, destination from calibration patients; no fit of weights"
+  },
+  "harmonization_identifiability": "Affine transformation commutes with normalized linear interpolation. M1 and M2 must be identical within numerical tolerance in common units; neither scale-dependent native errors nor roundoff can establish harmonization benefit/stability. C8A benefit concerned image-based cross-platform calibration. Its benefit cannot be isolated by M2-M1 here. This is recorded before outcomes.",
+  "budgets": [
+    0.1,
+    0.2,
+    0.4
+  ],
+  "random_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "sampling": [
+    "random",
+    "spatial_FPS"
+  ],
+  "sampling_definition": "Exact C7/policy.py label-free nested permutation/FPS. Round floor(N*budget+.5), V2 denominator all eligible tissue locations before forbidden-region exclusion.",
+  "regimes": {
+    "V1": "All unobserved tissue scored",
+    "V2": "Three compact forbidden40% regions centered at25/50/75% of PC1 spatial rank, exact frozen C7 geometry; anchors outside; score fixed forbidden locations. All other unobserved values excluded too."
+  },
+  "distance_bins_um": [
+    0,
+    150,
+    300,
+    600,
+    1200,
+    2400,
+    null
+  ],
+  "preprocessing": {
+    "counts": "Published filtered count matrices, provided in-tissue flag only; finite nonnegative integer counts; log1p and unchanged C0 training mean/SD; no external library-size, depth or area normalization",
+    "coordinates": "Barcode-joined pixel centers; fullres micrometers/pixel from least-squares lattice mapping and documented100um pitch; spot-diameter metadata is recorded but not used for scale because inconsistent with source lattice",
+    "images": "Supplied unannotated Space Ranger tissue_hires_image.png, source-scaled coordinates, 112um square using lattice-calibrated mpp, nearest-integer width/top-left, LANCZOS to224 RGB; exact C0 ResNet18 IMAGENET1K_V1 transform and frozen weights.",
+    "target_units": "Common C0 standardized log1p count units for every method; per-gene linear native T1 metrics may be supplementary, never mistaken for common-scale error gains"
+  },
+  "controls": {
+    "patient": "1160920F",
+    "coverage": 0.2,
+    "random_mask_seed": 0,
+    "V1_geometry": 0,
+    "V2_geometry": 1,
+    "permutation_seeds": [
+      0,
+      1,
+      2
+    ],
+    "NC1": "Permute expression vectors among observed locations",
+    "NC2": "Permute observed coordinate assignment keeping expression vectors fixed; algebraically related to NC1, not independent evidence",
+    "NC3": "Permute image predictions across all locations; no expression inputs"
+  },
+  "metrics": [
+    "per-gene Pearson",
+    "Spearman",
+    "MSE",
+    "MAE",
+    "patient mean/median each",
+    "fraction genes Pearson>0,.1,.2,.3; constant genes count as not passing; undefined correlations excluded only from correlation means/medians"
+  ],
+  "aggregation": "Mean over seeds, then equal geometry mean within patient/budget/regime/strategy; patient is biological unit; median across patients headline, individual results mandatory. No spot-level p values. Primary20% V1 random;10/40% support; FPS/V2 separate.",
+  "pass_criteria": {
+    "meaningful_sparse": "M2-M0 median gene Pearson>=.02 AND relative mean MSE reduction>=.02 AND MAE no worse",
+    "core_support": "At least2/3 evaluation patients meaningful at>=2/3 budgets; positive median Pearson and error gains at each budget; at least2/3 patients M2 Pearson40>10 and MSE40<10; distance assessed and all V2 reported",
+    "harmonization": "Cannot establish positive M2-M1 gain for affine invariant interpolation. Full PASS clause3 requires real gain/stability beyond numerical tolerance and cannot be satisfied by construction. Do not waive this condition after results.",
+    "status": "If core support but harmonization unidentifiable, overall MIXED_FRESH_EXTERNAL_VALIDATION with core and fusion conclusions separated; if heterogeneous sparse benefit, MIXED; if no meaningful benefit on at least2 patients at any budget, FAIL_FRESH_EXTERNAL_VALIDATION. Any integrity/leakage failure FAIL_TECHNICAL. Report patient/platform/image limitations explicitly.",
+    "fusion_secondary": "Report patient Pearson/MSE/MAE gains; success requires>=2/3 improve all3 metrics at>=2/3 budgets, <=25% patient/budget settings MSE harm>2%; not required for core support.",
+    "distance": "Compare patient error-bin curves, avoid extrapolation-horizon claim; lack of universal monotonicity disclosed, not tuned away."
+  },
+  "C9C": "Not preselected; optional only if readily available after C9B frozen",
+  "parent_head": "cc655dd8f3f6291024fb50fa818d55767ff93ddf",
+  "source_urls": [
+    "https://zenodo.org/records/4739739",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9044823/"
+  ],
+  "image_qualification": {
+    "status": "LIMITED_FRESH_EXTERNAL_DATASET",
+    "input_contract": "Supplied unannotated Space Ranger tissue_hires_image.png, source-scaled coordinates, 112um square using lattice-calibrated mpp, nearest-integer width/top-left, LANCZOS to224 RGB; exact C0 ResNet18 IMAGENET1K_V1 transform and frozen weights.",
+    "patients": {
+      "1142243F": {
+        "resolution": "2000x1335, 7.6289 um/pixel; 15 native pixels per112um patch",
+        "mpp": 7.628896154825082,
+        "native_patch_pixels": 15
+      },
+      "1160920F": {
+        "resolution": "2000x1335, 7.5948 um/pixel; 15 native pixels per112um patch",
+        "mpp": 7.594778709188719,
+        "native_patch_pixels": 15
+      },
+      "CID4290": {
+        "resolution": "2000x1899, 4.5244 um/pixel; 25 native pixels per112um patch",
+        "mpp": 4.524448975558536,
+        "native_patch_pixels": 25
+      },
+      "CID4465": {
+        "resolution": "2000x1914, 4.4056 um/pixel; 25 native pixels per112um patch",
+        "mpp": 4.4055807422786915,
+        "native_patch_pixels": 25
+      },
+      "CID44971": {
+        "resolution": "2000x1914, 4.4039 um/pixel; 25 native pixels per112um patch",
+        "mpp": 4.403925307430018,
+        "native_patch_pixels": 25
+      },
+      "CID4535": {
+        "resolution": "2000x1914, 4.4038 um/pixel; 25 native pixels per112um patch",
+        "mpp": 4.403777806391409,
+        "native_patch_pixels": 25
+      }
+    },
+    "limitation": "Only15-25 native pixels per112um patch in supplied common images. Image-resolution domain shift weakens M0 and limits H&E comparisons; no superresolution or encoder change. PDF inspection finds first4patients similarly2000px whole-image views and larger crops for2patients only, without common fullres coordinate transforms. No PDF annotations used as model input. Molecular comparisons remain on original registered spots.",
+    "PDF_inspected": true,
+    "image_outcome_selection": false
+  },
+  "no_evaluation_labels_accessed": true
+}

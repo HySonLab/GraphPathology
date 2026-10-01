@@ -1,0 +1,39 @@
+{
+  "status": "LIMITED_FRESH_EXTERNAL_DATASET",
+  "input_contract": "Supplied unannotated Space Ranger tissue_hires_image.png, source-scaled coordinates, 112um square using lattice-calibrated mpp, nearest-integer width/top-left, LANCZOS to224 RGB; exact C0 ResNet18 IMAGENET1K_V1 transform and frozen weights.",
+  "patients": {
+    "1142243F": {
+      "resolution": "2000x1335, 7.6289 um/pixel; 15 native pixels per112um patch",
+      "mpp": 7.628896154825082,
+      "native_patch_pixels": 15
+    },
+    "1160920F": {
+      "resolution": "2000x1335, 7.5948 um/pixel; 15 native pixels per112um patch",
+      "mpp": 7.594778709188719,
+      "native_patch_pixels": 15
+    },
+    "CID4290": {
+      "resolution": "2000x1899, 4.5244 um/pixel; 25 native pixels per112um patch",
+      "mpp": 4.524448975558536,
+      "native_patch_pixels": 25
+    },
+    "CID4465": {
+      "resolution": "2000x1914, 4.4056 um/pixel; 25 native pixels per112um patch",
+      "mpp": 4.4055807422786915,
+      "native_patch_pixels": 25
+    },
+    "CID44971": {
+      "resolution": "2000x1914, 4.4039 um/pixel; 25 native pixels per112um patch",
+      "mpp": 4.403925307430018,
+      "native_patch_pixels": 25
+    },
+    "CID4535": {
+      "resolution": "2000x1914, 4.4038 um/pixel; 25 native pixels per112um patch",
+      "mpp": 4.403777806391409,
+      "native_patch_pixels": 25
+    }
+  },
+  "limitation": "Only15-25 native pixels per112um patch in supplied common images. Image-resolution domain shift weakens M0 and limits H&E comparisons; no superresolution or encoder change. PDF inspection finds first4patients similarly2000px whole-image views and larger crops for2patients only, without common fullres coordinate transforms. No PDF annotations used as model input. Molecular comparisons remain on original registered spots.",
+  "PDF_inspected": true,
+  "image_outcome_selection": false
+}
