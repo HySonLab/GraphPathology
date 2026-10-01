@@ -1,0 +1,55 @@
+C9 IMMEDIATE SUMMARY
+
+1. STATUS
+C9A: LIMITED_FRESH_EXTERNAL_DATASET
+C9B: MIXED_FRESH_EXTERNAL_VALIDATION
+C9C: NOT_RUN; no second fresh cohort qualified.
+Overall: MIXED_FRESH_EXTERNAL_VALIDATION; technical audits PASS.
+
+2. FRESH EXTERNAL COHORT
+Dataset/study: Wu et al. 2021 local Visium cohort; Zenodo 4739739.
+Patients: 6 independent patients; 3 held out (8,481 locations).
+Calibration patients: 1142243F, CID4465, CID4535.
+Evaluation patients: 1160920F, CID4290, CID44971.
+Platform: Visium; supplied H&E has only 15/25 pixels per 112 um patch.
+Primary gene overlap: 50/50; original frozen order.
+Why it is fresh/independent: Distinct study/patients/assets; no C0-C8 use.
+
+3. PRIMARY SPARSE-ST RESULT
+Coverage: 10%, 20%, 40%; headline 20% V1, medians across patients.
+H&E only: r=0.059; MSE=2.9155; MAE=1.5578.
+Raw ST interpolation: r=0.359; MSE=0.0987; MAE=0.2179.
+Harmonized ST interpolation: Same as raw interpolation in common units.
+H&E + harmonized ST: r=0.335; MSE=0.1002; MAE=0.2321.
+Patient-level support: All 3 patients beat H&E on correlation/MSE/MAE at all 3 budgets.
+
+4. TARGET HARMONIZATION
+Did C8 harmonization replicate? NO; benefit is unidentifiable here.
+Pearson effect: Zero; affine harmonization commutes with interpolation.
+MSE effect: Zero in common units; no native-scale improvement claimed.
+
+5. H&E INCREMENTAL VALUE
+Did H&E improve beyond harmonized ST interpolation? NO.
+Patient count improved: 1/3 Pearson; 0/3 MSE or MAE at 20% V1.
+Main effect size: Median paired delta-r=-0.0060; MSE 2.62% worse.
+
+6. CONTIGUOUS EXTRAPOLATION
+Result: M2 median r=0.081, MSE=0.1366 at 20% V2.
+V1 vs V2 degradation: All 3 patients worsen; paired median delta-r=-0.289.
+Main limitation: Weak contiguous extrapolation; sparse-ST/H&E comparison also resolution-limited.
+
+7. DISTANCE / COVERAGE
+Coverage-response replicated? YES; correlation rises and MSE falls in all 3 patients.
+Distance-to-anchor behavior replicated? YES in V1; V2 trends nonmonotonic.
+
+8. PUBLICATION READINESS
+Is the core sparse-ST reconstruction claim externally validated? YES, limited to this 3-patient test.
+Is the H&E-fusion claim externally validated? NO.
+
+9. RECOMMENDATION
+PROCEED_TO_SECOND_REPLICATION_COHORT
+
+10. FULL REPORT
+Path: C9/C9_REPORT.md (repository); C0-C8 hashes unchanged.
+Git commit: RESULTS_COMMIT_PENDING
+

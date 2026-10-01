@@ -28,12 +28,21 @@ def main():
      replayed+=1
  reg=lock['registry_prefix_before_C9']
  with (ROOT/'results/experiment_registry.csv').open('rb') as f:assert hashlib.sha256(f.read(reg['bytes'])).hexdigest()==reg['sha256']
+ # Reproduce label-free masks: the selection API receives XY only.
+ import policy
+ for path in (B/'masks').glob('*.json'):
+  r=json.loads(path.read_text())
+  with np.load(ROOT/r['mask_path']) as f:
+   xy=f['xy_um'];forbidden=policy.region(xy,r['regime'],r['geometry']);order=policy.choose({'xy':xy},np.flatnonzero(~forbidden),parent.count(len(xy),.4),r['strategy'],r['seed']);assert np.array_equal(forbidden,f['forbidden']) and np.array_equal(order,f['order'])
+ try:read_targets(EVAL[0],'calibration')
+ except AssertionError:pass
+ else:raise AssertionError('Evaluation patient accepted for calibration')
  # Three mask families perV2 and ten random seeds per condition must be present.
  df=pd.DataFrame(rows);clean=df[df.control==''];assert len(clean)==396
  for s in EVAL:
   for b in [.1,.2,.4]:
    for regime in ['V1','V2']:
     for g in ([0] if regime=='V1' else [0,1,2]):assert set(clean[(clean.sample_id==s)&(clean.budget==b)&(clean.regime==regime)&(clean.geometry==g)&(clean.strategy=='random')].seed)==set(range(10))
- result={'status':'PASS','replayed_method_predictions':replayed,'replayed_metrics':replayed*4,'hidden_corruption_checks':sum(r['hidden_corruption_checks'] for r in rows),'calibration_refit_exact':True,'evaluation_patients_absent_from_fit':True,'prior_registry_prefix_unchanged':True,'raw_image_model_hash_checks':True,'clean_runs':396,'control_runs':18,'mask_trajectories':132};dump(B/'logs/INTEGRITY_AUDIT.json',result);print(json.dumps(result),flush=True)
+ result={'status':'PASS','replayed_method_predictions':replayed,'replayed_metrics':replayed*4,'hidden_corruption_checks':sum(r['hidden_corruption_checks'] for r in rows),'calibration_refit_exact':True,'evaluation_patients_absent_from_fit':True,'prior_registry_prefix_unchanged':True,'raw_image_model_hash_checks':True,'clean_runs':396,'control_runs':18,'mask_trajectories':132,'label_free_mask_replays':132,'forbidden_calibration_access_rejected':True};dump(B/'logs/INTEGRITY_AUDIT.json',result);print(json.dumps(result),flush=True)
 if __name__=='__main__':
  with threadpool_limits(4):main()
