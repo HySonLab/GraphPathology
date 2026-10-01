@@ -1,0 +1,79 @@
+C10 OVERNIGHT SUMMARY
+
+1. SECOND REPLICATION
+Dataset: GSE210616, Bassiouni et al. (2023)
+Status: PASS_LIMITED_SECOND_REPLICATION
+Patients: 22; one prospectively selected first section each
+Evaluation patients: 22; no C10 calibration or training
+Platform: Visium fresh frozen, primary TNBC
+Primary gene overlap: 50/50
+Evaluation locations: 30,003
+Image limitation: 24–29 native pixels per 112-µm patch
+
+2. PRIMARY RESULT
+At 20% V1 (median patient Pearson / mean MSE / mean MAE):
+H&E only: 0.074917/1.967339/1.212010
+Sparse-ST interpolation: 0.415862/0.092256/0.203274
+H&E + ST: 0.406872/0.102208/0.228760
+Patient support: 22/22 meet joint meaningful ST benefit at all three budgets
+Fusion support: 3/22 improve Pearson; 0/22 improve MSE or MAE
+
+3. COVERAGE
+10%: ST 0.380374/0.100076/0.210553
+20%: ST 0.415862/0.092256/0.203274
+40%: ST 0.465266/0.085249/0.196547
+Did coverage-response replicate? YES
+Support: 22/22 improve Pearson and MSE from 10% to 40% V1
+
+4. CONTIGUOUS EXTRAPOLATION
+V1: ST 0.415862/0.092256/0.203274
+V2: ST 0.170747/0.149598/0.262427
+Did V2 remain harder? YES
+Support: 22/22 worsen Pearson, MSE and MAE at 20%
+Median paired Pearson change: -0.266923
+Median paired relative MSE increase: 52.82%
+Contrast includes scoring geometry and frozen interpolation family
+
+5. DISTANCE
+Did error worsen with anchor distance? PARTLY
+Farthest-bin MSE worse: 15/22 V1; 20/22 V2
+Strictly increasing occupied-bin MSE: 6/22 V1; 13/22 V2
+Sparse bins and patient composition preclude a universal distance cutoff
+
+6. CROSS-COHORT CONCLUSION
+Development: strong distributed sparse-ST benefit; contiguous limitations
+HER2ST: supportive transportability evidence; calibration/fusion mixed; 40 genes
+Wu: fresh sparse-ST support in 3 held-out patients; image inputs limited
+Second replication: supportive in 22 fresh patients; image inputs limited
+Core sparse-ST claim: STRONG
+Scope: targeted-panel distributed reconstruction under frozen protocols
+H&E incremental claim: NOT SUPPORTED
+No general claim that morphology can never help
+
+7. MANUSCRIPT PACKAGE
+Draft: C10/MANUSCRIPT/MANUSCRIPT_DRAFT.md
+Main figures: 7; C10/MANUSCRIPT/figures/; 300-dpi PNG + SVG
+Supplementary figures: 10; C10/MANUSCRIPT/supp_figures/
+Main tables: 4; C10/MANUSCRIPT/tables/
+Supplementary tables: 8; C10/MANUSCRIPT/supp_tables/
+Results ledger: C10/MANUSCRIPT/RESULTS_LEDGER.md (+ CSV)
+Claim-evidence matrix: C10/CLAIM_EVIDENCE_MATRIX.csv
+Citation-needs file: C10/MANUSCRIPT/CITATION_NEEDS.md
+Figure legends: C10/MANUSCRIPT/FIGURE_LEGENDS.md
+
+8. PUBLICATION READINESS
+Ready to begin human manuscript writing? YES
+Recommendation: READY_WITH_LIMITED_SECOND_REPLICATION
+Remaining major evidence gap: native-resolution external H&E for morphology claims
+That gap does not block writing the limited sparse-ST manuscript
+Technical integrity: 8,766 exact prediction replays; 35,064 metric-array replays
+Hidden-label corruption checks: 17,532; all invariant
+Mask trajectories independently replayed: 968
+C0–C9: preserved; read-only chained verification
+Human work: citations, prose, final conceptual artwork and submission statements
+
+9. FULL OUTPUT
+C10 report: C10/C10_REPORT.md
+Manuscript directory: C10/MANUSCRIPT/
+Git commit: RESULTS_COMMIT_PENDING
+Execution stopped after C10

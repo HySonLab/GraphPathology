@@ -1,0 +1,13 @@
+# C10 execution and manuscript handoff
+
+Start with C10_OVERNIGHT_SUMMARY.txt, C10_REPORT.md and MANUSCRIPT/MANUSCRIPT_DRAFT.md. The result is limited second replication, supporting distributed sparse-ST reconstruction without reproducible incremental fusion benefit. C0–C9 remain frozen.
+
+The prospective sequence was metadata acquisition (`acquire.py`), metadata qualification (`qualify.py`), frozen image extraction (`prepare_images.py`), image-coordinate inspection (`coordinate_qa.py`), protocol generation (`protocol.py`), source/cohort lock (`lock.py`), label-free masks (`run.py masks`), then locked evaluation (`run.py evaluate`). The protocol, image lock and masks were committed before expression evaluation. `analyze.py` applies the locked patient-level criteria; `verify.py` independently replays all predictions, per-gene metric arrays and mask trajectories. Existing outputs are sealed; do not overwrite them when reproducing. Use a separate checkout/output tree and obtain source assets from the recorded accessions.
+
+The manuscript pipeline uses only saved metrics and predictions: `synthesis.py`, `figure_data.py`, `supplement.py`, `finish_evidence.py`, `write_package.py`, the shared `MANUSCRIPT/figures/plot_figures.py`, `legends.py` (source manifests/entrypoints), and `polish_docs.py` (final readable legends/report). The C10 status must exist before the checkpoint timeline is assembled. Each main/supplementary figure has a standalone entrypoint and exact source CSV inventory. Run plotting with writable `MPLCONFIGDIR` and `XDG_CACHE_HOME` directories if needed.
+
+`verify_package.py` verifies source hashes, ledger cells, cross-cohort aggregates, figure/table completeness and primary support counts. `freeze.py --verify` checks the C10 artifact manifest, registry prefix and every frozen parent read-only. The uncompressed per-gene file is retained locally; its `.csv.gz` counterpart is committed. Source tables with many rows have complete CSV data and a labeled Markdown preview.
+
+Raw public files, extracted arrays and prediction archives are omitted from Git because of size but are covered by the manifest. Their acquisition URLs, checksums and identities are saved. No secrets or access credentials are part of this package. C10_RESULTS_COMMIT.txt identifies the results commit; the final seal commit additionally contains the manifest.
+
+Human writing should retain the distinction between 40-gene HER2ST transportability development and 50-gene fresh validation, the public-image resolution limitations, nonmonotonic distance curves, and negative fusion/topology/optimization findings. Citation and submission statements still require human completion. Execution stops after C10.
