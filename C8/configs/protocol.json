@@ -1,0 +1,39 @@
+{
+  "role": "HER2ST method-development transportability; NOT final external validation",
+  "primary_panel": "C7 frozen common S2-50 40 genes; secondary omitted to focus on calibration",
+  "folds": {"fold0":["A1","B1"],"fold1":["C1","D1"],"fold2":["E1","F1"],"fold3":["G1","H1"]},
+  "inner": "Leave-one-patient-out inside each six-patient outer training set; scalers fitted on five patients; three mask seeds 0,1,2. No outer-held-out labels in selection or fitting.",
+  "masks": "Reuse exact frozen C7 random trajectories; no sampling changes. V1 all unobserved; V2 same three fixed forbidden regions. All unobserved labels excluded from inputs.",
+  "outer_seeds": [0,1,2,3,4,5,6,7,8,9],
+  "inner_seeds": [0,1,2],
+  "V1_budgets": [0.1,0.2,0.4],
+  "V2_A_B_budgets": [0.2],
+  "V2_C_budgets": [0.1,0.2,0.4],
+  "transforms": {
+    "T0": "Exact C7 target and frozen image predictions in C0 standardized log-count units.",
+    "T1": "Assay-specific per-gene z-score harmonization: source mean/SD fitted on original C0 training patients NCBI783/NCBI785; HER2ST mean/SD on allowed fold training patients only. Frozen source image output standardized with source moments; HER2ST labels/anchors standardized with target moments. Inverse map to C7 units for common-scale error comparisons. Each training patient has equal total weight in moment estimates.",
+    "T2": "Assay-specific per-gene robust harmonization: source and allowed HER2ST training patient-weighted pooled median/IQR. Weighted quantiles use left continuous inverse CDF, stable sort. If IQR<1e-8, use corresponding training SD; if SD<1e-8, use 1. Source and target fitted independently. Positive affine maps; no clipping or external per-sample fitting.",
+    "omitted": "T3 ranks omitted because full held-out within-sample ranks require hidden expression; T4 omitted to avoid adding normalization constants or a second target task. No identity/common-affine rescaling is claimed as transportability gain."
+  },
+  "models_A": ["E0","E1","E2"],
+  "E0": "Same frozen C7 ResNet18/C4 image predictions; only allowed target-coordinate conversion, no head/encoder refit.",
+  "E1": "Exact C7 interpolation: inverse-distance power2 over up to16 anchors for V1, mean16 for V2.",
+  "E2": "Same frozen C7 lambda .25 V1 / .5 V2; no weight fit in A.",
+  "fusion_candidates": {
+    "F0": "ST interpolation only; zero image weight",
+    "F1": "One global image weight per outer fold, shared across regimes/budgets; grid 0,.1,...,1",
+    "F2": "Monotone nondecreasing three-bin image weights for nearest-anchor distance [0,300),[300,600),[600,infinity) um. All combinations with replacement of 0,.1,.25,.5,1 (35 lookup tables). Shared across regimes/budgets.",
+    "F3": "Sigmoid linear gate, intercept+four coefficients, 5 parameters. Features log1p(d1/200), log1p(mean16distance/200), log1p(number of observed anchors within600um), log1p(mean gene interpolation anchor variance). Fit feature mean/SD and gate only on six training patients' inner-OOF records; optimize equal-patient/equal-condition common-scale MSE divided by corresponding F0 MSE plus .01 coefficient L2 and 1e-6 intercept L2. L-BFGS-B deterministic initialization intercept -2, others0; bounds [-12,12], maxiter300, ftol1e-12, gtol1e-7. No outer data in fit.",
+    "optional": "F4/F5 not run; no learned graph or encoder"
+  },
+  "selection": "All selections use inner-OOF training-patient records only. Average seeds/geometries within patient/regime/budget, then four conditions equally, then six patients equally. Maximize mean patient median gene Pearson; among candidates within .005 Pearson of best choose minimum common-C7-unit mean MSE, deterministic listed-order ties. A selects transform using fixed E2. B selects parameters within family then winning family including F0 with same rule. Primary comparisons use selected-per-fold algorithm, not best outer-result candidate.",
+  "A_gate": "Selected transform non-T0 in >=3/4 folds; V1 20% paired median Pearson gain vsT0 >=-.005, median relative common-MSE reduction >=.10, >=6/8 patients gainPearson>=-.01 AND MSEreduction>=.05; common-MSE between-patient IQR no larger than T0; >=2/3 V1 budgets have nonnegative median Pearson gain and positive median MSE reduction; V2 20% >=6/8 patients MSE<=1.10*T0 and median Pearson gain>=-.02. All required for PASS_TARGET_HARMONIZATION. Else MIXED_TARGET_HARMONIZATION if >=2 patients jointly gain r>=0 and MSE>0 at V1 20%, else NO_TARGET_HARMONIZATION_GAIN. Only PASS runs B.",
+  "B_gate": "Chosen-per-fold fusion vsF0: at least2/3 V1 budgets have median paired Pearson gain >=.01, median relative common-MSE reduction >=0, >=5/8 patients Pearson>0 AND MSE<=1.01*F0; at most25% V1 patient-budget settings MSE>1.02*F0. V2 20% pooled median gain>=0 and MSEreduction>=0, with median gain>=0 and MSEreduction>=0 for >=2/3 geometries. At least2 folds choose nonF0. PASS only all. Else MIXED_FUSION_CALIBRATION if >=2 patients at any V1 budget Pearson gain>=.01 AND MSEreduction>=0, else NO_FUSION_ADVANTAGE.",
+  "C_gate": "Only if B passes. Reuse frozen fold objects; add V2 10/40 stress predictions, retain V1 and V2 20 from B. No fitting or rescue selection. Overall PASS requires B plus nonnegative paired median Pearson and common-MSE reduction for V2 at >=2/3 budgets; otherwise MIXED.",
+  "overall": "A nonpass or B NO => NO_CROSS_PLATFORM_FUSION_ADVANTAGE; B MIXED => MIXED_CROSS_PLATFORM_CALIBRATION; A/B/C pass => PASS_CROSS_PLATFORM_CALIBRATION. Any integrity failure => FAIL_TECHNICAL. Recommendations: PASS=>PROCEED_TO_FRESH_EXTERNAL_VALIDATION, scientific nonpass=>NEED_METHOD_REVIEW, technical=>STOP_TECHNICAL.",
+  "negative_controls": "If B runs, all 8 held-out patients, random seed0,20%,V1geom0/V2geom1, selected model and each F1/F2/F3, three control seeds. NC1 permute fitted location weights (constant weights exactly invariant); NC2 permute distance-derived input features, leaving disagreement fixed; NC3 permute image predictions, retaining ST and gates. No force of degradation under null/constant weights. All controls separately reported, no gate rescue.",
+  "metrics": "Gene Pearson/Spearman/MSE/MAE plus variance, panel mean/median/fractions. Save native transform units AND inverse-mapped common C7 units; all error gates and selection use common units. Patient biological unit, no pooled spot significance tests.",
+  "distance_bins_um": [0,150,300,600,1200,2400,null],
+  "corruption": "Every saved outer prediction: hidden NaN/random replacement before observed payload; exact equality. All fold fits invoked with explicit label allowlist. Independent scaler/selection/prediction replay and forbidden-label access tests. Parent hashes and registry prefix remain unchanged.",
+  "stop": "No fresh external validation, biology or later checkpoint. HER2ST outcomes are known; C8 is internal CV development."
+}
