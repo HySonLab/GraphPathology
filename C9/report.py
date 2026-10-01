@@ -70,6 +70,9 @@ Is the H&E-fusion claim externally validated? NO.
 Path: C9/C9_REPORT.md (repository); C0-C8 hashes unchanged.
 Git commit: RESULTS_COMMIT_PENDING
 '''
+ result_file=OUT/'C9_RESULTS_COMMIT.txt'
+ if result_file.exists():
+  ref=result_file.read_text().strip();summary=summary.replace('RESULTS_COMMIT_PENDING',f'[{ref}](https://github.com/HySonLab/GraphPathology/commit/{ref})').replace('Path: C9/C9_REPORT.md (repository); C0-C8 hashes unchanged.',f'Path: [Full C9 report](https://github.com/HySonLab/GraphPathology/blob/{ref}/C9/C9_REPORT.md); C0-C8 unchanged.')
  (OUT/'C9_IMMEDIATE_SUMMARY.txt').write_text(summary)
  report=f'''# C9: fresh external validation
 
@@ -145,7 +148,7 @@ All source/configuration/masks/scalers/metrics/logs/reports/figures are under C9
  # Normalize a few compact labels in prose without changing scientific files.
  report=report.replace('H ER2ST','HER2ST')
  for pth in sorted((B/'figures').glob('[0-9][0-9]_*.png')):report+=f'![{pth.stem}](C9B/figures/{pth.name})\n\n'
- (OUT/'C9_REPORT.md').write_text(report)
- (B/'C9B_REPORT.md').write_text('# C9B: locked held-out validation\n\n'+report.split('## Primary held-out result',1)[1].split('## Reproducibility and figures',1)[0])
- print(summary)
+ (OUT/'C9_REPORT.md').write_text(report.rstrip()+'\n')
+ (B/'C9B_REPORT.md').write_text('# C9B: locked held-out validation\n\n'+report.split('## Primary held-out result',1)[1].split('## Reproducibility and figures',1)[0].rstrip()+'\n')
+ print(summary,end='')
 if __name__=='__main__':main()

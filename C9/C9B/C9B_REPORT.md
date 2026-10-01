@@ -149,4 +149,3 @@ All per-gene Pearson/Spearman/MSE/MAE values, patient-level gains, and all gene 
 ## Recommendation and stopping point
 
 **PROCEED_TO_SECOND_REPLICATION_COHORT**. A second fresh cohort with better-resolution paired H&E would strengthen the core sparse-ST claim and clarify its limits. The frozen four-method C9 comparison cannot prove an affine-harmonization benefit over identical raw interpolation. Review that estimand before designing another harmonization test; do not reinterpret C9 or retune on its held-out patients. No second cohort was readily qualified after C9B, so optional C9C was not run. Stop for review; do not generate the manuscript automatically.
-

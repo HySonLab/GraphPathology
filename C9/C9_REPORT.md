@@ -177,4 +177,3 @@ All source/configuration/masks/scalers/metrics/logs/reports/figures are under C9
 ![09_IMAGE_GAIN](C9B/figures/09_IMAGE_GAIN.png)
 
 ![10_TRANSPORTABILITY](C9B/figures/10_TRANSPORTABILITY.png)
-
