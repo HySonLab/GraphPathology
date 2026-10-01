@@ -1,0 +1,60 @@
+C7 IMMEDIATE SUMMARY
+
+1. STATUS
+C7A: PASS_EXTERNAL_DATASET_QUALIFICATION
+C7B: MIXED_EXTERNAL_VALIDATION
+C7C: NOT RUN (optional)
+Overall: MIXED_EXTERNAL_VALIDATION; technical integrity PASS.
+C0–C6 remain frozen and unchanged. No external tuning or adaptation.
+
+2. EXTERNAL DATASET
+Dataset/study: HER2ST, Andersson et al. 2021, Zenodo 4751624.
+Patients: 8 independent breast-cancer patients, A1–H1; 3,455 locations.
+Platform: sequencing spatial transcriptomics, 100-µm capture spots.
+Gene overlap: common 40/50 primary genes; 226/280 secondary genes.
+Why external: independent Swedish study; no development/related patients.
+One section per patient; settings and masks frozen before label access.
+
+3. PRIMARY RESULT
+S2-50: 40 retained genes, eight-patient summaries, random anchors.
+At 20% coverage, cohort medians of patient Pearson / MSE / MAE:
+H&E only:              0.1432 / 4.3665 / 1.9376.
+ST interpolation only: 0.1943 / 0.0680 / 0.1730.
+H&E + sparse ST:       0.2546 / 0.3481 / 0.5153.
+Paired fusion gain versus H&E: median Δr +0.0603; 8/8 patients improve.
+Paired gain versus ST: median Δr −0.0107; only 3/8 improve correlation.
+Fusion worsens MSE versus ST interpolation in all 8 patients at 20%.
+All 24 primary patient–budget settings show >2% MSE harm versus ST.
+Separate cohort medians are not the median paired treatment effect.
+Best evaluated fusion coverage: 40%, Pearson 0.2718 and MSE 0.3425.
+Contiguous extrapolation at 20%: fusion Pearson 0.1316, MSE 1.2047.
+Contiguous MSE is ~3.46× V1; geometry and frozen fusion weight both differ.
+Gene gains: 20/40 improve median correlation over ST at 20% V1;
+none of the 40 improves median patient MSE over ST interpolation.
+
+4. GENERALIZATION CHECK
+Did the main C5 finding replicate? PARTLY: anchors help; H&E added value fails.
+Did coverage-response replicate? YES in V1, in all eight patients.
+Did distance-to-anchor behavior replicate? PARTLY; no reliable single horizon.
+Same-gene C5 primary fusion Pearson: 0.8409; external median: 0.2546.
+Completed: 8,448 main runs and 108 negative controls.
+Audit: 620 exact replays; all-run leakage checks and parent hashes passed.
+
+5. LIMITATIONS
+- Substantial cross-platform count-scale, capture-area and image shift.
+- Frozen Xenium normalization is executable, not cross-assay calibrated.
+- One external study; eight patients; 80% primary gene overlap.
+- Sparse targets can yield low MSE without strong correlation.
+- Contiguous reconstruction remains weak; negative controls use one patient.
+- No adaptation, biological interpretation or clinical-utility claim.
+
+6. RECOMMENDATION
+NEED_METHOD_REVIEW
+Review target-scale transportability and frozen fusion calibration first.
+Any revised method needs a separate protocol and fresh held-out evaluation.
+C7 is complete; stopped for review without starting a later checkpoint.
+
+7. FULL REPORT
+Path to C7_REPORT.md: /home/son/Research/GraphPathology/C7/C7_REPORT.md
+Git commit: 455b9a939cc08640a12634bca7410efbb7d2a049 (frozen masks/protocol).
+Final results and freeze commits are recorded in repository history.

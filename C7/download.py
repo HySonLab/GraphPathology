@@ -25,6 +25,6 @@ def main():
  if args.stage=='qualification':
   text=(RAW/'GSE311609.txt').read_text()
   urls.extend(u.replace('ftp://','https://') for u in re.findall(r'!Series_supplementary_file = (\S+)',text) if '_hne_breast_' in u and u.endswith('.ndpi'))
- else:assert (OUT/'C7A/C7A_SPEC_LOCK.json').exists(),'No target acquisition before freeze'
+ else:raise RuntimeError('GSE311609 was not qualified; target acquisition is disabled for C7')
  with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:list(pool.map(fetch,urls))
 if __name__=='__main__':main()

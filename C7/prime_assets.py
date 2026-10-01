@@ -23,7 +23,7 @@ def main():
   from download import fetch
   fetch(BASE+'_he_image.ome.tif');fetch(BASE+'_he_imagealignment.csv');return
  if args.stage=='targets':
-  lock=json.loads((OUT/'C7A/C7A_SPEC_LOCK.json').read_text());assert lock['external_evaluation_authorized']
+  raise RuntimeError('Xenium Prime failed the gene-overlap threshold; target acquisition is disabled for C7')
  with zipfile.ZipFile(Remote(BUNDLE)) as z:
   entries=[{'name':i.filename,'bytes':i.file_size,'compressed_bytes':i.compress_size,'crc':i.CRC} for i in z.infolist()];(RAW/'prime_bundle_inventory.json').write_text(json.dumps(entries,indent=2)+'\n')
   print('members',len(entries));print([e for e in entries if any(e['name'].endswith(s) for s in ['gene_panel.json','experiment.xenium','transcripts.parquet'])],flush=True)
