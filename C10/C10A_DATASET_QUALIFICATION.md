@@ -1,0 +1,17 @@
+# Second fresh cohort qualification
+
+**LIMITED_SECOND_REPLICATION_DATASET:** GSE210616, Bassiouni et al., *Cancer Research* 2023 ([study](https://doi.org/10.1158/0008-5472.CAN-22-2682), [GEO deposit](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE210616)). The source reports 22 patients and 43 sections. We include the first numbered section from every patient, determined from GEO sample titles before accessing expression values. Sections are not counted as independent patients. All 22 patients are fresh evaluation patients; M1 requires no cross-patient fitting, so no artificial calibration split is introduced.
+
+The 50-gene primary intersection is complete, with unique exact symbols. The optional 280-gene overlap is recorded but not evaluated. Coordinates and image/barcode identity are checked using metadata only. Physical units are calibrated from the supplied Visium hexagonal lattice and documented 100 micrometer center pitch. Published filtered barcodes and the source in-tissue flag determine inclusion; no new expression-based QC is fitted.
+
+All supplied portable H&E images are 2,000 pixels across, yielding only 24–29 native pixels per 112 micrometer patch. They are somewhat better resolved than some C9 inputs but remain downsampled. Qualification is limited because frozen H&E-only and fusion results are subject to this resolution shift. Native WSIs are not separately linked in the GEO file list; proprietary Loupe files were not used to substitute unverified image assets. The unchanged ResNet18 input is a 112 micrometer square resized to 224 RGB, with the same encoder transform and frozen C4 three-head ensemble.
+
+The sample identities/study differ from the original Xenium patients, HER2ST A–H, Wu C9 patients and earlier diagnostic candidates. A source-ID and available image-hash audit is recorded before locking. No C0–C9 experiment is rerun or changed. Published sample metadata are used only for identity and qualification; source study annotations and molecular outcomes do not drive selection.
+
+M0 and M1 are unchanged. Secondary M3 transports the **already frozen C9 scaler and 0.2 image weight**, including its original Wu calibration identities; no C10 label contributes to calibration. This tests the frozen pipeline, not a newly fitted cohort-specific fusion. M2 is checked only for affine equivalence, and is not presented as a distinct method or positive harmonization result.
+
+## Bounded alternative screening
+
+GSE218951 (Starfysh) supplies four new breast-cancer patients with two sections each; the publication also reuses Wu patients, which are excluded. GSE242311 supplies breast sections with more complicated patient/section mapping and similarly downsampled public images. The qualified 22-patient study was preferred for the primary replication; neither alternative was evaluated or used for method selection. HEST's full assets were inaccessible in earlier checkpoints; public source-study assets suffice here. No broader cohort search or outcome-based cohort shopping followed qualification.
+
+The manifest contains every selected patient, location count, overlap and image-resolution value. Download/source metadata, section selection, qualification, image QA and freshness records are under `C10A/logs`. The specification and all observation masks are frozen before any C10 expression values are read. The exact thresholds, aggregation units, seeds, controls and distance bins are in `configs/protocol.json`.
