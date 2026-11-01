@@ -52,7 +52,7 @@ def run(root,require_complete=True):
  fits=[json.loads(p.read_text()) for p in sorted((base/'fits').glob('*.json')) if not p.name.endswith('_FAILED.json')]
  manifest=[]
  for r in fits:
-  manifest.append({k:r.get(k) for k in ['variant','seed','status','parameters','selected_epoch','epochs_completed','elapsed_seconds','peak_rss_mb','best_checkpoint_relative','best_checkpoint_sha256','protocol_commit']})
+  manifest.append({k:r.get(k) for k in ['variant','seed','status','parameters','selected_epoch','epochs_ran','elapsed_seconds','peak_rss_mb','best_checkpoint_relative','best_checkpoint_sha256','protocol_commit']})
  pd.DataFrame(manifest).to_csv(out/'FIT_INVENTORY.csv',index=False)
  report=metadata(root,status='COMPLETE' if not missing and len(items)==78 else 'PARTIAL',models=len(items),new_fits=len(fits),patients=len(patients),evaluation_cases=len(frames)-len(list(folder.glob('*/MOLECULAR.csv'))),route_rows=len(runs),exact_label_corruption_checks=checks,missing_cases=missing,
   biological_units='patient; mask/training seeds averaged before inference; cohorts never pooled',output_hashes={p.name:sha(p) for p in out.glob('*.csv')})

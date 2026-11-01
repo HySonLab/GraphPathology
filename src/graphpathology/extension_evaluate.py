@@ -135,27 +135,38 @@ def _evaluate_one(root,patient,item):
  for m in ms:
   a,b,c,k=score_set(d,image,m,item,patient,metric_cache);panels.extend(a);genes.extend(b);bins.extend(c);checks+=k
  for name,rows in [('PANEL.csv.gz',panels),('GENES.csv.gz',genes),('BINS.csv.gz',bins)]:pd.DataFrame(rows).to_csv(out/name,index=False)
- result=metadata(root,status='COMPLETE',patient=patient,model=item,input_cache_sha256=input_digest,prediction_sha256=sha(p),n_mask_sets=len(ms),n_route_rows=len(panels),exact_label_corruption_checks=checks,
+ result=metadata(root,status='COMPLETE',threads=torch.get_num_threads(),patient=patient,model=item,input_cache_sha256=input_digest,prediction_sha256=sha(p),n_mask_sets=len(ms),n_route_rows=len(panels),exact_label_corruption_checks=checks,
   elapsed_seconds=time.monotonic()-start,output_hashes={name:sha(out/name) for name in ['PANEL.csv.gz','GENES.csv.gz','BINS.csv.gz']},calibration='none' if patient=='TENX99' else 'frozen original C9 T1; no refit')
  done.write_text(json.dumps(result,indent=2)+'\n');print('EVALUATED',patient,item['id'],len(panels),flush=True);return result
 
 def baselines(root,patient):
  from .journal_methods import predict_anchors
  out=root/'experiments/journal_revision/transformer_egnn/evaluation'/patient;out.mkdir(parents=True,exist_ok=True)
- if (out/'MOLECULAR.csv').exists():return
- d=load_data(root,patient);y=d['targets'].astype(float);rows=[]
+ if all((out/name).exists() for name in ['MOLECULAR.csv','MOLECULAR_GENES.csv.gz','MOLECULAR_BINS.csv.gz']):return
+ d=load_data(root,patient);y=d['targets'].astype(float);rows=[];genes=[];bins=[]
  for m in masks(root,d,patient):
   for method,cfg in [('idw_k16_p2',{'kind':'idw','k':16,'p':2}),('uniform_k16',{'kind':'uniform','k':16})]:
    pred,dist=predict_anchors(d['xy_um'],y,m['observed'],m['hidden'],cfg);metrics=gene_metrics(y[m['hidden']],pred)
    rows.append({**{k:v for k,v in m.items() if k not in ['observed','hidden']},'patient':patient,'cohort':cohort(patient),'model_id':method,'origin':'molecular','variant':method,'training_seed':-1,'route':'anchor_only','n_observed':len(m['observed']),'n_scored':len(m['hidden']),**summarize(metrics)})
- pd.DataFrame(rows).to_csv(out/'MOLECULAR.csv',index=False)
+   attr={**{k:v for k,v in m.items() if k not in ['observed','hidden']},'patient':patient,'model_id':method}
+   for j,g in enumerate(d['genes']):genes.append({**attr,'gene':str(g),**{k:float(metrics[k][j]) for k in ['pearson','spearman','mse','mae']}})
+   for low,high in zip(BINS[:-1],BINS[1:]):
+    selected=(dist>=low)&(dist<high)
+    if selected.any():
+     err=y[m['hidden']][selected]-pred[selected];bins.append({**attr,'low_um':low,'high_um':high,'n_locations':int(selected.sum()),'mean_mse':float(np.mean(err**2)),'mean_mae':float(np.mean(abs(err)))})
+ if not (out/'MOLECULAR.csv').exists():pd.DataFrame(rows).to_csv(out/'MOLECULAR.csv',index=False)
+ pd.DataFrame(genes).to_csv(out/'MOLECULAR_GENES.csv.gz',index=False);pd.DataFrame(bins).to_csv(out/'MOLECULAR_BINS.csv.gz',index=False)
 
-def run(root):
- torch.set_num_threads(4);torch.use_deterministic_algorithms(True);items=model_inventory(root)
- for patient in ['TENX99']+WU_EVAL:
+def run(root,patients=None,threads=4):
+ torch.set_num_threads(threads);torch.use_deterministic_algorithms(True);items=model_inventory(root)
+ if patients is None:
+  patients=['TENX99']+WU_EVAL
+  p=root/'experiments/journal_revision/transformer_egnn/GEO_SELECTIVE_ACQUISITION.json'
+  if p.exists() and json.loads(p.read_text())['status']=='COMPLETE':patients+=sorted({r['patient_id'] for r in json.loads(p.read_text())['selected_files']})
+ for patient in patients:
   baselines(root,patient)
   for item in items:evaluate_one(root,patient,item)
- return {'status':'COMPLETE' if sum(i['origin']=='new' for i in items)==48 else 'PARTIAL_PENDING_FITS','models':len(items),'patients':4}
+ return {'status':'COMPLETE' if sum(i['origin']=='new' for i in items)==48 else 'PARTIAL_PENDING_FITS','models':len(items),'patients':len(patients)}
 
 
 def evaluate_one(root,patient,item):
