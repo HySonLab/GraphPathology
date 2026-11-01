@@ -48,6 +48,12 @@ def run(root,require_complete=True,committed_only=False):
  if require_complete:
   summary=json.loads((base/'summary/STATUS.json').read_text());assert summary['status']=='COMPLETE' and summary['models']==78 and summary['new_fits']==48 and summary['patients']==26
   assert len(list((base/'bassiouni_anchors').glob('*/COMPLETE.json')))==22
+  for name,digest in summary['output_hashes'].items():assert sha(base/'summary'/name)==digest
+  benchmark=json.loads((base/'diagnostics/CPU_BENCHMARK.json').read_text());assert sha(base/'diagnostics/CPU_BENCHMARK.csv')==benchmark['output_sha256']
+  if not committed_only:
+   contract=json.loads((base/'DATA_CONTRACT.json').read_text())
+   for path,digest in contract['file_hashes'].items():assert sha(root/path)==digest
+   for bundle in release['bundles']:assert sha(Path(release['author_directory'])/bundle['filename'])==bundle['sha256']
  report=metadata(root,status=('COMPLETE_COMMITTED_EXPORTS' if committed_only else 'COMPLETE') if require_complete else 'IN_PROGRESS',skipped_author_local_old_checkpoints=skipped_checkpoints,full_gene_bundle_files_not_installed=skipped_genes,protected_files_unchanged=len(original),completed_bundles_hash_verified=checked,geometric_checks=diag['geometric_checks'],raw_datasets_and_weights_in_git=False)
  target=base/'VALIDATION_REPORT.json'
  if committed_only:

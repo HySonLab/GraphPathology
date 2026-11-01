@@ -13,9 +13,9 @@ COHORTS=['Development','Wu','Bassiouni'];ROUTES=['image','fixed_20pct_image','ex
 
 def clean_prose(text):
  protected={}
- pattern=r'\\cite\{[^}]*\}|TENX95|TENX99|NCBI783|NCBI785|ResNet18'
+ pattern=r'\\(?:cite|label|input|ref|path)\{[^}]*\}|\\includegraphics(?:\[[^]]*\])?\{[^}]*\}|TENX95|TENX99|NCBI783|NCBI785|ResNet18|float32|float64'
  def protect(match):
-  key='PROTECTED'+chr(65+len(protected));protected[key]=match.group();return key
+  key=chr(0xE000+len(protected));protected[key]=match.group();return key
  text=re.sub(pattern,protect,text)
  text=re.sub(r'([A-Za-z]{2,})([0-9])',r'\1 \2',text)
  text=re.sub(r'([0-9])([A-Za-z]{2,})',r'\1 \2',text)
@@ -197,6 +197,7 @@ def supplementary(root,package,figures):
  for r in fits.sort_values(['variant','seed']).itertuples():rows.append([NAMES[r.variant],str(r.seed),str(r.selected_epoch),str(r.epochs_ran),f'{r.elapsed_seconds:.2f}',f'{r.peak_rss_mb:.0f}'])
  chunks.append(r'\begin{longtable}{@{}lrrrrr@{}}\caption{\textbf{Every new fit, without seed selection.} Histories, optimizer states, input hashes and complete checkpoint SHA256 values are available in the fit JSON files and inventory CSV; weights are distributed separately from Git.}\label{tab:extension_fits}\\\toprule Model & Seed & Best epoch & Ran & Seconds & RSS MiB \\\midrule\endfirsthead\toprule Model & Seed & Best epoch & Ran & Seconds & RSS MiB \\\midrule\endhead'+'\n'+'\n'.join(' & '.join(r)+r' \\' for r in rows)+r'\bottomrule\end{longtable}')
  chunks.append(r'\paragraph{Source interpretation.} Undefined correlations remain undefined; valid-gene counts accompany every panel row. Raw Spearman is secondary because near-tied ranks are floating-point sensitive. Complete distance-bin errors retain occupied-bin support and omit empty bins. Native external images are heavily downsampled, the model is trained in only two source patients, and calibration is frozen. The original selected primary heads are still missing; these48 new states and30 older journal-v2 states do not replace them. Optional anchor-conditioned learning and complete-image equivariance tests have status SKIPPED\_PROTOCOL. No null or missing analysis is converted into a negative biological finding.')
+ chunks.append(seed_table(package))
  return clean_prose('\n\n'.join(chunks))
 
 
@@ -323,7 +324,7 @@ def build(root,output=None,bibliography=True):
  figs=set(re.findall(r'\bFigure\s+(S?\d+)\s*:',text));tables=set(re.findall(r'\bTable\s+(S?\d+)\s*:',text));refs=len(re.findall(r'\\bibitem',(package/'main.bbl').read_text()))
  if refs!=31:raise ValueError('Expected all29 prior references plus GraphGPS and EGNN')
  if figs!={str(i) for i in range(1,13)}|{'S'+str(i) for i in range(1,29)}:raise ValueError('Incomplete/incorrect figure numbering: '+str(figs))
- if tables!={str(i) for i in range(1,6)}|{'S'+str(i) for i in range(1,17)}:raise ValueError('Incomplete/incorrect table numbering: '+str(tables))
+ if tables!={str(i) for i in range(1,6)}|{'S'+str(i) for i in range(1,18)}:raise ValueError('Incomplete/incorrect table numbering: '+str(tables))
  pages=text.split('\f')
  for i,page in enumerate(pages):
   if page.strip() and page.strip().splitlines()[-1].strip()!=str(i+1):raise ValueError('Discontinuous combined page number')
@@ -362,3 +363,14 @@ def recovered_maps(root,package):
   fig.suptitle('Bassiouni BASS_P01 | '+regime+' | 20% seed0\nC0-normalized log1p counts; shared truth/prediction scales per gene; no tissue annotations',fontsize=12)
   name='ExtensionBassiouniMap_'+regime;fig.savefig(out/(name+'.pdf'),bbox_inches='tight');fig.savefig(out/(name+'.png'),dpi=160,bbox_inches='tight');plt.close(fig);names.append(name)
  return names
+
+
+def seed_table(package):
+ data=pd.read_csv(package/'source_data/extension/TRAINING_SEED_PATIENT_METRICS.csv');data=data[(data.patient=='TENX99')&(data.design=='historical_V1')&(data.budget==.2)&(data.origin=='new')];rows=[]
+ for variant in VARIANTS:
+  for seed in [0,1,2]:
+   q=data[(data.variant==variant)&(data.training_seed==seed)].set_index('route');values=[]
+   for route in ['image','exploratory_residual_anchor']:
+    r=q.loc[route];values.extend([f'{r.median_pearson:.3f}',f'{r.mean_mse:.4f}',f'{r.mean_mae:.4f}'])
+   rows.append([NAMES[variant],str(seed)]+values)
+ return r'\begin{longtable}{@{}lrrrrrrr@{}}\caption{\textbf{All48 new development-test fits, with every training seed retained.} TENX99 at20\% coverage, averaging the same three original masks within each seed. Left metrics are image-only; right metrics use exploratory residual anchors. This is one previously inspected patient, not48 biological replicates. No confidence interval or seed selection is inferred. Full precision, fixed-fusion, all budgets, external patient metrics and older frozen heads accompany the CSV exports.}\label{tab:extension_test_seeds}\\\toprule Model & Seed & Image $r$ & MSE & MAE & Residual $r$ & MSE & MAE \\\midrule\endfirsthead\toprule Model & Seed & Image $r$ & MSE & MAE & Residual $r$ & MSE & MAE \\\midrule\endhead'+'\n'+'\n'.join(' & '.join(r)+r' \\' for r in rows)+r'\bottomrule\end{longtable}'

@@ -4,6 +4,9 @@ on:
     paths:
       - 'manuscript/**'
       - 'src/graphpathology/*publication*'
+      - 'src/graphpathology/extension*.py'
+      - 'experiments/journal_revision/transformer_egnn/**'
+      - 'configs/journal_revision/transformer_egnn/**'
       - 'docs/REPRODUCTION_TARGETS.csv'
       - 'configs/validation-environment.txt'
       - '.github/workflows/publication.yml'
@@ -26,11 +29,15 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y texlive-latex-extra texlive-fonts-recommended lmodern poppler-utils
       - run: python -m pip install -r configs/validation-environment.txt
       - run: python -m pip install -e '.[test]'
+      - name: Verify committed extension evidence before document builds
+        run: python -m graphpathology.extension verify --committed-only
       - run: python -m graphpathology publication --output outputs/publication
       - run: python -m graphpathology build-documents --publication outputs/publication --output outputs/paper
       - run: python -m graphpathology arxiv --output outputs/arxiv
       - name: Build separate journal revision from committed exports (no training or research downloads)
         run: python -m graphpathology.journal paper --build-output outputs/journal
+      - name: Build bounded Transformer and EGNN manuscript from committed sources
+        run: python -m graphpathology.extension paper --build-output outputs/journal-extension
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -43,4 +50,7 @@ jobs:
             outputs/arxiv/ARXIV_REPORT.json
             outputs/arxiv/*.zip
             outputs/journal/*.pdf
+            outputs/journal-extension/*.pdf
+            outputs/journal-extension/EXTENSION_BUILD_REPORT.json
+            outputs/extension-validation-committed.json
             manuscript/journal_revision/JOURNAL_BUILD_REPORT.json

@@ -14,14 +14,24 @@ def run(root,destination):
  with zipfile.ZipFile(metric,'w',compression=zipfile.ZIP_STORED) as z:
   for p in files:z.write(p,p.relative_to(root))
  weights=destination/'GraphPathology_Transformer_EGNN_New_Heads.zip';inventory=model_inventory(root)
+ masks=[]
+ for p in sorted((root/'data/journal_revision/transformer_egnn/masks').glob('*/MANIFEST.json')):masks.append({'patient':p.parent.name,'sha256':sha(p),'masks':json.loads(p.read_text())})
+ mask_file=base/'MODEL_INPUT_MASK_MANIFEST.json';mask_file.write_text(json.dumps({'label':'post_v1_exploratory','training_masks':'none; full expression only in the two source fitting patients','evaluation_masks':masks},indent=2)+'\n')
+ for item in inventory:
+  if item['origin']!='new':continue
+  folder=(root/item['checkpoint']).parent;record=json.loads((root/item['fit_record']).read_text());config=json.loads((root/'configs/journal_revision/transformer_egnn/protocol.json').read_text());config.update(variant=item['variant'],seed=item['seed'],evaluation_mask_manifest_sha256=sha(mask_file),reproduction_command=f"python -m graphpathology.extension train --variant {item['variant']} --seed {item['seed']} --reproduction-output outputs/replay_{item['variant']}_{item['seed']}")
+  (folder/'config.json').write_text(json.dumps(config,indent=2)+'\n');(folder/'provenance.json').write_text(json.dumps(record,indent=2)+'\n')
+  import csv
+  with (folder/'history.csv').open('w') as f:
+   writer=csv.DictWriter(f,fieldnames=['epoch','training_mse','validation_mse']);writer.writeheader();writer.writerows(record['history'])
  with zipfile.ZipFile(weights,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
   for item in inventory:
    if item['origin']!='new':continue
    p=root/item['checkpoint'];assert sha(p)==item['checkpoint_sha256']
-   for name in ['best.pt','resume.pt']:
+   for name in ['best.pt','resume.pt','config.json','provenance.json','history.csv']:
     f=p.parent/name;z.write(f,f.relative_to(root))
    f=root/item['fit_record'];z.write(f,f.relative_to(root))
-  f=root/'checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz';z.write(f,f.relative_to(root))
+  f=root/'checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz';z.write(f,f.relative_to(root));z.write(mask_file,mask_file.relative_to(root))
  r={'status':'RELEASE_READY_AUTHOR_LOCAL','label':'post_v1_exploratory','public_upload_performed':False,'raw_datasets_included':False,'original_missing_weights_recovered':False,
   'created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'author_directory':str(destination.resolve()),'bundles':[{'filename':p.name,'bytes':p.stat().st_size,'sha256':sha(p)} for p in [metric,weights]],
   'full_gene_files':[{'path':str(p.relative_to(root)),'bytes':p.stat().st_size,'sha256':sha(p)} for p in files],

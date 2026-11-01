@@ -19,7 +19,7 @@ python -m graphpathology.extension preflight
 python -m graphpathology.extension acquire-bassiouni
 python -m graphpathology.extension prepare-wu
 python -m graphpathology.extension prepare-bassiouni
-python -m graphpathology.extension train-all
+python -m graphpathology.extension train-all --reproduction-output outputs/fresh-training-replay
 python -m graphpathology.extension evaluate
 python -m graphpathology.extension diagnostics
 python -m graphpathology.extension report
@@ -27,7 +27,7 @@ python -m graphpathology.extension benchmark
 python -m graphpathology.extension verify
 ```
 
-For a single resumable fit, use `train --variant gps_full --seed 0`. For per-patient evaluation, use `evaluate --patient BASS_P01 --threads 1`; complete bundles are hash-verified and skipped under per-case locks. The recovered-cohort baseline runner uses the unchanged `journal_anchors.run_patient(root, geo_data_root, 'bassiouni', patient, new_output)` specification, followed by `summarize_all(new_output)`. Exact designated primary replay must pass before each patient's new baseline scoring. `extension_verify.audit_bassiouni` checks all 2,640 historical random-reference runs and 396,000 primary per-gene values. Full cohort image diagnostics use `extension_diagnostics.recovered_patient`; all recorded patient IDs come from the exact selected-source manifest.
+For a fresh single-fit replay, use `train --variant gps_full --seed 0 --reproduction-output outputs/fresh-single-fit`. New replay directories link only the verified source caches/scaler and write new states/histories under ignored outputs; they never overwrite the committed fit records or original states. Without this option, `train` resumes an incomplete original run or verifies/skips an installed complete state. Restore the source feature scaler from the author bundle or original preparation pipeline before replay. For per-patient evaluation, use `evaluate --patient BASS_P01 --threads 1`; complete bundles are hash-verified and skipped under per-case locks. The recovered-cohort baseline runner uses the unchanged `journal_anchors.run_patient(root, geo_data_root, 'bassiouni', patient, new_output)` specification, followed by `summarize_all(new_output)`. Exact designated primary replay must pass before each patient's new baseline scoring. `extension_verify.audit_bassiouni` checks all 2,640 historical random-reference runs and 396,000 primary per-gene values. Full cohort image diagnostics use `extension_diagnostics.recovered_patient`; all recorded patient IDs come from the exact selected-source manifest.
 
 Run the matched baseline cohort before the recovered-cohort neural comparisons, as recorded in [DATA_RECOVERY.md](../experiments/journal_revision/transformer_egnn/DATA_RECOVERY.md). Do not refit any scaler on evaluation patients. The nominal112um crop is followed by the original Resize256/CenterCrop224 encoder transform, retaining approximately0.875 of its native linear field. External native image resolution remains limited. Conditional E(2)/permutation diagnostics do not establish full CNN/image-pipeline equivariance. Actual rewiring acceptance counts delimit weak/infeasible degree–length controls. Both distance-fixed and latent models are E(2)-compatible, and the final latent-coordinate update has no downstream scalar loss.
 
