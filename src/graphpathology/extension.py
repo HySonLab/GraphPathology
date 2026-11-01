@@ -1,0 +1,33 @@
+"""Explicit post_v1_exploratory extension commands. Imports/help/tests never acquire or fit."""
+import argparse,json,traceback
+from pathlib import Path
+
+def main():
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2]);s=p.add_subparsers(dest='action',required=True)
+ s.add_parser('preflight');s.add_parser('prepare-wu');q=s.add_parser('train');q.add_argument('--variant',required=True);q.add_argument('--seed',type=int,choices=[0,1,2],required=True)
+ s.add_parser('train-all');s.add_parser('evaluate');s.add_parser('diagnostics');s.add_parser('report');s.add_parser('verify')
+ a=p.parse_args();r=a.root.resolve()
+ if a.action=='preflight':
+  from .extension_train import preflight
+  print(json.dumps(preflight(r),indent=2))
+ elif a.action=='prepare-wu':
+  from .extension_data import prepare_wu
+  prepare_wu(r)
+ elif a.action in ['train','train-all']:
+  from .extension_models import VARIANTS
+  from .extension_train import train,metadata
+  variants=[a.variant] if a.action=='train' else list(VARIANTS);seeds=[a.seed] if a.action=='train' else [0,1,2]
+  for seed in seeds:
+   for variant in variants:
+    if variant not in VARIANTS:raise ValueError('Unknown frozen variant')
+    try:train(r,variant,seed)
+    except Exception as exc:
+     path=r/'experiments/journal_revision/transformer_egnn/fits'/f'{variant}_seed{seed}_FAILED.json';path.parent.mkdir(exist_ok=True)
+     if not path.exists():path.write_text(json.dumps(metadata(r,status='FAILED_VALIDATION',variant=variant,seed=seed,error=str(exc),traceback=traceback.format_exc()),indent=2)+'\n')
+     if a.action=='train':raise
+ elif a.action in ['evaluate','diagnostics','report','verify']:
+  from importlib import import_module
+  module=import_module('.extension_'+{'evaluate':'evaluate','diagnostics':'diagnostics','report':'report','verify':'verify'}[a.action],package='graphpathology')
+  print(json.dumps(module.run(r),indent=2))
+
+if __name__=='__main__':main()
