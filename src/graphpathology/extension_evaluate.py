@@ -105,7 +105,7 @@ def score_set(d,image,mask,item,patient):
    err=y[hidden][selected]-pred[selected];bins.append({**attr,'low_um':low,'high_um':high,'n_locations':int(selected.sum()),'mean_mse':float(np.mean(err**2)),'mean_mae':float(np.mean(abs(err)))})
  return panels,genes,bins,checks
 
-def evaluate_one(root,patient,item):
+def _evaluate_one(root,patient,item):
  out=root/'experiments/journal_revision/transformer_egnn/evaluation'/patient/item['id'];out.mkdir(parents=True,exist_ok=True);done=out/'COMPLETE.json'
  if done.exists():
   r=json.loads(done.read_text())
@@ -144,3 +144,11 @@ def run(root):
   baselines(root,patient)
   for item in items:evaluate_one(root,patient,item)
  return {'status':'COMPLETE' if sum(i['origin']=='new' for i in items)==48 else 'PARTIAL_PENDING_FITS','models':len(items),'patients':4}
+
+
+def evaluate_one(root,patient,item):
+ import fcntl
+ folder=root/'data/journal_revision/transformer_egnn/locks';folder.mkdir(parents=True,exist_ok=True)
+ with (folder/(patient+'_'+item['id']+'.lock')).open('w') as lock:
+  fcntl.flock(lock,fcntl.LOCK_EX)
+  return _evaluate_one(root,patient,item)
