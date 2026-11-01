@@ -56,13 +56,15 @@ def reuse(root):
     return records
 
 
-def evaluate(root):
+def evaluate(root,available_only=False):
     cfg=config(root);torch.set_num_threads(cfg['head_threads']);torch.use_deterministic_algorithms(True)
     items=json.loads((root/f'experiments/journal_revision/{STUDY}/FIT_MANIFEST.json').read_text());assert len(items)==18
     scaler_path=root/f'checkpoints/journal_revision/{STUDY}/phikon_feature_scaler.npz'
     with np.load(scaler_path) as f:mean=f['mean'];scale=f['scale']
     start=time.monotonic();records=[]
     for patient in [cfg['development']]+cfg['external']:
+        feature=root/f'data/journal_revision/{STUDY}/phikon'/(patient+'.npz')
+        if available_only and not feature.with_suffix('.json').exists():continue
         base,ms=support_manifest(root,patient);data=load(root,'phikon',patient)
         for name in ['barcodes','genes','xy_um','targets']:
             np.testing.assert_array_equal(base[name],data[name])
@@ -70,7 +72,7 @@ def evaluate(root):
         folder=root/f'experiments/journal_revision/{STUDY}/evaluation'/patient
         cache=root/f'data/journal_revision/{STUDY}/predictions'/patient;cache.mkdir(parents=True,exist_ok=True)
         for item in items:
-            ident=item['run_id'];out=folder/ident;done=out/'COMPLETE.json'
+            ident=item['run_id'];out=folder/ident;done=out/'COMPLETE.json';bundle_start=time.monotonic()
             if done.exists():
                 r=json.loads(done.read_text())
                 for name,digest in r['output_hashes'].items():assert sha(out/name)==digest
@@ -95,7 +97,7 @@ def evaluate(root):
                     else:fixed_h_images[key]=value.copy()
             out.mkdir(parents=True,exist_ok=True)
             for name,rows in [('PANEL.csv.gz',panels),('GENES.csv.gz',genes),('BINS.csv.gz',bins)]:pd.DataFrame(rows).to_csv(out/name,index=False)
-            r=record(root,status='COMPLETE',patient=patient,backbone='phikon',model=item['model'],control=item['control'],training_seed=item['seed'],run_id=ident,checkpoint_sha256=item['checkpoint_sha256'],feature_scaler_sha256=sha(scaler_path),input_cache_sha256=sha(root/f'data/journal_revision/{STUDY}/phikon'/(patient+'.npz')),raw_prediction_sha256=sha(cache/(ident+'_raw.npy')),calibrated_prediction_sha256=sha(cache/(ident+'_calibrated.npy')),calibration_sha256=calibration,calibration_applications=0 if calibration is None else 1,exact_label_corruption_checks=checks,image_anchor_independence_checks=anchor_independence_checks,graphs=graphs,mask_sets=len(ms),output_hashes={name:sha(out/name) for name in ['PANEL.csv.gz','GENES.csv.gz','BINS.csv.gz']})
+            r=record(root,status='COMPLETE',patient=patient,backbone='phikon',model=item['model'],control=item['control'],training_seed=item['seed'],run_id=ident,checkpoint_sha256=item['checkpoint_sha256'],feature_scaler_sha256=sha(scaler_path),input_cache_sha256=sha(root/f'data/journal_revision/{STUDY}/phikon'/(patient+'.npz')),prediction_and_scoring_seconds=time.monotonic()-bundle_start,raw_prediction_sha256=sha(cache/(ident+'_raw.npy')),calibrated_prediction_sha256=sha(cache/(ident+'_calibrated.npy')),calibration_sha256=calibration,calibration_applications=0 if calibration is None else 1,exact_label_corruption_checks=checks,image_anchor_independence_checks=anchor_independence_checks,graphs=graphs,mask_sets=len(ms),output_hashes={name:sha(out/name) for name in ['PANEL.csv.gz','GENES.csv.gz','BINS.csv.gz']})
             write(done,r);records.append(r);print('MATCHED EVALUATED',patient,ident,flush=True)
             if (time.monotonic()-start)/3600>cfg['evaluation_max_wall_hours']:raise RuntimeError('Prespecified evaluation resource ceiling exceeded; completed bundles preserved')
         write(root/f'experiments/journal_revision/{STUDY}/EVALUATION_MANIFEST.json',records)
@@ -104,5 +106,5 @@ def evaluate(root):
 
 if __name__=='__main__':
     import argparse
-    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['reuse','evaluate']);parser.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2]);a=parser.parse_args()
-    print(json.dumps((reuse if a.action=='reuse' else evaluate)(a.root.resolve()),indent=2))
+    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['reuse','evaluate']);parser.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2]);parser.add_argument('--available-only',action='store_true');a=parser.parse_args()
+    print(json.dumps(reuse(a.root.resolve()) if a.action=='reuse' else evaluate(a.root.resolve(),a.available_only),indent=2))
