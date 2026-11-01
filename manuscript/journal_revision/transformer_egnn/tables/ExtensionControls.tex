@@ -1,0 +1,24 @@
+\begin{table}[!htbp]
+\caption{\textbf{Predefined architecture contrasts in recovered Bassiouni patients.} At 20\% historical V1 coverage, the exploratory residual route uses identical measured anchors for both models. Effects average all three training seeds and three mask seeds within each patient before pairing; relative MSE is normalized by the reference patient mean MSE after these averages. Intervals resample 22 whole patients, not genes, masks or training seeds. They are descriptive, unadjusted intervals, not simultaneous significance claims. Other routes, controls, budgets and individual Wu effects are fully exported.}
+\label{tab:extension_controls}
+\centering\footnotesize
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Candidate vs control & Effect & Median [95\% interval] \\
+\midrule
+GPS full vs GPS local & $\Delta r$ & -0.0050 [-0.0074, -0.0044] \\
+GPS full vs GPS local & MSE\% & +2.7228 [+2.0494, +3.6169] \\
+GPS full vs GPS local & $\Delta$ MAE & +0.0039 [+0.0030, +0.0054] \\
+GPS full vs GPS no distances & $\Delta r$ & -0.0121 [-0.0135, -0.0088] \\
+GPS full vs GPS no distances & MSE\% & +4.9138 [+3.6647, +5.7686] \\
+GPS full vs GPS no distances & $\Delta$ MAE & +0.0064 [+0.0056, +0.0078] \\
+EGNN latent vs Distance fixed & $\Delta r$ & -0.0048 [-0.0074, -0.0008] \\
+EGNN latent vs Distance fixed & MSE\% & +1.6673 [+0.7107, +2.8664] \\
+EGNN latent vs Distance fixed & $\Delta$ MAE & +0.0026 [+0.0014, +0.0046] \\
+EGNN latent vs Distance disabled & $\Delta r$ & -0.0065 [-0.0096, -0.0024] \\
+EGNN latent vs Distance disabled & MSE\% & +1.9736 [+1.0100, +3.3448] \\
+EGNN latent vs Distance disabled & $\Delta$ MAE & +0.0028 [+0.0020, +0.0053] \\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier

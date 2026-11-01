@@ -1,0 +1,86 @@
+{
+  "protocol_commit": "2e70b30722b56317e82005999ed90d8faeb2537a",
+  "code_commit": "47d15d3744849c8a60787901952dc6ca7c4c8806",
+  "code_hashes": {
+    "src/graphpathology/journal.py": "bc9a4117969703002bd61aae70fd5efab5c4df6b7afb861fa27999d697a19b46",
+    "src/graphpathology/journal_acquire.py": "889fe1bed6a3ab054ff74cbfc9900120bde39686c7bf8bb5921d4d8fea4c3d8f",
+    "src/graphpathology/journal_anchors.py": "2740f0ccc8433333b9c883b519a9c1e8aee757bbd0e9e145733ad041bf123001",
+    "src/graphpathology/journal_data.py": "918f13eb76b9a17ad8e83d2eb51f505fe59d3f46e9883f708352b0a39afc8ed7",
+    "src/graphpathology/journal_figures.py": "7b7db412b5ec6f1211b3bd2734475830c820a46a05a3427398146c87a22089ce",
+    "src/graphpathology/journal_learned.py": "1a782a1886b19c56ba6a10b44cf46a58eadedcf14e4df7fe4d3348bc887ecc98",
+    "src/graphpathology/journal_methods.py": "727e30f9badfed1dfa74ee0f6133226ac584525b42a6b03aa4e698831918db56",
+    "src/graphpathology/journal_paper.py": "539f439287d5772978d775ec0c3ac2101cb540762fa86cd3a7258bcb4acb20b8",
+    "src/graphpathology/journal_statistics.py": "e302901e8d1fba3a508b7707b9e566e80cc789f742203fdc8e938e2d660f8bc9"
+  },
+  "working_tree_dirty": true,
+  "device": "cpu",
+  "environment": {
+    "protocol_commit": "2e70b30722b56317e82005999ed90d8faeb2537a",
+    "python": "3.12.3",
+    "executable": "/home/hytruongson/Documents/Codex/2026-10-31/pleas/work/venv/bin/python",
+    "cuda_available": false,
+    "packages": {
+      "torch": "2.8.0+cpu",
+      "torchvision": "0.23.0+cpu",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.1.0",
+      "h5py": "3.16.0",
+      "scikit-learn": "1.9.1",
+      "requests": "2.34.2",
+      "matplotlib": "3.11.2",
+      "pytest": "9.2.0"
+    },
+    "compute": "CPU; 4 BLAS/torch threads; no paid service",
+    "acquisition_deviation": "Molecular and HEST acquisition overlapped with two workers per process (up to four aggregate download workers); no analytical settings changed."
+  },
+  "run_id": "journal_v2_mean_spatial_seed2",
+  "status": "TRAINED",
+  "model": "MEAN",
+  "control": "spatial",
+  "seed": 2,
+  "config": {
+    "hidden": 128,
+    "dropout": 0.1
+  },
+  "training": {
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 512,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001
+  },
+  "checkpoint_relative_path": "checkpoints/journal_revision/hest_learned/journal_v2_mean_spatial_seed2.pt",
+  "checkpoint_sha256": "ed69bd43a19f32923421201ca541d0186d2f458ac350fda5253e90165ea41f99",
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "n_parameters": 72114,
+  "selected_epoch": 14,
+  "epochs_ran": 24,
+  "validation_mse": 0.7155013692010309,
+  "fit_patient_ids": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "selection_patient": "TENX95",
+  "evaluation_patient": "TENX99",
+  "fit_seconds": 2.56853643800423,
+  "peak_rss_mb": 583.828125,
+  "graph_manifest": {
+    "NCBI783": {
+      "n_vertices": 3005,
+      "undirected_edges": 8737,
+      "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+    },
+    "NCBI785": {
+      "n_vertices": 4010,
+      "undirected_edges": 11774,
+      "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+    },
+    "TENX95": {
+      "n_vertices": 7760,
+      "undirected_edges": 22949,
+      "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+    }
+  }
+}

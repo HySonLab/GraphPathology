@@ -1,0 +1,627 @@
+{
+  "label": "post_v1_exploratory",
+  "protocol_commit": "2e03fae636d6f6527d25db58f4cbab72f7c1a286",
+  "code_commit": "558413f5a044abd07a7482565a1a5134fe7ec19e",
+  "created_utc": "2026-11-01T07:32:18.075962+00:00",
+  "code_hashes": {
+    "src/graphpathology/extension_train.py": "7153de4e05fe50da0f19591186ccd97b9b73b5a085ab745fca614e832f6ac5e7",
+    "src/graphpathology/extension_data.py": "ae9e9ea671766674f49a7208d2780fec6c9df59a05364c21ed56444139c0813c",
+    "src/graphpathology/extension_evaluate.py": "f3c9c27fe0e56f8d82f92168912cde9434033551d5b5cf8d13d4e58ec98b1a14",
+    "src/graphpathology/extension_models.py": "322403a60f0ad8a525e3dbbb3baef5b03bb384084858908e90471c00e23b0286",
+    "src/graphpathology/extension.py": "4c057450ff0050e4cf6e34bfdf5f33829e082f3112afa25328a8d5f787e8c80e"
+  },
+  "environment": {
+    "protocol_commit": "2e70b30722b56317e82005999ed90d8faeb2537a",
+    "python": "3.12.3",
+    "executable": "/home/hytruongson/Documents/Codex/2026-10-31/pleas/work/venv/bin/python",
+    "cuda_available": false,
+    "packages": {
+      "torch": "2.8.0+cpu",
+      "torchvision": "0.23.0+cpu",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.1.0",
+      "h5py": "3.16.0",
+      "scikit-learn": "1.9.1",
+      "requests": "2.34.2",
+      "matplotlib": "3.11.2",
+      "pytest": "9.2.0"
+    },
+    "compute": "CPU; 4 BLAS/torch threads; no paid service",
+    "acquisition_deviation": "Molecular and HEST acquisition overlapped with two workers per process (up to four aggregate download workers); no analytical settings changed."
+  },
+  "device": "cpu",
+  "threads": 4,
+  "status": "COMPLETE",
+  "variant": "matched_local",
+  "seed": 1,
+  "parameters": 72114,
+  "selected_epoch": 77,
+  "epochs_ran": 80,
+  "validation_mse": 0.6707687377929688,
+  "elapsed_seconds": 5.302256955001212,
+  "peak_rss_mb": 497.421875,
+  "best_checkpoint_relative": "checkpoints/journal_revision/transformer_egnn/matched_local_seed1/best.pt",
+  "best_checkpoint_sha256": "49bf6fab58925f8ad60bf3b11e6a61a596d0011f4273202221b1db9b3ccf78a2",
+  "input_cache_hashes": {
+    "NCBI783": "49adba0d4bf5b8b45dd9755aeac4f667d4eb7e82fe86d88ce7dfce33a785c3bf",
+    "NCBI785": "c7b2950b18d39dff9e3a210a5352246fe72af0750bfd5885c7ec1054ccdfb759",
+    "TENX95": "d8f690e55abb0773e945a14eac09bc5920a6b9b868478f873fc500d8fffaf641"
+  },
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "graph_controls": {
+    "NCBI783": {
+      "control": "spatial"
+    },
+    "NCBI785": {
+      "control": "spatial"
+    },
+    "TENX95": {
+      "control": "spatial"
+    }
+  },
+  "training": {
+    "label": "post_v1_exploratory",
+    "variants": {
+      "gps_full": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_local": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "local",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_no_relative": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_self": {
+        "family": "gps",
+        "control": "self",
+        "attention": "self",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_shuffled": {
+        "family": "gps",
+        "control": "shuffled",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_degree_length": {
+        "family": "gps",
+        "control": "degree_length",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "distance_fixed": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_latent": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "distance_disabled": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_self": {
+        "family": "egnn",
+        "control": "self",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_shuffled": {
+        "family": "egnn",
+        "control": "shuffled",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_degree_length": {
+        "family": "egnn",
+        "control": "degree_length",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "matched_local": {
+        "family": "local",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_mean": {
+        "family": "MEAN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_gcn": {
+        "family": "GCN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_sage": {
+        "family": "SAGE",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72075
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "hidden": 64,
+    "layers": 2,
+    "heads": 4,
+    "landmarks": 32,
+    "local_attention_slots": 8,
+    "distance_scale_um": 250,
+    "dropout": 0.1,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001,
+    "loss": "mean squared error across all50 training targets",
+    "training_steps_per_epoch": 2,
+    "threads": 4,
+    "precision": "float32",
+    "old_frozen_baselines": 30
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 1.0397553741931915,
+      "validation_mse": 0.9816283583641052
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.9089904129505157,
+      "validation_mse": 0.93834388256073
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.8279644250869751,
+      "validation_mse": 0.9066275954246521
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.7495664358139038,
+      "validation_mse": 0.8795700669288635
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.6857774257659912,
+      "validation_mse": 0.8539890646934509
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.632761687040329,
+      "validation_mse": 0.8359968662261963
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.5926702916622162,
+      "validation_mse": 0.8304017186164856
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.5525788366794586,
+      "validation_mse": 0.8326482176780701
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.5211639702320099,
+      "validation_mse": 0.8365987539291382
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.49985741078853607,
+      "validation_mse": 0.8389439582824707
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.47873418033123016,
+      "validation_mse": 0.836848795413971
+    },
+    {
+      "epoch": 12,
+      "training_mse": 0.45850421488285065,
+      "validation_mse": 0.8288415670394897
+    },
+    {
+      "epoch": 13,
+      "training_mse": 0.4480484426021576,
+      "validation_mse": 0.8179746866226196
+    },
+    {
+      "epoch": 14,
+      "training_mse": 0.4374065101146698,
+      "validation_mse": 0.8045714497566223
+    },
+    {
+      "epoch": 15,
+      "training_mse": 0.4274190366268158,
+      "validation_mse": 0.7907629609107971
+    },
+    {
+      "epoch": 16,
+      "training_mse": 0.42039118707180023,
+      "validation_mse": 0.7749903202056885
+    },
+    {
+      "epoch": 17,
+      "training_mse": 0.4106362462043762,
+      "validation_mse": 0.7657510638237
+    },
+    {
+      "epoch": 18,
+      "training_mse": 0.4030332714319229,
+      "validation_mse": 0.7562276124954224
+    },
+    {
+      "epoch": 19,
+      "training_mse": 0.39632853865623474,
+      "validation_mse": 0.7515550255775452
+    },
+    {
+      "epoch": 20,
+      "training_mse": 0.3892960101366043,
+      "validation_mse": 0.7482025027275085
+    },
+    {
+      "epoch": 21,
+      "training_mse": 0.38470548391342163,
+      "validation_mse": 0.7437107563018799
+    },
+    {
+      "epoch": 22,
+      "training_mse": 0.3785523325204849,
+      "validation_mse": 0.7416243553161621
+    },
+    {
+      "epoch": 23,
+      "training_mse": 0.3727290481328964,
+      "validation_mse": 0.7376106381416321
+    },
+    {
+      "epoch": 24,
+      "training_mse": 0.3685086667537689,
+      "validation_mse": 0.733418881893158
+    },
+    {
+      "epoch": 25,
+      "training_mse": 0.36418628692626953,
+      "validation_mse": 0.7302757501602173
+    },
+    {
+      "epoch": 26,
+      "training_mse": 0.35907086730003357,
+      "validation_mse": 0.7249894738197327
+    },
+    {
+      "epoch": 27,
+      "training_mse": 0.3570537567138672,
+      "validation_mse": 0.7221054434776306
+    },
+    {
+      "epoch": 28,
+      "training_mse": 0.3526905030012131,
+      "validation_mse": 0.7175496816635132
+    },
+    {
+      "epoch": 29,
+      "training_mse": 0.34959883987903595,
+      "validation_mse": 0.7138541340827942
+    },
+    {
+      "epoch": 30,
+      "training_mse": 0.34704163670539856,
+      "validation_mse": 0.7122525572776794
+    },
+    {
+      "epoch": 31,
+      "training_mse": 0.3436032682657242,
+      "validation_mse": 0.7103060483932495
+    },
+    {
+      "epoch": 32,
+      "training_mse": 0.3395625054836273,
+      "validation_mse": 0.7060217261314392
+    },
+    {
+      "epoch": 33,
+      "training_mse": 0.33771252632141113,
+      "validation_mse": 0.7021384239196777
+    },
+    {
+      "epoch": 34,
+      "training_mse": 0.3346871882677078,
+      "validation_mse": 0.6991164088249207
+    },
+    {
+      "epoch": 35,
+      "training_mse": 0.3324262350797653,
+      "validation_mse": 0.6970357894897461
+    },
+    {
+      "epoch": 36,
+      "training_mse": 0.33006739616394043,
+      "validation_mse": 0.6956016421318054
+    },
+    {
+      "epoch": 37,
+      "training_mse": 0.32733476161956787,
+      "validation_mse": 0.694633960723877
+    },
+    {
+      "epoch": 38,
+      "training_mse": 0.32639260590076447,
+      "validation_mse": 0.6948933601379395
+    },
+    {
+      "epoch": 39,
+      "training_mse": 0.3236894905567169,
+      "validation_mse": 0.6942951083183289
+    },
+    {
+      "epoch": 40,
+      "training_mse": 0.3210412561893463,
+      "validation_mse": 0.6931192278862
+    },
+    {
+      "epoch": 41,
+      "training_mse": 0.31960198283195496,
+      "validation_mse": 0.6914792060852051
+    },
+    {
+      "epoch": 42,
+      "training_mse": 0.3167099505662918,
+      "validation_mse": 0.6894939541816711
+    },
+    {
+      "epoch": 43,
+      "training_mse": 0.3150305449962616,
+      "validation_mse": 0.688015878200531
+    },
+    {
+      "epoch": 44,
+      "training_mse": 0.3128572106361389,
+      "validation_mse": 0.6862356066703796
+    },
+    {
+      "epoch": 45,
+      "training_mse": 0.31255699694156647,
+      "validation_mse": 0.6859121322631836
+    },
+    {
+      "epoch": 46,
+      "training_mse": 0.3104911893606186,
+      "validation_mse": 0.6854079365730286
+    },
+    {
+      "epoch": 47,
+      "training_mse": 0.3081245720386505,
+      "validation_mse": 0.6829988956451416
+    },
+    {
+      "epoch": 48,
+      "training_mse": 0.3063533157110214,
+      "validation_mse": 0.6818987727165222
+    },
+    {
+      "epoch": 49,
+      "training_mse": 0.3048478215932846,
+      "validation_mse": 0.6804370880126953
+    },
+    {
+      "epoch": 50,
+      "training_mse": 0.302767738699913,
+      "validation_mse": 0.6805193424224854
+    },
+    {
+      "epoch": 51,
+      "training_mse": 0.30122216045856476,
+      "validation_mse": 0.6797840595245361
+    },
+    {
+      "epoch": 52,
+      "training_mse": 0.300082266330719,
+      "validation_mse": 0.6786061525344849
+    },
+    {
+      "epoch": 53,
+      "training_mse": 0.2983224540948868,
+      "validation_mse": 0.6770913600921631
+    },
+    {
+      "epoch": 54,
+      "training_mse": 0.2975729703903198,
+      "validation_mse": 0.6771838068962097
+    },
+    {
+      "epoch": 55,
+      "training_mse": 0.2959086298942566,
+      "validation_mse": 0.6759935021400452
+    },
+    {
+      "epoch": 56,
+      "training_mse": 0.29384957253932953,
+      "validation_mse": 0.6744176745414734
+    },
+    {
+      "epoch": 57,
+      "training_mse": 0.29355889558792114,
+      "validation_mse": 0.6732833385467529
+    },
+    {
+      "epoch": 58,
+      "training_mse": 0.2915738523006439,
+      "validation_mse": 0.6730309128761292
+    },
+    {
+      "epoch": 59,
+      "training_mse": 0.28993961215019226,
+      "validation_mse": 0.673115074634552
+    },
+    {
+      "epoch": 60,
+      "training_mse": 0.28977158665657043,
+      "validation_mse": 0.6731390953063965
+    },
+    {
+      "epoch": 61,
+      "training_mse": 0.2870984524488449,
+      "validation_mse": 0.672943115234375
+    },
+    {
+      "epoch": 62,
+      "training_mse": 0.28687334060668945,
+      "validation_mse": 0.6736227869987488
+    },
+    {
+      "epoch": 63,
+      "training_mse": 0.2860903888940811,
+      "validation_mse": 0.6737983226776123
+    },
+    {
+      "epoch": 64,
+      "training_mse": 0.2841326743364334,
+      "validation_mse": 0.6735427975654602
+    },
+    {
+      "epoch": 65,
+      "training_mse": 0.28324364125728607,
+      "validation_mse": 0.6729613542556763
+    },
+    {
+      "epoch": 66,
+      "training_mse": 0.282490998506546,
+      "validation_mse": 0.672354519367218
+    },
+    {
+      "epoch": 67,
+      "training_mse": 0.2805740237236023,
+      "validation_mse": 0.6722300052642822
+    },
+    {
+      "epoch": 68,
+      "training_mse": 0.27894410490989685,
+      "validation_mse": 0.6727779507637024
+    },
+    {
+      "epoch": 69,
+      "training_mse": 0.27927587926387787,
+      "validation_mse": 0.6714614033699036
+    },
+    {
+      "epoch": 70,
+      "training_mse": 0.2782195806503296,
+      "validation_mse": 0.6719895601272583
+    },
+    {
+      "epoch": 71,
+      "training_mse": 0.2758088558912277,
+      "validation_mse": 0.6726722121238708
+    },
+    {
+      "epoch": 72,
+      "training_mse": 0.2745976746082306,
+      "validation_mse": 0.672832190990448
+    },
+    {
+      "epoch": 73,
+      "training_mse": 0.27376797795295715,
+      "validation_mse": 0.6720523834228516
+    },
+    {
+      "epoch": 74,
+      "training_mse": 0.2734528034925461,
+      "validation_mse": 0.6710181832313538
+    },
+    {
+      "epoch": 75,
+      "training_mse": 0.27211894094944,
+      "validation_mse": 0.6711277961730957
+    },
+    {
+      "epoch": 76,
+      "training_mse": 0.2708641588687897,
+      "validation_mse": 0.6711862683296204
+    },
+    {
+      "epoch": 77,
+      "training_mse": 0.270005002617836,
+      "validation_mse": 0.6707687377929688
+    },
+    {
+      "epoch": 78,
+      "training_mse": 0.2697325199842453,
+      "validation_mse": 0.6710762977600098
+    },
+    {
+      "epoch": 79,
+      "training_mse": 0.26818616688251495,
+      "validation_mse": 0.6720984578132629
+    },
+    {
+      "epoch": 80,
+      "training_mse": 0.2667732536792755,
+      "validation_mse": 0.6723646521568298
+    }
+  ],
+  "optimizer_state_included": true,
+  "selection_patient": "TENX95",
+  "fitting_patients": [
+    "NCBI783",
+    "NCBI785"
+  ]
+}

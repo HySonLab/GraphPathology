@@ -1,0 +1,3669 @@
+[
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:08:37.535721+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_gcn_shuffled_lr1e4_seed0",
+    "model": "GCN",
+    "control": "shuffled",
+    "seed": 0,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 7,
+    "epochs_ran": 17,
+    "validation_mse": 0.8976603374677835,
+    "optimizer_updates": 238,
+    "selected_optimizer_updates": 98,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_shuffled_lr1e4_seed0.pt",
+    "checkpoint_sha256": "cc15be1adb6d345ace64f090db7689253a8afd676687a45f7879eeb27242ae27",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9572620606728307,
+        "validation_mse": 0.9909441647873711
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.8749612602946254,
+        "validation_mse": 0.9621269732603093
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.8283350897022256,
+        "validation_mse": 0.9336183150773196
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.8021469146289404,
+        "validation_mse": 0.9134710051546392
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.786500969701211,
+        "validation_mse": 0.9018853092783505
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.7765460653383224,
+        "validation_mse": 0.8977937338917525
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.7683942621211367,
+        "validation_mse": 0.8976603374677835
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.7625864252564912,
+        "validation_mse": 0.9005465931056701
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.7579616845801144,
+        "validation_mse": 0.9042337709407217
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.7542365467047063,
+        "validation_mse": 0.9077026014819588
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.7506838276398157,
+        "validation_mse": 0.9109365536404639
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.7483762448376107,
+        "validation_mse": 0.9128354945231959
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.7461896919983247,
+        "validation_mse": 0.9157826192010309
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.7439656402583812,
+        "validation_mse": 0.91931640625
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.7420407016618882,
+        "validation_mse": 0.9239002295425258
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.7400618609325086,
+        "validation_mse": 0.9284716092139175
+      },
+      {
+        "epoch": 17,
+        "training_mse": 0.739375542455797,
+        "validation_mse": 0.9334668170103093
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "changed_edge_fraction": 0.9980542520315898,
+        "permutation_sha256": "22caec2af77463df5695a2dfde893fba059beebf9cfae2d32ae797ea14460232",
+        "adjacency_sha256": "aa245d815b1a2789d707dae62eb92f37f4b783b67c0779b0258f648042041511"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "changed_edge_fraction": 0.9985561406488874,
+        "permutation_sha256": "b0bc63305e8827497779fe0e835f71a351ef4bd56a1dbf5eafec0d72e198354c",
+        "adjacency_sha256": "26492465483a0b4f955962351f454c6e2d16e47988f9ef1d09a2a053073ec1ff"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "changed_edge_fraction": 0.9992156520981307,
+        "permutation_sha256": "dbc73b94b1b132f52da9f84476f8e0995f232eddefea8fcbd64cf7759ec2202a",
+        "adjacency_sha256": "e67e210ce49490157bf5bf065863611be9ccad7b1d55e07545b1c197cad0b546"
+      }
+    },
+    "fit_seconds": 4.561623509012861,
+    "peak_rss_mb": 704.27734375,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_shuffled_lr1e4_seed0.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.9022934922680412
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:09:05.376147+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_gcn_shuffled_lr1e4_seed1",
+    "model": "GCN",
+    "control": "shuffled",
+    "seed": 1,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 7,
+    "epochs_ran": 17,
+    "validation_mse": 0.9117951030927836,
+    "optimizer_updates": 238,
+    "selected_optimizer_updates": 98,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_shuffled_lr1e4_seed1.pt",
+    "checkpoint_sha256": "df3f9accadcae64bf62832a34bfdb425439017dfac7c2775e803380522387bd5",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9524720290517773,
+        "validation_mse": 0.999119644007732
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.8692627706531109,
+        "validation_mse": 0.9729008537371134
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.8252887511542246,
+        "validation_mse": 0.949183372261598
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.8011475134048816,
+        "validation_mse": 0.9297621617268041
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.7853664220951322,
+        "validation_mse": 0.9183044056056701
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.7745679194555058,
+        "validation_mse": 0.9121660357603093
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.7670688844627767,
+        "validation_mse": 0.9117951030927836
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.7616786063184758,
+        "validation_mse": 0.9139868717783505
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.7574170327237565,
+        "validation_mse": 0.9174355267396908
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.7538941013583607,
+        "validation_mse": 0.9209620248067011
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.750793296349363,
+        "validation_mse": 0.9231708279639175
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.7484653500769705,
+        "validation_mse": 0.9268384342783506
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.7471160613547371,
+        "validation_mse": 0.9292447648195876
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.7451545438253276,
+        "validation_mse": 0.9312243073453609
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.7433341720320035,
+        "validation_mse": 0.9323745972938144
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.7418694437187396,
+        "validation_mse": 0.9343476159793814
+      },
+      {
+        "epoch": 17,
+        "training_mse": 0.7404212126881415,
+        "validation_mse": 0.9349049009342784
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "changed_edge_fraction": 0.9975964289801992,
+        "permutation_sha256": "4aadde84d81a5e0c4254d3a79ab2df75a3905550663f35aa4586ca13ca58a02b",
+        "adjacency_sha256": "8f73fcbdac925b6a0665cbecc3fe221cdbf514e6355856bbfa5c1bd73f2aaab4"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "changed_edge_fraction": 0.9984712077458807,
+        "permutation_sha256": "8b9077d0e18939a12e5ad631cd05a3875a1e49615c4dd865ee5fbd77f0f161c5",
+        "adjacency_sha256": "c4e7c5c5943bdaa09f57966ec6c164b102ccca71453069256f1cabc48fbb6d13"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "changed_edge_fraction": 0.9992592269815678,
+        "permutation_sha256": "d29853ff738a6a3a6ce51af7d6b8ef175bcf4a6ff165d6193afc3b9a223d0707",
+        "adjacency_sha256": "4c6e44acdbcfa173c5dd2415c66cc2f83cd8c5b87f9d81dd3843ae0ec97e81a6"
+      }
+    },
+    "fit_seconds": 2.7300699390034424,
+    "peak_rss_mb": 680.86328125,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_shuffled_lr1e4_seed1.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.9022934922680412
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:09:29.386132+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_gcn_shuffled_lr1e4_seed2",
+    "model": "GCN",
+    "control": "shuffled",
+    "seed": 2,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 7,
+    "epochs_ran": 17,
+    "validation_mse": 0.8974250362435567,
+    "optimizer_updates": 238,
+    "selected_optimizer_updates": 98,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_shuffled_lr1e4_seed2.pt",
+    "checkpoint_sha256": "ac4212710d3469b6e36ce524fc0febda035328c6d1bcdab8c831609e3987d601",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.949137638503963,
+        "validation_mse": 1.0079730992268041
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.8722645913458517,
+        "validation_mse": 0.9783681539948453
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.8280297925790038,
+        "validation_mse": 0.9472749677835052
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.8038737584927723,
+        "validation_mse": 0.922718528511598
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.7871959121755762,
+        "validation_mse": 0.9056586461018041
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.7742420540226415,
+        "validation_mse": 0.8983079292847939
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.7660179794641877,
+        "validation_mse": 0.8974250362435567
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.7601445885445506,
+        "validation_mse": 0.9007441808956186
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.7559553116368806,
+        "validation_mse": 0.905931499677835
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.7515490318313294,
+        "validation_mse": 0.910779437822165
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.7497653514507916,
+        "validation_mse": 0.9156097978414949
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.7464942400827632,
+        "validation_mse": 0.9192904719716495
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.7448206237275007,
+        "validation_mse": 0.9221060728092784
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.7423632133797247,
+        "validation_mse": 0.925839340367268
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.7412748845831802,
+        "validation_mse": 0.9291818419780928
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.7402313766187204,
+        "validation_mse": 0.9311865133698454
+      },
+      {
+        "epoch": 17,
+        "training_mse": 0.7389222577564731,
+        "validation_mse": 0.9341321077641752
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "changed_edge_fraction": 0.9981687077944374,
+        "permutation_sha256": "b18569c492ba117c95299707a96e78b8705aae7bce4dd9a50fb700a70fe4c5ef",
+        "adjacency_sha256": "1447bb9c17f9629d3439e6800477cbb50490e880d377027fe426f7df12df377c"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "changed_edge_fraction": 0.998641073551894,
+        "permutation_sha256": "4c2987c9a0fadc9d838ad042cd5916d69978b9f96b32dad492f2343557ce0a33",
+        "adjacency_sha256": "65eb01d25702abbffb59bd67ccd4b7db8b6edd6508e0b847e96299ef8925e7b4"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "changed_edge_fraction": 0.999302801865005,
+        "permutation_sha256": "ad5498d2660090be6d623c9f1ae4a651edb187b6b5c99ddcdccfba9d9d257ebc",
+        "adjacency_sha256": "cca4a0bf8536ff33362e34fcaa60a8318aa84216cea48090fcc61375513e1ed9"
+      }
+    },
+    "fit_seconds": 4.2668590170069365,
+    "peak_rss_mb": 680.93359375,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_shuffled_lr1e4_seed2.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.9022934922680412
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:08:24.708010+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_gcn_spatial_lr1e4_seed0",
+    "model": "GCN",
+    "control": "spatial",
+    "seed": 0,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 5,
+    "epochs_ran": 15,
+    "validation_mse": 0.7559172740818298,
+    "optimizer_updates": 210,
+    "selected_optimizer_updates": 70,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_spatial_lr1e4_seed0.pt",
+    "checkpoint_sha256": "19699812407a40cdcc426978fa7c4442bca6e3d4a4bf4d4260204105ba1af01d",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9290667370822033,
+        "validation_mse": 0.9365844474871134
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7689316998187423,
+        "validation_mse": 0.8554703608247423
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.6390696447403704,
+        "validation_mse": 0.791853656572165
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.542703813624569,
+        "validation_mse": 0.7601871778350515
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.47546749298944696,
+        "validation_mse": 0.7559172740818298
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.4297192226370487,
+        "validation_mse": 0.7645419821198454
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.3984503146205217,
+        "validation_mse": 0.7737485099871134
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.3763805453044894,
+        "validation_mse": 0.7806544176868556
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.35957819184743756,
+        "validation_mse": 0.7867759946842784
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.3460358229944388,
+        "validation_mse": 0.794382923244201
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.33399524085876864,
+        "validation_mse": 0.8051999335534794
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.3247586618638939,
+        "validation_mse": 0.8146359334729382
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.31635319076940493,
+        "validation_mse": 0.824926284632732
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.30966049999487205,
+        "validation_mse": 0.8348401457796392
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.3034035991024988,
+        "validation_mse": 0.850445674935567
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+      }
+    },
+    "fit_seconds": 3.5446318830072414,
+    "peak_rss_mb": 681.00390625,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_spatial_lr1e4_seed0.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7599523665700172
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:08:55.371416+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_gcn_spatial_lr1e4_seed1",
+    "model": "GCN",
+    "control": "spatial",
+    "seed": 1,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 7,
+    "epochs_ran": 17,
+    "validation_mse": 0.7741651900773195,
+    "optimizer_updates": 238,
+    "selected_optimizer_updates": 98,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_spatial_lr1e4_seed1.pt",
+    "checkpoint_sha256": "9d66320b7129e0138668b1aa839ac7cb071153918624359ffe661cdb38e833e4",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9253428791814928,
+        "validation_mse": 0.9554969394329897
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7658529877067887,
+        "validation_mse": 0.8891982119845361
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.6402004971643558,
+        "validation_mse": 0.8365783263530928
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.544638755732745,
+        "validation_mse": 0.8041820131282217
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.4777537150376198,
+        "validation_mse": 0.7874417284149484
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.432978680179702,
+        "validation_mse": 0.7780412270457474
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.4013953066093108,
+        "validation_mse": 0.7741651900773195
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.3784243113002179,
+        "validation_mse": 0.7746531189594072
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.3597779806350183,
+        "validation_mse": 0.7795049130154639
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.34559737497028586,
+        "validation_mse": 0.7850931258054124
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.33308424391834884,
+        "validation_mse": 0.7970279478092783
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.3240959227594918,
+        "validation_mse": 0.8088854703608247
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.3150557298024722,
+        "validation_mse": 0.8193757651417526
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.3086283489966172,
+        "validation_mse": 0.8366469273518041
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.3015537050861337,
+        "validation_mse": 0.8496509544136598
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.29595449120337336,
+        "validation_mse": 0.8603773558311856
+      },
+      {
+        "epoch": 17,
+        "training_mse": 0.29178560322637825,
+        "validation_mse": 0.873299331507732
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+      }
+    },
+    "fit_seconds": 3.391025526987505,
+    "peak_rss_mb": 680.82421875,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_spatial_lr1e4_seed1.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7599523665700172
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:09:18.918997+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_gcn_spatial_lr1e4_seed2",
+    "model": "GCN",
+    "control": "spatial",
+    "seed": 2,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 6,
+    "epochs_ran": 16,
+    "validation_mse": 0.7497746355509021,
+    "optimizer_updates": 224,
+    "selected_optimizer_updates": 84,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_spatial_lr1e4_seed2.pt",
+    "checkpoint_sha256": "5d4b19aabbc149d6547a6e857d8f5e5b743effe4e2119cc132c60696f3af1c6c",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9323347311825388,
+        "validation_mse": 0.96831082876933
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7828878925004689,
+        "validation_mse": 0.8906608207152061
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.65543512207053,
+        "validation_mse": 0.8243328769329897
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.5538469899745814,
+        "validation_mse": 0.7786330339884021
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.4812507004289226,
+        "validation_mse": 0.7556199661726805
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.43168557585772666,
+        "validation_mse": 0.7497746355509021
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.3986378472062068,
+        "validation_mse": 0.752715568621134
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.37445543484014865,
+        "validation_mse": 0.7599379731797681
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.357133204840968,
+        "validation_mse": 0.7709579675418814
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.34223881218574426,
+        "validation_mse": 0.7832541277384021
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.33213043150014737,
+        "validation_mse": 0.7980515866623711
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.32149522530973085,
+        "validation_mse": 0.8117579333118556
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.3134305833283273,
+        "validation_mse": 0.8258339038337629
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.30615103862494636,
+        "validation_mse": 0.8429174653672681
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.3000263765974718,
+        "validation_mse": 0.8542861227448454
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.2953734345675704,
+        "validation_mse": 0.8643005396262886
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+      }
+    },
+    "fit_seconds": 2.3879747920000227,
+    "peak_rss_mb": 680.9140625,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_spatial_lr1e4_seed2.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7599523665700172
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:08:19.123423+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_mean_spatial_lr1e4_seed0",
+    "model": "MEAN",
+    "control": "spatial",
+    "seed": 0,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 5,
+    "epochs_ran": 15,
+    "validation_mse": 0.753166659954897,
+    "optimizer_updates": 210,
+    "selected_optimizer_updates": 70,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_mean_spatial_lr1e4_seed0.pt",
+    "checkpoint_sha256": "c88b7cb5fe9d0199d8bd3e1541b7a52467af1879e312ecca700527e38be080d1",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9284834236395164,
+        "validation_mse": 0.935584125322165
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7665501458000814,
+        "validation_mse": 0.8537109173646907
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.6353029198928637,
+        "validation_mse": 0.789431781572165
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.538052649142822,
+        "validation_mse": 0.7575160981797681
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.47038975340591016,
+        "validation_mse": 0.753166659954897
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.4242809505481339,
+        "validation_mse": 0.7616305170747423
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.39252140110336026,
+        "validation_mse": 0.7703531330541237
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.37047291164387997,
+        "validation_mse": 0.7771306076836341
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.3532217705623643,
+        "validation_mse": 0.7831968125805412
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.33961439617854394,
+        "validation_mse": 0.7904590649162371
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.3272961554532381,
+        "validation_mse": 0.8007772430734537
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.3183604804133825,
+        "validation_mse": 0.8100382973582474
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.3097945861279412,
+        "validation_mse": 0.8198024726159794
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.30303837574556397,
+        "validation_mse": 0.8296298928801547
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.2965456219545366,
+        "validation_mse": 0.8448898598582474
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+      }
+    },
+    "fit_seconds": 3.5274153299978934,
+    "peak_rss_mb": 681.0,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_mean_spatial_lr1e4_seed0.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7570752624301976
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:08:50.684214+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_mean_spatial_lr1e4_seed1",
+    "model": "MEAN",
+    "control": "spatial",
+    "seed": 1,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 7,
+    "epochs_ran": 17,
+    "validation_mse": 0.7707010208601804,
+    "optimizer_updates": 238,
+    "selected_optimizer_updates": 98,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_mean_spatial_lr1e4_seed1.pt",
+    "checkpoint_sha256": "d81430e1db8899119663227163a771bb239112b8ccbfbf2445cbca942cccc66d",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9248154345530744,
+        "validation_mse": 0.9549612798002577
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7635256427573206,
+        "validation_mse": 0.8879758577641752
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.6366130907792155,
+        "validation_mse": 0.8348226079252578
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.540305312352782,
+        "validation_mse": 0.8016839863885309
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.4728528039292276,
+        "validation_mse": 0.7844450306056701
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.42771283150229045,
+        "validation_mse": 0.7746136839561856
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.3958450081938093,
+        "validation_mse": 0.7707010208601804
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.3725686620578372,
+        "validation_mse": 0.7709073171713917
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.3537347337261575,
+        "validation_mse": 0.7753873228092784
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.33934501742602924,
+        "validation_mse": 0.7807016249194587
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.32684802142365527,
+        "validation_mse": 0.7925914042364691
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.3177109399779898,
+        "validation_mse": 0.8038958299774485
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.30837129227875476,
+        "validation_mse": 0.8145979180090206
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.3017631325522917,
+        "validation_mse": 0.8314929526417526
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.2949101305611203,
+        "validation_mse": 0.8444506886275773
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.28904088391462396,
+        "validation_mse": 0.8545569023840206
+      },
+      {
+        "epoch": 17,
+        "training_mse": 0.2848916292572905,
+        "validation_mse": 0.8677870086984536
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+      }
+    },
+    "fit_seconds": 3.0016389149968745,
+    "peak_rss_mb": 657.4453125,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_mean_spatial_lr1e4_seed1.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7570752624301976
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:09:15.269659+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_mean_spatial_lr1e4_seed2",
+    "model": "MEAN",
+    "control": "spatial",
+    "seed": 2,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 6,
+    "epochs_ran": 16,
+    "validation_mse": 0.7473581064755155,
+    "optimizer_updates": 224,
+    "selected_optimizer_updates": 84,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_mean_spatial_lr1e4_seed2.pt",
+    "checkpoint_sha256": "840423233ef70b16085b734791ee34c3b70f9ffec672f2c71f63d9b1bed99496",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9314443972649442,
+        "validation_mse": 0.9679317614368557
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7801994985796602,
+        "validation_mse": 0.8894528632409794
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.6513777513888082,
+        "validation_mse": 0.8224917445231958
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.5490571312112461,
+        "validation_mse": 0.7764766631765464
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.4759953322745355,
+        "validation_mse": 0.7532984153511598
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.4262141379049142,
+        "validation_mse": 0.7473581064755155
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.39285071610299843,
+        "validation_mse": 0.7496942151256444
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.3684052552483546,
+        "validation_mse": 0.756692413015464
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.3509063341748434,
+        "validation_mse": 0.7674847777061856
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.3359053267934708,
+        "validation_mse": 0.779487334890464
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.3255630779376815,
+        "validation_mse": 0.7942882369523195
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.31490061154385934,
+        "validation_mse": 0.8078456829896907
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.30666045192642377,
+        "validation_mse": 0.8221573171713917
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.2995125739428288,
+        "validation_mse": 0.8381553640463918
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.29325534803308256,
+        "validation_mse": 0.8486079453930412
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.2884830520778406,
+        "validation_mse": 0.8594941003543815
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+      }
+    },
+    "fit_seconds": 2.5688768660038477,
+    "peak_rss_mb": 680.8984375,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_mean_spatial_lr1e4_seed2.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7570752624301976
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:08:44.043254+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_sage_shuffled_lr1e4_seed0",
+    "model": "SAGE",
+    "control": "shuffled",
+    "seed": 0,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 66,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104792,
+    "selected_epoch": 11,
+    "epochs_ran": 21,
+    "validation_mse": 0.6847093266752577,
+    "optimizer_updates": 294,
+    "selected_optimizer_updates": 154,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_sage_shuffled_lr1e4_seed0.pt",
+    "checkpoint_sha256": "92bb962747c2c4dfccb7196700cc9bf9ce3ffe227c8aa906cccfc1d948438410",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9534629940986633,
+        "validation_mse": 0.9583541599548969
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.8347554385024823,
+        "validation_mse": 0.8941651900773195
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.7451124479238764,
+        "validation_mse": 0.8369118476159794
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.664567980423028,
+        "validation_mse": 0.7923711138853092
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.5972345453793886,
+        "validation_mse": 0.7544511517396907
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.5387033936387713,
+        "validation_mse": 0.7266463232925258
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.4892136937324608,
+        "validation_mse": 0.706659793814433
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.4511888317269932,
+        "validation_mse": 0.6959805694265464
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.41871524668555554,
+        "validation_mse": 0.6883214199420103
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.3939360090263894,
+        "validation_mse": 0.6855245046713917
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.37164430896129597,
+        "validation_mse": 0.6847093266752577
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.35400205963607867,
+        "validation_mse": 0.6880980488885309
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.3400716378530773,
+        "validation_mse": 0.6930025370489691
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.3287578949822924,
+        "validation_mse": 0.6974514437016752
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.31712229403528414,
+        "validation_mse": 0.7068975515463918
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.3079168004642957,
+        "validation_mse": 0.7148751711501289
+      },
+      {
+        "epoch": 17,
+        "training_mse": 0.29801839241706213,
+        "validation_mse": 0.7221423969072165
+      },
+      {
+        "epoch": 18,
+        "training_mse": 0.290657758385644,
+        "validation_mse": 0.7332426707474227
+      },
+      {
+        "epoch": 19,
+        "training_mse": 0.28312842765622537,
+        "validation_mse": 0.7428677512886598
+      },
+      {
+        "epoch": 20,
+        "training_mse": 0.2779184750548789,
+        "validation_mse": 0.7455406330541237
+      },
+      {
+        "epoch": 21,
+        "training_mse": 0.2717932486015817,
+        "validation_mse": 0.7567438587306701
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "changed_edge_fraction": 0.9980542520315898,
+        "permutation_sha256": "22caec2af77463df5695a2dfde893fba059beebf9cfae2d32ae797ea14460232",
+        "adjacency_sha256": "aa245d815b1a2789d707dae62eb92f37f4b783b67c0779b0258f648042041511"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "changed_edge_fraction": 0.9985561406488874,
+        "permutation_sha256": "b0bc63305e8827497779fe0e835f71a351ef4bd56a1dbf5eafec0d72e198354c",
+        "adjacency_sha256": "26492465483a0b4f955962351f454c6e2d16e47988f9ef1d09a2a053073ec1ff"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "changed_edge_fraction": 0.9992156520981307,
+        "permutation_sha256": "dbc73b94b1b132f52da9f84476f8e0995f232eddefea8fcbd64cf7759ec2202a",
+        "adjacency_sha256": "e67e210ce49490157bf5bf065863611be9ccad7b1d55e07545b1c197cad0b546"
+      }
+    },
+    "fit_seconds": 5.08187003499188,
+    "peak_rss_mb": 766.61328125,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_sage_shuffled_lr1e4_seed0.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7078298465689433
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:09:08.729817+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_sage_shuffled_lr1e4_seed1",
+    "model": "SAGE",
+    "control": "shuffled",
+    "seed": 1,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 66,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104792,
+    "selected_epoch": 12,
+    "epochs_ran": 22,
+    "validation_mse": 0.6996788518846649,
+    "optimizer_updates": 308,
+    "selected_optimizer_updates": 168,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_sage_shuffled_lr1e4_seed1.pt",
+    "checkpoint_sha256": "3b530830da970f6192d2072910bb60ba029a24f5d3e35ccd5b53bbc0ea49b108",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9394519465613688,
+        "validation_mse": 0.9701996617268042
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7889922397950676,
+        "validation_mse": 0.9071332353414948
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.6857133454878842,
+        "validation_mse": 0.8576625926224227
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.6105046148310367,
+        "validation_mse": 0.8167989288015464
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.5496406158972704,
+        "validation_mse": 0.7836914263853093
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.5001917630625213,
+        "validation_mse": 0.7571303157216495
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.4573014156570285,
+        "validation_mse": 0.7360588957796391
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.42502340823518153,
+        "validation_mse": 0.7213217219716495
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.39908184938488567,
+        "validation_mse": 0.7101605790914949
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.37955643024430985,
+        "validation_mse": 0.7036666800902062
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.36181061384682983,
+        "validation_mse": 0.7002384020618557
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.34672726702877055,
+        "validation_mse": 0.6996788518846649
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.332711380095628,
+        "validation_mse": 0.7001463937661082
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.32201088198745415,
+        "validation_mse": 0.7026764457152062
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.3124116282333923,
+        "validation_mse": 0.7051934600515464
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.30392973052121364,
+        "validation_mse": 0.706381111066366
+      },
+      {
+        "epoch": 17,
+        "training_mse": 0.29433736912029945,
+        "validation_mse": 0.7090992268041237
+      },
+      {
+        "epoch": 18,
+        "training_mse": 0.28870880781797026,
+        "validation_mse": 0.7128924975837629
+      },
+      {
+        "epoch": 19,
+        "training_mse": 0.28143555736082926,
+        "validation_mse": 0.7167224850998711
+      },
+      {
+        "epoch": 20,
+        "training_mse": 0.27514931933844167,
+        "validation_mse": 0.7205769974226804
+      },
+      {
+        "epoch": 21,
+        "training_mse": 0.2712394913561584,
+        "validation_mse": 0.7236212145618557
+      },
+      {
+        "epoch": 22,
+        "training_mse": 0.2659427070609179,
+        "validation_mse": 0.7233278833762886
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "changed_edge_fraction": 0.9975964289801992,
+        "permutation_sha256": "4aadde84d81a5e0c4254d3a79ab2df75a3905550663f35aa4586ca13ca58a02b",
+        "adjacency_sha256": "8f73fcbdac925b6a0665cbecc3fe221cdbf514e6355856bbfa5c1bd73f2aaab4"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "changed_edge_fraction": 0.9984712077458807,
+        "permutation_sha256": "8b9077d0e18939a12e5ad631cd05a3875a1e49615c4dd865ee5fbd77f0f161c5",
+        "adjacency_sha256": "c4e7c5c5943bdaa09f57966ec6c164b102ccca71453069256f1cabc48fbb6d13"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "changed_edge_fraction": 0.9992592269815678,
+        "permutation_sha256": "d29853ff738a6a3a6ce51af7d6b8ef175bcf4a6ff165d6193afc3b9a223d0707",
+        "adjacency_sha256": "4c6e44acdbcfa173c5dd2415c66cc2f83cd8c5b87f9d81dd3843ae0ec97e81a6"
+      }
+    },
+    "fit_seconds": 2.5349953999975696,
+    "peak_rss_mb": 767.453125,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_sage_shuffled_lr1e4_seed1.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7078298465689433
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:09:36.045266+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_sage_shuffled_lr1e4_seed2",
+    "model": "SAGE",
+    "control": "shuffled",
+    "seed": 2,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 66,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104792,
+    "selected_epoch": 12,
+    "epochs_ran": 22,
+    "validation_mse": 0.7391013611469072,
+    "optimizer_updates": 308,
+    "selected_optimizer_updates": 168,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_sage_shuffled_lr1e4_seed2.pt",
+    "checkpoint_sha256": "966b7a494b0bc6d38f8ab64973111f11527c0fbd57d69b8ef8f52dbbd7a91309",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9424458528448664,
+        "validation_mse": 0.9672666519007732
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.804463336897678,
+        "validation_mse": 0.9137283746778351
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.7046931886282124,
+        "validation_mse": 0.8750757490335052
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.6263742083068924,
+        "validation_mse": 0.8434800459085051
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.5595700542840122,
+        "validation_mse": 0.8145796351481959
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.5035897158760729,
+        "validation_mse": 0.7903875644329897
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.45866425050553983,
+        "validation_mse": 0.7698680231153351
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.42549383284700654,
+        "validation_mse": 0.7558423203930412
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.3976192769669501,
+        "validation_mse": 0.7458758557506443
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.37562514402487407,
+        "validation_mse": 0.7411206709085052
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.35750391558078215,
+        "validation_mse": 0.7400972736791237
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.3450550688052296,
+        "validation_mse": 0.7391013611469072
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.3310238634358961,
+        "validation_mse": 0.7405716716333763
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.320230532610153,
+        "validation_mse": 0.7440094837306701
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.31052080397085896,
+        "validation_mse": 0.7441423969072165
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.3001216315874778,
+        "validation_mse": 0.7523892155283505
+      },
+      {
+        "epoch": 17,
+        "training_mse": 0.2931991262089246,
+        "validation_mse": 0.7589929023034794
+      },
+      {
+        "epoch": 18,
+        "training_mse": 0.28669556051344,
+        "validation_mse": 0.7647488422197165
+      },
+      {
+        "epoch": 19,
+        "training_mse": 0.28032740965028874,
+        "validation_mse": 0.7715650471166237
+      },
+      {
+        "epoch": 20,
+        "training_mse": 0.2753887184075772,
+        "validation_mse": 0.7769786163015464
+      },
+      {
+        "epoch": 21,
+        "training_mse": 0.26893828216188737,
+        "validation_mse": 0.7854954494201031
+      },
+      {
+        "epoch": 22,
+        "training_mse": 0.2646031160186379,
+        "validation_mse": 0.788776226240335
+      }
+    ],
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "changed_edge_fraction": 0.9981687077944374,
+        "permutation_sha256": "b18569c492ba117c95299707a96e78b8705aae7bce4dd9a50fb700a70fe4c5ef",
+        "adjacency_sha256": "1447bb9c17f9629d3439e6800477cbb50490e880d377027fe426f7df12df377c"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "changed_edge_fraction": 0.998641073551894,
+        "permutation_sha256": "4c2987c9a0fadc9d838ad042cd5916d69978b9f96b32dad492f2343557ce0a33",
+        "adjacency_sha256": "65eb01d25702abbffb59bd67ccd4b7db8b6edd6508e0b847e96299ef8925e7b4"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "changed_edge_fraction": 0.999302801865005,
+        "permutation_sha256": "ad5498d2660090be6d623c9f1ae4a651edb187b6b5c99ddcdccfba9d9d257ebc",
+        "adjacency_sha256": "cca4a0bf8536ff33362e34fcaa60a8318aa84216cea48090fcc61375513e1ed9"
+      }
+    },
+    "fit_seconds": 4.994065303006209,
+    "peak_rss_mb": 767.5234375,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_sage_shuffled_lr1e4_seed2.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7078298465689433
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "8758af15b2e0d87cfd274b44daed5211ba8e5499",
+    "created_utc": "2026-11-01T17:51:35.411291+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "998061501418741cdcc82b630ad8011b6b60239545afefa38979e915272bb4a7",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_sage_spatial_seed0",
+    "model": "SAGE",
+    "control": "spatial",
+    "seed": 0,
+    "config": {
+      "hidden": 66,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104792,
+    "selected_epoch": 1,
+    "epochs_ran": 11,
+    "optimizer_updates": 154,
+    "selected_optimizer_updates": 14,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/phikon_sage_spatial_seed0.pt",
+    "checkpoint_sha256": "d5a95a8ecf2a4bad78e51a26aad61e37aeaf6523bd957b13c6eea37f52dff29a",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+      }
+    },
+    "fit_seconds": 0.9729827569972258,
+    "peak_rss_mb": 689.83984375,
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.663489537050447,
+        "validation_mse": 0.7004688506765464
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.35095466602213965,
+        "validation_mse": 0.7912685043492268
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.26363443110300144,
+        "validation_mse": 0.8557687258376289
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.22473244131121226,
+        "validation_mse": 0.8440751852448454
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.20471301307358744,
+        "validation_mse": 0.8401957353414948
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.19158901275266346,
+        "validation_mse": 0.8927865053157217
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.18205960973067023,
+        "validation_mse": 0.999732784310567
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.17404525065243626,
+        "validation_mse": 1.0085338071842784
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.16796398293479203,
+        "validation_mse": 0.9986870368878866
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.1635629254923662,
+        "validation_mse": 0.9899519168814434
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.15936298976816285,
+        "validation_mse": 1.0295342098904638
+      }
+    ],
+    "serialization_exact": true,
+    "learning_rate": 0.001,
+    "validation_mse": 0.7004688506765464,
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "artifact_origin": "initial_phikon_lr1e3",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/fits/phikon_sage_spatial_seed0.json",
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.7331727609536083
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "8758af15b2e0d87cfd274b44daed5211ba8e5499",
+    "created_utc": "2026-11-01T17:51:51.907533+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "998061501418741cdcc82b630ad8011b6b60239545afefa38979e915272bb4a7",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_sage_spatial_seed1",
+    "model": "SAGE",
+    "control": "spatial",
+    "seed": 1,
+    "config": {
+      "hidden": 66,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104792,
+    "selected_epoch": 1,
+    "epochs_ran": 11,
+    "optimizer_updates": 154,
+    "selected_optimizer_updates": 14,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/phikon_sage_spatial_seed1.pt",
+    "checkpoint_sha256": "2d1e1e0a07627909ccb51a6e373e2ddd87dcd62e1b3bd79db42201228faa470a",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+      }
+    },
+    "fit_seconds": 1.6648663099913392,
+    "peak_rss_mb": 730.23046875,
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.6225844343729896,
+        "validation_mse": 0.7487255758698453
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.34387215054723425,
+        "validation_mse": 0.7939770860180413
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.26470045126172703,
+        "validation_mse": 0.7886501288659794
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.2280861539961352,
+        "validation_mse": 0.8150462709407217
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.2076836456486946,
+        "validation_mse": 0.8593753423002577
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.19470563713601888,
+        "validation_mse": 0.9110771182345361
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.18307456555149,
+        "validation_mse": 1.0034567292203609
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.17603832060791133,
+        "validation_mse": 1.0000788700064434
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.16893709522439002,
+        "validation_mse": 1.0136760832796392
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.1651310935181035,
+        "validation_mse": 1.1009543733891753
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.1593447554710501,
+        "validation_mse": 1.1439227810889174
+      }
+    ],
+    "serialization_exact": true,
+    "learning_rate": 0.001,
+    "validation_mse": 0.7487255758698453,
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "artifact_origin": "initial_phikon_lr1e3",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/fits/phikon_sage_spatial_seed1.json",
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.7331727609536083
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "8758af15b2e0d87cfd274b44daed5211ba8e5499",
+    "created_utc": "2026-11-01T17:52:15.394603+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "998061501418741cdcc82b630ad8011b6b60239545afefa38979e915272bb4a7",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_sage_spatial_seed2",
+    "model": "SAGE",
+    "control": "spatial",
+    "seed": 2,
+    "config": {
+      "hidden": 66,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104792,
+    "selected_epoch": 1,
+    "epochs_ran": 11,
+    "optimizer_updates": 154,
+    "selected_optimizer_updates": 14,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/phikon_sage_spatial_seed2.pt",
+    "checkpoint_sha256": "f6e5b6957202a532329f3323e67f8511ccc7e0c46a744f3491a02832db4bf270",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "graphs": {
+      "NCBI783": {
+        "edges": 8737,
+        "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+      },
+      "NCBI785": {
+        "edges": 11774,
+        "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+      },
+      "TENX95": {
+        "edges": 22949,
+        "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+      }
+    },
+    "fit_seconds": 1.8920627150073415,
+    "peak_rss_mb": 690.828125,
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.6352534724785783,
+        "validation_mse": 0.750323856314433
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.34415291119539476,
+        "validation_mse": 0.8720829776095361
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.26082458410064235,
+        "validation_mse": 0.9602116019652062
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.22575808419810817,
+        "validation_mse": 0.9982195755476804
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.2060540707321228,
+        "validation_mse": 1.0918681741301546
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.19196225364379857,
+        "validation_mse": 1.18901618878866
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.183386567876497,
+        "validation_mse": 1.2750314110824743
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.17533963515940346,
+        "validation_mse": 1.2242755517074742
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.16874027673210829,
+        "validation_mse": 1.3215342098904639
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.16365988869923656,
+        "validation_mse": 1.3119930331829897
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.1603668663260432,
+        "validation_mse": 1.3318412532216495
+      }
+    ],
+    "serialization_exact": true,
+    "learning_rate": 0.001,
+    "validation_mse": 0.750323856314433,
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "artifact_origin": "initial_phikon_lr1e3",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/fits/phikon_sage_spatial_seed2.json",
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.7331727609536083
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:08:13.806415+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_local_local_lr1e4_seed0",
+    "model": "local",
+    "control": "local",
+    "seed": 0,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 5,
+    "epochs_ran": 15,
+    "validation_mse": 0.7199308754832474,
+    "optimizer_updates": 210,
+    "selected_optimizer_updates": 70,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_local_local_lr1e4_seed0.pt",
+    "checkpoint_sha256": "d72448c4371bdce937d4ab2faeb5a206de83485d8c70b8302ec538340d7419af",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.93609028182876,
+        "validation_mse": 0.92694754751933
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7587763757342028,
+        "validation_mse": 0.8342108166881443
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.6136428657804993,
+        "validation_mse": 0.7629548868395618
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.5048166044125452,
+        "validation_mse": 0.7270513450386598
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.43003360512676364,
+        "validation_mse": 0.7199308754832474
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.38113163216404633,
+        "validation_mse": 0.7236657941365979
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.3488701414526656,
+        "validation_mse": 0.7276129691527062
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.3260407756756479,
+        "validation_mse": 0.7310872865657216
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.3084720603882714,
+        "validation_mse": 0.7351884664948454
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.29411583338901987,
+        "validation_mse": 0.7402476441688144
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.2820140781652392,
+        "validation_mse": 0.7495617549935567
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.27204498467238053,
+        "validation_mse": 0.7573143323131444
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.26313128634936794,
+        "validation_mse": 0.7666858388369845
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.2561251119257124,
+        "validation_mse": 0.7740660639497423
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.24912004582132516,
+        "validation_mse": 0.7900593588917526
+      }
+    ],
+    "graphs": {},
+    "fit_seconds": 2.6233377949974965,
+    "peak_rss_mb": 680.9921875,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_local_local_lr1e4_seed0.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7154541116301546
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:08:46.756493+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_local_local_lr1e4_seed1",
+    "model": "local",
+    "control": "local",
+    "seed": 1,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 7,
+    "epochs_ran": 17,
+    "validation_mse": 0.7249993355347938,
+    "optimizer_updates": 238,
+    "selected_optimizer_updates": 98,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_local_local_lr1e4_seed1.pt",
+    "checkpoint_sha256": "3a28d83c4aa3caac0fd60801b20647422595e1b9208f13dfe12e7d65e721180c",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.9335737783400739,
+        "validation_mse": 0.9524512725515464
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7548765523979176,
+        "validation_mse": 0.8723438708118557
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.6146057935671898,
+        "validation_mse": 0.8085789606153351
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.5077565975386333,
+        "validation_mse": 0.7675615435728093
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.43444241326958133,
+        "validation_mse": 0.7440711783182989
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.38593439856173734,
+        "validation_mse": 0.7305020840045103
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.3526581417511636,
+        "validation_mse": 0.7249993355347938
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.3281675157084774,
+        "validation_mse": 0.7252978314271907
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.30906005377269863,
+        "validation_mse": 0.729335182425902
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.2938510802968094,
+        "validation_mse": 0.7333712850354381
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.2812219777662926,
+        "validation_mse": 0.7444060989851804
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.27194018471011583,
+        "validation_mse": 0.754333732683634
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.26249105045817533,
+        "validation_mse": 0.7618024927512886
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.2554183034580772,
+        "validation_mse": 0.7716855972132732
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.24844912113203632,
+        "validation_mse": 0.7838122684439432
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.24223678338255783,
+        "validation_mse": 0.7924290633054124
+      },
+      {
+        "epoch": 17,
+        "training_mse": 0.23824657431603838,
+        "validation_mse": 0.8024236670425258
+      }
+    ],
+    "graphs": {},
+    "fit_seconds": 2.494778142994619,
+    "peak_rss_mb": 657.4375,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_local_local_lr1e4_seed1.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7154541116301546
+  },
+  {
+    "classification": "exploratory_follow_up",
+    "protocol_commit": "60842a6b5",
+    "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+    "created_utc": "2026-11-01T18:09:11.547928+00:00",
+    "code_hashes": {
+      "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+      "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+      "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+      "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+      "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+      "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+      "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+      "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+      "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+    },
+    "status": "COMPLETE",
+    "backbone": "phikon",
+    "run_id": "phikon_local_local_lr1e4_seed2",
+    "model": "local",
+    "control": "local",
+    "seed": 2,
+    "learning_rate": 0.0001,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "training": {
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "parameters": 104882,
+    "selected_epoch": 6,
+    "epochs_ran": 16,
+    "validation_mse": 0.7014321238724227,
+    "optimizer_updates": 224,
+    "selected_optimizer_updates": 84,
+    "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_local_local_lr1e4_seed2.pt",
+    "checkpoint_sha256": "a860a940d1e275ea558a3143209a1675532cdbb227b77a8f7386917b6c356388",
+    "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+    "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+    "source_fit": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation": "TENX95",
+    "history": [
+      {
+        "epoch": 1,
+        "training_mse": 0.942175129882285,
+        "validation_mse": 0.9661690963273196
+      },
+      {
+        "epoch": 2,
+        "training_mse": 0.7744687500462223,
+        "validation_mse": 0.8730525732925257
+      },
+      {
+        "epoch": 3,
+        "training_mse": 0.6317789890217255,
+        "validation_mse": 0.7958515826353093
+      },
+      {
+        "epoch": 4,
+        "training_mse": 0.5178182058816966,
+        "validation_mse": 0.7424132570876288
+      },
+      {
+        "epoch": 5,
+        "training_mse": 0.43723770341359963,
+        "validation_mse": 0.7134307546713917
+      },
+      {
+        "epoch": 6,
+        "training_mse": 0.3832797733741578,
+        "validation_mse": 0.7014321238724227
+      },
+      {
+        "epoch": 7,
+        "training_mse": 0.3485162111536911,
+        "validation_mse": 0.701446258859536
+      },
+      {
+        "epoch": 8,
+        "training_mse": 0.32314066205887987,
+        "validation_mse": 0.7066181338595361
+      },
+      {
+        "epoch": 9,
+        "training_mse": 0.305338177316459,
+        "validation_mse": 0.7173932023195876
+      },
+      {
+        "epoch": 10,
+        "training_mse": 0.2901759606213206,
+        "validation_mse": 0.7305834205863402
+      },
+      {
+        "epoch": 11,
+        "training_mse": 0.27937956618905835,
+        "validation_mse": 0.7461887584568299
+      },
+      {
+        "epoch": 12,
+        "training_mse": 0.2682892471700588,
+        "validation_mse": 0.7608020900451031
+      },
+      {
+        "epoch": 13,
+        "training_mse": 0.25990257409752393,
+        "validation_mse": 0.775352790753866
+      },
+      {
+        "epoch": 14,
+        "training_mse": 0.25270540256714363,
+        "validation_mse": 0.7899708944104381
+      },
+      {
+        "epoch": 15,
+        "training_mse": 0.246307324685544,
+        "validation_mse": 0.7999413055734536
+      },
+      {
+        "epoch": 16,
+        "training_mse": 0.24118364667221212,
+        "validation_mse": 0.8109134785760309
+      }
+    ],
+    "graphs": {},
+    "fit_seconds": 2.3970320580119733,
+    "peak_rss_mb": 680.8828125,
+    "serialization_exact": true,
+    "artifact_origin": "refinement_lr1e4",
+    "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+    "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_local_local_lr1e4_seed2.json",
+    "input_cache_hashes": {
+      "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+      "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+      "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+    },
+    "selected_learning_rate": 0.0001,
+    "selection_mean_validation_mse": 0.7154541116301546
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_gcn_shuffled_seed0",
+    "status": "REUSED_VERIFIED",
+    "model": "GCN",
+    "control": "shuffled",
+    "seed": 0,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_gcn_shuffled_seed0.pt",
+    "checkpoint_sha256": "6766cb8c20d93ff5a49585db36c2c7578276df12ad69e772d7600505065226ca",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 1,
+    "epochs_ran": 11,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 1.113639041002898,
+    "peak_rss_mb": 637.4765625,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.9194348421391753,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_gcn_shuffled_seed0.json",
+    "optimizer_updates": 154,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.9021857213810138
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_gcn_shuffled_seed1",
+    "status": "REUSED_VERIFIED",
+    "model": "GCN",
+    "control": "shuffled",
+    "seed": 1,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_gcn_shuffled_seed1.pt",
+    "checkpoint_sha256": "82ae026d6a1a5d4ddd1b44987d0f02d98cd80f3064475941082f9380b7bd5ee5",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 9,
+    "epochs_ran": 19,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 1.521956479002256,
+    "peak_rss_mb": 613.984375,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.8872295022551546,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_gcn_shuffled_seed1.json",
+    "optimizer_updates": 266,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.9021857213810138
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_gcn_shuffled_seed2",
+    "status": "REUSED_VERIFIED",
+    "model": "GCN",
+    "control": "shuffled",
+    "seed": 2,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_gcn_shuffled_seed2.pt",
+    "checkpoint_sha256": "7a701772f26a6ab3c299e269d488771af6fd445815f01b10be48681802c52543",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 15,
+    "epochs_ran": 25,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 4.373410668005818,
+    "peak_rss_mb": 644.38671875,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.8998928197487114,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_gcn_shuffled_seed2.json",
+    "optimizer_updates": 350,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.9021857213810138
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_gcn_spatial_seed0",
+    "status": "REUSED_VERIFIED",
+    "model": "GCN",
+    "control": "spatial",
+    "seed": 0,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_gcn_spatial_seed0.pt",
+    "checkpoint_sha256": "a9428b0c220db0206e0d6626788e96b56ffc64ddb7383913049bffcb30bbe824",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 12,
+    "epochs_ran": 22,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 2.265152169005887,
+    "peak_rss_mb": 637.46875,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.7045807727931701,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_gcn_spatial_seed0.json",
+    "optimizer_updates": 308,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.7103894974226804
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_gcn_spatial_seed1",
+    "status": "REUSED_VERIFIED",
+    "model": "GCN",
+    "control": "spatial",
+    "seed": 1,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_gcn_spatial_seed1.pt",
+    "checkpoint_sha256": "229faf4dc5e9bb8b7de7d43ea2ddba3b66cebd43104dc71a9ba563ee97f2135c",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 14,
+    "epochs_ran": 24,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 2.4136261450039456,
+    "peak_rss_mb": 583.76953125,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.7050492106958763,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_gcn_spatial_seed1.json",
+    "optimizer_updates": 336,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.7103894974226804
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_gcn_spatial_seed2",
+    "status": "REUSED_VERIFIED",
+    "model": "GCN",
+    "control": "spatial",
+    "seed": 2,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_gcn_spatial_seed2.pt",
+    "checkpoint_sha256": "5926ad8661787b3e61da8dd04ccb096575d5a13be6b4bafbb030849a00fd9f3f",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 14,
+    "epochs_ran": 24,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 3.9019126190032694,
+    "peak_rss_mb": 629.21875,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.7215385087789948,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_gcn_spatial_seed2.json",
+    "optimizer_updates": 336,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.7103894974226804
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_mean_spatial_seed0",
+    "status": "REUSED_VERIFIED",
+    "model": "MEAN",
+    "control": "spatial",
+    "seed": 0,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_mean_spatial_seed0.pt",
+    "checkpoint_sha256": "21ed2dd52699e8b9b8d25467efcf505eb1b3bb3d828ebdb93d799f879373f438",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 12,
+    "epochs_ran": 22,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 2.977007383000455,
+    "peak_rss_mb": 576.38671875,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6990635168331185,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_mean_spatial_seed0.json",
+    "optimizer_updates": 308,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.7045917599602664
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_mean_spatial_seed1",
+    "status": "REUSED_VERIFIED",
+    "model": "MEAN",
+    "control": "spatial",
+    "seed": 1,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_mean_spatial_seed1.pt",
+    "checkpoint_sha256": "afcb75c09847d420d8dc4eca598b666b45d8ee4cf4a0259df0d389ed70131dcf",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 16,
+    "epochs_ran": 26,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 4.396480527000676,
+    "peak_rss_mb": 583.73046875,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6992103938466495,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_mean_spatial_seed1.json",
+    "optimizer_updates": 364,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.7045917599602664
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_mean_spatial_seed2",
+    "status": "REUSED_VERIFIED",
+    "model": "MEAN",
+    "control": "spatial",
+    "seed": 2,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_mean_spatial_seed2.pt",
+    "checkpoint_sha256": "ed69bd43a19f32923421201ca541d0186d2f458ac350fda5253e90165ea41f99",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 14,
+    "epochs_ran": 24,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 2.56853643800423,
+    "peak_rss_mb": 583.828125,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.7155013692010309,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_mean_spatial_seed2.json",
+    "optimizer_updates": 336,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.7045917599602664
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_sage_shuffled_seed0",
+    "status": "REUSED_VERIFIED",
+    "model": "SAGE",
+    "control": "shuffled",
+    "seed": 0,
+    "embedding_dimension": 512,
+    "hidden": 67,
+    "parameters": 72075,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_sage_shuffled_seed0.pt",
+    "checkpoint_sha256": "e334a94f0be3185210df837d53b786c8896ea1a48bca4f61367ab59d07a628f9",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 9,
+    "epochs_ran": 19,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 3.2757094539992977,
+    "peak_rss_mb": 650.12109375,
+    "config": {
+      "hidden": 67,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.7017242570070876,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_sage_shuffled_seed0.json",
+    "optimizer_updates": 266,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.6877087662424829
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_sage_shuffled_seed1",
+    "status": "REUSED_VERIFIED",
+    "model": "SAGE",
+    "control": "shuffled",
+    "seed": 1,
+    "embedding_dimension": 512,
+    "hidden": 67,
+    "parameters": 72075,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_sage_shuffled_seed1.pt",
+    "checkpoint_sha256": "f3ad2aab55cf436cb18432ac7bcfa1f21d0bf5ccb4cd6ee56fc49dd9f609f287",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 18,
+    "epochs_ran": 28,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 4.613350071995228,
+    "peak_rss_mb": 686.87890625,
+    "config": {
+      "hidden": 67,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6744843951353093,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_sage_shuffled_seed1.json",
+    "optimizer_updates": 392,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.6877087662424829
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_sage_shuffled_seed2",
+    "status": "REUSED_VERIFIED",
+    "model": "SAGE",
+    "control": "shuffled",
+    "seed": 2,
+    "embedding_dimension": 512,
+    "hidden": 67,
+    "parameters": 72075,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_sage_shuffled_seed2.pt",
+    "checkpoint_sha256": "21143e1f1b5d8d23ec3bbc5ae7c31ec37958aef70be7355bdec9294364452609",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 7,
+    "epochs_ran": 17,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 2.9352470289959456,
+    "peak_rss_mb": 671.8125,
+    "config": {
+      "hidden": 67,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6869176465850515,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_sage_shuffled_seed2.json",
+    "optimizer_updates": 238,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.6877087662424829
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_sage_spatial_seed0",
+    "status": "REUSED_VERIFIED",
+    "model": "SAGE",
+    "control": "spatial",
+    "seed": 0,
+    "embedding_dimension": 512,
+    "hidden": 67,
+    "parameters": 72075,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_sage_spatial_seed0.pt",
+    "checkpoint_sha256": "6ee451c01e3fb55aad3de5081f4b26d432ac5eb35b962459f8646704f347b939",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 7,
+    "epochs_ran": 17,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 1.7582107470007031,
+    "peak_rss_mb": 627.0,
+    "config": {
+      "hidden": 67,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6786773014658505,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_sage_spatial_seed0.json",
+    "optimizer_updates": 238,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.6725405692923111
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_sage_spatial_seed1",
+    "status": "REUSED_VERIFIED",
+    "model": "SAGE",
+    "control": "spatial",
+    "seed": 1,
+    "embedding_dimension": 512,
+    "hidden": 67,
+    "parameters": 72075,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_sage_spatial_seed1.pt",
+    "checkpoint_sha256": "19868f809844bc20c2da24def09e45123bf22f085470eeef5ba22ee97979ecc7",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 10,
+    "epochs_ran": 20,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 3.3924880259946804,
+    "peak_rss_mb": 656.55859375,
+    "config": {
+      "hidden": 67,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6696288055734536,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_sage_spatial_seed1.json",
+    "optimizer_updates": 280,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.6725405692923111
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_sage_spatial_seed2",
+    "status": "REUSED_VERIFIED",
+    "model": "SAGE",
+    "control": "spatial",
+    "seed": 2,
+    "embedding_dimension": 512,
+    "hidden": 67,
+    "parameters": 72075,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_sage_spatial_seed2.pt",
+    "checkpoint_sha256": "e3631642f0252b49f59a8d47b05a5d90bc5d5f273fb706ad1c4efcdd80972024",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 7,
+    "epochs_ran": 17,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 2.7804155070043635,
+    "peak_rss_mb": 611.1796875,
+    "config": {
+      "hidden": 67,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6693156008376289,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_sage_spatial_seed2.json",
+    "optimizer_updates": 238,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.6725405692923111
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_local_local_seed0",
+    "status": "REUSED_VERIFIED",
+    "model": "local",
+    "control": "local",
+    "seed": 0,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_local_local_seed0.pt",
+    "checkpoint_sha256": "515bfc33788defbbc49c46937a8b04ad2ba68a81cdc7ff038d466cc21d1a5e33",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 12,
+    "epochs_ran": 22,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 2.9255236099998,
+    "peak_rss_mb": 497.57421875,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6574982180251289,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_local_local_seed0.json",
+    "optimizer_updates": 308,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.6588745469555413
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_local_local_seed1",
+    "status": "REUSED_VERIFIED",
+    "model": "local",
+    "control": "local",
+    "seed": 1,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_local_local_seed1.pt",
+    "checkpoint_sha256": "3c1ce80fb138f92b98f76a06295bc6f24827c9a4aa57a15754ef49655f786784",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 14,
+    "epochs_ran": 24,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 4.065105280998978,
+    "peak_rss_mb": 650.14453125,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6573100938305413,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_local_local_seed1.json",
+    "optimizer_updates": 336,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.6588745469555413
+  },
+  {
+    "backbone": "resnet18",
+    "run_id": "journal_v2_local_local_seed2",
+    "status": "REUSED_VERIFIED",
+    "model": "local",
+    "control": "local",
+    "seed": 2,
+    "embedding_dimension": 512,
+    "hidden": 128,
+    "parameters": 72114,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_local_local_seed2.pt",
+    "checkpoint_sha256": "b13e1a7db5c5e122c612d015c6aa49b9ad0e24d82e7af84ece5158bfc020aeef",
+    "selection_patient": "TENX95",
+    "fitting_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "training": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 512,
+      "max_epochs": 80,
+      "patience": 10,
+      "min_delta": 0.0001
+    },
+    "selected_epoch": 17,
+    "epochs_ran": 27,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "fit_seconds": 4.5081212669974775,
+    "peak_rss_mb": 583.82421875,
+    "config": {
+      "hidden": 128,
+      "dropout": 0.1
+    },
+    "learning_rate": 0.001,
+    "validation_mse": 0.6618153290109536,
+    "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+    "artifact_origin": "historical_resnet_lr1e3",
+    "source_fit_record": "experiments/journal_revision/results/hest_learned/journal_v2_local_local_seed2.json",
+    "optimizer_updates": 378,
+    "selected_learning_rate": 0.001,
+    "selection_mean_validation_mse": 0.6588745469555413
+  }
+]

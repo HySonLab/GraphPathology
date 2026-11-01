@@ -1,0 +1,512 @@
+{
+  "label": "post_v1_exploratory",
+  "protocol_commit": "2e03fae636d6f6527d25db58f4cbab72f7c1a286",
+  "code_commit": "558413f5a044abd07a7482565a1a5134fe7ec19e",
+  "created_utc": "2026-11-01T07:28:47.785243+00:00",
+  "code_hashes": {
+    "src/graphpathology/extension_train.py": "7153de4e05fe50da0f19591186ccd97b9b73b5a085ab745fca614e832f6ac5e7",
+    "src/graphpathology/extension_data.py": "ae9e9ea671766674f49a7208d2780fec6c9df59a05364c21ed56444139c0813c",
+    "src/graphpathology/extension_evaluate.py": "f3c9c27fe0e56f8d82f92168912cde9434033551d5b5cf8d13d4e58ec98b1a14",
+    "src/graphpathology/extension_models.py": "322403a60f0ad8a525e3dbbb3baef5b03bb384084858908e90471c00e23b0286",
+    "src/graphpathology/extension.py": "4c057450ff0050e4cf6e34bfdf5f33829e082f3112afa25328a8d5f787e8c80e"
+  },
+  "environment": {
+    "protocol_commit": "2e70b30722b56317e82005999ed90d8faeb2537a",
+    "python": "3.12.3",
+    "executable": "/home/hytruongson/Documents/Codex/2026-10-31/pleas/work/venv/bin/python",
+    "cuda_available": false,
+    "packages": {
+      "torch": "2.8.0+cpu",
+      "torchvision": "0.23.0+cpu",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.1.0",
+      "h5py": "3.16.0",
+      "scikit-learn": "1.9.1",
+      "requests": "2.34.2",
+      "matplotlib": "3.11.2",
+      "pytest": "9.2.0"
+    },
+    "compute": "CPU; 4 BLAS/torch threads; no paid service",
+    "acquisition_deviation": "Molecular and HEST acquisition overlapped with two workers per process (up to four aggregate download workers); no analytical settings changed."
+  },
+  "device": "cpu",
+  "threads": 4,
+  "status": "COMPLETE",
+  "variant": "gps_self",
+  "seed": 1,
+  "parameters": 121018,
+  "selected_epoch": 47,
+  "epochs_ran": 57,
+  "validation_mse": 0.7606956958770752,
+  "elapsed_seconds": 15.761080150005,
+  "peak_rss_mb": 546.36328125,
+  "best_checkpoint_relative": "checkpoints/journal_revision/transformer_egnn/gps_self_seed1/best.pt",
+  "best_checkpoint_sha256": "b51e00ef501cb0d7f021ed38dd803d191c7c9bb57a01180c51385087c41bcae6",
+  "input_cache_hashes": {
+    "NCBI783": "49adba0d4bf5b8b45dd9755aeac4f667d4eb7e82fe86d88ce7dfce33a785c3bf",
+    "NCBI785": "c7b2950b18d39dff9e3a210a5352246fe72af0750bfd5885c7ec1054ccdfb759",
+    "TENX95": "d8f690e55abb0773e945a14eac09bc5920a6b9b868478f873fc500d8fffaf641"
+  },
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "graph_controls": {
+    "NCBI783": {
+      "control": "self"
+    },
+    "NCBI785": {
+      "control": "self"
+    },
+    "TENX95": {
+      "control": "self"
+    }
+  },
+  "training": {
+    "label": "post_v1_exploratory",
+    "variants": {
+      "gps_full": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_local": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "local",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_no_relative": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_self": {
+        "family": "gps",
+        "control": "self",
+        "attention": "self",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_shuffled": {
+        "family": "gps",
+        "control": "shuffled",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_degree_length": {
+        "family": "gps",
+        "control": "degree_length",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "distance_fixed": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_latent": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "distance_disabled": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_self": {
+        "family": "egnn",
+        "control": "self",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_shuffled": {
+        "family": "egnn",
+        "control": "shuffled",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_degree_length": {
+        "family": "egnn",
+        "control": "degree_length",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "matched_local": {
+        "family": "local",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_mean": {
+        "family": "MEAN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_gcn": {
+        "family": "GCN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_sage": {
+        "family": "SAGE",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72075
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "hidden": 64,
+    "layers": 2,
+    "heads": 4,
+    "landmarks": 32,
+    "local_attention_slots": 8,
+    "distance_scale_um": 250,
+    "dropout": 0.1,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001,
+    "loss": "mean squared error across all50 training targets",
+    "training_steps_per_epoch": 2,
+    "threads": 4,
+    "precision": "float32",
+    "old_frozen_baselines": 30
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 1.247931957244873,
+      "validation_mse": 1.0028295516967773
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.9272169172763824,
+      "validation_mse": 0.8904138207435608
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.8162945806980133,
+      "validation_mse": 0.8433949947357178
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.7282691299915314,
+      "validation_mse": 0.8278493881225586
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.6568678021430969,
+      "validation_mse": 0.8268390893936157
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.6067163348197937,
+      "validation_mse": 0.8425955176353455
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.5712817013263702,
+      "validation_mse": 0.8719785809516907
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.5368030816316605,
+      "validation_mse": 0.8996754288673401
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.5062917172908783,
+      "validation_mse": 0.9075879454612732
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.4893093407154083,
+      "validation_mse": 0.8927039504051208
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.4716630280017853,
+      "validation_mse": 0.8688679337501526
+    },
+    {
+      "epoch": 12,
+      "training_mse": 0.45503321290016174,
+      "validation_mse": 0.8459280729293823
+    },
+    {
+      "epoch": 13,
+      "training_mse": 0.4422643929719925,
+      "validation_mse": 0.8355789184570312
+    },
+    {
+      "epoch": 14,
+      "training_mse": 0.43133828043937683,
+      "validation_mse": 0.8293486833572388
+    },
+    {
+      "epoch": 15,
+      "training_mse": 0.4209912121295929,
+      "validation_mse": 0.8228611350059509
+    },
+    {
+      "epoch": 16,
+      "training_mse": 0.41451719403266907,
+      "validation_mse": 0.81353360414505
+    },
+    {
+      "epoch": 17,
+      "training_mse": 0.4066906124353409,
+      "validation_mse": 0.8071154356002808
+    },
+    {
+      "epoch": 18,
+      "training_mse": 0.4005865156650543,
+      "validation_mse": 0.8018229603767395
+    },
+    {
+      "epoch": 19,
+      "training_mse": 0.3941459655761719,
+      "validation_mse": 0.8064247965812683
+    },
+    {
+      "epoch": 20,
+      "training_mse": 0.3881092071533203,
+      "validation_mse": 0.8119556307792664
+    },
+    {
+      "epoch": 21,
+      "training_mse": 0.3833558112382889,
+      "validation_mse": 0.8113141059875488
+    },
+    {
+      "epoch": 22,
+      "training_mse": 0.3779579997062683,
+      "validation_mse": 0.8085396885871887
+    },
+    {
+      "epoch": 23,
+      "training_mse": 0.3732570856809616,
+      "validation_mse": 0.8032971024513245
+    },
+    {
+      "epoch": 24,
+      "training_mse": 0.3687449097633362,
+      "validation_mse": 0.7993373274803162
+    },
+    {
+      "epoch": 25,
+      "training_mse": 0.364934965968132,
+      "validation_mse": 0.7984659075737
+    },
+    {
+      "epoch": 26,
+      "training_mse": 0.3613853305578232,
+      "validation_mse": 0.7966596484184265
+    },
+    {
+      "epoch": 27,
+      "training_mse": 0.35852766036987305,
+      "validation_mse": 0.7951741218566895
+    },
+    {
+      "epoch": 28,
+      "training_mse": 0.3538208156824112,
+      "validation_mse": 0.7944953441619873
+    },
+    {
+      "epoch": 29,
+      "training_mse": 0.35066092014312744,
+      "validation_mse": 0.7943816184997559
+    },
+    {
+      "epoch": 30,
+      "training_mse": 0.34863536059856415,
+      "validation_mse": 0.7958881855010986
+    },
+    {
+      "epoch": 31,
+      "training_mse": 0.3447205126285553,
+      "validation_mse": 0.794721782207489
+    },
+    {
+      "epoch": 32,
+      "training_mse": 0.34261520206928253,
+      "validation_mse": 0.7909591794013977
+    },
+    {
+      "epoch": 33,
+      "training_mse": 0.3389892429113388,
+      "validation_mse": 0.7870365381240845
+    },
+    {
+      "epoch": 34,
+      "training_mse": 0.3357470631599426,
+      "validation_mse": 0.7848267555236816
+    },
+    {
+      "epoch": 35,
+      "training_mse": 0.33383750915527344,
+      "validation_mse": 0.7829402089118958
+    },
+    {
+      "epoch": 36,
+      "training_mse": 0.33087143301963806,
+      "validation_mse": 0.7799068093299866
+    },
+    {
+      "epoch": 37,
+      "training_mse": 0.3278512954711914,
+      "validation_mse": 0.7764610052108765
+    },
+    {
+      "epoch": 38,
+      "training_mse": 0.3262197971343994,
+      "validation_mse": 0.7741835713386536
+    },
+    {
+      "epoch": 39,
+      "training_mse": 0.3245438039302826,
+      "validation_mse": 0.7735078930854797
+    },
+    {
+      "epoch": 40,
+      "training_mse": 0.321539044380188,
+      "validation_mse": 0.7729613184928894
+    },
+    {
+      "epoch": 41,
+      "training_mse": 0.31941135227680206,
+      "validation_mse": 0.7705941796302795
+    },
+    {
+      "epoch": 42,
+      "training_mse": 0.317279189825058,
+      "validation_mse": 0.7670615911483765
+    },
+    {
+      "epoch": 43,
+      "training_mse": 0.31455235183238983,
+      "validation_mse": 0.7657013535499573
+    },
+    {
+      "epoch": 44,
+      "training_mse": 0.3129200041294098,
+      "validation_mse": 0.7637857794761658
+    },
+    {
+      "epoch": 45,
+      "training_mse": 0.31090080738067627,
+      "validation_mse": 0.7626074552536011
+    },
+    {
+      "epoch": 46,
+      "training_mse": 0.3080257475376129,
+      "validation_mse": 0.7619432806968689
+    },
+    {
+      "epoch": 47,
+      "training_mse": 0.3062039017677307,
+      "validation_mse": 0.7606956958770752
+    },
+    {
+      "epoch": 48,
+      "training_mse": 0.30487383902072906,
+      "validation_mse": 0.7622748017311096
+    },
+    {
+      "epoch": 49,
+      "training_mse": 0.3019581586122513,
+      "validation_mse": 0.7617844939231873
+    },
+    {
+      "epoch": 50,
+      "training_mse": 0.3002028912305832,
+      "validation_mse": 0.7616783380508423
+    },
+    {
+      "epoch": 51,
+      "training_mse": 0.2989102154970169,
+      "validation_mse": 0.7627424001693726
+    },
+    {
+      "epoch": 52,
+      "training_mse": 0.2976296544075012,
+      "validation_mse": 0.76242995262146
+    },
+    {
+      "epoch": 53,
+      "training_mse": 0.2941792905330658,
+      "validation_mse": 0.7620567083358765
+    },
+    {
+      "epoch": 54,
+      "training_mse": 0.2926037311553955,
+      "validation_mse": 0.7624738216400146
+    },
+    {
+      "epoch": 55,
+      "training_mse": 0.2913135886192322,
+      "validation_mse": 0.7635224461555481
+    },
+    {
+      "epoch": 56,
+      "training_mse": 0.2900906950235367,
+      "validation_mse": 0.7626714706420898
+    },
+    {
+      "epoch": 57,
+      "training_mse": 0.2877011001110077,
+      "validation_mse": 0.7623320817947388
+    }
+  ],
+  "optimizer_state_included": true,
+  "selection_patient": "TENX95",
+  "fitting_patients": [
+    "NCBI783",
+    "NCBI785"
+  ]
+}

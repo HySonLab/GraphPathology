@@ -1,0 +1,26 @@
+\begin{table}[!htbp]
+\caption{\textbf{Reconstruction at 20\% distributed measurement coverage.} Each entry is a cohort median of patient-level summaries after averaging mask seeds within geometry and geometries within patient, except that the development row represents the single primary patient. Pearson $r$ is the median correlation across panel genes; MSE and MAE are patient means across genes and hidden locations before the cohort median. All methods within a cohort use identical target units and observation masks. Different gene panels and assay count distributions preclude treating these values as a pooled cross-cohort ranking. Fusion rules and their calibration are frozen but differ between the development and external protocols; see Methods and Supplementary Information. The image-only branch has no same-section molecular anchors.}
+\label{tab:performance}
+\centering\small
+\begin{tabularx}{\textwidth}{@{}Yrrlrrr@{}}
+\toprule
+Cohort & $n$ & Genes & Method & Pearson $r$ & MSE & MAE \\
+\midrule
+Development & 1 & 50 & Image only & 0.695 & 0.9110 & 0.7606 \\
+ &  &  & Spatial interpolation & 0.792 & 0.2684 & 0.3904 \\
+ &  &  & Fixed fusion & 0.822 & 0.2787 & 0.4173 \\
+\addlinespace[5pt]
+HER2ST, zero-shot & 8 & 40 & Image only & 0.143 & 4.3665 & 1.9376 \\
+ &  &  & Spatial interpolation & 0.194 & 0.0680 & 0.1730 \\
+ &  &  & Fixed fusion & 0.255 & 0.3481 & 0.5153 \\
+\addlinespace[5pt]
+Wu, original & 3 & 50 & Image only & 0.059 & 2.9155 & 1.5578 \\
+ &  &  & Spatial interpolation & 0.359 & 0.0987 & 0.2179 \\
+ &  &  & Fixed fusion & 0.335 & 0.1002 & 0.2321 \\
+\addlinespace[5pt]
+Bassiouni, original & 22 & 50 & Image only & 0.075 & 1.9673 & 1.2120 \\
+ &  &  & Spatial interpolation & 0.416 & 0.0923 & 0.2033 \\
+ &  &  & Fixed fusion & 0.407 & 0.1022 & 0.2288 \\
+\bottomrule
+\end{tabularx}
+\end{table}

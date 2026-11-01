@@ -1,0 +1,1 @@
+Historical schematic removed from the active matched-backbone manuscript at the author’s request. Its full scientific specifications remain in Methods. Original source and assets remain in Git snapshot ab0811134bb1d62719206ab11a43bd7c4dd5d813. These assets are not active article or supplementary figures.

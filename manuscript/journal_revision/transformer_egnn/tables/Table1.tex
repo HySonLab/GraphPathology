@@ -1,0 +1,15 @@
+\begin{table}[!htbp]
+\caption{\textbf{Cohorts and their analytical roles.} Counts refer to retained locations and patient-level study roles, not independent spot replicates. The same eight HER2ST patients were first inspected for transportability and subsequently used for calibration development. The Wu study contains 15,601 locations in all six patients; only 8,481 locations from its three evaluation patients enter the original external evaluation. All 22 Bassiouni patients were evaluated without new training or calibration. ``Pixels per patch'' refers to the native image information in a nominal 112-\um{} field of view, before resizing. The primary panel was fixed in development.}
+\label{tab:cohorts}
+\centering\small
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{21mm}>{\RaggedRight\arraybackslash}p{26mm}>{\RaggedRight\arraybackslash}p{16mm}>{\RaggedRight\arraybackslash}p{21mm}>{\RaggedRight\arraybackslash}p{14mm}Y@{}}
+\toprule
+Cohort & Platform & Patients, total / evaluation & Locations, total / evaluation & Genes & Analytical role and image quality \\
+\midrule
+Development (HEST) & Targeted Xenium & 4 / 1 & 35,536 / 20,761 & 50/50 & Two training, one validation, one primary evaluation patient; conditional four-patient sensitivity analyses. Estimated 0.21--0.36~\um{}/pixel. \\
+HER2ST & Sequencing ST & 8 / 8 & 3,455 / 3,455 & 40/50 & Initial transportability, then calibration development on the same patients. Approximately 0.69--0.92~\um{}/pixel. \\
+Wu & Visium & 6 / 3 & 15,601 / 8,481 & 50/50 & Three calibration and three original evaluation patients. Only 15 or 25 native pixels per patch. \\
+Bassiouni & Visium & 22 / 22 & 30,003 / 30,003 & 50/50 & First numbered section per patient; original external evaluation with no cohort-specific fitting. Only 24--29 native pixels per patch. \\
+\bottomrule
+\end{tabularx}
+\end{table}

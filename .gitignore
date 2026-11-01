@@ -7,3 +7,29 @@ outputs/
 work/
 checkpoints/models/*
 !checkpoints/models/README.md
+
+# New journal-v2 trained binaries/caches are separate from released evidence.
+checkpoints/journal_revision/
+experiments/journal_revision/results/**/.evaluation.lock
+
+# Full extension per-gene exports are preserved in a hashed, release-ready author bundle.
+# Keep panels, support bins, completion records and manifests reviewable in Git.
+/experiments/journal_revision/transformer_egnn/evaluation/**/GENES.csv.gz
+/experiments/journal_revision/transformer_egnn/evaluation/**/MOLECULAR_GENES.csv.gz
+/experiments/journal_revision/transformer_egnn/bassiouni_anchors/**/GENE_METRICS.csv.gz
+
+# TeX intermediates in the new journal version; keep final named PDFs and .bbl sources.
+/manuscript/journal_revision/transformer_egnn/main.pdf
+/manuscript/journal_revision/transformer_egnn/article_only.pdf
+/manuscript/journal_revision/transformer_egnn/supplementary.pdf
+/manuscript/journal_revision/transformer_egnn/*.aux
+/manuscript/journal_revision/transformer_egnn/*.log
+/manuscript/journal_revision/transformer_egnn/*.out
+/manuscript/journal_revision/transformer_egnn/*.fls
+/manuscript/journal_revision/transformer_egnn/*.blg
+/manuscript/journal_revision/transformer_egnn/*.pass*.txt
+
+# New matched-backbone gene exports are retained in the author-review bundle.
+/experiments/journal_revision/backbone_graph_comparison/evaluation/**/GENES.csv.gz
+
+/experiments/journal_revision/backbone_graph_comparison/primary_evaluation/**/GENES.csv.gz
