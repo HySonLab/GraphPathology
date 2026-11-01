@@ -143,4 +143,4 @@ def run(root):
  for patient in ['TENX99']+WU_EVAL:
   baselines(root,patient)
   for item in items:evaluate_one(root,patient,item)
- return {'status':'COMPLETE','models':len(items),'patients':4}
+ return {'status':'COMPLETE' if sum(i['origin']=='new' for i in items)==48 else 'PARTIAL_PENDING_FITS','models':len(items),'patients':4}
