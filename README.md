@@ -3,7 +3,7 @@
 **GraphPathology enables geometry-aware reconstruction of spatial transcriptomics from sparse molecular measurements**
 Truong-Son Hy, University of Alabama at Birmingham.
 
-[Combined paper + SI](manuscript/GraphPathology_Combined_Manuscript.pdf) · [Article only](manuscript/GraphPathology_Article_Only.pdf) · [Supplement](manuscript/GraphPathology_Supplementary.pdf)
+[arXiv v1 combined paper + SI](manuscript/GraphPathology_Combined_Manuscript.pdf) · [Article only](manuscript/GraphPathology_Article_Only.pdf) · [Supplement](manuscript/GraphPathology_Supplementary.pdf)
 
 GraphPathology separates contextual image representations, reconstruction from observed same-section molecular anchors, and image–molecular fusion. Graph neural predictors are development comparisons; the external headline results come from molecular interpolation. The tested fixed image contribution did not reproducibly improve external interpolation. V1/V2 differ in weighting and scoring support as well as geometry. External images are downsampled. A potential fivefold reduction concerns selective acquisition and proportional variable location costs, not proven total assay savings or learned long-range correlations.
 
@@ -13,8 +13,8 @@ GraphPathology separates contextual image representations, reconstruction from o
 | HEST TENX95 / TENX99 | Validation / primary development evaluation | 50 |
 | HER2ST A1–H1 | Transportability, then calibration development on the same patients | 40-gene intersection |
 | Wu 1142243F, CID4465, CID4535 | Calibration | 50 |
-| Wu 1160920F, CID4290, CID44971 | Fresh evaluation | 50 |
-| Bassiouni, first section for each of 22 patients | Fresh replication, no refitting | 50 |
+| Wu 1160920F, CID4290, CID44971 | Held-out at v1; now inspected | 50 |
+| Bassiouni, first section for each of 22 patients | Held-out at v1, no refitting; now inspected | 50 |
 
 ## Post-v1 Scientific Reports journal revision
 

@@ -66,9 +66,9 @@ def prepare(root, data_root):
     (cache/'MANIFEST.json').write_text(json.dumps(records, indent=2)+'\n'); return records
 
 
-def load_prepared(data_root):
+def load_prepared(data_root,samples=SAMPLES):
     cache = data_root/'processed/journal_v2_hest'; data={}
-    for sample in SAMPLES:
+    for sample in samples:
         p=cache/(sample+'.npz'); meta=json.loads(p.with_suffix('.json').read_text())
         if sha(p)!=meta['cache_sha256']: raise ValueError('Prepared HEST cache checksum mismatch')
         with np.load(p) as f:data[sample]={k:f[k].copy() for k in f.files}
@@ -77,7 +77,7 @@ def load_prepared(data_root):
 
 def representation(data, scaled, graphs, model, control, seed):
     result={}
-    for sample in SAMPLES:
+    for sample in data:
         x=scaled[sample]
         if model=='local': result[sample]=x;continue
         a=graphs[sample]
@@ -91,14 +91,14 @@ def train(root,data_root,output,checkpoint_root):
     from .journal import provenance
     output.mkdir(parents=True,exist_ok=True);checkpoint_root.mkdir(parents=True,exist_ok=True)
     torch.set_num_threads(4);torch.use_deterministic_algorithms(True)
-    data=load_prepared(data_root); feature_scaler=Scaler().fit(np.concatenate([data[s]['embeddings'] for s in SAMPLES[:2]]))
+    data=load_prepared(data_root,SAMPLES[:3]); feature_scaler=Scaler().fit(np.concatenate([data[s]['embeddings'] for s in SAMPLES[:2]]))
     scaler_path=checkpoint_root/'journal_v2_feature_scaler.npz'
     if not scaler_path.exists():feature_scaler.save(scaler_path)
     else:
         with np.load(scaler_path) as f:np.testing.assert_array_equal(f['mean'],feature_scaler.mean);np.testing.assert_array_equal(f['scale'],feature_scaler.scale)
-    scaled={s:feature_scaler.transform(data[s]['embeddings']) for s in SAMPLES}
-    graphs={s:build_graph(data[s]['xy_um'],{'kind':'delaunay','max_edge_um':250}) for s in SAMPLES}
-    graph_records={s:{'n_vertices':len(data[s]['xy_um']),'undirected_edges':graphs[s].nnz//2,'adjacency_sha256':__import__('hashlib').sha256(graphs[s].indices.tobytes()+graphs[s].indptr.tobytes()).hexdigest()} for s in SAMPLES}
+    scaled={s:feature_scaler.transform(data[s]['embeddings']) for s in data}
+    graphs={s:build_graph(data[s]['xy_um'],{'kind':'delaunay','max_edge_um':250}) for s in data}
+    graph_records={s:{'n_vertices':len(data[s]['xy_um']),'undirected_edges':graphs[s].nnz//2,'adjacency_sha256':__import__('hashlib').sha256(graphs[s].indices.tobytes()+graphs[s].indptr.tobytes()).hexdigest()} for s in data}
     histories=[];run_records=[]
     # Execute seed0 local first as specified, then every controlled configuration/seed.
     for seed in [0,1,2]:
@@ -113,7 +113,7 @@ def train(root,data_root,output,checkpoint_root):
             with PeakRSS() as memory:net,fit=train_mlp(xt,yt,x['TENX95'],data['TENX95']['targets'],config,TRAINING,seed)
             net.eval()
             # Save new learned state before opening evaluation outcomes.
-            torch.save({'state_dict':net.state_dict(),'family':'new_journal_v2','model':model,'control':control,'seed':seed,'config':config,'training':TRAINING,'genes':data['TENX99']['genes'].tolist(),'feature_scaler_sha256':sha(scaler_path)},checkpoint)
+            torch.save({'state_dict':net.state_dict(),'family':'new_journal_v2','model':model,'control':control,'seed':seed,'config':config,'training':TRAINING,'genes':data['TENX95']['genes'].tolist(),'feature_scaler_sha256':sha(scaler_path)},checkpoint)
             pd.DataFrame(fit['history']).to_csv(output/(run_id+'_history.csv'),index=False)
             record=provenance(root,run_id=run_id,status='TRAINED',model=model,control=control,seed=seed,config=config,training=TRAINING,
                               checkpoint_relative_path=str(checkpoint.relative_to(root)),checkpoint_sha256=sha(checkpoint),feature_scaler_sha256=sha(scaler_path),
@@ -140,7 +140,7 @@ def evaluate(root,data_root,output,checkpoint_root):
     scaler=Scaler()
     with np.load(checkpoint_root/'journal_v2_feature_scaler.npz') as f:scaler.mean=f['mean'];scaler.scale=f['scale']
     scaled={s:scaler.transform(data[s]['embeddings']) for s in SAMPLES}
-    graphs={s:build_graph(data[s]['xy_um'],{'kind':'delaunay','max_edge_um':250}) for s in SAMPLES}
+    graphs={s:build_graph(data[s]['xy_um'],{'kind':'delaunay','max_edge_um':250}) for s in data}
     torch.set_num_threads(4);torch.use_deterministic_algorithms(True)
     masks=[];sample=data['TENX99'];n=len(sample['targets'])
     for budget in [.1,.2,.4]:
