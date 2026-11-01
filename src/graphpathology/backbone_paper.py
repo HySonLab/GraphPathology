@@ -35,7 +35,9 @@ def build(root,output):
     assert intro.count('\\item ')==4
     for i,page in enumerate(text.split('\f')):
         if page.strip():assert page.strip().splitlines()[-1].strip()==str(i+1)
-    report={'status':'COMPLETE_DOCUMENT_BUILD','research_status':layout['research_status'],'documents':reports,'figures':len(figures),'tables':len(tables),'references':refs,'continuous_pages':True,'no_final_tex_diagnostics':True,'removed_schematic_absent':True,'intro_contributions':4,'related_work_themes':9,'outputs':{name:sha(out/name) for name in names.values()}}
+    from .backbone_displays import check as check_displays
+    display_preservation=check_displays(root,out)
+    report={'display_preservation':display_preservation,'status':'COMPLETE_DOCUMENT_BUILD','research_status':layout['research_status'],'documents':reports,'figures':len(figures),'tables':len(tables),'references':refs,'continuous_pages':True,'no_final_tex_diagnostics':True,'removed_schematic_absent':True,'intro_contributions':4,'related_work_themes':9,'outputs':{name:sha(out/name) for name in names.values()}}
     (out/'EXTENSION_BUILD_REPORT.json').write_text(json.dumps(report,indent=2)+'\n')
     return report
 

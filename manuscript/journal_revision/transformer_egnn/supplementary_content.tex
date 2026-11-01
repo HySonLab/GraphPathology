@@ -110,6 +110,7 @@ Mean squared error and mean absolute error use the unchanged development-standar
 The tables below provide compact views of the accompanying machine-readable data and definitions needed to interpret the supplementary figures. Table~S2 is rounded for presentation; the digital files retain unrounded exported values. Large gene-level and distance-resolved tables are supplied as separate files rather than reproduced in full in this PDF. Mask, model and permutation seeds are computational replicates and do not increase the number of independent patients.
 \begin{table}[htbp]
 \caption{\textbf{Primary gene panel.} The 50 genes are listed in the order fixed by variance ranking in the development-training patients. The original Wu and Bassiouni evaluation retain all 50 genes. HER2ST analyses use the 40-gene intersection with this panel; unavailable genes are not replaced. The full data file also includes the larger development panels and cohort-specific availability records: \protect\path{source_data/SuppTable1_gene_panels.csv}.}
+\label{tab:primary_gene_panel}
 \centering\small
 \begin{tabular}{rlrl}\toprule
 Order & Gene & Order & Gene\\\midrule
@@ -141,6 +142,7 @@ Order & Gene & Order & Gene\\\midrule
 \bottomrule\end{tabular}\end{table}\clearpage
 \begin{table}[p]
 \caption{\textbf{Patient-resolved reconstruction metrics.} Compact view of the 25 original external-evaluation patients at 20\% distributed coverage, using 50 genes. Values average mask seeds within patient. $r$ is the median gene Pearson correlation; MSE is mean gene squared error in the common target units. I denotes image-only, ST molecular interpolation, and F fixed image fusion. Complete exported patient summaries for the available cohorts, regimes, budgets and methods are supplied in \protect\path{source_data/SuppTable2_per_patient.csv}.}
+\label{tab:patient_resolved_metrics}
 \centering\small
 \begin{tabular}{lrrrrrr}\toprule
 Patient & $r_{\mathrm I}$ & $r_{\mathrm{ST}}$ & $r_{\mathrm F}$ & MSE$_{\mathrm I}$ & MSE$_{\mathrm{ST}}$ & MSE$_{\mathrm F}$\\\midrule
