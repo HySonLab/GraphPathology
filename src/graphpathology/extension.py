@@ -5,7 +5,7 @@ from pathlib import Path
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2]);s=p.add_subparsers(dest='action',required=True)
  s.add_parser('preflight');s.add_parser('prepare-wu');s.add_parser('prepare-bassiouni');s.add_parser('acquire-bassiouni');q=s.add_parser('train');q.add_argument('--variant',required=True);q.add_argument('--seed',type=int,choices=[0,1,2],required=True);q.add_argument('--reproduction-output',type=Path)
- q=s.add_parser('train-all');q.add_argument('--reproduction-output',type=Path);q=s.add_parser('evaluate');q.add_argument('--patient',action='append');q.add_argument('--threads',type=int,default=4);s.add_parser('diagnostics');s.add_parser('benchmark');q=s.add_parser('paper');q.add_argument('--build-output',type=Path);s.add_parser('report');q=s.add_parser('verify');q.add_argument('--committed-only',action='store_true');q=s.add_parser('bundle');q.add_argument('--output',type=Path,required=True)
+ q=s.add_parser('train-all');q.add_argument('--reproduction-output',type=Path);q=s.add_parser('evaluate');q.add_argument('--patient',action='append');q.add_argument('--threads',type=int,default=4);s.add_parser('diagnostics');s.add_parser('benchmark');q=s.add_parser('paper');q.add_argument('--build-output',type=Path);s.add_parser('report');q=s.add_parser('verify');q.add_argument('--committed-only',action='store_true');q=s.add_parser('bundle');q.add_argument('--output',type=Path,required=True);q=s.add_parser('source-package');q.add_argument('--output',type=Path,required=True);q.add_argument('--check-directory',type=Path,required=True)
  a=p.parse_args();r=a.root.resolve()
  if a.action=='preflight':
   from .extension_train import preflight
@@ -34,6 +34,9 @@ def main():
      path=r/'experiments/journal_revision/transformer_egnn/fits'/f'{variant}_seed{seed}_FAILED.json';path.parent.mkdir(exist_ok=True)
      if not path.exists():path.write_text(json.dumps(metadata(r,status='FAILED_VALIDATION',variant=variant,seed=seed,error=str(exc),traceback=traceback.format_exc()),indent=2)+'\n')
      if a.action=='train':raise
+ elif a.action=='source-package':
+  from .extension_source import run
+  print(json.dumps(run(r,a.output,a.check_directory),indent=2))
  elif a.action=='bundle':
   from .extension_bundle import run
   result=run(r,a.output);print(json.dumps({'status':result['status'],'bundles':result['bundles']},indent=2))

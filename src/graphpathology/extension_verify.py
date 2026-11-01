@@ -54,7 +54,7 @@ def run(root,require_complete=True,committed_only=False):
    contract=json.loads((base/'DATA_CONTRACT.json').read_text())
    for path,digest in contract['file_hashes'].items():assert sha(root/path)==digest
    for bundle in release['bundles']:assert sha(Path(release['author_directory'])/bundle['filename'])==bundle['sha256']
- report=metadata(root,status=('COMPLETE_COMMITTED_EXPORTS' if committed_only else 'COMPLETE') if require_complete else 'IN_PROGRESS',skipped_author_local_old_checkpoints=skipped_checkpoints,full_gene_bundle_files_not_installed=skipped_genes,protected_files_unchanged=len(original),completed_bundles_hash_verified=checked,geometric_checks=diag['geometric_checks'],raw_datasets_and_weights_in_git=False)
+ report=metadata(root,status=('COMPLETE_COMMITTED_EXPORTS' if committed_only else 'COMPLETE') if require_complete else 'IN_PROGRESS',skipped_author_local_old_checkpoints=skipped_checkpoints,full_gene_bundle_files_not_installed=skipped_genes,protected_expected_files=len(original),protected_files_unchanged=len(original)-len(skipped_checkpoints),new_head_checkpoints_verified=0 if committed_only else 48,input_contract_files_verified=0 if committed_only else len(contract['file_hashes']),completed_bundles_hash_verified=checked,geometric_checks=diag['geometric_checks'],raw_datasets_and_weights_in_git=False)
  target=base/'VALIDATION_REPORT.json'
  if committed_only:
   (root/'outputs').mkdir(exist_ok=True);target=root/'outputs/extension-validation-committed.json'

@@ -478,3 +478,10 @@ The implemented architectures follow existing GraphGPS/EGNN ideas. This study su
 All407 protected prior files and74,253 archived files remain unchanged. The original29 publication targets/71 checks and810 frozen-model development primary-metric rows pass; new raw Bassiouni references are separately audited. The original selected primary heads remain missing (BLOCKED_INPUTS), and the78 post-v1 states are not replacements. Optional anchor-conditioned learning and full-image equivariance have SKIPPED_PROTOCOL status. All completed analyses remain visible regardless of direction. The [experiment matrix](summary/EXPERIMENT_MATRIX.csv) separates these statuses from negative findings.
 
 Raw data/model binaries are excluded from Git. Full per-gene exports and48 new best/resume/optimizer states are preserved in author-local ZIP bundles with a [release-ready manifest](RELEASE_READY_MANIFEST.json). No public release upload or new credential exposure was performed; the manifest provides exact author paths/checksums for an approved release destination. The existing30-state bundle remains separate. PR3 stays draft and unmerged for author review.
+
+
+## Numerical diagnostic summary
+
+In the22 Bassiouni patients, median patient GPS-full physical connection fractions beyond250/600/1200um were0.9901/0.9424/0.7867; corresponding attention mass fractions were0.9905/0.9470/0.8002 (head/layer/seed means within patient). The coordinate-selected remote perturbation was23,349.7um away in TENX99: maximum output change was0.01283 for GPS full and exactly0 for GPS local and EGNN latent. This proves functional access only, not biological correlation.
+
+The recovered-cohort degree/length control achieved zero accepted swaps in 64/66 patient–seed graphs (maximum1). It is therefore a limited control and not independent positive evidence for spatial specificity. Training-loop wall times summed to533.17seconds across48 fits; this excludes source feature preparation/model setup and includes the documented concurrent workload. Full per-configuration and standardized inference costs are reported above and in the benchmark CSV.
