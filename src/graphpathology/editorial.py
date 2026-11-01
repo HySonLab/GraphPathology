@@ -33,8 +33,10 @@ def check(root,output,committed_only=False):
  assert not re.search(r'Transformer|GraphGPS|EGNN|E\(n\)|equivariant|latent|attention|seed|head|48|78',abstract,re.I)
  assert 'https://github.com/HySonLab/GraphPathology' in a.split('\\noindent')[0]
  assert a.count('\\label{sec:graph_methods}')==1
- for phrase in ['AI-assisted computational tools','Truong-Son Hy established the scientific ideas','OpenAI Codex','ChatGPT','Editorial Board Member']:
+ for phrase in ['AI-assisted computational tools','The study was conceived and directed by the author','OpenAI Codex','ChatGPT','Editorial Board Member']:
   assert phrase in a
+ assert 'The study was conceived and directed by the author, who established the research objectives, methodological framework, and experimental protocols. OpenAI Codex assisted with software implementation, computational experiments, and model training, while ChatGPT supported manuscript drafting and editing. The author reviewed the analyses and retains full responsibility for the scientific findings, interpretations, and conclusions.' in a
+ assert a.split('\\section{Ethics}',1)[0].rstrip().endswith('The study was conceived and directed by the author, who established the research objectives, methodological framework, and experimental protocols. OpenAI Codex assisted with software implementation, computational experiments, and model training, while ChatGPT supported manuscript drafting and editing. The author reviewed the analyses and retains full responsibility for the scientific findings, interpretations, and conclusions.')
  assert 'staged evaluation' not in a and 'Journal revision:' not in a
  for phrase in ['currently author-local','three missing historical primary image-head binaries','one full-section update per source training patient','batch size 512']:
   assert phrase in a

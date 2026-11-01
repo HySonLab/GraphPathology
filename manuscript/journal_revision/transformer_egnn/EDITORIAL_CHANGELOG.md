@@ -20,3 +20,7 @@ The pre-edit source and empirical values remain accessible through the starting 
 ## Final minor editorial polish
 
 Simplified the Phikon Methods introduction while retaining its complete preprocessing/extraction details and the immutable model identity in repository configuration/provenance. Removed the unrelated diagram sentence from Figure 6, scoped Figure 1 to the original architecture, and corrected S6 to distinguish the original frozen ResNet18 evaluation from later exploratory Phikon evaluation. Clarified one historical-pipeline reference and replaced the existing future-acquisition sentence with a prospective, predefined-panel sampling direction. The abstract, findings, numerical results, figures, protocols and model states are unchanged; no experiments or restructuring were performed.
+
+## Author-approved AI disclosure
+
+Replaced the AI-assisted computational tools paragraph verbatim with the author's final wording, retaining its position at the end of Methods immediately before Ethics. Updated the editorial integrity check to require that exact wording and placement. Scientific text outside this paragraph, the abstract, numerical evidence and declarations remain unchanged.
