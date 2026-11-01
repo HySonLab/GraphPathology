@@ -18,6 +18,12 @@ def initialize_package(root):
     source=root/'manuscript/revised';dest=root/'manuscript/journal_revision'
     if not dest.exists():
         shutil.copytree(source,dest,ignore=shutil.ignore_patterns('main.pdf','VALIDATION_SUMMARY.txt','Codex_Publication_Sync_Instructions.md'))
+    # Keep inherited v1 notes clearly labelled, and never present stale copied paper PDFs as journal outputs.
+    from .assets import sha
+    for name in ['article_only.pdf','supplementary.pdf','GraphPathology_Combined_Manuscript.pdf']:
+        if (dest/name).exists() and (source/name).exists() and sha(dest/name)==sha(source/name): (dest/name).unlink()
+    for name in ['AUTHOR_ACTIONS.txt','FIGURE_SOURCE_MAP.csv','PREFLIGHT_FIX_REPORT.md','REVISION_NOTES.txt','SCIENTIFIC_EXPORT_SHA256SUMS.txt']:
+        if (dest/name).exists() and (source/name).exists() and sha(dest/name)==sha(source/name): (dest/name).rename(dest/('V1_'+name))
     (dest/'figures/journal').mkdir(parents=True,exist_ok=True);(dest/'source_data/journal').mkdir(parents=True,exist_ok=True)
     return dest
 
