@@ -50,3 +50,15 @@ def test_bassiouni_summary_uses_patient_bootstrap_and_direction():
     assert set(result.n_patients)=={22} and set(result.n_improved)=={22}
     assert set(result.bootstrap_resamples)=={10000}
     assert (result.ci_low==result.ci_high).all()
+
+
+def test_learning_rate_selection_is_validation_only_and_keeps_all_seeds():
+    from graphpathology.backbone_refinement import validation_selection
+    rows=[]
+    for lr,loss in [(.001,.8),(.0001,.6)]:
+        for seed in [0,1,2]:rows.append({'backbone':'phikon','model':'local','control':'local','learning_rate':lr,'seed':seed,'validation_mse':loss+seed*.01,'external_score':999 if lr==.001 else -999})
+    chosen,audit=validation_selection(rows)
+    assert len(chosen)==3 and {r['seed'] for r in chosen}=={0,1,2}
+    assert {r['learning_rate'] for r in chosen}=={.0001}
+    for r in rows:r['external_score']=-r['external_score']
+    assert validation_selection(rows)[1]==audit
