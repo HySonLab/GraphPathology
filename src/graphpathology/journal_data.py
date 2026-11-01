@@ -115,6 +115,10 @@ def load_patient(root, data_root, cohort, patient):
     with np.load(masks[0]['absolute_mask_path']) as f:
         if not np.array_equal(barcodes, f['barcodes']): raise ValueError('Original barcode ordering mismatch')
         np.testing.assert_allclose(xy, f['xy_um'], atol=1e-8, rtol=0)
+        derived_coordinate_delta = float(np.max(abs(xy - f['xy_um'])))
+        # The byte-preserved, label-free original coordinates govern exact neighbor ties.
+        xy = f['xy_um'].copy()
     return {'patient': patient, 'cohort': cohort, 'genes': np.asarray(genes), 'barcodes': barcodes,
             'xy': xy, 'targets': y, 'raw_counts': raw, 'source_hashes': source_files,
+            'derived_coordinate_max_abs_delta': derived_coordinate_delta,
             'normalization_sha256': sha(root / 'checkpoints/legacy/reports/C0/C0_NORMALIZATION.json')}

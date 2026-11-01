@@ -39,7 +39,9 @@ def summarize_paired(paired, grouping):
 def original_uncertainty(root, output):
     source = root / 'manuscript/revised/source_data/SuppTable2_per_patient.csv'
     data = pd.read_csv(source)
-    data = data[data.cohort.isin(['Wu', 'Bassiouni'])].copy()
+    labels = {'Wu fresh validation': 'Wu', 'Bassiouni second replication': 'Bassiouni'}
+    data = data[data.cohort.isin(labels)].copy(); data['cohort'] = data.cohort.map(labels)
+    if data.groupby('cohort').patient.nunique().to_dict() != {'Bassiouni': 22, 'Wu': 3}: raise ValueError('Expected exactly 22 Bassiouni and 3 Wu patients')
     paired = []
     for candidate, reference, name in [('M1', 'M0', 'anchors_vs_image'), ('M3', 'M1', 'fusion_vs_anchors')]:
         paired.append(contrast(data[data.method == candidate], data[data.method == reference], ['cohort', 'patient', 'coverage', 'regime'], name, 'original_v1_export_reanalysis'))

@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import ftplib
+from urllib.parse import urlparse
 import time
 import requests
 from .assets import sha
@@ -22,10 +24,11 @@ def fetch_file(task, data_root, quota_gib=20):
                 part = dest.with_name(dest.name + '.part'); offset = part.stat().st_size if part.exists() else 0
                 url = task.get('download_url', task['url'])
                 if url.startswith('ftp://'):
-                    run = subprocess.run(['curl', '--fail', '--location', '--connect-timeout', '15', '--max-time', '300',
-                                          '--continue-at', '-', '--max-filesize', str(256 * 2**20), '--output', str(part), url],
-                                         capture_output=True, text=True)
-                    if run.returncode: raise OSError(run.stderr[-1000:])
+                    parsed = urlparse(url)
+                    with ftplib.FTP(parsed.hostname, timeout=45) as ftp:
+                        ftp.login()
+                        with part.open('ab' if offset else 'wb') as f:
+                            ftp.retrbinary('RETR ' + parsed.path, f.write, blocksize=2**20, rest=offset or None)
                 else:
                     headers = {'Range': f'bytes={offset}-'} if offset else {}
                     with requests.get(url, headers=headers, stream=True, timeout=(20, 90)) as response:
@@ -46,7 +49,7 @@ def fetch_file(task, data_root, quota_gib=20):
                       'seconds': time.monotonic() - started, 'errors': errors}
             print('ACQUIRED', task['local'], result['bytes'], flush=True)
             return result
-        except (requests.RequestException, OSError, ValueError) as exc:
+        except (requests.RequestException, OSError, ValueError, ftplib.Error) as exc:
             errors.append(str(exc))
             # A complete bad digest is not resumable; retain it visibly rather than silently deleting/replacing it.
             if dest.exists(): break
