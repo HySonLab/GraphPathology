@@ -1,0 +1,3 @@
+The files directly in this directory are inherited **original-v1** method records, including the missing historical selected heads and their original software/configuration. They support retained original displays and are not identities or environments for the new journal fits.
+
+`journal_v2/` contains the exact new fit and feature manifests. These 30 heads use independent names/hashes, new 128/67-width controlled configurations and the executed Python3.12/torch2.8 CPU environment. Complete new numeric results, protocols and precision diagnoses are in `experiments/journal_revision/` at repository root. No new fit replaces a historical checkpoint.
