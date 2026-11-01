@@ -1,5 +1,7 @@
 # Reproduction workflows
 
+The separately authorized post-v1 research workflow is documented in [JOURNAL_REVISION.md](JOURNAL_REVISION.md). Its new fits/results and blocked raw-data cases are distinct from the original-state recovery/replay limitations below.
+
 Use Python 3.12 and the installed versions in `configs/validation-environment.txt`. The historical executed environment remains unchanged at `checkpoints/legacy/configs/environment.txt`. The actual earlier host bootstrap, when ensurepip was missing, was `python3.12 -m venv work/venv`, then `python3.12 -m pip --python work/venv/bin/python install pip`. Normal systems can use the README venv commands.
 
 Editable installs locate the repository automatically. Outside a checkout or with a non-editable installation, pass `python -m graphpathology --root /absolute/path/to/GraphPathology ...`. Explicit output paths are relative to the caller's working directory and must be new; canonical sources and archives are protected. Replay config paths resolve relative to the config file.

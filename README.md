@@ -16,6 +16,10 @@ GraphPathology separates contextual image representations, reconstruction from o
 | Wu 1160920F, CID4290, CID44971 | Fresh evaluation | 50 |
 | Bassiouni, first section for each of 22 patients | Fresh replication, no refitting | 50 |
 
+## Post-v1 Scientific Reports journal revision
+
+[Journal experiments and reproduction](docs/JOURNAL_REVISION.md) · [Separate journal sources/PDFs](manuscript/journal_revision/README.md) · [Preregistered protocol](experiments/journal_revision/PROTOCOL_V1.md). New real-data matched-information and identical-target analyses, patient uncertainty and controlled neural training are separate from the arXiv v1 package. Wu comparisons and original 22-patient Bassiouni uncertainty are completed; new Bassiouni raw-data comparisons are blocked by source transfer failure. See the journal status for precise completed/blocked/skipped work. Previously inspected cohorts are not a new blind validation.
+
 ## Install and CPU quick start
 
 Tested with Python 3.12, torch 2.8.0+cpu and torchvision 0.23.0+cpu. [Validation versions](configs/validation-environment.txt) are distinct from the original research environment.
@@ -52,7 +56,7 @@ python -m graphpathology doctor --require-models
 python -m graphpathology infer --config configs/replay.example.json --dry-run
 ```
 
-The original fitted states are still missing, including all three selected primary heads. These commands report the required paths and checksums and never fall back to new/random weights. The maintained inference route starts from aligned embeddings and normalized targets; it is not a complete raw-cohort research orchestrator. Full raw-data ingestion, extraction, training and evaluation remain separately scoped future work, with the dependency order and prerequisites documented in [REPRODUCING.md](docs/REPRODUCING.md) and [DATA_AND_MODELS.md](docs/DATA_AND_MODELS.md). New training cannot substitute for replay of the original fits.
+The original fitted states are still missing, including all three selected primary heads. These commands report the required paths and checksums and never fall back to new/random weights. The maintained inference route starts from aligned embeddings and normalized targets; it is not a complete raw-cohort research orchestrator. The separate explicit [journal research workflow](docs/JOURNAL_REVISION.md) now supports public-data acquisition, frozen feature extraction, controlled new training and evaluation. New journal fits have independent identities and cannot substitute for replay of original fits. The original bounded inference route retains its existing contract.
 
 ## Organization and provenance
 

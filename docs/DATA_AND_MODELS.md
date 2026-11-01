@@ -1,5 +1,7 @@
 # Inputs, models and acquisition
 
+The separately authorized post-v1 research workflow is documented in [JOURNAL_REVISION.md](JOURNAL_REVISION.md). Its new fits/results and blocked raw-data cases are distinct from the original-state recovery/replay limitations below.
+
 No dataset downloads or fitted-state replacements were performed. Acquisition is explicit; ordinary tests/plots use fixtures or existing CSV exports. Official source locations below are also identified in the supplied manuscript and archived acquisition records.
 
 | Source | Official acquisition | Included roles and required files |

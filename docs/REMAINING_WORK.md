@@ -1,5 +1,7 @@
 # Remaining limitations
 
+The separately authorized post-v1 research workflow is documented in [JOURNAL_REVISION.md](JOURNAL_REVISION.md). Its new fits/results and blocked raw-data cases are distinct from the original-state recovery/replay limitations below.
+
 The previous publication-source blockers are resolved by the PREFLIGHT_FIXED author package. All 29 current display targets, all three document forms and a clean-extracted single-root arXiv package are now tested. The previous push/PR/CI blockers were also resolved; initial reports are retained under `docs/history/` as historical evidence.
 
 Still unavailable:
