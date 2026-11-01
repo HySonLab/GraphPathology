@@ -76,3 +76,7 @@ This checks archived bytes and declared registry prefixes without running histor
 ## Citation and terms
 
 Use the manuscript title and author above; [CITATION.cff](CITATION.cff) supplies citation metadata. No journal acceptance or DOI is asserted. HEST, HER2ST, Wu, Bassiouni and upstream model weights retain their own terms. The original repository had no root software LICENSE; this revision does not invent a license grant or redistribute raw tissue data or upstream weights.
+
+### Post-v1 bounded Transformer / EGNN extension
+
+The separate [extension documentation](docs/GRAPH_TRANSFORMER_EGNN.md) and [scientific report](experiments/journal_revision/transformer_egnn/SCIENTIFIC_REPORT.md) describe 48 new controlled fits and 78-model evaluation in 26 previously inspected patients. Exact GEO range recovery completed the 22-patient matched spatial baseline study. The primary neural models did not improve same-information IDW; all negative findings, controls and patient effects are retained. The versioned journal manuscript is under [manuscript/journal_revision/transformer_egnn](manuscript/journal_revision/transformer_egnn/). Earlier arXiv, journal and A–E evidence remains unchanged. Full gene exports/checkpoints have hashed author-local bundles and a release-ready manifest; raw datasets/model binaries are excluded from Git. Draft PR #3 requires author review before merge.
