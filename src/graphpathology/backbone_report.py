@@ -25,11 +25,12 @@ def value(x,precision):
 
 
 def make_table(patient,summary):
-    rows=[r'\begin{table}[p]',r'\centering',r'\caption{\textbf{Matched graph-versus-local and anchor-reference comparisons.} Primary 20\% distributed coverage uses the same three mask seeds and hidden sites, with three training seeds averaged within patient. Both backbones received the same two-rate validation-only selection opportunity. Entries separate image-only prediction (A) from observed-residual reconstruction (B). Each metric pair gives candidate/reference cohort medians; effects are medians of paired patient changes, so they need not equal differences of these marginal medians. Brackets give improved/valid patients for that endpoint. Relative MSE is computed within patient after seed averaging. External image outputs use the same frozen C9 T1 map once; no same-section molecular values enter A, and all B comparators use identical anchors. Bassiouni intervals appear in Fig.~\ref{fig:matched_backbone_effects}; Wu effects are reported individually in the source tables. Local denotes the non-graph MLP on the same backbone.}',r'\label{tab:matched_backbone}',r'\scriptsize\setlength{\tabcolsep}{2pt}\renewcommand{\arraystretch}{1.08}',r'\begin{tabular}{llrrrrrr}\toprule',r'Backbone: candidate/reference & Cohort ($n$) & $r_C/r_R$ & MSE$_C$/MSE$_R$ & MAE$_C$/MAE$_R$ & $\Delta r$ [$n$] & $\Delta$MSE\% [$n$] & $\Delta$MAE [$n$]\\\midrule']
+    rows=[r'\begin{table}[p]',r'\centering',r'\caption{\textbf{Matched graph-versus-local and anchor-reference comparisons.} Primary 20\% distributed coverage uses the same three mask seeds and hidden sites, with three training seeds averaged within patient. Both backbones received the same two-rate validation-only selection opportunity. Entries separate image-only prediction (A) from observed-residual reconstruction (B). Each metric pair gives candidate/reference cohort medians; effects are medians of paired patient changes, so they need not equal differences of these marginal medians. Brackets give improved/valid patients for that endpoint. Relative MSE is computed within patient after seed averaging. External image outputs use the same frozen C9 T1 map once; no same-section molecular values enter A, and all B comparators use identical anchors. Bassiouni intervals appear in Fig.~\ref{fig:matched_backbone_effects}; Wu effects are reported individually in the source tables. Local denotes the non-graph MLP on the same backbone.}',r'\label{tab:matched_backbone}',r'\scriptsize\setlength{\tabcolsep}{2pt}\renewcommand{\arraystretch}{1.08}',r'\begin{tabular}{lrrrrrr}\toprule',r'Candidate/reference & $r_C/r_R$ & MSE$_C$/MSE$_R$ & MAE$_C$/MAE$_R$ & $\Delta r$ [$n$] & $\Delta$MSE\% [$n$] & $\Delta$MAE [$n$]\\\midrule']
     for panel,route in [('A. Image-only prediction','image'),('B. Observed-residual reconstruction','exploratory_residual_anchor')]:
-        rows.append(r'\multicolumn{8}{l}{\textbf{'+panel+r'}}\\')
+        rows.append(r'\multicolumn{7}{l}{\textbf{'+panel+r'}}\\')
         for backbone in ['resnet18','phikon']:
             for co,n in [('Wu',3),('Bassiouni',22)]:
+                rows.append(r'\multicolumn{7}{l}{'+f'{LABEL[backbone]}; {co}, $n={n}$'+r'}\\')
                 pairs=[('GCN_spatial','local_local'),('SAGE_spatial','local_local')]
                 if route!='image':pairs += [('local_local','idw_k16_p2_none'),('GCN_spatial','idw_k16_p2_none'),('SAGE_spatial','idw_k16_p2_none')]
                 for candidate,reference in pairs:
@@ -43,7 +44,7 @@ def make_table(patient,summary):
                     paired=[]
                     for endpoint,multiplier,digits in [('delta_pearson',1,4),('relative_mse',100,1),('delta_mae',1,4)]:
                         v=q.loc[endpoint];number=value(v.median_effect*multiplier,digits);paired.append(number+f" [{int(v.n_improved)}/{int(v.n_patients)}]")
-                    rows.append(f"{LABEL[backbone]}: {HEAD[candidate]}/{HEAD[reference]} & {co} ({n}) & "+' & '.join(absolute+paired)+r'\\')
+                    rows.append(f"{HEAD[candidate]}/{HEAD[reference]} & "+' & '.join(absolute+paired)+r'\\')
         rows.append(r'\midrule')
     rows[-1]=r'\bottomrule';rows += [r'\end{tabular}',r'\end{table}']
     return '\n'.join(rows)+'\n'
