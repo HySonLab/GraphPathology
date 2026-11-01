@@ -4,6 +4,7 @@ import hashlib
 import json
 import subprocess
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import h5py
@@ -122,7 +123,11 @@ def prepare(root):
     for parameter in net.parameters():parameter.requires_grad_(False)
     out=root/f'data/journal_revision/{STUDY}/phikon';out.mkdir(parents=True,exist_ok=True)
     samples=['NCBI783','NCBI785','TENX95','TENX99']+cfg['external']
-    manifest=[];started=time.monotonic();batch_size=cfg['encoder_batch_size']
+    manifest=[];started=time.monotonic();micro_batch=cfg['encoder_batch_size'];batch_size=micro_batch*cfg.get('encoder_workers',1)
+    executor=ThreadPoolExecutor(max_workers=cfg.get('encoder_workers',1))
+    def encode(arrays):
+        with torch.inference_mode():
+            return net(**processor(images=[Image.fromarray(a) for a in arrays],return_tensors='pt')).last_hidden_state[:,0,:].numpy()
     total=sum(len(source(root,s)[0]['barcodes']) for s in samples)
     for patient in samples:
         target=out/(patient+'.npz');done=target.with_suffix('.json')
@@ -151,12 +156,14 @@ def prepare(root):
                     if 'patch_sha256' in data:
                         hashes=np.array([hashlib.sha256(np.asarray(a).tobytes()).hexdigest() for a in arrays])
                         np.testing.assert_array_equal(hashes,data['patch_sha256'][begin:end])
-                    with torch.inference_mode():
-                        values=net(**processor(images=[Image.fromarray(a) for a in arrays],return_tensors='pt')).last_hidden_state[:,0,:].numpy()
+                    futures=[executor.submit(encode,arrays[k:k+micro_batch]) for k in range(0,len(arrays),micro_batch)]
+                    values=np.concatenate([f.result() for f in futures])
+                    if begin==0:
+                        np.testing.assert_array_equal(values[:min(micro_batch,len(arrays))],encode(arrays[:micro_batch]))
                     assert values.shape==(end-begin,768) and np.isfinite(values).all()
                     x[begin:end]=values;x.flush();timed_rows+=end-begin
                     write(state,{'completed_rows':end,'source_cache_sha256':meta['cache_sha256']})
-                    if not preflight_done and timed_rows>=64:
+                    if not preflight_done and timed_rows>=128:
                         estimate=(time.monotonic()-begin_time)/timed_rows*total/3600
                         report=record(root,status='COMPLETE' if estimate<=cfg['encoder_max_wall_hours'] and memory.peak/2**30<cfg['max_rss_gib'] else 'BLOCKED_RESOURCES',source_patient=patient,timed_rows=timed_rows,total_rows=total,estimated_hours=estimate,peak_rss_gib=memory.peak/2**30,threads=cfg['encoder_threads'])
                         write(root/f'experiments/journal_revision/{STUDY}/ENCODER_PREFLIGHT.json',report)
@@ -172,6 +179,7 @@ def prepare(root):
         r=record(root,status='COMPLETE',patient=patient,encoder_revision=cfg['encoder_revision'],encoder_sha256=cfg['encoder_sha256'],source_cache_sha256=meta['cache_sha256'],cache_sha256=sha(target),rows=n,embedding_dimension=768,elapsed_seconds_this_resume=time.monotonic()-begin_time,resumed_rows=offset,peak_rss_gib=memory.peak/2**30,input_contract='Exact registered RGB arrays; official processor; frozen final-LayerNorm CLS without pooler',physical_field_of_view=meta.get('actual_FOV_um','Archived HEST C0 patch geometry; nominal112um'))
         write(done,r);manifest.append(r);npy.unlink();state.unlink();print('PHIKON COMPLETE',patient,flush=True)
         write(root/f'experiments/journal_revision/{STUDY}/FEATURE_MANIFEST.json',manifest)
+    executor.shutdown()
     return manifest
 
 
