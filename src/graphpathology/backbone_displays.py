@@ -43,7 +43,7 @@ def check(root,build):
         assert label in numbers,label
         number,page=numbers[label];rows.append({'label':label,**entry,'number':number,'combined_page':page,'change':'ADDED' if label in added else 'RETAINED'})
     with (build/'CURRENT_DISPLAY_MAP.csv').open('w') as f:
-        w=csv.DictWriter(f,fieldnames=['label','kind','source','supplementary','number','combined_page','change']);w.writeheader();w.writerows(rows)
+        w=csv.DictWriter(f,lineterminator='\n',fieldnames=['label','kind','source','supplementary','number','combined_page','change']);w.writeheader();w.writerows(rows)
     return {'prior_displays':len(old),'current_displays':len(current),'removed_labels':sorted(removed),'added_labels':sorted(added),'empirical_displays_removed':0,'all_other_labels_and_roles_retained':True}
 
 if __name__=='__main__':
