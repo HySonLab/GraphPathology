@@ -1,0 +1,156 @@
+{
+  "label": "post_v1_exploratory",
+  "variants": {
+    "gps_full": {
+      "family": "gps",
+      "control": "spatial",
+      "attention": "global",
+      "relative_distance": true,
+      "latent_updates": false,
+      "parameters": 121018
+    },
+    "gps_local": {
+      "family": "gps",
+      "control": "spatial",
+      "attention": "local",
+      "relative_distance": true,
+      "latent_updates": false,
+      "parameters": 121018
+    },
+    "gps_no_relative": {
+      "family": "gps",
+      "control": "spatial",
+      "attention": "global",
+      "relative_distance": false,
+      "latent_updates": false,
+      "parameters": 121018
+    },
+    "gps_self": {
+      "family": "gps",
+      "control": "self",
+      "attention": "self",
+      "relative_distance": true,
+      "latent_updates": false,
+      "parameters": 121018
+    },
+    "gps_shuffled": {
+      "family": "gps",
+      "control": "shuffled",
+      "attention": "global",
+      "relative_distance": true,
+      "latent_updates": false,
+      "parameters": 121018
+    },
+    "gps_degree_length": {
+      "family": "gps",
+      "control": "degree_length",
+      "attention": "global",
+      "relative_distance": true,
+      "latent_updates": false,
+      "parameters": 121018
+    },
+    "distance_fixed": {
+      "family": "egnn",
+      "control": "spatial",
+      "attention": "none",
+      "relative_distance": true,
+      "latent_updates": false,
+      "parameters": 87154
+    },
+    "egnn_latent": {
+      "family": "egnn",
+      "control": "spatial",
+      "attention": "none",
+      "relative_distance": true,
+      "latent_updates": true,
+      "parameters": 87282
+    },
+    "distance_disabled": {
+      "family": "egnn",
+      "control": "spatial",
+      "attention": "none",
+      "relative_distance": false,
+      "latent_updates": false,
+      "parameters": 87154
+    },
+    "egnn_self": {
+      "family": "egnn",
+      "control": "self",
+      "attention": "none",
+      "relative_distance": true,
+      "latent_updates": true,
+      "parameters": 87282
+    },
+    "egnn_shuffled": {
+      "family": "egnn",
+      "control": "shuffled",
+      "attention": "none",
+      "relative_distance": true,
+      "latent_updates": true,
+      "parameters": 87282
+    },
+    "egnn_degree_length": {
+      "family": "egnn",
+      "control": "degree_length",
+      "attention": "none",
+      "relative_distance": true,
+      "latent_updates": true,
+      "parameters": 87282
+    },
+    "matched_local": {
+      "family": "local",
+      "control": "spatial",
+      "attention": "none",
+      "relative_distance": false,
+      "latent_updates": false,
+      "parameters": 72114
+    },
+    "matched_mean": {
+      "family": "MEAN",
+      "control": "spatial",
+      "attention": "none",
+      "relative_distance": false,
+      "latent_updates": false,
+      "parameters": 72114
+    },
+    "matched_gcn": {
+      "family": "GCN",
+      "control": "spatial",
+      "attention": "none",
+      "relative_distance": false,
+      "latent_updates": false,
+      "parameters": 72114
+    },
+    "matched_sage": {
+      "family": "SAGE",
+      "control": "spatial",
+      "attention": "none",
+      "relative_distance": false,
+      "latent_updates": false,
+      "parameters": 72075
+    }
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "hidden": 64,
+  "layers": 2,
+  "heads": 4,
+  "landmarks": 32,
+  "local_attention_slots": 8,
+  "distance_scale_um": 250,
+  "dropout": 0.1,
+  "optimizer": "AdamW",
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "max_epochs": 80,
+  "patience": 10,
+  "min_delta": 0.0001,
+  "loss": "mean squared error across all50 training targets",
+  "training_steps_per_epoch": 2,
+  "threads": 4,
+  "precision": "float32",
+  "old_frozen_baselines": 30
+}
