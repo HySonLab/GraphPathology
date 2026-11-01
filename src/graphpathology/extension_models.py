@@ -78,7 +78,7 @@ def graph_spec(xy,sample,seed,variant):
   js=a.indices[a.indptr[i]:a.indptr[i+1]];js=js[np.argsort(np.linalg.norm(p[js]-p[i],axis=1),kind='stable')][:7]
   local_links[i,1:len(js)+1]=js
  center=p.mean(0);spec={'row':torch.tensor(row,dtype=torch.long),'col':torch.tensor(col,dtype=torch.long),'degree':torch.tensor(degree,dtype=torch.float32),
-  'p':torch.tensor((p-center)/SCALE_UM,dtype=torch.float32),'center_um':torch.tensor(center,dtype=torch.float64),
+  'p':torch.tensor((p-center)/SCALE_UM,dtype=torch.float64),'center_um':torch.tensor(center,dtype=torch.float64),
   'landmarks':torch.tensor(landmarks(p),dtype=torch.long),'local_links':torch.tensor(local_links,dtype=torch.long),
   'physical_xy':physical,'adjacency':a,'info':info}
  return spec
