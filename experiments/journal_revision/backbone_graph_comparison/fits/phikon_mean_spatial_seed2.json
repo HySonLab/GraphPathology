@@ -1,0 +1,125 @@
+{
+  "classification": "exploratory_follow_up",
+  "protocol_commit": "60842a6b5",
+  "code_commit": "8758af15b2e0d87cfd274b44daed5211ba8e5499",
+  "created_utc": "2026-11-01T17:52:07.756976+00:00",
+  "code_hashes": {
+    "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+    "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+    "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+    "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+    "src/graphpathology/backbone_analysis.py": "998061501418741cdcc82b630ad8011b6b60239545afefa38979e915272bb4a7",
+    "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+    "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+  },
+  "status": "COMPLETE",
+  "backbone": "phikon",
+  "run_id": "phikon_mean_spatial_seed2",
+  "model": "MEAN",
+  "control": "spatial",
+  "seed": 2,
+  "config": {
+    "hidden": 128,
+    "dropout": 0.1
+  },
+  "training": {
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 512,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001
+  },
+  "parameters": 104882,
+  "selected_epoch": 1,
+  "epochs_ran": 11,
+  "optimizer_updates": 154,
+  "selected_optimizer_updates": 14,
+  "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/phikon_mean_spatial_seed2.pt",
+  "checkpoint_sha256": "61dad68a0c741e6a61a01d33e93f6569ce116e3e5a1c22b49ec6838d99d4ac83",
+  "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+  "input_cache_hashes": {
+    "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+    "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+    "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+  },
+  "source_fit": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation": "TENX95",
+  "graphs": {
+    "NCBI783": {
+      "edges": 8737,
+      "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+    },
+    "NCBI785": {
+      "edges": 11774,
+      "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+    },
+    "TENX95": {
+      "edges": 22949,
+      "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+    }
+  },
+  "fit_seconds": 2.649573603994213,
+  "peak_rss_mb": 607.03515625,
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 0.5944982555706163,
+      "validation_mse": 0.7855744805090206
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.3423080041505402,
+      "validation_mse": 0.854305774806701
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.2851591382125235,
+      "validation_mse": 0.9274297881765464
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.26180544900877173,
+      "validation_mse": 0.9587367912371134
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.24829606582076738,
+      "validation_mse": 0.9569637967139175
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.23967988963477202,
+      "validation_mse": 1.0596943460051547
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.2319252931914496,
+      "validation_mse": 1.1044999395940722
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.22641358433964417,
+      "validation_mse": 1.1184897309922681
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.2230382008078433,
+      "validation_mse": 1.1169543331185567
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.21858411622914092,
+      "validation_mse": 1.1798718588917525
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.21698050376609318,
+      "validation_mse": 1.2557819144652063
+    }
+  ],
+  "serialization_exact": true
+}

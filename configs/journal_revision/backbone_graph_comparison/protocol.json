@@ -120,5 +120,16 @@
   "leakage_rtol": 0,
   "leakage_atol": 0,
   "minimum_shuffled_changed_edge_fraction": 0.5,
-  "encoder_workers": 4
+  "encoder_workers": 4,
+  "training_refinement": {
+    "version": 2,
+    "learning_rates": [
+      0.001,
+      0.0001
+    ],
+    "selection": "Mean best qualifying TENX95 MSE across all three seeds, separately per backbone/model/control; exact tie chooses smaller learning rate.",
+    "external_scoring": "Only validation-selected learning rate; all three seeds. Existing complete ResNet1e-3 exports remain a separately labelled sensitivity.",
+    "other_settings_unchanged": true,
+    "refinement_reason": "17 of18 first Phikon fits selected epoch1; validation deterioration with declining fitting loss. No Phikon development/external predictions or outcomes have been inspected."
+  }
 }

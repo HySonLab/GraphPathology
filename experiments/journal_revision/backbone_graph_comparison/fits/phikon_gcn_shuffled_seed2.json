@@ -1,0 +1,131 @@
+{
+  "classification": "exploratory_follow_up",
+  "protocol_commit": "60842a6b5",
+  "code_commit": "8758af15b2e0d87cfd274b44daed5211ba8e5499",
+  "created_utc": "2026-11-01T17:52:19.444280+00:00",
+  "code_hashes": {
+    "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+    "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+    "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+    "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+    "src/graphpathology/backbone_analysis.py": "998061501418741cdcc82b630ad8011b6b60239545afefa38979e915272bb4a7",
+    "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+    "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+  },
+  "status": "COMPLETE",
+  "backbone": "phikon",
+  "run_id": "phikon_gcn_shuffled_seed2",
+  "model": "GCN",
+  "control": "shuffled",
+  "seed": 2,
+  "config": {
+    "hidden": 128,
+    "dropout": 0.1
+  },
+  "training": {
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 512,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001
+  },
+  "parameters": 104882,
+  "selected_epoch": 1,
+  "epochs_ran": 11,
+  "optimizer_updates": 154,
+  "selected_optimizer_updates": 14,
+  "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/phikon_gcn_shuffled_seed2.pt",
+  "checkpoint_sha256": "7832fd16c46e0014a30d78848d2221189050cd898801574792a85b19d6e15a3b",
+  "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+  "input_cache_hashes": {
+    "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+    "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+    "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+  },
+  "source_fit": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation": "TENX95",
+  "graphs": {
+    "NCBI783": {
+      "edges": 8737,
+      "changed_edge_fraction": 0.9981687077944374,
+      "permutation_sha256": "b18569c492ba117c95299707a96e78b8705aae7bce4dd9a50fb700a70fe4c5ef",
+      "adjacency_sha256": "1447bb9c17f9629d3439e6800477cbb50490e880d377027fe426f7df12df377c"
+    },
+    "NCBI785": {
+      "edges": 11774,
+      "changed_edge_fraction": 0.998641073551894,
+      "permutation_sha256": "4c2987c9a0fadc9d838ad042cd5916d69978b9f96b32dad492f2343557ce0a33",
+      "adjacency_sha256": "65eb01d25702abbffb59bd67ccd4b7db8b6edd6508e0b847e96299ef8925e7b4"
+    },
+    "TENX95": {
+      "edges": 22949,
+      "changed_edge_fraction": 0.999302801865005,
+      "permutation_sha256": "ad5498d2660090be6d623c9f1ae4a651edb187b6b5c99ddcdccfba9d9d257ebc",
+      "adjacency_sha256": "cca4a0bf8536ff33362e34fcaa60a8318aa84216cea48090fcc61375513e1ed9"
+    }
+  },
+  "fit_seconds": 2.935723692004103,
+  "peak_rss_mb": 627.62890625,
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 0.8316380549054951,
+      "validation_mse": 0.9099067735180413
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.7572344600432104,
+      "validation_mse": 0.9411916680090207
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.7399346033760419,
+      "validation_mse": 0.9545568017074743
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.7330205447658503,
+      "validation_mse": 0.9845476401417526
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.7285706667753942,
+      "validation_mse": 0.9731880235180412
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.7246979268125696,
+      "validation_mse": 0.9665995489690722
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.724027406905943,
+      "validation_mse": 0.9915250080541237
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.7201228640713355,
+      "validation_mse": 0.9726907619201031
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.7178666927265595,
+      "validation_mse": 0.977917384826031
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.715268793168955,
+      "validation_mse": 0.9820791519007732
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.7135208589301649,
+      "validation_mse": 0.9847874114046392
+    }
+  ],
+  "serialization_exact": true
+}

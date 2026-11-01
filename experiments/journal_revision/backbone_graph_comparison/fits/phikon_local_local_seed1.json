@@ -1,0 +1,112 @@
+{
+  "classification": "exploratory_follow_up",
+  "protocol_commit": "60842a6b5",
+  "code_commit": "8758af15b2e0d87cfd274b44daed5211ba8e5499",
+  "created_utc": "2026-11-01T17:51:43.344556+00:00",
+  "code_hashes": {
+    "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+    "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+    "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+    "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+    "src/graphpathology/backbone_analysis.py": "998061501418741cdcc82b630ad8011b6b60239545afefa38979e915272bb4a7",
+    "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+    "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+  },
+  "status": "COMPLETE",
+  "backbone": "phikon",
+  "run_id": "phikon_local_local_seed1",
+  "model": "local",
+  "control": "local",
+  "seed": 1,
+  "config": {
+    "hidden": 128,
+    "dropout": 0.1
+  },
+  "training": {
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 512,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001
+  },
+  "parameters": 104882,
+  "selected_epoch": 1,
+  "epochs_ran": 11,
+  "optimizer_updates": 154,
+  "selected_optimizer_updates": 14,
+  "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/phikon_local_local_seed1.pt",
+  "checkpoint_sha256": "49ad94733f131432fced72afd3d0da120f7a225e49a406833e5c4c54e137127a",
+  "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+  "input_cache_hashes": {
+    "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+    "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+    "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+  },
+  "source_fit": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation": "TENX95",
+  "graphs": {},
+  "fit_seconds": 1.8404083860077662,
+  "peak_rss_mb": 580.7890625,
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 0.5665169068429611,
+      "validation_mse": 0.7505347636114691
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.3006340436780784,
+      "validation_mse": 0.8194526216172681
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.24036173713011819,
+      "validation_mse": 0.8743973099226804
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.2128245061177147,
+      "validation_mse": 0.8662558191043814
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.19710136322956465,
+      "validation_mse": 0.9016519410438144
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.18656232750636717,
+      "validation_mse": 0.9340927432345361
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.1784854534793053,
+      "validation_mse": 0.9602563224871135
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.1726159679787718,
+      "validation_mse": 0.9269781733247423
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.16735544725987034,
+      "validation_mse": 0.9561809962951031
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.16289852525154694,
+      "validation_mse": 0.933948634826031
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.15862763797438154,
+      "validation_mse": 0.9508125604059279
+    }
+  ],
+  "serialization_exact": true
+}
