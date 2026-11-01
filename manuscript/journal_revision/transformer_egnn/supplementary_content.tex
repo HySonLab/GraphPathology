@@ -9,7 +9,7 @@
 \Correspondence\par
 \end{center}
 \section*{Contents and source-data guide}
-This document contains interpretive notes, the original twelve supplementary figures and nine supplementary tables, followed by separately labelled post-v1 analyses, two real-data maps and four new tables. The full architecture and training Methods are now provided in the main article. Supporting source-data exports, including unrounded per-gene observations, accompany the publication package. Independent biological replicates are patients rather than masks or training seeds.
+This document provides supporting figures and tables, cohort-resolved graph comparisons, computational diagnostics and detailed development methods. Source tables retain all tested estimators, masks, training seeds and defined-correlation counts. Patients are biological replicates; masks and training seeds describe computational variation. The main Methods distinguish the original evaluation, retrospective controls and the two additional neural training regimes.
 \clearpage
 \section{Supplementary notes}
 \subsection{Affine interpolation identity}
@@ -31,10 +31,10 @@ Public external H\&E images are downsampled, and sparse molecular interpolation 
 \subsection{Aggregation and metric interpretation}
 The primary external summaries compute gene-level metrics on hidden locations, summarize genes within each run, average random seeds within geometry, average geometries within patient, and finally summarize patients. Unless a figure legend states otherwise, external cohort markers are medians across patients. Several development and transportability plots instead show arithmetic means; their legends state this explicitly. A difference between two cohort medians is not a median paired patient effect.
 
-Mean squared error and mean absolute error use the unchanged development-standardized log1p-count target. Shared numerical units do not remove capture-depth or assay differences. Correlations are undefined when the target or prediction range is at most $10^{-12}$; they are excluded from correlation averages but not counted as successes in threshold fractions. Spearman correlations use average ranks for ties. Mask and model seeds describe computational variation, not independent biological replication. The original v1 displays contain no confidence intervals or significance tests. Separate post-v1 patient bootstrap intervals are now reported in main Table 3 and the journal CSVs; no significance tests were added.
+Mean squared error and mean absolute error use the unchanged development-standardized log1p-count target. Shared numerical units do not remove capture-depth or assay differences. Correlations are undefined when the target or prediction range is at most $10^{-12}$; they are excluded from correlation averages but not counted as successes in threshold fractions. Spearman correlations use average ranks for ties. Mask and model seeds describe computational variation, not independent biological replication. Descriptive patient-bootstrap intervals are reported for the 22-patient comparisons (main Tables 3--5); they are not p-values. Wu patients are reported individually, with no primary three-patient bootstrap claim.
 \clearpage
 \section{Supplementary figures}
-\begin{figure}[p]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth,height=0.65\textheight,keepaspectratio]{supplementary_figures/FigureS1.pdf}
 \caption{\textbf{HER2ST transportability and target calibration.} Eight HER2ST patients and the frozen 40-gene intersection are shown at 20\% random measured-location coverage. \textbf{a,c,} Distributed interpolation (V1). \textbf{b,d,} Contiguous regional completion (V2). Panels a/b show median gene Pearson correlation and c/d show mean gene MSE in common target units on a logarithmic axis. Dots are patient summaries after averaging seeds and geometries; connected markers are medians across patients. T0 denotes the uncalibrated zero-shot analysis, whereas T1 denotes the calibrated target mapping with fixed fusion. Image weights were 0.25 for V1 and 0.5 for V2; these development weights differ from the final external weight of 0.2. These are the same patients, not independent replication groups. The T1 fixed-fusion analysis differs from the later fold-selected fusion results in Supplementary Fig.~S10. Affine transformation and inverse transformation leave molecular interpolation unchanged; apparent image/fusion calibration effects are not a new interpolation advantage.}
@@ -43,7 +43,7 @@ Mean squared error and mean absolute error use the unchanged development-standar
 \begin{figure}[p]
 \centering
 \includegraphics[width=\textwidth,height=0.80\textheight,keepaspectratio]{supplementary_figures/FigureS2.pdf}
-\caption{\textbf{Cross-cohort synthesis without pooling different panels.} Rows correspond to the development primary patient ($n=1$), HER2ST zero-shot ($n=8$), HER2ST calibrated ($n=8$, the same patients), fresh Wu evaluation ($n=3$) and fresh Bassiouni replication ($n=22$). The development and fresh cohorts use 50 genes; HER2ST uses 40. \textbf{a--e,} Left-column paired patient correlation effects at 20\% distributed coverage for molecular interpolation minus image-only prediction and fusion minus molecular interpolation; bars are median paired effects. \textbf{f--j,} Right-column individual patient molecular correlation curves at 10\%, 20\% and 40\% distributed coverage. The panels preserve differences in analytical role and gene panel and do not define a pooled cross-cohort score. HER2ST calibration is development, not an additional fresh validation cohort.}
+\caption{\textbf{Cross-cohort synthesis without pooling different panels.} Rows correspond to the development primary patient ($n=1$), HER2ST zero-shot ($n=8$), HER2ST calibrated ($n=8$, the same patients), original Wu evaluation ($n=3$) and original Bassiouni evaluation ($n=22$). The development and original evaluation cohorts use 50 genes; HER2ST uses 40. \textbf{a--e,} Left-column paired patient correlation effects at 20\% distributed coverage for molecular interpolation minus image-only prediction and fusion minus molecular interpolation; bars are median paired effects. \textbf{f--j,} Right-column individual patient molecular correlation curves at 10\%, 20\% and 40\% distributed coverage. The panels preserve differences in analytical role and gene panel and do not define a pooled cross-cohort score. HER2ST calibration is development, not an additional independent validation cohort.}
 \label{fig:s2}
 \end{figure}\clearpage
 \begin{figure}[p]
@@ -97,7 +97,7 @@ Mean squared error and mean absolute error use the unchanged development-standar
 \begin{figure}[p]
 \centering
 \includegraphics[width=\textwidth,height=0.65\textheight,keepaspectratio]{supplementary_figures/FigureS11.pdf}
-\caption{\textbf{Matched negative controls in fresh Wu evaluation.} The predeclared held-out patient 1160920F, 50 genes, 20\% coverage and random mask seed 0 were used, with V1 geometry 0 and V2 geometry 1. Three permutation seeds were evaluated for NC1 anchor-vector reassignment, NC2 anchor-position reassignment and NC3 image-prediction permutation. \textbf{a,} Control minus matched-clean median gene Pearson correlation. \textbf{b,} Matched-clean minus control MSE, so negative values indicate increased control error. Molecular interpolation (M1) and fixed image fusion (M3) are shown. Dots are matched control settings and bars are means; they are not independent patients. Molecular controls disrupt the correct spatial anchor assignments, whereas image permutation provides no robust supporting evidence for the frozen image contribution.}
+\caption{\textbf{Matched negative controls in original Wu evaluation.} The predeclared held-out patient 1160920F, 50 genes, 20\% coverage and random mask seed 0 were used, with V1 geometry 0 and V2 geometry 1. Three permutation seeds were evaluated for NC1 anchor-vector reassignment, NC2 anchor-position reassignment and NC3 image-prediction permutation. \textbf{a,} Control minus matched-clean median gene Pearson correlation. \textbf{b,} Matched-clean minus control MSE, so negative values indicate increased control error. Molecular interpolation (M1) and fixed image fusion (M3) are shown. Dots are matched control settings and bars are means; they are not independent patients. Molecular controls disrupt the correct spatial anchor assignments, whereas image permutation provides no robust supporting evidence for the frozen image contribution.}
 \label{fig:s11}
 \end{figure}\clearpage
 \begin{figure}[p]
@@ -109,7 +109,7 @@ Mean squared error and mean absolute error use the unchanged development-standar
 \section{Supplementary tables}
 The tables below provide compact views of the accompanying machine-readable data and definitions needed to interpret the supplementary figures. Table~S2 is rounded for presentation; the digital files retain unrounded exported values. Large gene-level and distance-resolved tables are supplied as separate files rather than reproduced in full in this PDF. Mask, model and permutation seeds are computational replicates and do not increase the number of independent patients.
 \begin{table}[htbp]
-\caption{\textbf{Primary gene panel.} The 50 genes are listed in the order fixed by variance ranking in the development-training patients. The fresh Wu and Bassiouni analyses retain all 50 genes. HER2ST analyses use the 40-gene intersection with this panel; unavailable genes are not replaced. The full data file also includes the larger development panels and cohort-specific availability records: \protect\path{source_data/SuppTable1_gene_panels.csv}.}
+\caption{\textbf{Primary gene panel.} The 50 genes are listed in the order fixed by variance ranking in the development-training patients. The original Wu and Bassiouni evaluation retain all 50 genes. HER2ST analyses use the 40-gene intersection with this panel; unavailable genes are not replaced. The full data file also includes the larger development panels and cohort-specific availability records: \protect\path{source_data/SuppTable1_gene_panels.csv}.}
 \centering\small
 \begin{tabular}{rlrl}\toprule
 Order & Gene & Order & Gene\\\midrule
@@ -140,7 +140,7 @@ Order & Gene & Order & Gene\\\midrule
 25 & PTGDS & 50 & CCDC80 \\
 \bottomrule\end{tabular}\end{table}\clearpage
 \begin{table}[p]
-\caption{\textbf{Patient-resolved reconstruction metrics.} Compact view of the 25 fresh evaluation patients at 20\% distributed coverage, using 50 genes. Values average mask seeds within patient. $r$ is the median gene Pearson correlation; MSE is mean gene squared error in the common target units. I denotes image-only, ST molecular interpolation, and F fixed image fusion. Complete exported patient summaries for the available cohorts, regimes, budgets and methods are supplied in \protect\path{source_data/SuppTable2_per_patient.csv}.}
+\caption{\textbf{Patient-resolved reconstruction metrics.} Compact view of the 25 original external-evaluation patients at 20\% distributed coverage, using 50 genes. Values average mask seeds within patient. $r$ is the median gene Pearson correlation; MSE is mean gene squared error in the common target units. I denotes image-only, ST molecular interpolation, and F fixed image fusion. Complete exported patient summaries for the available cohorts, regimes, budgets and methods are supplied in \protect\path{source_data/SuppTable2_per_patient.csv}.}
 \centering\small
 \begin{tabular}{lrrrrrr}\toprule
 Patient & $r_{\mathrm I}$ & $r_{\mathrm{ST}}$ & $r_{\mathrm F}$ & MSE$_{\mathrm I}$ & MSE$_{\mathrm{ST}}$ & MSE$_{\mathrm F}$\\\midrule
@@ -220,7 +220,7 @@ Hidden-label corruption checks & 3,312 & 17,532\\
 \centering\small
 \begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{0.28\textwidth}Y}\toprule
 Protocol component & Definition\\\midrule
-Measurement budgets & For $N$ retained locations and $b\in\{0.10,0.20,0.40\}$, the observed count is $\lfloor bN+0.5\rfloor$. Random anchor sets use nested prefixes of the same trajectory as coverage increases.\\
+Measurement budgets & For $N$ retained locations and $b\in\{0.10, 0.20, 0.40\}$, the observed count is $\lfloor bN+0.5\rfloor$. Random anchor sets use nested prefixes of the same trajectory as coverage increases.\\
 Distributed interpolation (V1) & Anchors may be sampled throughout the retained tissue; every remaining location is scored. Predictions use up to 16 nearest observed anchors with normalized inverse-distance-squared weights.\\
 Contiguous regional completion (V2) & A prespecified contiguous region contains the 40\% of locations nearest to its center. Anchors are sampled outside that region, and only locations within it are scored. Predictions use the mean of up to 16 nearest observed anchors.\\
 Regional geometry & Three centers are selected at the 25th, 50th and 75th percentile of first coordinate principal-component rank. The three geometries are averaged equally within patient.\\
@@ -269,18 +269,18 @@ Sparse residual correction & 34 covariates plus intercept per gene & Gene-specif
 
 \clearpage
 \begin{table}[!htbp]
-\caption{\textbf{Coverage response and contiguous-region completion in the two fresh studies.} All rows use the same frozen 50-gene panel and spatial interpolation. Values are medians of patient summaries, with $n=3$ for Wu and $n=22$ for Bassiouni. V1 is distributed interpolation with inverse-distance-squared weighting; V2 is completion of a predefined contiguous region using the mean of nearby anchors. Both the scoring support and interpolation rule change between V1 and V2. The comparison therefore describes protocol-level deterioration rather than an isolated causal geometry effect. In both studies, every evaluation patient improved in Pearson correlation and MSE from 10\% to 40\% V1 coverage; every patient deteriorated in Pearson, MSE and MAE under V2 relative to V1 at 20\%.}
+\caption{\textbf{Coverage response and contiguous-region completion in the two original evaluation studies.} All rows use the same frozen 50-gene panel and spatial interpolation. Values are medians of patient summaries, with $n=3$ for Wu and $n=22$ for Bassiouni. V1 is distributed interpolation with inverse-distance-squared weighting; V2 is completion of a predefined contiguous region using the mean of nearby anchors. Both the scoring support and interpolation rule change between V1 and V2. The comparison therefore describes protocol-level deterioration rather than an isolated causal geometry effect. In both studies, every evaluation patient improved in Pearson correlation and MSE from 10\% to 40\% V1 coverage; every patient deteriorated in Pearson, MSE and MAE under V2 relative to V1 at 20\%.}
 \label{tab:coverage}
 \centering\small
 \begin{tabularx}{\textwidth}{@{}Yrrrrr@{}}
 \toprule
 Cohort & Coverage & V1 Pearson $r$ & V1 MSE & V2 Pearson $r$ & V2 MSE \\
 \midrule
-Wu, fresh & 10\% & 0.313 & 0.1080 & 0.111 & 0.1356 \\
+Wu, original evaluation & 10\% & 0.313 & 0.1080 & 0.111 & 0.1356 \\
  & 20\% & 0.359 & 0.0987 & 0.081 & 0.1366 \\
  & 40\% & 0.393 & 0.0899 & 0.088 & 0.1385 \\
 \addlinespace[5pt]
-Bassiouni, fresh & 10\% & 0.380 & 0.1001 & 0.121 & 0.1520 \\
+Bassiouni, original evaluation & 10\% & 0.380 & 0.1001 & 0.121 & 0.1520 \\
  & 20\% & 0.416 & 0.0923 & 0.171 & 0.1496 \\
  & 40\% & 0.465 & 0.0852 & 0.181 & 0.1518 \\
 \addlinespace[5pt]
@@ -290,8 +290,9 @@ Bassiouni, fresh & 10\% & 0.380 & 0.1001 & 0.121 & 0.1520 \\
 
 
 \clearpage
-\section{Post-v1 journal analyses: source-data and limitations}
-New source files are under source\_data/journal and results under experiments/journal\_revision. These analyses reuse previously inspected Wu patients and original Bassiouni exports. At that earlier revision, Bassiouni prediction/map analyses were blocked by failed individual transfers. The separate later extension recovered exact inputs through bounded TAR ranges and reports new predictions; no old summary substitutes for a new prediction. Primary real-data replay passes per-gene Pearson/MSE/MAE tolerances; raw Spearman near-tie sensitivity is explicit. Every new Wu run was invariant to corruption of every unobserved label. The B2 H and anchor trajectories are label-free, persisted and hashed. All estimators, budgets, patient effects, bin supports and new training seeds are retained in machine-readable exports.
+\section{Additional controls and source-data guide}
+The matched molecular and neural comparisons use previously evaluated cohorts. Complete source tables are under \path{source_data/journal/} and \path{source_data/extension/}; protocols, input identities, fitted-state records and numerical audits are documented in the repository. Exact Bassiouni inputs are available and verified. The complete additional per-gene exports and model states remain author-local with release-ready manifests, not publicly deposited assets. Publication regeneration from exported tables is distinct from replay of the three missing historical primary image heads.
+
 \input{tables/JournalTableS10}
 \input{tables/JournalTableS11}
 \input{tables/JournalTableS12}
@@ -306,18 +307,19 @@ New source files are under source\_data/journal and results under experiments/jo
 \clearpage
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/journal/JournalMap_V2.pdf}
-\caption{\textbf{Predetermined real Wu V2 gene maps.} Same patient, genes, 20\% budget and seed0, central original V2 geometry 1, historical uniform k16 operator. Colored truth/prediction/error points are the original forbidden scoring region; anchor crosses lie outside. Scales and source terms match the preceding figure. FOXA1 has a constant scored field; numerical residuals do not establish biological recovery. These maps retain unsuccessful/constant examples and are not independent validation. The requested BASS\_P01 map was not generated because its raw inputs could not be acquired.}
+\caption{\textbf{Predetermined real Wu V2 gene maps.} Same patient, genes, 20\% budget and seed0, central original V2 geometry 1, historical uniform k16 operator. Colored truth/prediction/error points are the original forbidden scoring region; anchor crosses lie outside. Scales and source terms match the preceding figure. FOXA1 has a constant scored field; numerical residuals do not establish biological recovery. These maps retain unsuccessful/constant examples and are not independent validation. The corresponding Bassiouni maps are provided in Supplementary Figs.~S26 and S27.}
 \label{fig:journal_map_v2}
 \end{figure}
 \FloatBarrier
 
-\clearpage\section{Post-v1 bounded Transformer and EGNN extension}
+\clearpage\section{Graph comparisons and computational diagnostics}
 
-These are exploratory analyses in previously inspected cohorts. Full per-gene/mask/seed exports, hashes, loss histories and paired patient effects accompany the source package. The patient is the biological unit. Black ticks in the complete matrices are cohort medians; dots are individual patient summaries after seed averages, with separate Wu patient colors. No spread of dots is a confidence interval. Molecular rows receive same-section measured labels; image-only rows do not. Older frozen models are marked [old] and were trained under a different update regime.
+\subsection{Complete cohort and prediction-route matrices}
+All matrices use 20\% distributed coverage and the fixed 50-gene panel. Sixteen full-section configurations and ten frozen minibatch configuration families are shown, each retaining three training seeds, alongside fixed IDW and uniform molecular estimators. Metrics are averaged over the same three mask seeds and then training seeds within patient. Dots are patient summaries, and black ticks are cohort medians; their spread is not a confidence interval. The image-only route uses frozen image features and permitted coordinates; fixed fusion and observed-residual interpolation additionally use the same measured anchors as the molecular references. Thus image-only versus molecular rows have different information access. Architecture names identify configurations, not outcome-selected winners.
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionMatrix_Development_image.pdf}
-\caption{\textbf{Complete Development image matrix at 20\% historical V1 coverage.} All 16 new architectures/controls, all 10 older configuration families (three fits each), and both fixed molecular comparators are shown. Model summaries average training/mask seeds within patient. Pearson, MSE and MAE are retained together; no external winner is selected. Fixed and residual routes use identical anchors as their molecular references. The HEST development plot has one patient and no population interval.}
+\caption{\textbf{HEST development: image-only at 20\% distributed coverage.} Results for one previously evaluated patient, TENX99. Pearson, MSE and MAE are shown after averaging three mask and three training seeds within patient. Neural rows use image features and permitted geometry; the two molecular rows receive measured anchors. The dot represents one patient; no population interval is inferred.}
 \label{fig:ExtensionMatrix_Development_image}
 \end{figure}
 \FloatBarrier
@@ -325,7 +327,7 @@ These are exploratory analyses in previously inspected cohorts. Full per-gene/ma
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionMatrix_Development_fixed_20pct_image.pdf}
-\caption{\textbf{Complete Development fixed\_20 pct\_image matrix at 20\% historical V1 coverage.} All 16 new architectures/controls, all 10 older configuration families (three fits each), and both fixed molecular comparators are shown. Model summaries average training/mask seeds within patient. Pearson, MSE and MAE are retained together; no external winner is selected. Fixed and residual routes use identical anchors as their molecular references. The HEST development plot has one patient and no population interval.}
+\caption{\textbf{HEST development: fixed fusion at 20\% distributed coverage.} Results for one previously evaluated patient, TENX99. Pearson, MSE and MAE are shown after averaging three mask and three training seeds within patient. Neural rows combine 0.2 calibrated image prediction with 0.8 IDW; molecular rows use the same anchor vectors without images. The dot represents one patient; no population interval is inferred.}
 \label{fig:ExtensionMatrix_Development_fixed_20pct_image}
 \end{figure}
 \FloatBarrier
@@ -333,7 +335,7 @@ These are exploratory analyses in previously inspected cohorts. Full per-gene/ma
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionMatrix_Development_exploratory_residual_anchor.pdf}
-\caption{\textbf{Complete Development exploratory\_residual\_anchor matrix at 20\% historical V1 coverage.} All 16 new architectures/controls, all 10 older configuration families (three fits each), and both fixed molecular comparators are shown. Model summaries average training/mask seeds within patient. Pearson, MSE and MAE are retained together; no external winner is selected. Fixed and residual routes use identical anchors as their molecular references. The HEST development plot has one patient and no population interval.}
+\caption{\textbf{HEST development: observed-residual interpolation at 20\% distributed coverage.} Results for one previously evaluated patient, TENX99. Pearson, MSE and MAE are shown after averaging three mask and three training seeds within patient. Neural rows add interpolation of observed residuals to image prediction; molecular rows use the same anchors without images. The dot represents one patient; no population interval is inferred.}
 \label{fig:ExtensionMatrix_Development_exploratory_residual_anchor}
 \end{figure}
 \FloatBarrier
@@ -341,7 +343,7 @@ These are exploratory analyses in previously inspected cohorts. Full per-gene/ma
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionMatrix_Wu_image.pdf}
-\caption{\textbf{Complete Wu image matrix at 20\% historical V1 coverage.} All 16 new architectures/controls, all 10 older configuration families (three fits each), and both fixed molecular comparators are shown. Model summaries average training/mask seeds within patient. Pearson, MSE and MAE are retained together; no external winner is selected. Fixed and residual routes use identical anchors as their molecular references. The HEST development plot has one patient and no population interval.}
+\caption{\textbf{Wu: image-only at 20\% distributed coverage.} Results for three previously evaluated patients. Pearson, MSE and MAE are shown after averaging three mask and three training seeds within patient. Neural rows use image features and permitted geometry; the two molecular rows receive measured anchors. Colors identify 1160920F, CID4290 and CID44971 individually.}
 \label{fig:ExtensionMatrix_Wu_image}
 \end{figure}
 \FloatBarrier
@@ -349,7 +351,7 @@ These are exploratory analyses in previously inspected cohorts. Full per-gene/ma
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionMatrix_Wu_fixed_20pct_image.pdf}
-\caption{\textbf{Complete Wu fixed\_20 pct\_image matrix at 20\% historical V1 coverage.} All 16 new architectures/controls, all 10 older configuration families (three fits each), and both fixed molecular comparators are shown. Model summaries average training/mask seeds within patient. Pearson, MSE and MAE are retained together; no external winner is selected. Fixed and residual routes use identical anchors as their molecular references. The HEST development plot has one patient and no population interval.}
+\caption{\textbf{Wu: fixed fusion at 20\% distributed coverage.} Results for three previously evaluated patients. Pearson, MSE and MAE are shown after averaging three mask and three training seeds within patient. Neural rows combine 0.2 calibrated image prediction with 0.8 IDW; molecular rows use the same anchor vectors without images. Colors identify 1160920F, CID4290 and CID44971 individually.}
 \label{fig:ExtensionMatrix_Wu_fixed_20pct_image}
 \end{figure}
 \FloatBarrier
@@ -357,7 +359,7 @@ These are exploratory analyses in previously inspected cohorts. Full per-gene/ma
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionMatrix_Wu_exploratory_residual_anchor.pdf}
-\caption{\textbf{Complete Wu exploratory\_residual\_anchor matrix at 20\% historical V1 coverage.} All 16 new architectures/controls, all 10 older configuration families (three fits each), and both fixed molecular comparators are shown. Model summaries average training/mask seeds within patient. Pearson, MSE and MAE are retained together; no external winner is selected. Fixed and residual routes use identical anchors as their molecular references. The HEST development plot has one patient and no population interval.}
+\caption{\textbf{Wu: observed-residual interpolation at 20\% distributed coverage.} Results for three previously evaluated patients. Pearson, MSE and MAE are shown after averaging three mask and three training seeds within patient. Neural rows add interpolation of observed residuals to image prediction; molecular rows use the same anchors without images. Colors identify 1160920F, CID4290 and CID44971 individually.}
 \label{fig:ExtensionMatrix_Wu_exploratory_residual_anchor}
 \end{figure}
 \FloatBarrier
@@ -365,7 +367,7 @@ These are exploratory analyses in previously inspected cohorts. Full per-gene/ma
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionMatrix_Bassiouni_image.pdf}
-\caption{\textbf{Complete Bassiouni image matrix at 20\% historical V1 coverage.} All 16 new architectures/controls, all 10 older configuration families (three fits each), and both fixed molecular comparators are shown. Model summaries average training/mask seeds within patient. Pearson, MSE and MAE are retained together; no external winner is selected. Fixed and residual routes use identical anchors as their molecular references. The HEST development plot has one patient and no population interval.}
+\caption{\textbf{Bassiouni: image-only at 20\% distributed coverage.} Results for 22 previously evaluated patients. Pearson, MSE and MAE are shown after averaging three mask and three training seeds within patient. Neural rows use image features and permitted geometry; the two molecular rows receive measured anchors. Gray dots identify individual patients; black ticks are medians of their summaries.}
 \label{fig:ExtensionMatrix_Bassiouni_image}
 \end{figure}
 \FloatBarrier
@@ -373,7 +375,7 @@ These are exploratory analyses in previously inspected cohorts. Full per-gene/ma
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionMatrix_Bassiouni_fixed_20pct_image.pdf}
-\caption{\textbf{Complete Bassiouni fixed\_20 pct\_image matrix at 20\% historical V1 coverage.} All 16 new architectures/controls, all 10 older configuration families (three fits each), and both fixed molecular comparators are shown. Model summaries average training/mask seeds within patient. Pearson, MSE and MAE are retained together; no external winner is selected. Fixed and residual routes use identical anchors as their molecular references. The HEST development plot has one patient and no population interval.}
+\caption{\textbf{Bassiouni: fixed fusion at 20\% distributed coverage.} Results for 22 previously evaluated patients. Pearson, MSE and MAE are shown after averaging three mask and three training seeds within patient. Neural rows combine 0.2 calibrated image prediction with 0.8 IDW; molecular rows use the same anchor vectors without images. Gray dots identify individual patients; black ticks are medians of their summaries.}
 \label{fig:ExtensionMatrix_Bassiouni_fixed_20pct_image}
 \end{figure}
 \FloatBarrier
@@ -381,7 +383,7 @@ These are exploratory analyses in previously inspected cohorts. Full per-gene/ma
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionMatrix_Bassiouni_exploratory_residual_anchor.pdf}
-\caption{\textbf{Complete Bassiouni exploratory\_residual\_anchor matrix at 20\% historical V1 coverage.} All 16 new architectures/controls, all 10 older configuration families (three fits each), and both fixed molecular comparators are shown. Model summaries average training/mask seeds within patient. Pearson, MSE and MAE are retained together; no external winner is selected. Fixed and residual routes use identical anchors as their molecular references. The HEST development plot has one patient and no population interval.}
+\caption{\textbf{Bassiouni: observed-residual interpolation at 20\% distributed coverage.} Results for 22 previously evaluated patients. Pearson, MSE and MAE are shown after averaging three mask and three training seeds within patient. Neural rows add interpolation of observed residuals to image prediction; molecular rows use the same anchors without images. Gray dots identify individual patients; black ticks are medians of their summaries.}
 \label{fig:ExtensionMatrix_Bassiouni_exploratory_residual_anchor}
 \end{figure}
 \FloatBarrier
@@ -501,7 +503,8 @@ GraphSAGE & 0 & 48 & 58 & 6.51 & 570 \\
 GraphSAGE & 1 & 60 & 70 & 3.77 & 570 \\
 GraphSAGE & 2 & 39 & 49 & 2.81 & 570 \\\bottomrule\end{longtable}
 
-\paragraph{Source interpretation.} Undefined correlations remain undefined; valid-gene counts accompany every panel row. Raw Spearman is secondary because near-tied ranks are floating-point sensitive. Complete distance-bin errors retain occupied-bin support and omit empty bins. Native external images are heavily downsampled, the model is trained in only two source patients, and calibration is frozen. The original selected primary heads are still missing; these 48 new states and 30 older journal-v2 states do not replace them. Optional anchor-conditioned learning and complete-image equivariance tests have status SKIPPED\_PROTOCOL. No null or missing analysis is converted into a negative biological finding.
+\paragraph{Diagnostic interpretation.} Undefined correlations remain undefined, with valid-gene counts in the exports. Raw Spearman is secondary because near-tied ranks are floating-point sensitive. Distance curves retain occupied-bin support; different bins need not contain the same locations or patients. Conditional geometric checks and remote-feature sensitivity do not establish biological association. Degree/length controls with zero accepted swaps do not provide an independent rewired comparison. Optional anchor-conditioned learning and full-image equivariance tests were not performed.
+
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionAttentionReach.pdf}
 \caption{\textbf{Conditional attention reach.} Dots are individual patient summaries after equal seed/head/layer means; large dots are cohort medians. Colors identify250/600/1200micrometer thresholds. This is a software/connectivity diagnostic, not evidence of molecular correlation. All GPS variants, seeds and patients are exported.}
@@ -518,26 +521,26 @@ GraphSAGE & 2 & 39 & 49 & 2.81 & 570 \\\bottomrule\end{longtable}
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionBassiouniMap_V1.pdf}
-\caption{\textbf{Recovered predetermined Bassiouni distributed map.} BASS P01 at20percent seed0, the four prespecified genes, original IDW k16/p2. Truth and prediction share each gene scale; anchor colorbar extensions mark clipped anchor values. Gray sites are unscored context. Constant fields are retained and explicitly marked; no tissue annotations are inferred.}
+\caption{\textbf{Predetermined Bassiouni distributed map.} BASS P01 at 20percent seed0, the four prespecified genes, original IDW k16/p2. Truth and prediction share each gene scale; anchor colorbar extensions mark clipped anchor values. Gray sites are unscored context. Constant fields are retained and explicitly marked; no tissue annotations are inferred.}
 \label{fig:ExtensionBassiouniMap_V1}
 \end{figure}
 \FloatBarrier
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionBassiouniMap_V2.pdf}
-\caption{\textbf{Recovered predetermined Bassiouni regional map.} BASS P01 central V2 at20percent seed0, uniform k16 and the same four predetermined genes. Historical V2 has different scored support and estimator from V1; this map comparison does not isolate geometry. Identical-H effects are evaluated separately. Truth/prediction scales are shared within each gene, errors use a separate nonnegative scale.}
+\caption{\textbf{Predetermined Bassiouni regional map.} BASS P01 central V2 at 20percent seed0, uniform k16 and the same four predetermined genes. Historical V2 has different scored support and estimator from V1; this map comparison does not isolate geometry. Identical-H effects are evaluated separately. Truth/prediction scales are shared within each gene, errors use a separate nonnegative scale.}
 \label{fig:ExtensionBassiouniMap_V2}
 \end{figure}
 \FloatBarrier
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionDistanceBins.pdf}
-\caption{\textbf{Distance-resolved recovered Bassiouni reconstruction.} All16 new models and both molecular baselines,20percent region-exclusion B2. Curves are medians of per-patient conditional-bin mean errors after equal mask and training-seed averages. Occupied bins only; empty bins are omitted. Source tables retain number of patients and min/median/max mean locations per mask in each bin. Different bins need not contain the same patients or locations and do not identify a biological correlation length.}
+\caption{\textbf{Distance-resolved Bassiouni reconstruction.} All16 new models and both molecular baselines,20percent region-exclusion B2. Curves are medians of per-patient conditional-bin mean errors after equal mask and training-seed averages. Occupied bins only; empty bins are omitted. Source tables retain number of patients and min/median/max mean locations per mask in each bin. Different bins need not contain the same patients or locations and do not identify a biological correlation length.}
 \label{fig:ExtensionDistanceBins}
 \end{figure}
 \FloatBarrier
 
-\begin{longtable}{@{}lrrrrrrr@{}}\caption{\textbf{All 48 new development-test fits, with every training seed retained.} TENX99 at 20\% coverage, averaging the same three original masks within each seed. Left metrics are image-only; right metrics use exploratory residual anchors. This is one previously inspected patient, not 48 biological replicates. No confidence interval or seed selection is inferred. Full precision, fixed-fusion, all budgets, external patient metrics and older frozen heads accompany the CSV exports.}\label{tab:extension_test_seeds}\\\toprule Model & Seed & Image $r$ & MSE & MAE & Residual $r$ & MSE & MAE \\\midrule\endfirsthead\toprule Model & Seed & Image $r$ & MSE & MAE & Residual $r$ & MSE & MAE \\\midrule\endhead
+\begin{longtable}{@{}lrrrrrrr@{}}\caption{\textbf{All 48 full-section development-test fits, with every training seed retained.} TENX99 at 20\% coverage, averaging the same three original masks within each seed. Left metrics are image-only; right metrics use exploratory residual anchors. This is one previously inspected patient, not 48 biological replicates. No confidence interval or seed selection is inferred. Full precision, fixed-fusion, all budgets, external patient metrics and older frozen heads accompany the CSV exports.}\label{tab:extension_test_seeds}\\\toprule Model & Seed & Image $r$ & MSE & MAE & Residual $r$ & MSE & MAE \\\midrule\endfirsthead\toprule Model & Seed & Image $r$ & MSE & MAE & Residual $r$ & MSE & MAE \\\midrule\endhead
 GPS full & 0 & 0.714 & 0.9751 & 0.7814 & 0.834 & 0.2349 & 0.3694 \\
 GPS full & 1 & 0.529 & 1.1646 & 0.8594 & 0.801 & 0.2693 & 0.3967 \\
 GPS full & 2 & 0.569 & 1.2240 & 0.8969 & 0.813 & 0.2634 & 0.3909 \\
@@ -586,3 +589,62 @@ GCN & 2 & 0.623 & 1.0727 & 0.8529 & 0.821 & 0.2385 & 0.3694 \\
 GraphSAGE & 0 & 0.671 & 0.8701 & 0.7488 & 0.827 & 0.2333 & 0.3675 \\
 GraphSAGE & 1 & 0.688 & 0.8818 & 0.7530 & 0.829 & 0.2337 & 0.3683 \\
 GraphSAGE & 2 & 0.667 & 0.9245 & 0.7785 & 0.821 & 0.2307 & 0.3653 \\\bottomrule\end{longtable}
+\clearpage
+\section{Detailed development methods}
+\label{sec:detailed_development}
+These specifications distinguish the original development comparators from the additional minibatch and full-section comparisons. They retain the model-selection and calibration details needed to reproduce the corresponding figures.
+\subsection{Development head searches and conditional patient holdouts}
+The original development MLPs used one hidden linear layer, GELU, dropout and a linear gene-output layer. Features were standardized on fitting patients before graph aggregation; a separate fitting-only head-target scaler was inverted before scoring. Population scales below $10^{-8}$ were replaced by 1. AdamW used learning rate $10^{-3}$, weight decay $10^{-4}$, minibatches of 512 with shuffled rows and retained final partial batches, at most 80 epochs, patience 10 and minimum validation-MSE improvement $10^{-4}$. Best qualifying parameters were restored, with dropout disabled at prediction. Three training seeds 0/1/2 were retained; hyperparameter candidates used seed 0. Computation used deterministic CPU float32 tensors and four threads, without a learning-rate schedule or auxiliary loss. These settings describe the original development comparisons below, not the later full-section regime.
+
+
+The initial local comparison in Supplementary Fig.~S3 selected hidden width from $\{128,256\}$ and dropout from $\{0, 0.1\}$ by the lowest validation MSE. For 50 genes, the selected architecture was $512\rightarrow128\rightarrow50$ with dropout 0.1. The ridge baseline used an intercept and a Cholesky solver, with penalty selected from $\{10^{-4},10^{-3},10^{-2},10^{-1},1,10,100\}$ by the highest validation median gene Pearson correlation, breaking ties by lower MSE and then smaller penalty; the selected 50-gene penalty was 100. Training-target and training-embedding permutations disrupted pairing within the fitting data; validation and evaluation data were unchanged.
+
+The representation comparison in Supplementary Fig.~S6 used the same four width/dropout candidates but selected the highest validation median gene Pearson correlation, with lower MSE as the first tie-breaker. Both ResNet18 and Phikon selected width 256 and dropout 0.1 for 50 genes. Thus the initial local predictor in Supplementary Fig.~S3 and the ResNet18 predictor used in the representation comparison and final sparse pipeline have different selected widths. The latter predictor is described in the main Methods. The representation comparison also evaluated ridge penalties $\{0.1,1,10,100,1000\}$; both encoders selected 1000 for 50 genes. Equal width and search budget did not imply equal parameter count because the input dimensions differed.
+
+Conditional leave-one-patient-out sensitivity fits used the remaining three development patients, refitted feature and head-target scalers on those patients, retained the primary-selected hyperparameters and used fixed epoch counts without early stopping on the held-out patient. For the 50-gene heads, these counts were 14 for the initial MLP, 14 for mean pooling and GCN, 7 for GraphSAGE, 12 for the representation-comparison ResNet18 head and 1 for the Phikon head. These were rounded medians of the corresponding primary fits' best epochs. Since the configurations and underlying target definition had already been selected during development, these fits are conditional sensitivity analyses.
+
+\subsection{Original graph controls and pathology representation}
+The matched controls in Supplementary Fig.~S5 retained the GraphSAGE head and training settings. The self-only control used $[X,X]$. Vertex permutation preserved the graph's degree distribution, while double-edge rewiring preserved each node's degree. The additional distance-constrained rewiring preserved the numbers of physical edge lengths in $[0,175)$, $[175,250)$ and $[250,\infty)$~\um{}. Rewiring targeted five accepted swaps per edge, with limits of 100 attempts per edge for degree-only rewiring and 1,000 for distance-constrained rewiring; the latter used candidate endpoints within 275~\um{}. Five graph randomization seeds were crossed with the three model seeds. The Phikon spatial sensitivity comparison reused the selected graph, hidden widths and dropout: mean pooling used $768\rightarrow128\rightarrow50$, and GraphSAGE used $1536\rightarrow67\rightarrow50$, with true and degree-plus-length-matched graphs. These inherited widths do not constitute exact parameter matching between encoders.
+
+Phikon used the public \texttt{owkin/phikon} ViT-B/16 model, pinned to \href{https://huggingface.co/owkin/phikon/tree/057cc0295895c2df3dd7681a89680da6015cbefe}{revision \texttt{057cc0295895}}. Its 12-layer transformer produced the 768-dimensional final-layer-normalized classification-token representation, without a pooler. The official \texttt{ViTImageProcessor} processed the same RGB patches as the ResNet18 analysis: $224\times224$ pixels, rescaling by $1/255$ and ImageNet channel means and standard deviations. There was no recropping, stain normalization or augmentation. Extraction used the model in evaluation mode with frozen weights, float32 precision, batches of 16 and eight CPU threads (Transformers 4.57.3, PyTorch scaled dot-product attention). The head and validation selection were as specified above; the encoder was not fine-tuned.
+
+\subsection{Development ridge residual correction}
+The learned-propagation model in Supplementary Fig.~S7 is a gene-specific ridge residual correction using fixed graph summaries. Its image prediction $H$ is the equal average of the three frozen local MLP predictions from the representation comparison. Let $o$ be the observed-location indicator and $Z$ the expression matrix containing permitted observed vectors and zeros elsewhere. A self-inclusive row-normalized operator $P$ was constructed from the symmetrized six-nearest-neighbor graph capped at 250~\um{}. The observed masses and molecular messages were
+\[
+ m^{(1)}=Po,\quad m^{(2)}=P^2o,\qquad
+ V^{(1)}_{ig}=\frac{(PZ)_{ig}}{\max(m^{(1)}_i,10^{-6})},\quad
+ V^{(2)}_{ig}=\frac{(P^2Z)_{ig}}{\max(m^{(2)}_i,10^{-6})}.
+\]
+Image features were standardized on fitting patients and reduced to eight whitened principal components with randomized singular-value decomposition and random seed 0. Denote these components by $X_{\rm PCA}$. The 29 shared covariates at each location were $X_{\rm PCA}$, $PX_{\rm PCA}$, $P^2X_{\rm PCA}$, $o$, $m^{(1)}$, $m^{(2)}$, $\log(1+d_1/100)$, and the fraction of the nearest 16 observed anchors lying within 300~\um{}, where $d_1$ is nearest-anchor distance in \um{}. Five further covariates for gene $g$ were the image prediction $H_g$, the fixed fusion prediction $F_g$, $Z_g$, $V^{(1)}_g$ and $V^{(2)}_g$. The resulting design has 34 covariates and an intercept for each gene.
+
+Predictions were $\widehat y_g=F_g+\Phi_g\theta_g$, where the last column of $\Phi_g$ is one. Coefficients were fitted by
+\[
+ \underset{\theta_g}{\operatorname{argmin}}\;
+ \left\|(y_g-F_g)-\Phi_g\theta_g\right\|_2^2
+ +\alpha\left\|\theta_{g,1:34}\right\|_2^2.
+\]
+The intercept was unpenalized. Fitting sampled up to 256 hidden locations without replacement per training mask using that mask's seed; their expression entered only the supervised response. Masks covered 5, 10, 20, 40, 60 and 80\% of locations under random, block and capture-window sampling, with three replicates per condition. The penalty grid was $\{1,100,10000\}$, selected by mean validation MSE across masks with equal mask weights; both encoders selected $\alpha=10000$ for 50 genes. No additional expression scaler or auxiliary loss was introduced.
+
+The underlying development fusion was $F=\lambda H+(1-\lambda)M$. Nearest-anchor mean interpolation selected $k$ from $\{1,4,8,16\}$; inverse-distance interpolation used up to 16 anchors and selected power from $\{1,2,3\}$. The stronger family and $\lambda\in\{0, 0.25, 0.5, 0.75,1\}$ were chosen by mean validation MSE separately by panel and sampling geometry. For 50 genes, random sampling selected inverse-distance-squared interpolation and $\lambda=0.25$; block sampling selected the 16-anchor mean and $\lambda=0.5$; capture-window sampling selected inverse-distance-cubed interpolation and $\lambda=0.5$. These development settings differ from the final external fusion settings. Supplementary Fig.~S7 evaluates three permutation seeds on one random 20\% observation mask, with the fitted models unchanged. The plotted B1, B3 and B4 labels denote the frozen image predictor, fixed fusion and ridge residual correction, respectively.
+
+\subsection{Patient-disjoint HER2ST calibration and fusion selection}
+Supplementary Figs.~S1 and S10 use the same eight HER2ST patients and 40 shared genes. Four outer folds held out the pairs A1/B1, C1/D1, E1/F1 and G1/H1, respectively. Within each remaining six-patient set, target-mapping candidates were evaluated by leave-one-patient-out records: the mapping for an inner patient's predictions was estimated from the other five patients. The fixed source moments came from NCBI783 and NCBI785. The candidates were the unchanged target, per-gene mean/standard-deviation mapping and per-gene median/interquartile-range mapping. Each patient had equal total weight in moment or quantile estimates. An interquartile range below $10^{-8}$ fell back to the corresponding standard deviation, and a standard deviation below $10^{-8}$ was replaced by one. Source and destination moments were estimated separately. Image predictions were expressed in source-standardized coordinates, anchors in destination-standardized coordinates, and final errors were computed after mapping predictions back to common target units.
+
+The target-mapping comparison retained fixed image weights 0.25 for V1 and 0.5 for V2. Selection used inner random-mask seeds 0--2 and four equally weighted conditions: V1 coverage 10, 20 and 40\%, and V2 coverage 20\%. Seeds and geometries were first averaged within patient and condition, then conditions within patient, then the six patients. Candidates within 0.005 of the highest mean patient median gene Pearson correlation were eligible; among these, the candidate with lowest common-unit MSE was selected. The mean/standard-deviation transform was selected in every fold; the corresponding outer mapping used moments estimated from all six outer-training patients.
+
+The selected-fusion analysis then used the corresponding inner records to fit and select among four families: molecular interpolation alone; one global image weight from $\{0, 0.1,\ldots,1\}$; 35 nondecreasing three-bin weight rules with weights from $\{0, 0.1, 0.25, 0.5,1\}$ and nearest-anchor boundaries 300 and 600~\um{}; and a five-parameter sigmoid gate. All weights were shared across genes, regimes and budgets within an outer fold. The sigmoid gate was
+\[
+ w_i=\operatorname{sigmoid}(\beta_0+\widetilde q_i^\top\beta),\qquad
+ \widehat y_i=M_i+w_i(H_i-M_i),
+\]
+where the four features before fitting-data standardization were $\log(1+d_1/200)$, $\log(1+\overline d_{16}/200)$, $\log(1+n_{600})$ and $\log(1+v)$: nearest-anchor distance, mean distance to up to 16 nearest anchors, the number of observed anchors within 600~\um{}, and mean across-gene variance among the neighboring observed vectors. The gate minimized common-unit squared error with equal patient/condition/run/location contributions, divided by each run's interpolation MSE floored at $10^{-8}$, plus $0.01\|\beta\|_2^2+10^{-6}\beta_0^2$. The same weights defined feature means and standard deviations. L-BFGS-B used initial coefficients $(-2,0,0,0,0)$, bounds $[-12,12]$, maximum 300 iterations, function tolerance $10^{-12}$ and gradient tolerance $10^{-7}$. No outer-patient outcomes entered fitting or candidate selection.
+
+The same correlation-then-MSE rule selected the fusion family. The first three patient-pair folds selected global image weight 0.2; the G1/H1 fold selected the sigmoid gate. Outer evaluation used mask seeds 0--9. Supplementary Fig.~S10 reports these fold-selected rules, whereas Supplementary Fig.~S1 shows the fixed-fusion target-mapping comparison. Both remain calibration-development analyses of previously examined HER2ST patients.
+
+
+The full-precision primary image feature scaler, target normalization and source-to-Wu calibration constants are supplied in \path{methods_data/}. The primary head settings and recorded software versions are provided there in machine-readable form. These constants specify the published transformations without refitting them.
+
+\subsection{Identity controls and numerical audit scope}
+Local, mean-self and GCN-self inputs in the 30-head comparison were bitwise identical. Seeds 1/2 predictions also agreed bitwise; seed 0 weights differed by at most $2.98\times10^{-8}$ and predictions by $9.54\times10^{-7}$, within the stated float32 guard. These are computational identity checks, not independent biological support. At 20\% coverage, matched-seed GCN spatial-minus-self correlation changes ranged from $-0.0425$ to $-0.0149$; GraphSAGE changes ranged from $+0.0002$ to $+0.0318$. Shuffled GraphSAGE seed-mean image prediction exceeded the spatial version in TENX99. These development findings do not establish a general topology advantage.
+
+The original Bassiouni evaluation produced 2,904 clean and 18 control bundles (8,766 method predictions); all 17,532 hidden-label substitutions were invariant. The recorded audit reproduced 8,766 predictions and 35,064 per-gene metric arrays and reconstructed 968 label-free mask trajectories. Additional Wu molecular comparisons comprised 2,700 runs and 5,400 exact substitutions; all 360 original random references and 54,000 primary gene values passed $10^{-10}$ tolerances. Additional Bassiouni comparisons comprised 19,800 runs and 39,600 exact substitutions, with 2,640 original random references and 396,000 primary per-gene values passing the same tolerances. The neural matrix retained 2,028 model--patient bundles and 289,224 exact hidden-label checks; all 384 conditional geometric checks passed. Raw Spearman is retained but excluded from exact-replay claims because of near ties. Hashes, protocols, complete results and environment records provide the detailed provenance.
