@@ -1,0 +1,123 @@
+{
+  "created_utc": "2026-11-01T16:24:58.305126+00:00",
+  "classification": "exploratory_follow_up",
+  "base_commit": "ab0811134bb1d62719206ab11a43bd7c4dd5d813",
+  "backbones": [
+    "resnet18",
+    "phikon"
+  ],
+  "configurations": [
+    {
+      "model": "local",
+      "control": "local"
+    },
+    {
+      "model": "MEAN",
+      "control": "spatial"
+    },
+    {
+      "model": "GCN",
+      "control": "spatial"
+    },
+    {
+      "model": "SAGE",
+      "control": "spatial"
+    },
+    {
+      "model": "GCN",
+      "control": "shuffled"
+    },
+    {
+      "model": "SAGE",
+      "control": "shuffled"
+    }
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "training": {
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 512,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001
+  },
+  "hidden": {
+    "resnet18": {
+      "local": 128,
+      "MEAN": 128,
+      "GCN": 128,
+      "SAGE": 67
+    },
+    "phikon": {
+      "local": 128,
+      "MEAN": 128,
+      "GCN": 128,
+      "SAGE": 66
+    }
+  },
+  "dropout": 0.1,
+  "source_fit": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation": "TENX95",
+  "development": "TENX99",
+  "external": [
+    "1160920F",
+    "CID4290",
+    "CID44971",
+    "BASS_P01",
+    "BASS_P02",
+    "BASS_P03",
+    "BASS_P04",
+    "BASS_P05",
+    "BASS_P06",
+    "BASS_P07",
+    "BASS_P08",
+    "BASS_P09",
+    "BASS_P11",
+    "BASS_P12",
+    "BASS_P13",
+    "BASS_P14",
+    "BASS_P15",
+    "BASS_P17",
+    "BASS_P18",
+    "BASS_P19",
+    "BASS_P20",
+    "BASS_P21",
+    "BASS_P22",
+    "BASS_P23",
+    "BASS_P24"
+  ],
+  "encoder_revision": "057cc0295895c2df3dd7681a89680da6015cbefe",
+  "encoder_sha256": "d01642bfeb683c6b039622eca273e0a8e4208065a4595b63edba178c1c4cfa68",
+  "encoder_threads": 8,
+  "head_threads": 4,
+  "encoder_batch_size": 16,
+  "encoder_max_wall_hours": 4,
+  "head_max_wall_hours": 1,
+  "evaluation_max_wall_hours": 1,
+  "max_rss_gib": 10,
+  "primary_budget": 0.2,
+  "budgets": [
+    0.1,
+    0.2,
+    0.4
+  ],
+  "mask_seeds": [
+    0,
+    1,
+    2
+  ],
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261101,
+  "serialization_rtol": 0,
+  "serialization_atol": 0,
+  "leakage_rtol": 0,
+  "leakage_atol": 0,
+  "minimum_shuffled_changed_edge_fraction": 0.5
+}
