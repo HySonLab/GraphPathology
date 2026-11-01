@@ -9,6 +9,13 @@ TOTAL=37690060800
 CAP=1024**3
 
 def acquire(root):
+ report=root/'experiments/journal_revision/transformer_egnn/GEO_SELECTIVE_ACQUISITION.json'
+ if report.exists():
+  previous=json.loads(report.read_text())
+  if previous['status']=='COMPLETE':
+   for record in previous['selected_files']:
+    if sha(root/record['cache_relative'])!=record['sha256']:raise ValueError('Completed acquisition cache changed')
+   return previous
  out=root/'data/journal_revision/transformer_egnn/geo_ranges';(out/'raw/bassiouni').mkdir(parents=True,exist_ok=True)
  original=json.loads((root/'checkpoints/legacy/C10/C10A/logs/DOWNLOADS.json').read_text());wanted={Path(x['path']).name:x for x in original};records=[];headers=[];total_read=0;session=requests.Session()
  def read_range(start,size):

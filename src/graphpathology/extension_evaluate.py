@@ -142,11 +142,14 @@ def _evaluate_one(root,patient,item):
 def baselines(root,patient):
  from .journal_methods import predict_anchors
  out=root/'experiments/journal_revision/transformer_egnn/evaluation'/patient;out.mkdir(parents=True,exist_ok=True)
- if all((out/name).exists() for name in ['MOLECULAR.csv','MOLECULAR_GENES.csv.gz','MOLECULAR_BINS.csv.gz']):return
- d=load_data(root,patient);y=d['targets'].astype(float);rows=[];genes=[];bins=[]
+ if all((out/name).exists() for name in ['MOLECULAR.csv','MOLECULAR_GENES.csv.gz','MOLECULAR_BINS.csv.gz','MOLECULAR_CHECKS.json']):return
+ d=load_data(root,patient);y=d['targets'].astype(float);rows=[];genes=[];bins=[];checks=0
  for m in masks(root,d,patient):
   for method,cfg in [('idw_k16_p2',{'kind':'idw','k':16,'p':2}),('uniform_k16',{'kind':'uniform','k':16})]:
    pred,dist=predict_anchors(d['xy_um'],y,m['observed'],m['hidden'],cfg);metrics=gene_metrics(y[m['hidden']],pred)
+   unknown=np.setdiff1d(np.arange(len(y)),m['observed'])
+   for mode in ['nan','random']:
+    corrupt=y.copy();corrupt[unknown]=np.nan if mode=='nan' else np.random.default_rng(31).normal(size=(len(unknown),50));alt,_=predict_anchors(d['xy_um'],corrupt,m['observed'],m['hidden'],cfg);np.testing.assert_array_equal(pred,alt);checks+=1
    rows.append({**{k:v for k,v in m.items() if k not in ['observed','hidden']},'patient':patient,'cohort':cohort(patient),'model_id':method,'origin':'molecular','variant':method,'training_seed':-1,'route':'anchor_only','n_observed':len(m['observed']),'n_scored':len(m['hidden']),**summarize(metrics)})
    attr={**{k:v for k,v in m.items() if k not in ['observed','hidden']},'patient':patient,'model_id':method}
    for j,g in enumerate(d['genes']):genes.append({**attr,'gene':str(g),**{k:float(metrics[k][j]) for k in ['pearson','spearman','mse','mae']}})
@@ -156,6 +159,7 @@ def baselines(root,patient):
      err=y[m['hidden']][selected]-pred[selected];bins.append({**attr,'low_um':low,'high_um':high,'n_locations':int(selected.sum()),'mean_mse':float(np.mean(err**2)),'mean_mae':float(np.mean(abs(err)))})
  if not (out/'MOLECULAR.csv').exists():pd.DataFrame(rows).to_csv(out/'MOLECULAR.csv',index=False)
  pd.DataFrame(genes).to_csv(out/'MOLECULAR_GENES.csv.gz',index=False);pd.DataFrame(bins).to_csv(out/'MOLECULAR_BINS.csv.gz',index=False)
+ (out/'MOLECULAR_CHECKS.json').write_text(json.dumps({'status':'COMPLETE','exact_label_corruption_checks':checks,'output_hashes':{name:sha(out/name) for name in ['MOLECULAR.csv','MOLECULAR_GENES.csv.gz','MOLECULAR_BINS.csv.gz']}},indent=2)+'\n')
 
 def run(root,patients=None,threads=4):
  torch.set_num_threads(threads);torch.use_deterministic_algorithms(True);items=model_inventory(root)
