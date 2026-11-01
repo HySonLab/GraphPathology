@@ -18,6 +18,12 @@ from .extension_train import dataset,metadata
 
 BINS=[0,150,300,600,1200,2400,np.inf]
 
+def cohort(patient):return 'Development' if patient=='TENX99' else ('Bassiouni' if patient.startswith('BASS_') else 'Wu')
+
+def feature_path(root,patient):
+ if patient=='TENX99':return root/'data/journal_revision/hest_training/processed/journal_v2_hest/TENX99.npz'
+ return root/'data/journal_revision/transformer_egnn'/('bassiouni' if patient.startswith('BASS_') else 'wu')/(patient+'.npz')
+
 def model_inventory(root):
  folder=root/'experiments/journal_revision/transformer_egnn/fits';items=[]
  for p in sorted(folder.glob('*.json')):
@@ -30,7 +36,7 @@ def model_inventory(root):
 @lru_cache(maxsize=4)
 def load_data(root,patient):
  if patient=='TENX99':return dataset(root,[patient])[patient]
- p=root/'data/journal_revision/transformer_egnn/wu'/(patient+'.npz');record=json.loads(p.with_suffix('.json').read_text());assert sha(p)==record['cache_sha256']
+ p=feature_path(root,patient);record=json.loads(p.with_suffix('.json').read_text());assert sha(p)==record['cache_sha256']
  with np.load(p) as f:d={k:f[k].copy() for k in f.files}
  with np.load(root/'checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz') as f:d['x']=((d['embeddings']-f['mean'])/f['scale']).astype(np.float32)
  return d
@@ -61,7 +67,7 @@ def masks(root,d,patient):
     with np.load(p) as f:np.testing.assert_array_equal(f['barcodes'],d['barcodes']);obs=np.flatnonzero(f['observed']);hidden=np.flatnonzero(~f['observed'])
     records.append({'design':'historical_V1','condition':'distributed','budget':budget,'mask_seed':seed,'geometry':0,'observed':obs,'hidden':hidden,'mask_sha256':sha(p)})
  else:
-  for r in original_masks(root,'wu',patient):
+  for r in original_masks(root,'bassiouni' if patient.startswith('BASS_') else 'wu',patient):
    if r['seed']>2 or (r['regime']=='V2' and r['geometry']!=1):continue
    with np.load(r['absolute_mask_path']) as f:
     np.testing.assert_array_equal(f['barcodes'],d['barcodes']);np.testing.assert_array_equal(f['xy_um'],d['xy_um']);order=f['order'].copy();forbidden=f['forbidden'].copy()
@@ -70,8 +76,9 @@ def masks(root,d,patient):
     records.append({'design':'historical_'+r['regime'],'condition':'historical','budget':budget,'mask_seed':r['seed'],'geometry':r['geometry'],'observed':obs,'hidden':hidden,'mask_sha256':r['mask_sha256']})
  for seed in range(3):
   region,hidden,orders,holdout_seed=identical_target_design(d['xy_um'],patient,seed)
-  if patient in WU_EVAL:
-   old=root/'data/journal_revision/processed/journal_v2_masks/wu'/patient/f'central_seed{seed}.npz'
+  if patient in WU_EVAL or patient.startswith('BASS_'):
+   base=root/'data/journal_revision/transformer_egnn/geo_ranges' if patient.startswith('BASS_') else root/'data/journal_revision'
+   old=base/'processed/journal_v2_masks'/('bassiouni' if patient.startswith('BASS_') else 'wu')/patient/f'central_seed{seed}.npz'
    with np.load(old) as f:
     np.testing.assert_array_equal(hidden,f['hidden']);np.testing.assert_array_equal(region,f['region'])
     for name,order in orders.items():np.testing.assert_array_equal(order,f[name+'_order'])
@@ -84,9 +91,9 @@ def masks(root,d,patient):
  if not manifest.exists():manifest.write_text(json.dumps(clean,indent=2)+'\n')
  return records
 
-def score_set(d,image,mask,item,patient):
+def score_set(d,image,mask,item,patient,metric_cache=None):
  y=d['targets'].astype(float);obs=mask['observed'];hidden=mask['hidden'];base={k:v for k,v in mask.items() if k not in ['observed','hidden']}
- base.update(patient=patient,cohort='Development' if patient=='TENX99' else 'Wu',model_id=item['id'],origin=item['origin'],variant=item['variant'],training_seed=item['seed'])
+ base.update(patient=patient,cohort=cohort(patient),model_id=item['id'],origin=item['origin'],variant=item['variant'],training_seed=item['seed'])
  outputs=hybrids(d['xy_um'],y,image,obs,hidden);unknown=np.setdiff1d(np.arange(len(y)),obs);checks=0
  for mode in ['nan','random']:
   corrupt=y.copy();corrupt[unknown]=np.nan if mode=='nan' else np.random.default_rng(31).normal(size=(len(unknown),50))
@@ -96,7 +103,12 @@ def score_set(d,image,mask,item,patient):
  distances=np.round(cKDTree(d['xy_um'][obs]).query(d['xy_um'][hidden],k=1)[0],6)
  panels=[];genes=[];bins=[]
  for route in ['image','fixed_20pct_image','exploratory_residual_anchor']:
-  pred=outputs[route];m=gene_metrics(y[hidden],pred);attr={**base,'route':route}
+  pred=outputs[route];key=hidden.tobytes() if route=='image' else None
+  if key is not None and metric_cache is not None and key in metric_cache:m=metric_cache[key]
+  else:
+   m=gene_metrics(y[hidden],pred)
+   if key is not None and metric_cache is not None:metric_cache[key]=m
+  attr={**base,'route':route}
   panels.append({**attr,'n_observed':len(obs),'n_scored':len(hidden),'mean_nearest_anchor_um':float(distances.mean()),**summarize(m)})
   for j,g in enumerate(d['genes']):genes.append({**attr,'gene':str(g),**{k:float(m[k][j]) for k in ['pearson','spearman','mse','mae']}})
   for low,high in zip(BINS[:-1],BINS[1:]):
@@ -113,15 +125,15 @@ def _evaluate_one(root,patient,item):
   return r
  d=load_data(root,patient);ms=masks(root,d,patient);cache=root/'data/journal_revision/transformer_egnn/predictions'/patient;cache.mkdir(parents=True,exist_ok=True)
  p=cache/(item['id']+'.npy');meta=p.with_suffix('.json')
- input_path=root/'data/journal_revision/hest_training/processed/journal_v2_hest/TENX99.npz' if patient=='TENX99' else root/'data/journal_revision/transformer_egnn/wu'/(patient+'.npz')
+ input_path=feature_path(root,patient)
  input_digest=sha(input_path)
  if p.exists() and meta.exists():
   r=json.loads(meta.read_text());assert r['checkpoint_sha256']==item['checkpoint_sha256'] and r['input_cache_sha256']==input_digest and sha(p)==r['prediction_sha256'];image=np.load(p)
  else:
   image=prediction(root,d,patient,item);np.save(p,image);meta.write_text(json.dumps({'checkpoint_sha256':item['checkpoint_sha256'],'input_cache_sha256':input_digest,'prediction_sha256':sha(p),'calibration_sha256':sha(root/'checkpoints/legacy/C9/C9A/T1_SCALER.json') if patient!='TENX99' else None},indent=2)+'\n')
- panels=[];genes=[];bins=[];checks=0;start=time.monotonic()
+ panels=[];genes=[];bins=[];checks=0;start=time.monotonic();metric_cache={}
  for m in ms:
-  a,b,c,k=score_set(d,image,m,item,patient);panels.extend(a);genes.extend(b);bins.extend(c);checks+=k
+  a,b,c,k=score_set(d,image,m,item,patient,metric_cache);panels.extend(a);genes.extend(b);bins.extend(c);checks+=k
  for name,rows in [('PANEL.csv.gz',panels),('GENES.csv.gz',genes),('BINS.csv.gz',bins)]:pd.DataFrame(rows).to_csv(out/name,index=False)
  result=metadata(root,status='COMPLETE',patient=patient,model=item,input_cache_sha256=input_digest,prediction_sha256=sha(p),n_mask_sets=len(ms),n_route_rows=len(panels),exact_label_corruption_checks=checks,
   elapsed_seconds=time.monotonic()-start,output_hashes={name:sha(out/name) for name in ['PANEL.csv.gz','GENES.csv.gz','BINS.csv.gz']},calibration='none' if patient=='TENX99' else 'frozen original C9 T1; no refit')
@@ -135,7 +147,7 @@ def baselines(root,patient):
  for m in masks(root,d,patient):
   for method,cfg in [('idw_k16_p2',{'kind':'idw','k':16,'p':2}),('uniform_k16',{'kind':'uniform','k':16})]:
    pred,dist=predict_anchors(d['xy_um'],y,m['observed'],m['hidden'],cfg);metrics=gene_metrics(y[m['hidden']],pred)
-   rows.append({**{k:v for k,v in m.items() if k not in ['observed','hidden']},'patient':patient,'cohort':'Development' if patient=='TENX99' else 'Wu','model_id':method,'origin':'molecular','variant':method,'training_seed':-1,'route':'anchor_only','n_observed':len(m['observed']),'n_scored':len(m['hidden']),**summarize(metrics)})
+   rows.append({**{k:v for k,v in m.items() if k not in ['observed','hidden']},'patient':patient,'cohort':cohort(patient),'model_id':method,'origin':'molecular','variant':method,'training_seed':-1,'route':'anchor_only','n_observed':len(m['observed']),'n_scored':len(m['hidden']),**summarize(metrics)})
  pd.DataFrame(rows).to_csv(out/'MOLECULAR.csv',index=False)
 
 def run(root):
