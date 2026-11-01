@@ -1,0 +1,21 @@
+name: Bounded CPU checks
+on: [push, pull_request]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/graphpathology-mpl
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r configs/validation-environment.txt
+      - run: python -m pip install -e '.[test]'
+      - run: python -m pytest -q
+      - run: python -m graphpathology smoke --output outputs/ci-fixture
+      - run: python -m graphpathology verify-archive --historical

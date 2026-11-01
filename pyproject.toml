@@ -4,17 +4,23 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "graphpathology"
-version = "0.1.0"
-description = "Checkpointed spatial transcriptome reconstruction research"
+version = "0.2.0"
+description = "Coverage and tissue geometry in sparse spatial transcriptomics reconstruction"
 requires-python = ">=3.11"
-dependencies = ["numpy", "scipy", "pandas", "h5py", "Pillow", "matplotlib", "requests", "scikit-learn"]
+dependencies = ["numpy>=1.26,<3", "scipy>=1.11", "pandas>=2.1", "h5py>=3.10", "Pillow>=10", "matplotlib>=3.8", "requests>=2.31", "scikit-learn>=1.4", "threadpoolctl>=3.2", "numba>=0.59"]
 
 [project.optional-dependencies]
-vision = ["torch", "torchvision"]
-test = ["pytest"]
+vision = ["torch>=2.2", "torchvision>=0.17"]
+test = ["pytest>=8", "pytest-timeout>=2.2"]
+
+[project.scripts]
+graphpathology = "graphpathology.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib"
+timeout = 60
+markers = ["assets: requires original research assets (opt in)"]

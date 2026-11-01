@@ -1,0 +1,13 @@
+# Byte-preserving migration
+
+Starting commit: `03506defbe205cabd13865780d6a1224b348a781`. Branch: `codex/publication-reproducibility`. Starting checkout was clean, with 74,253 tracked files. No AGENTS.md was found in the checkout or applicable Documents/Codex locations.
+
+All tracked root content was moved using git mv below `checkpoints/legacy/`, including shared src/configs/scripts/tests/docs/results and the original root README/pyproject/.gitignore. Original relative source-hash relationships therefore remain interpretable. New maintained source is copied/promoted separately. This is a move for archived files; package/documentation work is a new implementation with its own version. Historical tests and provenance remain intact even where asset-dependent execution cannot run.
+
+The pre-move SHA256/size map covers every tracked file. Read-only verification checked all 74,253 bytestring identities after relocation: zero changed or missing files. The declaration audit checks whole-file hashes and the ten recorded registry-prefix expectations with their original lengths. Available declarations match; missing references are reported separately. Early draft inventory parsing paired unrelated fields; its apparent mismatches were discarded after correcting the parser. No confirmed pre-existing mismatch remains in the final audit.
+
+The inventories contain 31,824 distinct missing referenced paths. Among these are 1,372 learned-state paths and 10 fitted PCA paths. None of these fitted states is installed. See INVENTORY.json and the CSV inventories for exact counts and paths. The manifest is an inventory, not proof of asset release availability. Download records and ignored local outputs remain recorded as missing; no raw asset is fetched automatically.
+
+Portable execution does not depend on moving/remapping old JSON strings. `assets.resolve` maps historical paths to current paths; the maintained numerical package uses package-qualified imports and explicit input paths. Original generic-import stage scripts are archived, not advertised as runnable after the move. `verify-archive` verifies their evidence bytes without importing or executing them. Model filenames retain their identity and historical subpath under models/. There were no present original model binaries to move or duplicate.
+
+The inventory extractor examines JSON hash maps and explicitly paired path/digest fields. `historical_expectations.csv` retains distinct expectations even when the compact manifest has one representative checksum per missing path. The three primary model identities have unambiguous recorded hashes. The archived CSV registries/logs remain unchanged. A new audit is stored in outputs/, never in a historical audit path.

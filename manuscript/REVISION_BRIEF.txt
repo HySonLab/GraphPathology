@@ -1,0 +1,510 @@
+GraphPathology: REPOSITORY REVISION AND REPRODUCIBILITY TASK FOR CODEX
+Repository: https://github.com/HySonLab/GraphPathology
+
+AUTHOR'S REQUEST
+===============
+Revise the repository directly so that it is organized, documented and executable
+for the accompanying manuscript and Supplementary Information:
+
+"Coverage and tissue geometry govern the reconstruction of spatial
+transcriptomics from sparse molecular measurements"
+
+Complete the implementation and documentation, run bounded software tests, and
+deliver the revised repository. Do not stop at a plan. The priorities are:
+
+1. Put the experimental checkpoint records and saved model states under one
+   checkpoints/ directory, with a clear distinction between those asset types.
+2. Replace the outdated root README.md with an accurate publication README.
+3. Provide complete instructions and executable entrypoints for reproducing
+   all main and supplementary outputs, with their required inputs identified.
+4. Test the maintained code and its entrypoints without rerunning the research
+   experiments, changing the reported results or silently replacing fitted models.
+
+The supplied manuscript/Supplementary Information and full LaTeX package describe
+the final scientific protocol and display numbering. Read them before refactoring.
+The ZIP includes PDFs, LaTeX, figure sources, exported data, model constants and
+existing drawing scripts. If only PDFs are attached, first inspect the repository
+for the corresponding source exports. Complete other work while identifying any
+missing publication inputs; do not estimate numerical values from plotted images.
+
+The proposed new command names and layout below are implementation requirements,
+not claims that these interfaces already exist. Inspect the actual checkout and
+adapt names where necessary, then document only commands that actually work.
+
+1. SCOPE AND SCIENTIFIC BASELINE
+==============================
+This task is software organization, reproducibility engineering and documentation.
+Do not launch cohort-scale training, full feature extraction, calibration searches,
+large inference sweeps, or complete evaluation/replay pipelines. Do not recompute
+the published tables by rerunning all original experiments. Regenerating figures
+and tables from existing numerical exports is explicitly allowed and required.
+
+Bounded tests may include tiny synthetic fixtures, a few forward/backward steps,
+serialization round trips, and small integration samples from locally available
+assets. Keep their outputs in a new test/work directory. They are software tests,
+not new research results. Never append these runs to the historical experiment
+registry or overwrite published predictions, masks, scalers, logs or model files.
+
+Treat the submitted manuscript as the scientific specification. The actual run
+records and source implement the recorded analyses. If they disagree materially,
+record the discrepancy with precise file/section evidence; do not silently change
+the scientific protocol, manuscript values or historical records to make them agree.
+Resolve non-scientific import/path/configuration problems as part of this task.
+Historical execution plans describe the original campaign; do not restart their
+stage-by-stage research schedule for this software revision.
+
+2. INSPECT THE CHECKOUT BEFORE CHANGING IT
+=======================================
+- Read applicable AGENTS.md instructions, git status, root documentation,
+  pyproject.toml, dependency records, scripts, configuration files and tests.
+- Record the starting commit and inventory tracked/untracked assets. Work on a
+  dedicated branch; preserve unrelated changes. Do not rewrite Git history.
+- Locate every staged experiment directory, fitted parameter file, preprocessing
+  object, selection/specification lock, registry, mask, output table and replay
+  script. Identify which assets are present, downloadable, or unavailable.
+- Record pre-move SHA256 values for immutable scientific assets. Create an
+  old-path -> new-path map and distinguish a move from an intentional code edit.
+- Inspect imports and module-level side effects before running test collection.
+  A verification script may execute the full analysis or mutate historical files.
+
+Known starting-state observations to verify against your checkout:
+* The earlier public root README describes C0 only and says later analyses have
+  not run. That description is obsolete for the supplied manuscript.
+* C0 records are under reports/C0; later stages are root directories C1-C10.
+  Do not invent a root C0 directory and assume the history is complete.
+* Stage scripts contain fixed parents[1]/parents[2] roots, sys.path insertion,
+  dynamic imports and generic module names such as contract, common, support
+  and policy. A directory move alone will break some of these dependencies.
+* Historical C9/verify.py and C10/verify.py can replay many predictions and
+  write integrity-audit logs. Do not invoke them as a harmless quick smoke test.
+* Historical C10/verify_package.py checks an obsolete package with 7 main figures,
+  10 SI figures, 4 main tables and 8 SI tables, and writes PACKAGE_AUDIT.json. Replace
+  its role in validating the publication with checks for the current inventory:
+  6 main figures, 12 SI figures, 2 main tables and 9 SI tables. Preserve the old
+  verifier and audit as historical records.
+* Many tests share basenames such as test_contract.py. A consolidated pytest run
+  can encounter import/module-name collisions unless collection is repaired.
+
+3. CHECKPOINT ORGANIZATION
+==========================
+Use checkpoints/ as the single top-level home for archived experiment stages,
+model states and their inventories. Here "checkpoint" includes both the C0-C10
+research stages and serialized learned model parameters. Handle both meanings.
+
+A practical target layout is:
+
+  src/graphpathology/         maintained, importable scientific code and CLI
+  configs/                   current, portable reproduction configuration
+  scripts/                   small maintained entrypoints and publication tools
+  tests/                     the supported test suite and tiny fixtures
+  docs/                      methods map, data guide, reproduction and test reports
+  manuscript/                supplied article/SI sources, figure scripts and exports
+  checkpoints/
+    legacy/                  immutable historical stage tree
+      C1/ ... C10/
+      reports/C0/
+      ...                    original shared source/configuration records needed
+                             to interpret or verify historical source hashes
+    models/                  canonical locations for original fitted model states
+    manifest.csv             asset identities, availability and checksums
+    path_map.csv             original path -> canonical current path
+    README.md                meaning of the archive and how to obtain model states
+  data/                      configurable raw/processed/cache inputs, as appropriate
+  outputs/                   new reproductions and bounded test outputs
+
+Preserving original relative paths under checkpoints/legacy/ makes old source and
+manifest relationships easier to interpret. If a cleaner alternative layout is
+chosen, supply a complete resolver/path map and demonstrate that it preserves
+the same assets. Keep all staged checkpoint directories under checkpoints/.
+Keep the public root focused on the maintained package and publication workflow.
+
+Use git mv where appropriate. Preserve historical file bytes, identifiers,
+timestamps, selected hyperparameters, split assignments and numerical values.
+Do not regenerate historical locks or rewrite old JSON/CSV path strings merely
+to match the new directory names. Resolve those paths through the migration map.
+Store any newly calculated audit/migration report separately from the originals.
+Some append-only registry records hash a recorded byte prefix, not the complete
+current file. Preserve that prefix length and verify the declared hash scope; do
+not substitute a whole-file hash or rewrite the original registry to force a match.
+
+Copy/promote reusable implementations into the maintained Python package as
+needed. Archived source remains the evidence for the old source hashes; new
+maintained code gets its own version and regression tests. Do not compare a
+refactored source file to an old source hash and then disable the check to pass.
+Provide separate operations for verifying the archived bytes and validating the
+current implementation. No Git checkout/reset or archive mutation is needed to
+run ordinary tests or build the publication.
+
+Classify .npz/.json files by content and purpose: a feature cache, prediction bundle,
+scaler and learned parameter state are different resources. Inventory all original
+fitted states, including supporting models, not only the three primary heads.
+If a model is moved to checkpoints/models/, retain its original filename and a
+mapping from its historical location. Avoid two divergent copies of one state.
+
+Small original heads may be tracked directly if repository policy permits.
+Use Git LFS or a documented download location for large assets where appropriate;
+their local installed location should still be under checkpoints/models/ and
+their checksum must be checked. A model listed in a manifest is not necessarily
+available: record that distinction explicitly. Do not commit raw datasets or
+upstream weights when their distribution terms or repository policy preclude it.
+
+4. ORIGINAL MODEL FILES: KNOWN AVAILABILITY GAP
+=============================================
+The previously inspected public tree recorded the three primary head identities
+but did not contain their .pt binaries. Search the supplied checkout and authorized
+asset locations; the author may now provide additional files. Verify the actual
+availability again. The known expected originals are:
+
+seed 0
+legacy path: C4/C4A/models/C4A_primary_resnet18_reference_primary_S2-50_D1_h256d0.1_s0.pt
+SHA256: 4aaa11ab8998627dd4cac9a2b8da59e9fc8e43182e31ffee85f9204a0500b91e
+
+seed 1
+legacy path: C4/C4A/models/C4A_primary_resnet18_reference_primary_S2-50_D1_h256d0.1_s1.pt
+SHA256: 6c86019b731b67549b175d8b39a2ff4a3ced30d5a612ee2d8cdd4ee57f3e67e6
+
+seed 2
+legacy path: C4/C4A/models/C4A_primary_resnet18_reference_primary_S2-50_D1_h256d0.1_s2.pt
+SHA256: 51ebf67a05e986586efe4564bc797cac6e31dd7352308b0fba7cf0ff0e9c9e68
+
+These identities are also in the attached
+repository_documentation/MODEL_FILES_TO_RELEASE.csv. They are learned expression
+heads, distinct from the public ImageNet ResNet18 backbone. Preserve the feature
+and head-target scalers and gene ordering needed to use them correctly.
+
+If an original state is unavailable, finish the code, path migration, exported-data
+reproduction and tests that can be completed. Report exactly which target is
+blocked and which file is required. Do not create random/zero parameter files,
+rename an unrelated state, or retrain a replacement and present it as the recorded
+fit. Never claim full original-prediction replay when these inputs are missing.
+
+5. MAINTAINED IMPORTS, CONFIGURATION AND OUTPUT SAFETY
+===================================================
+- Replace scientific runtime dependence on generic cross-stage imports with
+  package-qualified imports. Resolve test-module collisions without dropping tests.
+- Remove machine-specific paths such as /home/son/Research/GraphPathology from
+  maintained code and executable documentation. Use pathlib, explicit configuration
+  or documented environment variables for data, checkpoints and output roots.
+- The package must import from a fresh checkout and from a non-repository working
+  directory after installation. Imports and --help must not download data, train,
+  run evaluation, append registries or create/overwrite historical artifacts.
+- Give new runs their own output directory. Reject overwriting the archive or a
+  published result set. Resolve relative paths predictably; do not depend on cwd.
+- Keep all scientific contracts intact: barcode/gene alignment, fitting-only
+  transforms, observed-only inputs and patient separation must survive refactoring.
+- Do not remove assertions, leakage checks or provenance checks merely to make
+  an entrypoint return success. Refactor an obsolete historical-path check into
+  explicit archive verification plus current-implementation validation.
+
+6. INSTALLATION AND EXECUTABLE INTERFACES
+=======================================
+Provide one tested installation path in a clean virtual environment. Capture
+the dependencies needed by the core code, vision encoders, testing and plotting;
+document optional TeX/Poppler/Inkscape requirements separately. The old pyproject
+does not necessarily declare every dependency used by later stages.
+
+Retain the original executed environment record. Separately record the actual
+environment used to validate the revised software. Do not claim that a recorded
+version was installed or tested unless it was. If an exact historical version is
+unavailable, document the supported tested alternative and any replay limitation;
+do not silently upgrade dependencies and assert identical predictions.
+
+Provide a coherent maintained CLI or small set of scripts. A suggested interface
+is python -m graphpathology with subcommands for doctor/check-assets, manifest,
+publication reproduction, bounded smoke tests, and the documented scientific
+stages. You may choose equivalent names after inspecting the code. Requirements:
+
+* --help and configuration validation work without data/model downloads.
+* doctor/check-assets reports available/missing assets, path resolution, package
+  versions and the exact targets affected. It does not start scientific work.
+* Publication commands regenerate all main/SI figures and table views from the
+  supplied exports into a new output directory.
+* Model replay and full training/evaluation commands have explicit configurations,
+  clear prerequisites and opt-in execution. Document their complete dependency
+  order but do not execute the full chains in this task.
+* Each maintained scientific entrypoint has a validation/dry-run mode that checks
+  inputs without launching a cohort job, plus a bounded fixture test where feasible.
+* Required missing inputs produce a specific error, a nonzero exit code and a
+  useful acquisition/configuration instruction. A missing model must never silently
+  switch inference to randomly initialized or newly trained weights.
+
+7. DATA AND ASSET INSTRUCTIONS
+=============================
+Document the exact cohort inputs and their roles, official acquisition sources,
+expected local layout, barcode/coordinate/image joins, relevant gene panels,
+preprocessing objects and caches. Reuse existing legitimate download code where
+possible. Make downloads explicit, checksum-checked and resumable if appropriate;
+ordinary installation/tests/figure reconstruction must not fetch large datasets.
+
+Public source references already documented in the manuscript include HEST,
+HER2ST (Zenodo 4751624), Wu local spatial data (Zenodo 4739739) and Bassiouni
+GSE210616. Read the article for exact selected samples and source restrictions.
+Do not assume that every section in a source study was included in this analysis.
+
+For every reproducibility level, state prerequisites, a real command, expected
+output files, expected resource use if measured, and availability limitations.
+Mark estimates as estimates; do not invent runtime, GPU requirements or disk use.
+
+8. REPRODUCE ALL PUBLICATION OUTPUTS FROM EXISTING EXPORTS
+========================================================
+Import the latest supplied manuscript package into a documented publication
+directory. Preserve numbered sections, current captions and figure numbering.
+The publication has 29 display items:
+  main Figures 1-6 and Tables 1-2;
+  Supplementary Figures S1-S12 and Tables S1-S9.
+
+The attached REPRODUCTION_TARGETS.csv supplies their source/renderer map. Complete
+it against the actual maintained implementation. Every target must resolve to real
+inputs, a renderer or editable table template, output paths, filter/aggregation
+rules and a numerical check. Do not infer display numbers from legacy CSV names:
+for example, Fig5_source.csv currently supplies main Figure 4.
+
+Existing publication scripts in the supplied package are:
+  scripts/draw_architecture.py
+  scripts/draw_graph_architecture.py
+  scripts/redraw_development_figures.py
+  scripts/redraw_external_figures.py
+  scripts/redraw_supplementary_figures.py
+  build.sh
+
+Main Figures 1 and 2 are schematics. Figure 2 now has 36 synthetic locations in
+a 2-by-2 candidate layout, with 106/55/113/84 edges for capped kNN6, radius 150,
+radius 250 and capped Delaunay, respectively. All edges are shown. Do not restore
+the earlier 24-location diagram or interpret its coordinates as patient data.
+Its coordinate literals currently live in the drawing script; the CSV is an
+exported verification artifact. Either document that direction or make the CSV
+the single input source with an exact coordinate/edge equivalence test.
+
+The supplementary renderer supports --figure and --audit-json. Preserve the
+plotted values and add equivalent structured value traces for main result figures
+where needed. The current S5 renderer also reads SFig3_source.csv before using
+SFig3_panel_source.csv; retain that dependency or remove the unused read explicitly.
+SFig6_source.csv has 4,448 rows; do not drop rows because only a subset is displayed.
+The Figure 6 FOXA1 map color limit is based on the full exported values, including
+capture-window rows that are not displayed. Preserve that selection rule.
+
+Some tables are editable TeX views rather than outputs of an existing table
+generator. Add deterministic builders or validators for their numerical rows.
+Definitions-only tables need template/schema checks, not fabricated numeric data.
+Keep the full per-gene CSV.gz export alongside its compact printed definitions.
+
+Run exported-data regeneration for all 29 targets and build both documents. Use
+a new output directory, then compare plotted numerical arrays, table values,
+ordering, missing-value patterns and color limits against the supplied baseline.
+Do not demand PDF-byte equality across plotting-library versions: embedded dates,
+fonts and metadata can differ. Scientific data bytes and model-state identities,
+however, must remain unchanged. Render the generated PDFs and inspect legibility.
+
+Provide distinct documented workflows for:
+A. Building the supplied LaTeX/PDFs from existing figure files.
+B. Regenerating every figure/table from the supplied numerical exports.
+C. Running bounded code/unit/integration checks on fixtures and available assets.
+D. Replaying original predictions when the original models/inputs are available.
+E. Training or full research evaluation as a separately documented future operation.
+
+Execute A-C within this task. Only a clearly bounded subset of D may be run when
+its original assets are available. Do not run E or full-cohort D here.
+
+9. SCIENTIFIC INVARIANTS TO PROTECT
+==================================
+Use the manuscript's detailed Methods and Experimental setup as the complete
+specification. At minimum, regression checks must protect the following:
+
+Data roles and scoring
+* HEST development: NCBI783/NCBI785 fitting, TENX95 validation, TENX99 evaluation.
+* HER2ST's eight patients were reused for calibration development; their 40-gene
+  intersection is distinct from the 50-gene primary analyses.
+* Wu calibration: 1142243F, CID4465, CID4535. Wu evaluation: 1160920F, CID4290,
+  CID44971. Bassiouni uses one preselected section from each of 22 patients,
+  without refitting.
+* Whole expression vectors are hidden. Fit scalers and choose hyperparameters only
+  from the designated fitting/validation/calibration data.
+* Preserve raw-count log1p and the development normalization; do not introduce
+  library-size normalization, assay harmonization or patient reassignment.
+* Preserve gene order and barcode alignment throughout all caches and predictions.
+
+Networks and graphs
+* Final image branch: frozen ResNet18, 512 features, training-fitted scaler,
+  Linear(512,256), GELU, dropout 0.1, Linear(256,50) with biases; 144,178 parameters
+  per head. Three original heads, inverse head-target scaling, equal averaging.
+* Preserve the nominal 112-um crop, LANCZOS resize to 224 pixels, official resize
+  to 256 pixels followed by a central crop to 224 pixels, and ImageNet normalization.
+  Do not silently simplify the two-stage resize.
+* Graphs are section-local and coordinate-only: union-symmetrized kNN6/cap 250 um,
+  radius 150/250 um, or Delaunay/cap 250 um. No initial self edges in binary A.
+* With D=diag(A1), P=(D+I)^-1(A+I) is the self-inclusive mean. Q uses symmetric
+  degree normalization. R uses neighbor-only row normalization with a zero
+  aggregate at isolated nodes. Inputs are PX, QX or [X,RX], after feature
+  standardization.
+* One graph aggregation followed by the MLP; no added learned adjacency, attention,
+  extra graph layers or GraphSAGE post-update normalization. Mean/GCN 512->128->50
+  have 72,114 parameters; GraphSAGE 1024->67->50 has 72,075.
+* Frozen Phikon uses the final normalized 768-dimensional CLS representation.
+  Local/spatial head choices and topology controls remain the documented
+  development comparisons.
+
+Molecular reconstruction, calibration and metrics
+* Up to 16 observed anchors. V1 uses inverse-distance-squared interpolation; V2
+  uses an equal-weight neighbor mean. Preserve distance rounding/floors.
+* V1 scores all hidden locations. V2 forbids a contiguous 40% region, samples
+  anchors outside it and scores that region. Preserve the three geometries,
+  whole-section budgets, rounding and nested random trajectories.
+* Final fusion = 0.8 molecular + 0.2 calibrated image. The raw image-only comparator
+  is different from the calibrated image term. Reuse source/Wu constants for
+  Bassiouni. Patient-weighted moments are not pooled spot-weighted moments.
+* The sparse learned comparator is residual ridge regression, 34 covariates plus
+  an unpenalized intercept per gene, alpha 10000 under the summed-error objective.
+  Preserve P and P^2 observed masses/messages and the n300/16 covariate, including
+  its denominator 16 when fewer anchors exist.
+* HER2ST fixed-fusion calibration and selected-fusion analyses are distinct.
+  Preserve patient folds, target transformations and selection. Gate variance
+  uses destination-transformed expression, population variance across up to 16
+  nearest anchors, then the gene mean; the count within 600 um is a different feature.
+* Preserve patient-first aggregation, gene medians versus means, mean/median
+  distinctions between figures, undefined constant correlations and tied ranks.
+  A median paired effect is not the difference between separate cohort medians.
+* Do not change negative-control definitions or turn the mixed graph/fusion
+  findings into a claim of demonstrated GNN superiority.
+
+10. BOUNDED, MEANINGFUL SOFTWARE TESTS
+====================================
+Inventory and repair the relevant existing tests before adding new ones. Use real
+production functions and independent hand-checkable or frozen expected results.
+Do not implement a second copy of each function solely to test the first. Do not
+make assertions weaker or mark failures skipped to produce a green report.
+
+Required test coverage:
+
+(a) Packaging and entrypoints
+    Clean environment install; supported imports; all CLI --help commands;
+    config validation; working directories outside the repository; paths with
+    spaces; explicit missing-asset errors; no import-time downloads, training
+    or archive writes.
+
+(b) Migration and archive integrity
+    Old -> new map completeness; original checksums and row/schema preservation;
+    every manifest path resolves or has an explicit missing-asset status;
+    checkpoint states and scalers map to the correct model/gene panel.
+    Separate proof of intact archived source from tests of refactored source.
+    Preserve registry bytes and validate recorded prefix lengths/digests. Report
+    pre-existing source/hash mismatches separately from migration damage; retain
+    the original expectations instead of rewriting them.
+
+(c) Data, masks and leakage
+    Barcode reordering and mismatches; gene order; fitting-only normalization;
+    whole-vector hiding; nested budgets; observed/scored disjointness; V2 anchors
+    outside forbidden regions; no cross-patient edges/calibration leakage.
+    Replace ALL unobserved labels with NaNs and random values and require unchanged
+    model inputs/predictions. Cover hidden labels outside the V2 scored region too.
+
+(d) Graphs and model architecture
+    Symmetry, edge caps, kNN union semantics, deterministic tie handling,
+    isolated nodes, P/Q/R formulas and one-hop locality on disconnected fixtures.
+    Do not incorrectly require Q's row sums to equal 1. Check output shapes,
+    selected parameter counts, frozen encoder parameters, eval-mode dropout,
+    inverse-target scaling and three-head averaging.
+
+(e) Interpolation and calibration
+    Small manually solvable anchor configurations, fewer-than-16 anchors,
+    coincident-coordinate numerical handling, V1/V2 weights, affine interpolation
+    identity, equal-patient moments, correct calibration direction and fixed fusion.
+    A changed hidden target must not influence any anchor selection or prediction.
+
+(f) Supporting methods and metrics
+    Residual feature dimensions/messages/intercept penalty and fixed denominator;
+    calibration-fold separation and gate-feature definitions without fitting on
+    real patient outcomes; constant-correlation handling, tied ranks, aggregation
+    order and paired-effect calculations on explicit small examples.
+
+(g) End-to-end fixture
+    Exercise two distinct maintained routes on tiny fixtures: the development
+    graph route (coordinates/embeddings -> fixed aggregation -> expression head
+    -> metrics), and the final external route (local image ensemble plus observed
+    anchors -> calibration/interpolation/fusion -> metrics and an output table).
+    Do not insert a graph head into the final external predictor.
+    A tiny synthetic head-training/backward test is allowed, with a strict
+    step/time cap and an isolated output directory. Check save/load and
+    deterministic predictions from the reloaded state.
+    If using randomly initialized encoders/heads or fixtures, label the test as
+    such; it is not a replay of the original pretrained/fitted predictions.
+
+(h) Publication regression
+    All 29 targets resolve; all figure/table scripts run on the supplied exports;
+    plotted arrays/table cells match the baseline within explicitly justified
+    numerical tolerances; all citations/labels resolve; both PDFs build; section
+    numbering, new 36-node graph diagram and display counts remain correct.
+
+Default tests must be small, offline after environment setup, CPU-compatible and
+independent of private datasets. Add an appropriate CI workflow using a tested
+Python/dependency combination. Keep real-data/full-model tests opt-in and report
+skips with specific reasons. Set a modest default wall-clock limit; investigate
+unexpectedly long commands rather than allowing them to become full experiments.
+
+Report actual commands, environment, duration, passed/failed/skipped counts and
+asset-dependent limitations. "Unit/integration checks passed" and "all original
+results reproduced from models" are different claims. Make only the supported one.
+
+11. README AND SUPPORTING DOCUMENTATION
+=======================================
+Rewrite README.md for a new reader of the completed study. Include:
+- Manuscript title, study scope and the main scientific question.
+- Clear dataset roles and distinction between image-only, same-section molecular
+  interpolation and fusion. Retain the geometry/protocol and image-resolution limits.
+- Repository layout and the purpose of checkpoints/legacy versus checkpoints/models.
+- Tested installation, a short CPU quick start, and one bounded command that works
+  from a clean checkout without hidden local paths or research data.
+- Commands to regenerate all main/SI outputs from the bundled exports and build PDFs.
+- A link to the detailed reproduction target manifest and full dependency order.
+- Exact instructions to acquire/install required data, original model states,
+  scalers and caches, with truthful availability and license information.
+- How to run the supported tests and optional asset-dependent integrations.
+- Links to the methods/model map, migration map, environment record and test report.
+- Citation information and the project's actual license; preserve upstream terms.
+
+Remove the false C0-only/later-analyses-not-executed narrative from the root README.
+Historical status text may remain in clearly identified immutable archive records.
+Do not promise unavailable weights or list unimplemented commands as working.
+Keep detailed historical hashes and stage bookkeeping in linked reproducibility
+documentation rather than overwhelming the main README.
+
+Recommended supporting documents include docs/REPRODUCING.md,
+docs/MANUSCRIPT_MAP.csv, docs/DATA_AND_MODELS.md, docs/TEST_REPORT.md and
+docs/MIGRATION.md. Equivalent names are acceptable if links and CLI references
+are consistent. A user should be able to follow the documented sequence without
+knowing the private development history.
+
+12. COMPLETION CRITERIA AND HANDOFF
+=================================
+Before concluding, verify that:
+1. All discovered experimental checkpoints are organized under checkpoints/;
+   model states and archival records are distinguished and inventoried.
+2. Maintained code imports and runs through the documented entrypoints after
+   relocation. No required runtime path silently points to a removed root stage.
+3. Scientific baseline files/values are unchanged and original missing assets
+   are identified honestly. Historical source/asset hashes are not rewritten.
+4. The root README and full reproduction guide cover all 29 main/SI outputs and
+   separately explain exported-data regeneration, model replay and training.
+5. Installation, bounded tests and publication regeneration have actually run.
+   Missing-asset integrations are reported separately and do not masquerade as passes.
+6. The latest manuscript PDFs compile with correct section numbering and figures.
+7. Git diff contains no unrelated edits, accidentally committed environments,
+   raw data caches, secrets, or replacement scientific outcomes from smoke tests.
+
+Commit the completed revision on a dedicated branch. Use the GitHub access and
+authorization supplied with this task to push the branch/open a PR when permitted;
+otherwise provide the completed local commit and exact handoff steps. Do not
+force-push, rewrite existing history or alter a published release as cleanup.
+
+Return a concise implementation report containing:
+- what moved and the checkpoint/model inventory;
+- the maintained architecture/entrypoint changes;
+- actual quick-start, test and publication-reproduction commands;
+- exact tests run, results and limitations;
+- status for each of the 29 display targets;
+- the original model/data assets still needed, if any, with their expected paths
+  and checksums and the specific command each missing asset blocks;
+- the commit/branch/PR location.
+
+Do all non-blocked work before asking for unavailable original files. Do not
+retrain, fabricate assets, change manuscript conclusions, or run the full research
+experiments to fill a gap during this repository revision.
