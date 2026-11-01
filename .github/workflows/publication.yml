@@ -29,6 +29,8 @@ jobs:
       - run: python -m graphpathology publication --output outputs/publication
       - run: python -m graphpathology build-documents --publication outputs/publication --output outputs/paper
       - run: python -m graphpathology arxiv --output outputs/arxiv
+      - name: Build separate journal revision from committed exports (no training or research downloads)
+        run: python -m graphpathology.journal paper --build-output outputs/journal
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -40,3 +42,5 @@ jobs:
             outputs/paper/*.pdf
             outputs/arxiv/ARXIV_REPORT.json
             outputs/arxiv/*.zip
+            outputs/journal/*.pdf
+            manuscript/journal_revision/JOURNAL_BUILD_REPORT.json
