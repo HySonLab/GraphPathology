@@ -17,4 +17,3 @@ def region(xy,regime,geometry):
  n=len(xy);forbidden=np.zeros(n,bool)
  if regime=='V1':return forbidden
  z=xy-xy.mean(0);_,_,v=np.linalg.svd(z,full_matrices=False);axis=v[0];axis=axis if axis[0]>=0 else -axis;p=z@axis;order=np.lexsort((np.arange(n),p));center=order[int(np.floor((n-1)*[.25,.5,.75][geometry]))];d=np.sum((xy-xy[center])**2,axis=1);forbidden[np.lexsort((np.arange(n),d))[:count(n,.4)]]=True;return forbidden
-

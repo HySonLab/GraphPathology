@@ -27,4 +27,3 @@ def choose(raw,eligible,n,strategy,seed=0,alpha=.5,control=None):
 def target_indices(n,selected,forbidden,regime):
  obs=np.zeros(n,bool);obs[selected]=True
  return np.flatnonzero(forbidden if regime=='contiguous' else ~obs),obs
-

@@ -1,6 +1,6 @@
 # GraphPathology
 
-**Coverage and tissue geometry govern the reconstruction of spatial transcriptomics from sparse molecular measurements**  
+**Coverage and tissue geometry govern the reconstruction of spatial transcriptomics from sparse molecular measurements**
 Truong-Son Hy, University of Alabama at Birmingham.
 
 This study asks how measured-location coverage and missing-region protocols affect reconstruction of a fixed expression panel. Image-only prediction, same-section molecular interpolation and image–molecular fusion receive different information. Distributed molecular anchors help reconstruction; contiguous regional completion is weaker. The tested fixed histology contribution did not reproducibly improve external interpolation. External public images are downsampled, and V1/V2 differ in weighting and scoring support as well as geometry. These results do not establish universal GNN superiority, transcriptome-wide recovery or clinical utility.

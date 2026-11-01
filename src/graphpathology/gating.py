@@ -21,4 +21,3 @@ def weights(v,model):
 
 def predict_B(v,model):
  w=weights(v,model);return v['st']+w[:,None]*(v['image']-v['st'])
-
