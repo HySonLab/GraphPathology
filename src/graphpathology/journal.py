@@ -73,6 +73,7 @@ def main():
     p = sub.add_parser('acquire'); p.add_argument('--cohorts', nargs='+', choices=['wu', 'bassiouni', 'her2st', 'hest', 'resnet18'], required=True); p.add_argument('--dry-run', action='store_true')
     p = sub.add_parser('original-uncertainty'); p.add_argument('--output', type=Path, required=True)
     p = sub.add_parser('replay'); p.add_argument('--cohort', choices=['wu', 'bassiouni'], required=True); p.add_argument('--patient', required=True); p.add_argument('--output', type=Path, required=True)
+    p = sub.add_parser('anchors'); p.add_argument('--cohort', choices=['wu', 'bassiouni'], required=True); p.add_argument('--output', type=Path, required=True)
     args = parser.parse_args(); root = args.root.resolve(); data = args.data.resolve()
     if args.action == 'acquire':
         from .journal_acquire import acquire
@@ -81,6 +82,9 @@ def main():
         from .journal_statistics import original_uncertainty
         result = original_uncertainty(root, args.output)
         (args.output / 'PROVENANCE.json').write_text(json.dumps(provenance(root, **result), indent=2) + '\n'); print(json.dumps(result, indent=2))
+    elif args.action == 'anchors':
+        from .journal_anchors import run
+        print(json.dumps(run(root, data, args.cohort, args.output), indent=2))
     elif args.action == 'replay': replay(root, data, args.cohort, args.patient, args.output)
 
 if __name__ == '__main__': main()
