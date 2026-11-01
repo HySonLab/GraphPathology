@@ -122,3 +122,67 @@ def train(root,data_root,output,checkpoint_root):
                               fit_seconds=time.monotonic()-start,peak_rss_mb=memory.peak/2**20,graph_manifest=graph_records)
             record_path.write_text(json.dumps(record,indent=2)+'\n');run_records.append(record);print('FIT COMPLETE',run_id,'epoch',fit['best_epoch'],flush=True)
     (output/'FIT_MANIFEST.json').write_text(json.dumps(run_records,indent=2)+'\n');return run_records
+
+
+def hybrids(xy,y,image,observed,hidden):
+    config={'kind':'idw','k':16,'p':2}
+    anchor,_=predict_anchors(xy,y,observed,hidden,config)
+    residual_values=np.full_like(y,np.nan,dtype=float);residual_values[observed]=y[observed]-image[observed]
+    residual,_=predict_anchors(xy,residual_values,observed,hidden,config)
+    return {'image':image[hidden], 'anchor_idw_k16_p2':anchor,
+            'fixed_20pct_image':.2*image[hidden]+.8*anchor, 'exploratory_residual_anchor':image[hidden]+residual}
+
+
+def evaluate(root,data_root,output,checkpoint_root):
+    from .journal import provenance
+    from .core import mlp_model,predict
+    data=load_prepared(data_root); records=json.loads((output/'FIT_MANIFEST.json').read_text())
+    scaler=Scaler()
+    with np.load(checkpoint_root/'journal_v2_feature_scaler.npz') as f:scaler.mean=f['mean'];scaler.scale=f['scale']
+    scaled={s:scaler.transform(data[s]['embeddings']) for s in SAMPLES}
+    graphs={s:build_graph(data[s]['xy_um'],{'kind':'delaunay','max_edge_um':250}) for s in SAMPLES}
+    torch.set_num_threads(4);torch.use_deterministic_algorithms(True)
+    masks=[];sample=data['TENX99'];n=len(sample['targets'])
+    for budget in [.1,.2,.4]:
+        for replicate in range(3):
+            p=root/'checkpoints/legacy/reports/C0/C0_MASKS'/f'TENX99_random_q{budget:.2f}_r{replicate}.npz'
+            with np.load(p) as f:
+                np.testing.assert_array_equal(f['barcodes'],sample['barcodes']);observed=np.flatnonzero(f['observed']);hidden=np.flatnonzero(~f['observed'])
+            masks.append({'budget':budget,'replicate':replicate,'observed':observed,'hidden':hidden,'mask_sha256':sha(p)})
+    panel=[];genes=[];predictions={};checks=0;start=time.monotonic()
+    for record in records:
+        run_id=record['run_id'];checkpoint=checkpoint_root/(run_id+'.pt')
+        if sha(checkpoint)!=record['checkpoint_sha256']:raise ValueError('Checkpoint mismatch at evaluation')
+        x=representation(data,scaled,graphs,record['model'],record['control'],record['seed'])['TENX99']
+        net=mlp_model(x.shape[1],len(sample['genes']),record['config'])
+        state=torch.load(checkpoint,map_location='cpu',weights_only=True);net.load_state_dict(state['state_dict']);net.eval()
+        image=predict(net,x,'B2').astype(float);predictions[(record['model'],record['control'],record['seed'])]=image
+        for mask in masks:
+            obs=mask['observed'];hid=mask['hidden'];base={k:v for k,v in mask.items() if k not in ['observed','hidden']}
+            y=sample['targets'].astype(float);pred=hybrids(sample['xy_um'],y,image,obs,hid)
+            for mode in ['nan','random']:
+                corrupt=y.copy();corrupt[hid]=np.nan if mode=='nan' else np.random.default_rng(19).normal(size=(len(hid),y.shape[1]))
+                alt=hybrids(sample['xy_um'],corrupt,image,obs,hid)
+                for route in ['fixed_20pct_image','exploratory_residual_anchor']:
+                    np.testing.assert_array_equal(pred[route],alt[route]);checks+=1
+            for route,yp in pred.items():
+                m=gene_metrics(y[hid],yp);attributes={**base,'run_id':run_id,'model':record['model'],'control':record['control'],'training_seed':record['seed'],'route':route}
+                panel.append({**attributes,'n_observed':len(obs),'n_hidden':len(hid),**summarize(m)})
+                for j,gene in enumerate(sample['genes']):genes.append({**attributes,'gene':gene,**{k:float(m[k][j]) for k in ['pearson','spearman','mse','mae']}})
+        print('EVALUATED',run_id,flush=True)
+    # Identity controls must equal the matching trained local model, not count as independent evidence.
+    identity_checks=[]
+    for seed in [0,1,2]:
+        for model in ['MEAN','GCN']:
+            np.testing.assert_array_equal(predictions[('local','local',seed)],predictions[(model,'self',seed)])
+            identity_checks.append({'seed':seed,'control':model+'_self','bitwise_equal_local':True})
+    table=pd.DataFrame(panel);table.to_csv(output/'EVALUATION_RUN_METRICS.csv',index=False)
+    pd.DataFrame(genes).to_csv(output/'EVALUATION_GENE_METRICS.csv.gz',index=False)
+    means=table.groupby(['model','control','training_seed','budget','route'])[['median_pearson','mean_mse','mean_mae']].mean().reset_index()
+    means.to_csv(output/'SEED_METRICS.csv',index=False)
+    seeds=means.groupby(['model','control','budget','route'])[['median_pearson','mean_mse','mean_mae']].agg(['mean','std','min','max'])
+    seeds.columns=['_'.join(c) for c in seeds.columns];seeds.reset_index().to_csv(output/'TRAINING_SEED_SUMMARY.csv',index=False)
+    result=provenance(root,status='COMPLETE_DEVELOPMENT_ONLY',protocol_E_commit='7e3cc167f',fit_models=len(records),n_evaluation_patients=1,
+                      n_evaluation_rows=len(panel),hidden_corruption_checks=checks,identity_checks=identity_checks,elapsed_seconds=time.monotonic()-start,
+                      warning='TENX99 was already used in v1 development; masks/training seeds/genes are not biological replicates. No model or hybrid selected from outcomes.')
+    (output/'EVALUATION_STATUS.json').write_text(json.dumps(result,indent=2)+'\n');return result

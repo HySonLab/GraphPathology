@@ -76,6 +76,7 @@ def main():
     p = sub.add_parser('anchors'); p.add_argument('--cohort', choices=['wu', 'bassiouni'], required=True); p.add_argument('--output', type=Path, required=True)
     p = sub.add_parser('learned-prepare')
     p = sub.add_parser('learned-train'); p.add_argument('--output', type=Path, required=True); p.add_argument('--checkpoints', type=Path, required=True)
+    p = sub.add_parser('learned-evaluate'); p.add_argument('--output', type=Path, required=True); p.add_argument('--checkpoints', type=Path, required=True)
     args = parser.parse_args(); root = args.root.resolve(); data = args.data.resolve()
     if args.action == 'acquire':
         from .journal_acquire import acquire
@@ -84,6 +85,9 @@ def main():
         from .journal_statistics import original_uncertainty
         result = original_uncertainty(root, args.output)
         (args.output / 'PROVENANCE.json').write_text(json.dumps(provenance(root, **result), indent=2) + '\n'); print(json.dumps(result, indent=2))
+    elif args.action == 'learned-evaluate':
+        from .journal_learned import evaluate
+        print(json.dumps(evaluate(root, data, args.output, args.checkpoints), indent=2))
     elif args.action == 'learned-prepare':
         from .journal_learned import prepare
         prepare(root, data)

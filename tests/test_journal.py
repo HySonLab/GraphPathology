@@ -46,3 +46,19 @@ def test_constant_anchors_and_extreme_gaussian_are_finite():
     for c in candidates():
         p, _ = predict_anchors(xy, y, [0, 1], [2], c)
         np.testing.assert_allclose(p, 1, atol=1e-14)
+
+
+def test_patient_pairing_rejects_silent_drops():
+    import pandas as pd
+    from graphpathology.journal_statistics import contrast
+    a=pd.DataFrame({'patient':['P1'],'median_pearson':[.2],'mean_mse':[1.],'mean_mae':[.5]})
+    b=a.copy();b['patient']='P2'
+    with pytest.raises(ValueError,match='Unmatched'):contrast(a,b,['patient'],'comparison','test')
+
+
+def test_learned_hybrids_never_read_unobserved_labels():
+    from graphpathology.journal_learned import hybrids
+    rng=np.random.default_rng(4);xy=rng.normal(size=(30,2));y=rng.normal(size=(30,3));image=rng.normal(size=(30,3))
+    observed=np.array([1,4,8,12]);hidden=np.array([9,10,11]);bad=y.copy();bad[np.setdiff1d(np.arange(30),observed)]=np.nan
+    a=hybrids(xy,y,image,observed,hidden);b=hybrids(xy,bad,image,observed,hidden)
+    for route in a:np.testing.assert_array_equal(a[route],b[route])
