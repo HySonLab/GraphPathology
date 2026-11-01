@@ -77,6 +77,8 @@ def run_patient(root, data_root, cohort, patient, output):
                     evaluate(observed, hidden, config, {**base, 'experiment': 'A' if r['regime'] == 'V1' else 'B1'})
         for seed in range(10):
             region, hidden, orders, holdout_seed = identical_target_design(xy, patient, seed)
+            central = next(r for r in original_masks(root,cohort,patient) if r['regime']=='V2' and r['geometry']==1 and r['seed']==0)
+            with np.load(central['absolute_mask_path']) as f: np.testing.assert_array_equal(region,f['forbidden'])
             path = mask_cache / f'central_seed{seed}.npz'
             if not path.exists(): np.savez_compressed(path, region=region, hidden=hidden, distributed_order=orders['distributed'], region_exclusion_order=orders['region_exclusion'], barcodes=data['barcodes'], xy_um=xy)
             else:
@@ -131,6 +133,8 @@ def summarize_all(output):
     by_geometry.to_csv(output / 'GEOMETRY_METRICS.csv', index=False)
     distance = patient[patient.experiment == 'B2'][['cohort','patient','budget','method','condition','mean_nearest_anchor_um','median_nearest_anchor_um']]
     distance.to_csv(output / 'B2_PATIENT_ANCHOR_DISTANCE.csv', index=False)
+    valid = runs.groupby(['cohort','patient','experiment','budget','regime','condition','method']).agg(min_defined_pearson=('n_defined_pearson','min'),mean_defined_pearson=('n_defined_pearson','mean'),max_defined_pearson=('n_defined_pearson','max'),n_panel_genes=('n_genes','first')).reset_index()
+    valid.to_csv(output / 'VALID_CORRELATION_COUNTS.csv',index=False)
     return {'completed_patients': patient.groupby('cohort').patient.nunique().to_dict(), 'run_rows': len(runs), 'paired_rows': len(paired), 'summary_rows': len(summary)}
 
 

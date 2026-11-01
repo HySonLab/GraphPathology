@@ -25,7 +25,7 @@ def initialize_package(root):
 def molecular_figures(root,data_root,package):
     result=root/'experiments/journal_revision/results/wu_anchors'
     patients=pd.read_csv(result/'PATIENT_METRICS.csv');pairs=pd.read_csv(result/'PAIRED_PATIENT_EFFECTS.csv')
-    for name in ['PATIENT_METRICS.csv','PAIRED_PATIENT_EFFECTS.csv','PATIENT_UNCERTAINTY.csv','B2_PATIENT_ANCHOR_DISTANCE.csv','GEOMETRY_METRICS.csv']:
+    for name in ['PATIENT_METRICS.csv','PAIRED_PATIENT_EFFECTS.csv','PATIENT_UNCERTAINTY.csv','B2_PATIENT_ANCHOR_DISTANCE.csv','GEOMETRY_METRICS.csv','VALID_CORRELATION_COUNTS.csv']:
         shutil.copyfile(result/name,package/'source_data/journal'/('WU_'+name))
     old=root/'experiments/journal_revision/results/original_v1_reanalysis_r2'
     for name in ['ORIGINAL_V1_PAIRED_PATIENT_EFFECTS.csv','ORIGINAL_V1_PATIENT_BOOTSTRAP.csv']:shutil.copyfile(old/name,package/'source_data/journal'/name)
