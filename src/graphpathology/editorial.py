@@ -40,8 +40,9 @@ def check(root,output,committed_only=False):
   assert phrase in a
  # Captions and descriptive labels may change; every numerical table body remains intact.
  checked_tables=0
- for f in (p/'tables').glob('*.tex'):
-  expected=base['table_numeric_row_tokens'][str(f.relative_to(root))]
+ for name,expected in base['table_numeric_row_tokens'].items():
+  f=root/name
+  assert f.is_file(),f
   def numeric_rows(t):
    rows=re.findall(r'\\midrule(.*?)\\bottomrule',t,re.S)
    return [re.findall(r'(?<![A-Za-z])[-+]?\d+(?:\.\d+)?',r) for r in rows]
@@ -75,7 +76,7 @@ def check(root,output,committed_only=False):
   assert round(float(q.loc['delta_pearson','median_effect']),4)==correlation
   assert round(float(q.loc['relative_mse','median_effect'])*100,1)==error
  claims={'original_reconstruction_patient_medians':reconstruction,'controlled_placement_endpoints_checked':6,'primary_negative_graph_endpoints_checked':6,'patients_per_controlled_endpoint':22}
- report={'status':'PASS_EDITORIAL_INTEGRITY','base_commit':base['base_commit'],'protected_scientific_files_unchanged':len(base['protected_files'])-len(skipped),'author_local_gene_exports_not_installed':len(skipped),'prior_snapshot_files_checked':prior_checked,'new_fitted_states_sha256_verified':fit_count,'archive':archive['migration'],'numerical_table_bodies_unchanged':checked_tables,'headline_claims':claims,'abstract_words':len(abstract.split()),'matrix_captions_checked':9,'new_training_acquisition_or_prediction':False,'prior_snapshot':base['prior_source_snapshot']}
+ report={'status':'PASS_EDITORIAL_INTEGRITY','base_commit':base['base_commit'],'protected_scientific_files_unchanged':len(base['protected_files'])-len(skipped),'author_local_gene_exports_not_installed':len(skipped),'prior_snapshot_files_checked':prior_checked,'new_fitted_states_sha256_verified':fit_count,'archive':archive['migration'],'numerical_table_bodies_unchanged':checked_tables,'headline_claims':claims,'abstract_words':len(abstract.split()),'matrix_captions_checked':9,'checker_performs_training_acquisition_or_prediction':False,'prior_snapshot':base['prior_source_snapshot']}
  Path(output).parent.mkdir(parents=True,exist_ok=True);Path(output).write_text(json.dumps(report,indent=2)+'\n');return report
 
 def package(root,output,check_directory,report_path=None):
