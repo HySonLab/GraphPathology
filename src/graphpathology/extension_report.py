@@ -34,7 +34,8 @@ def run(root,require_complete=True):
  paired=[];pairkeys=['cohort','patient','design','condition','budget']
  for (origin,variant,route),candidate in patient[patient.origin!='molecular'].groupby(['origin','variant','route']):
   ref=patient[patient.variant=='idw_k16_p2'];p=contrast(candidate,ref,pairkeys,variant+'__'+route+'__vs_IDW','extension_'+origin);p['candidate']=variant;p['route']=route;p['reference']='idw_k16_p2';p['information_match']='same anchors + images vs anchors' if route!='image' else 'unequal: images vs measured anchors';paired.append(p)
-  for baseline in ['matched_local','matched_mean','matched_gcn','matched_sage']:
+  controls=['gps_local','gps_no_relative','gps_self','gps_shuffled','gps_degree_length'] if variant=='gps_full' else (['distance_fixed','distance_disabled','egnn_self','egnn_shuffled','egnn_degree_length'] if variant=='egnn_latent' else [])
+  for baseline in ['matched_local','matched_mean','matched_gcn','matched_sage']+controls:
    ref=patient[(patient.origin=='new')&(patient.variant==baseline)&(patient.route==route)]
    p=contrast(candidate,ref,pairkeys,variant+'__'+route+'__vs_'+baseline,'extension_'+origin);p['candidate']=variant;p['route']=route;p['reference']=baseline;p['information_match']='same route and anchors';paired.append(p)
  pairs=pd.concat(paired,ignore_index=True);pairs.to_csv(out/'PAIRED_PATIENT_EFFECTS.csv',index=False)
