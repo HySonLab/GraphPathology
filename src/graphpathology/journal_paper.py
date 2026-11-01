@@ -67,6 +67,17 @@ def scientific_sections(root,package):
     local=learned[(learned.model=='local')&(learned.route=='image')]
     neural_text=('All 30 preregistered new heads completed training. At 20\\% coverage, the local image head had training-seed mean correlation '
                  f'{local.median_pearson.mean():.3f} and MSE {local.mean_mse.mean():.4f}; '+('; '.join(pure))+'. These values describe one previously used development patient, not population generalization. All spatial, self-only and shuffled configurations and seeds are shown, rather than a selected best model (Fig.~\\ref{fig:journal_learned}; Supplementary Table~\\ref{tab:journal_neural}). Local, mean-self and GCN-self predictions agreed bitwise for every matched seed, as required by their identical inputs and parameterization. The fixed-fusion and exploratory residual-anchor results are reported separately from image-only prediction and from the missing historical fitted heads.')
+    anchor=learned[(learned.model=='local')&(learned.route=='anchor_idw_k16_p2')].iloc[0]
+    neural_text+=f' On the identical masks, the fixed IDW reference had correlation {anchor.median_pearson:.3f} and MSE {anchor.mean_mse:.4f}.'
+    for model,control in [('local','local'),('GCN','spatial'),('SAGE','spatial')]:
+        a=learned[(learned.model==model)&(learned.control==control)&(learned.route=='exploratory_residual_anchor')]
+        neural_text+=f' The {model} residual baseline had seed-mean correlation {a.median_pearson.mean():.3f} and MSE {a.mean_mse.mean():.4f}.'
+    for model in ['GCN','SAGE']:
+        a=learned[(learned.model==model)&(learned.control=='spatial')&(learned.route=='image')].set_index('training_seed')
+        b=learned[(learned.model==model)&(learned.control=='self')&(learned.route=='image')].set_index('training_seed')
+        delta=a.median_pearson-b.median_pearson
+        neural_text+=f' Matched-seed {model} spatial-minus-self correlation changes ranged from {delta.min():+.4f} to {delta.max():+.4f}.'
+    neural_text+=' These descriptive one-patient comparisons do not establish external transportability or a general topology advantage.'
     result_text=r'''
 \subsection{Post-v1 matched-information and identical-target checks}
 The following analyses were specified in a committed protocol before new comparator outcomes and remain separate from the immutable arXiv v1 record. The Wu and Bassiouni studies had already been inspected; no new blind external cohort is claimed. Exact public Wu archives and pinned HEST inputs were recovered with checksum verification. GEO HTTPS/API requests failed and direct anonymous FTP returned empty bodies for the selected Bassiouni files; checksum checks rejected those transfers. New Bassiouni matched-estimator, identical-target and spatial-map analyses are therefore unavailable, rather than inferred from old summaries.
