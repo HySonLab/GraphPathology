@@ -16,3 +16,7 @@ Starting source/PDF snapshot: ab0811134bb1d62719206ab11a43bd7c4dd5d813. The orig
 - Preserved the approved AI-assistance disclosure, sole-human authorship and Scientific Reports Editorial Board disclosure. Updated availability wording to distinguish author-local full exports/states from public source summaries. No release, DOI, journal/arXiv submission or PR merge was performed.
 
 The pre-edit source and empirical values remain accessible through the starting Git snapshot. The final build/validation reports provide executed checks and actual page counts, rather than expected outcomes.
+
+## Final minor editorial polish
+
+Simplified the Phikon Methods introduction while retaining its complete preprocessing/extraction details and the immutable model identity in repository configuration/provenance. Removed the unrelated diagram sentence from Figure 6, scoped Figure 1 to the original architecture, and corrected S6 to distinguish the original frozen ResNet18 evaluation from later exploratory Phikon evaluation. Clarified one historical-pipeline reference and replaced the existing future-acquisition sentence with a prospective, predefined-panel sampling direction. The abstract, findings, numerical results, figures, protocols and model states are unchanged; no experiments or restructuring were performed.
