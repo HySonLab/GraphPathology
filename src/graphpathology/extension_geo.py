@@ -13,9 +13,12 @@ def acquire(root):
  if report.exists():
   previous=json.loads(report.read_text())
   if previous['status']=='COMPLETE':
+   complete=True
    for record in previous['selected_files']:
-    if sha(root/record['cache_relative'])!=record['sha256']:raise ValueError('Completed acquisition cache changed')
-   return previous
+    path=root/record['cache_relative']
+    if path.exists() and sha(path)!=record['sha256']:raise ValueError('Completed acquisition cache changed')
+    if not path.exists():complete=False
+   if complete:return previous
  out=root/'data/journal_revision/transformer_egnn/geo_ranges';(out/'raw/bassiouni').mkdir(parents=True,exist_ok=True)
  original=json.loads((root/'checkpoints/legacy/C10/C10A/logs/DOWNLOADS.json').read_text());wanted={Path(x['path']).name:x for x in original};records=[];headers=[];total_read=0;session=requests.Session()
  def read_range(start,size):
@@ -62,5 +65,5 @@ def acquire(root):
  missing=sorted(set(wanted)-{Path(x['path']).name for x in records})
  result={'status':'COMPLETE' if not missing else 'BLOCKED_INPUTS','time_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source_url':URL,'advertised_whole_bundle_bytes':TOTAL,
   'actual_range_bytes_downloaded':total_read,'selective_cap_bytes':CAP,'whole_bundle_downloaded':False,'selected_files':records,'missing':missing,'headers_scanned':len(headers),'license_source':'https://www.ncbi.nlm.nih.gov/geo/info/disclaimer.html'}
- target=root/'experiments/journal_revision/transformer_egnn/GEO_SELECTIVE_ACQUISITION.json';target.write_text(json.dumps(result,indent=2)+'\n')
+ target=report if not report.exists() else out/'REACQUISITION.json';target.write_text(json.dumps(result,indent=2)+'\n')
  (out/'TAR_HEADER_INDEX.json').write_text(json.dumps(headers,indent=2)+'\n');return result

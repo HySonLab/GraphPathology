@@ -32,3 +32,10 @@ def test_only_required_member_ranges_and_exact_checksum(tmp_path,monkeypatch):
 def test_ignored_range_never_reads_large_body(tmp_path,monkeypatch):
  setup(tmp_path,monkeypatch,ignore_range=True)
  with pytest.raises(ValueError,match='whole-bundle fallback prohibited'):extension_geo.acquire(tmp_path)
+
+
+def test_clean_checkout_reacquisition_preserves_publication_record(tmp_path,monkeypatch):
+ payload,calls=setup(tmp_path,monkeypatch);original=extension_geo.acquire(tmp_path);report=tmp_path/'experiments/journal_revision/transformer_egnn/GEO_SELECTIVE_ACQUISITION.json';before=report.read_bytes();(tmp_path/original['selected_files'][0]['cache_relative']).unlink()
+ r=extension_geo.acquire(tmp_path)
+ assert r['status']=='COMPLETE' and len(calls)==6 and report.read_bytes()==before
+ assert (tmp_path/'data/journal_revision/transformer_egnn/geo_ranges/REACQUISITION.json').exists()

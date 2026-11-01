@@ -24,6 +24,8 @@ def run(root,require_complete=True):
   checks+=record['exact_label_corruption_checks'];frames.append(pd.read_csv(p.parent/'PANEL.csv.gz'))
  for p in sorted(folder.glob('*/MOLECULAR.csv')):frames.append(pd.read_csv(p))
  runs=pd.concat(frames,ignore_index=True)
+ counts=runs.groupby(KEYS,dropna=False).agg(min_defined_pearson=('n_defined_pearson','min'),mean_defined_pearson=('n_defined_pearson','mean'),max_defined_pearson=('n_defined_pearson','max'),panel_genes=('n_genes','first')).reset_index();counts.to_csv(out/'VALID_CORRELATION_COUNTS.csv',index=False)
+ secondary=runs.groupby(KEYS+['geometry'],dropna=False)[['mean_spearman','median_spearman']].mean().groupby(KEYS,dropna=False).mean().groupby([k for k in KEYS if k not in ['training_seed','model_id']],dropna=False).mean().reset_index();secondary.to_csv(out/'SECONDARY_SPEARMAN_PATIENT_METRICS.csv',index=False)
  # Mask seeds averaged equally within geometry, then geometries equally within patient; training seeds remain explicit.
  geometry=runs.groupby(KEYS+['geometry'],dropna=False)[METRICS+['n_defined_pearson']].mean().reset_index()
  trained=geometry.groupby(KEYS,dropna=False)[METRICS+['n_defined_pearson']].mean().reset_index()

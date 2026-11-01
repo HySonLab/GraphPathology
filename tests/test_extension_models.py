@@ -41,3 +41,10 @@ def test_conditional_e2_and_node_permutation(variant):
 def test_degree_and_length_control_is_verified():
  _,_,s=fixture('gps_degree_length');assert s['info']['degree_preserved'] and s['info']['global_50um_bins_preserved']
  assert s['info']['successful_swaps']>0
+
+
+def test_latent_first_update_has_scalar_loss_path_last_is_diagnostic_only():
+ torch.set_num_threads(1);torch.manual_seed(31);xy,x,s=fixture('egnn_latent');model=ExtensionModel('egnn_latent');model(torch.tensor(x),s).square().mean().backward()
+ first=model.blocks[0].coordinate.weight.grad
+ assert first is not None and torch.isfinite(first).all() and torch.linalg.vector_norm(first)>0
+ assert model.blocks[1].coordinate.weight.grad is None

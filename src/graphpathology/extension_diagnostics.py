@@ -89,3 +89,22 @@ def run(root):
  pd.DataFrame(reaches).to_csv(out/'ATTENTION_REACH.csv',index=False);pd.DataFrame(remote_test(root,items)).to_csv(out/'DISTANT_FEATURE_PERTURBATION.csv',index=False)
  r=metadata(root,status='COMPLETE',geometric_checks=len(rows),attention_rows=len(reaches),image_pipeline_equivariance='SKIPPED_PROTOCOL; no end-to-end claim',output_hashes={p.name:sha(p) for p in out.glob('*.csv')})
  (out/'STATUS.json').write_text(json.dumps(r,indent=2)+'\n');return r
+
+
+def recovered_patient(root,patient):
+ """Additional recovered-cohort diagnostics, preserving the first completed bundle."""
+ out=root/'experiments/journal_revision/transformer_egnn/diagnostics/recovered'/patient;out.mkdir(parents=True,exist_ok=True);done=out/'COMPLETE.json'
+ if done.exists():
+  r=json.loads(done.read_text())
+  for name,digest in r['output_hashes'].items():assert sha(out/name)==digest
+  return r
+ torch.set_num_threads(1);items=[i for i in model_inventory(root) if i['origin']=='new'];rows=[];latent=[]
+ for item in items:
+  if item['variant'].startswith('gps_'):rows.extend(attention(root,patient,item))
+  if VARIANTS[item['variant']][-1]:
+   d=load_data(root,patient);spec=graph_spec(d['xy_um'],patient,item['seed'],item['variant']);torch.manual_seed(item['seed']);initial=ExtensionModel(item['variant']);net=ExtensionModel(item['variant']);net.load_state_dict(torch.load(root/item['checkpoint'],weights_only=True)['model']);net.eval()
+   with torch.inference_mode():_,p,_=net(torch.tensor(d['x']),spec,True)
+   shift=np.linalg.norm((p.numpy()-spec['p'].numpy())*SCALE_UM,axis=1)
+   latent.append({'patient':patient,'variant':item['variant'],'seed':item['seed'],'mean_latent_displacement_um':float(shift.mean()),'max_latent_displacement_um':float(shift.max()),'first_coordinate_weight_change_norm':float(torch.linalg.vector_norm(net.blocks[0].coordinate.weight-initial.blocks[0].coordinate.weight).detach()),'last_coordinate_weight_change_norm':float(torch.linalg.vector_norm(net.blocks[1].coordinate.weight-initial.blocks[1].coordinate.weight).detach()),'last_update_affects_scalar_readout':False})
+ pd.DataFrame(rows).to_csv(out/'ATTENTION_REACH.csv',index=False);pd.DataFrame(latent).to_csv(out/'LATENT_UPDATES.csv',index=False)
+ r=metadata(root,status='COMPLETE',threads=1,patient=patient,output_hashes={p.name:sha(p) for p in out.glob('*.csv')});done.write_text(json.dumps(r,indent=2)+'\n');print('RECOVERED DIAGNOSTICS',patient,flush=True);return r
