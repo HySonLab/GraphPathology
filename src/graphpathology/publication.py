@@ -1,89 +1,196 @@
-"""Regenerate available export views, with explicit revised-source limitations."""
-import csv,json,shutil
+"""Isolated publication regeneration, document builds and arXiv source packaging."""
+import csv
+import json
+import os
 from pathlib import Path
-from .assets import new_output,sha
+import re
+import shutil
+import subprocess
+import sys
+import zipfile
+from .assets import new_output, sha
 
-def targets(root):return list(csv.DictReader((root/'docs/REPRODUCTION_TARGETS.csv').open()))
-def source(root,name):return root/'checkpoints/legacy'/name
+RENDERERS = ['draw_architecture.py', 'draw_graph_architecture.py',
+             'redraw_development_figures.py', 'redraw_external_figures.py',
+             'redraw_supplementary_figures.py']
 
-def run(root,args):
-    rows=targets(root)
-    if args.target!='all':rows=[x for x in rows if x['target']==args.target]
-    if not rows:raise ValueError('Unknown target; consult docs/REPRODUCTION_TARGETS.csv')
-    blocked=[x for x in rows if x['status'].startswith('blocked')]
-    if args.dry_run:
-        print(json.dumps({'targets':rows,'revised_baseline_verified':False},indent=2));return 2 if blocked else 0
-    if blocked and not args.available_only:raise FileNotFoundError('Revised inputs missing for '+', '.join(x['target'] for x in blocked)+'; obtain revised LaTeX/scripts/source_data/REPRODUCTION_TARGETS.csv package from author. Use --available-only for labeled older-export views.')
-    if not args.output:raise ValueError('--output is required')
-    out=new_output(root,args.output)
-    import numpy as np,pandas as pd
-    from . import export_plots as plot
-    plot.ROOT=root/'checkpoints/legacy';plot.M=out;plot.D=out/'data'
-    for name in ['data','figures','supp_figures','tables','supp_tables']:(out/name).mkdir()
-    baseline=source(root,'C10/MANUSCRIPT')
-    # Input bytes are preserved in the new work tree; never mutate the archived package.
-    for name in ['tables','supp_tables']:
-        for p in (baseline/name).glob('*.csv*'):shutil.copy2(p,out/name/p.name)
-    def save(frame,name):frame.to_csv(out/'data'/(name+'.csv'),index=False)
-    cross=pd.read_csv(source(root,'C10/CROSS_COHORT_SUMMARY.csv'))
-    save(cross[cross.cohort=='Development'],'development_patient')
-    save(cross[cross.cohort=='Wu fresh validation'],'Fig5_source')
-    save(cross[cross.cohort=='Bassiouni second replication'],'Fig6_source')
-    her=pd.read_csv(source(root,'C9/C9_TRANSPORTABILITY_SUMMARY.csv')).rename(columns={'mask_regime':'regime','mse':'mean_mse','mae':'mean_mae'});save(her,'Fig4_source')
-    names={'SFig1':'C1/C1_METRICS_SUMMARY.csv','SFig1_controls':'C1/C1_NEGATIVE_CONTROLS.csv','SFig2':'C2/C2_METRICS_SUMMARY.csv','SFig2_controls':'C2/C2_GRAPH_CONTROLS.csv','SFig3':'C3/C3A/C3A_RANDOMIZATION_METRICS.csv','SFig3_panel':'C3/C3A/C3A_PANEL_METRICS.csv','SFig4':'C4/C4A/C4A_PANEL_METRICS.csv','SFig5':'C5/C5_NEGATIVE_CONTROLS.csv','SFig6':'C6/C6A/C6A_PANEL_METRICS.csv','SFig7':'C7/C7B/C7B_COVERAGE_CURVES.csv','SFig8':'C8/C8B/C8B_PATIENT_EFFECTS.csv','SFig9':'C9/C9B/C9B_NEGATIVE_CONTROLS.csv','SFig10':'C10/C10B/C10B_NEGATIVE_CONTROLS.csv','SFig10_QC':'C10/C10A_DATASET_MANIFEST.csv'}
-    for name,p in names.items():save(pd.read_csv(source(root,p)),name+'_source')
-    # S7 was revised to a single random mask, rather than the old all-geometry plot.
-    p=out/'data/SFig5_source.csv';d=pd.read_csv(p);d=d[(d.regime=='random')&(d.replicate==0)];d.to_csv(p,index=False)
-    results=[]
+
+def targets(root):
+    return list(csv.DictReader((root / 'docs/REPRODUCTION_TARGETS.csv').open()))
+
+
+def check_sources(root):
+    package = root / 'manuscript/revised'
+    provenance = json.loads((root / 'manuscript/PACKAGE_PROVENANCE.json').read_text())
+    for name, digest in provenance['files'].items():
+        if not (package / name).is_file() or sha(package / name) != digest:
+            raise ValueError('Author package changed or missing: ' + name)
+    rows = targets(root)
+    if len(rows) != 29 or len({r['target'] for r in rows}) != 29:
+        raise ValueError('Expected 29 distinct publication targets')
     for row in rows:
-        target=row['target']
-        if row in blocked:results.append({'target':target,'status':row['status']});continue
-        before=set(out.rglob('*'))
-        if target=='Figure3':plot.fig2()
-        elif target=='Figure4':plot.external(5,'Wu fresh validation')
-        elif target=='Figure5':plot.external(6,'Bassiouni second replication')
-        elif target=='FigureS1':plot.fig4()
-        elif target=='FigureS2':plot.fig7()
-        elif target.startswith('FigureS'):plot.supplement(int(target[7:])-2)
-        else:
-            if target=='TableS8':
-                from .graph import parameter_count
-                records=json.loads((root/'manuscript/tables/TableS8.json').read_text())['rows']
-                for rec in records:
-                    expected=parameter_count(rec['input'],rec['hidden'],rec['output']) if rec['hidden'] is not None else (rec['input']+1)*rec['output']
-                    if expected!=rec['parameters']:raise ValueError('TableS8 parameter count mismatch: '+rec['predictor'])
-                table=pd.DataFrame(records)
-            elif target=='TableS9':
-                d=cross[(cross.method=='M1')&cross.cohort.isin(['Wu fresh validation','Bassiouni second replication'])&cross.coverage.isin([.1,.2,.4])]
-                table=d.groupby(['cohort','coverage','regime'])[['median_pearson','mean_mse']].median().reset_index()
-            else:
-                p=source(root,row['source']);table=pd.read_csv(p,low_memory=False)
-                if target=='Table2':table=table[(table.coverage==.2)&(table.regime=='V1')&table.cohort.isin(['Development','HER2ST zero-shot','Wu fresh validation','Bassiouni second replication'])&table.method.isin(['M0','M1','M3'])]
-                if target=='TableS1':
-                    genes=json.loads(source(root,'reports/C0/C0_GENE_PANELS.json').read_text())
-                    # Ordered primary gene list is canonical in the external protocol.
-                    genes=json.loads(source(root,'C9/configs/protocol.json').read_text())['genes']
-                    table=pd.DataFrame({'rank':np.arange(1,51),'gene':genes})
-                if target=='TableS2':table=table[(table.coverage==.2)&(table.regime=='V1')&table.cohort.isin(['Wu fresh validation','Bassiouni second replication'])]
-            table.to_csv(out/'tables'/(target+'.csv'),index=False)
-            # Large gene/mask exports remain complete CSVs; previews are explicitly limited.
-            (out/'tables'/(target+'.html')).write_text('<meta charset="utf-8"><h1>'+target+'</h1><p>Export view; revised TeX template unavailable. First 100 rows shown; complete CSV retained.</p>'+table.head(100).to_html(index=False))
-        created=[p for p in set(out.rglob('*'))-before if p.is_file()]
-        # Rename figure files to revised identifiers; these are export views, not a revised document build.
-        for p in created:
-            if p.parent.name in ['figures','supp_figures']:
-                dest=p.parent/(target+p.suffix);p.rename(dest)
-            elif p.name.endswith('_plotted_values.json'):p.rename(out/(target+'_plotted_values.json'))
-        results.append({'target':target,'status':'export_view_generated','revised_baseline_verified':False})
-    traces=[]
-    for p in sorted((out/'data').glob('*.csv')):
-        d=pd.read_csv(p,low_memory=False);traces.append({'name':p.name,'sha256':sha(p),'rows':len(d),'columns':list(d.columns),'missing':{k:int(v) for k,v in d.isna().sum().items()}})
-    (out/'VALUE_TRACES.json').write_text(json.dumps(traces,indent=2)+'\n')
-    report={'targets':results,'revised_baseline_verified':False,'limitations':'Revised source package unavailable. These use older numerical exports and maintained renderers; no claim of full revised display equivalence or document compilation.'}
-    (out/'TARGET_STATUS.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
+        for key in ['latex_or_graphic_source', 'numerical_or_synthetic_source']:
+            for name in row[key].split(';'):
+                if not (package / name.strip()).exists():
+                    raise FileNotFoundError(row['target'] + ': ' + name)
+    return package, rows
+
+
+def copy_package(package, destination):
+    shutil.copytree(package, destination)
+    return destination
+
+
+def render(package):
+    env = dict(os.environ, MPLCONFIGDIR=str(package / '.mpl-cache'),
+               OMP_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1')
+    for script in RENDERERS:
+        result = subprocess.run([sys.executable, '-m', 'graphpathology._publication_worker',
+                                 '--package', str(package), '--script', script],
+                                text=True, capture_output=True, timeout=120, env=env)
+        (package / (script + '.log')).write_text(result.stdout + result.stderr)
+        if result.returncode:
+            raise ValueError(f'Renderer failed: {script}; see {package / (script + ".log")}')
+        print('Rendered ' + script, flush=True)
+
+
+def run(root, args):
+    package, rows = check_sources(root)
+    if args.target != 'all':
+        raise ValueError('Publication regeneration is atomic across all 29 targets; use --target all')
+    if args.dry_run:
+        print(json.dumps({'validated': True, 'targets': 29, 'model_inputs_required': False})); return 0
+    if not args.output:
+        raise ValueError('--output is required')
+    out = new_output(root, args.output)
+    generated = copy_package(package, out / 'publication')
+    render(generated)
+    # Only record success after numerical regression; no partial views masquerade as baseline reproduction.
+    from .publication_regression import validate
+    report = validate(root, generated, reference=package, render_reference=out / 'baseline')
+    (out / 'REGRESSION.json').write_text(json.dumps(report, indent=2) + '\n')
+    statuses = [{'target': r['target'], 'status': 'validated', 'source': r['numerical_or_synthetic_source'],
+                 'output': r['latex_or_graphic_source']} for r in rows]
+    (out / 'TARGET_STATUS.json').write_text(json.dumps(statuses, indent=2) + '\n')
+    print(json.dumps({'targets_validated': 29, 'output': str(out), 'checks': len(report['checks'])}))
     return 0
 
-def build(root,args):
-    expected=root/'manuscript/revised/build.sh'
-    if not expected.is_file():raise FileNotFoundError('Revised LaTeX source package missing: install under manuscript/revised/ (build.sh, TeX, bibliography, figures, source_data). Supplied PDFs cannot be compiled back into their sources.')
-    raise ValueError('Revised source package newly installed: inspect its build script and update target manifest before executing; this checkout has not validated that build.')
+
+def compile_documents(package, documents=('main', 'article_only', 'supplementary'), bibliography=True):
+    if not shutil.which('pdflatex'):
+        raise FileNotFoundError('Install TeX Live with pdflatex, latex-extra, fonts-recommended and bibtex8/bibtex')
+    bib = shutil.which('bibtex8') or shutil.which('bibtex')
+    if bibliography and not bib:
+        raise FileNotFoundError('Install bibtex8 or bibtex')
+    reports = {}
+    for name in documents:
+        commands = [['pdflatex', '-no-shell-escape', '-recorder', '-interaction=nonstopmode', '-halt-on-error', name + '.tex']]
+        if bibliography and name != 'supplementary':
+            commands.append([bib, name])
+        commands += [commands[0], commands[0]]
+        for index, cmd in enumerate(commands):
+            result = subprocess.run(cmd, cwd=package, text=True, capture_output=True, timeout=90)
+            (package / f'{name}.pass{index}.txt').write_text(result.stdout + result.stderr)
+            if result.returncode:
+                raise ValueError(f'Build failed for {name}; see {package / (name + ".log")}')
+        log = (package / (name + '.log')).read_text(errors='replace')
+        diagnostics = [line for line in log.splitlines() if re.search(r'Warning|undefined|Overfull|Underfull|destination.*duplicate', line)]
+        if diagnostics:
+            raise ValueError(name + ' final TeX diagnostics: ' + '; '.join(diagnostics))
+        info = subprocess.check_output(['pdfinfo', str(package / (name + '.pdf'))], text=True)
+        reports[name] = {'pages': int(re.search(r'Pages:\s+(\d+)', info).group(1)), 'diagnostics': []}
+    return reports
+
+
+def check_documents(package):
+    text = subprocess.check_output(['pdftotext', '-layout', str(package / 'main.pdf'), '-'], text=True)
+    figures = set(re.findall(r'\bFigure\s+(S?\d+)\s*:', text))
+    tables = set(re.findall(r'\bTable\s+(S?\d+)\s*:', text))
+    if figures != {str(n) for n in range(1, 7)} | {'S' + str(n) for n in range(1, 13)}:
+        raise ValueError('Incorrect combined figure numbering')
+    if tables != {'1', '2'} | {'S' + str(n) for n in range(1, 10)}:
+        raise ValueError('Incorrect combined table numbering')
+    if len(re.findall(r'\\bibitem', (package / 'main.bbl').read_text())) != 29:
+        raise ValueError('Expected 29 bibliography entries')
+    supplement = next(i for i, page in enumerate(text.split('\f')) if 'Supplementary Information' in page and 'Contents and source-data guide' in page)
+    before = '\f'.join(text.split('\f')[:supplement])
+    if '[29]' not in before:
+        raise ValueError('Supplement must follow the completed References')
+    for index, page in enumerate(text.split('\f')):
+        if not page.strip():
+            continue
+        if page.strip().splitlines()[-1].strip() != str(index + 1):
+            raise ValueError('Combined page numbering is not continuous')
+    return {'figures': 18, 'tables': 11, 'references': 29, 'supplement_start_page': supplement + 1,
+            'continuous_pages': True, 'duplicate_destinations': False}
+
+
+def build(root, args):
+    package, _ = check_sources(root)
+    if args.dry_run:
+        if not all(shutil.which(x) for x in ['pdflatex', 'pdfinfo', 'pdftotext']):
+            raise FileNotFoundError('Install pdflatex and Poppler (pdfinfo/pdftotext)')
+        print(json.dumps({'validated': True, 'documents': ['main', 'article_only', 'supplementary']})); return 0
+    if not args.output:
+        raise ValueError('--output is required')
+    out = new_output(root, args.output)
+    project = copy_package(package, out / 'project')
+    if args.publication:
+        generated = Path(args.publication).resolve() / 'publication'
+        if not (Path(args.publication) / 'REGRESSION.json').is_file():
+            raise ValueError('--publication must identify a numerically validated regeneration output')
+        for folder in ['figures', 'supplementary_figures']:
+            for src in (generated / folder).glob('*.pdf'):
+                shutil.copy2(src, project / folder / src.name)
+    report = {'documents': compile_documents(project), 'structure': check_documents(project)}
+    for name in ['main', 'article_only', 'supplementary']:
+        shutil.copy2(project / (name + '.pdf'), out / (name + '.pdf'))
+    (out / 'BUILD_REPORT.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(json.dumps(report)); return 0
+
+
+def arxiv_dependencies(package):
+    pending = ['main.tex']; selected = set()
+    while pending:
+        name = pending.pop()
+        if name in selected:
+            continue
+        path = package / name
+        if not path.is_file():
+            raise FileNotFoundError('TeX dependency missing: ' + name)
+        selected.add(name)
+        if path.suffix == '.tex':
+            source = path.read_text()
+            for command, dep in re.findall(r'\\(input|include|includegraphics|bibliography|bibliographystyle)(?:\[[^]]*\])?\{([^}]+)\}', source):
+                suffix = '.pdf' if command == 'includegraphics' else '.bib' if command == 'bibliography' else '.bst' if command == 'bibliographystyle' else '.tex'
+                pending.append(dep if Path(dep).suffix else dep + suffix)
+    selected.add('main.bbl')
+    return selected
+
+def arxiv(root, args):
+    package, _ = check_sources(root)
+    if args.dry_run:
+        print('Validated: one main.tex root; frozen figures; main.bbl; numerical ancillary data under anc/'); return 0
+    if not args.output:
+        raise ValueError('--output is required')
+    out = new_output(root, args.output)
+    staging = out / 'source'; staging.mkdir()
+    # Compute the TeX input/graphics dependency closure. \\path strings are prose, not dependencies.
+    selected = arxiv_dependencies(package)
+    for name in sorted(selected):
+        dst = staging / name; dst.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(package / name, dst)
+    for folder in ['source_data', 'methods_data']:
+        shutil.copytree(package / folder, staging / 'anc' / folder)
+    if any('anc/' in (staging / n).read_text() for n in selected if n.endswith('.tex')):
+        raise ValueError('Ancillary numerical files must not be TeX dependencies')
+    zip_path = out / 'GraphPathology_arxiv_source.zip'
+    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as z:
+        for src in sorted(staging.rglob('*')):
+            if src.is_file(): z.write(src, src.relative_to(staging))
+    verification = out / 'clean-extracted'
+    with zipfile.ZipFile(zip_path) as z: z.extractall(verification)
+    report = {'single_tex_root': 'main.tex', 'tex_dependencies': len(selected),
+              'clean_extracted_build': compile_documents(verification, ('main',), bibliography=False),
+              'structure': check_documents(verification)}
+    (out / 'ARXIV_REPORT.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(json.dumps({'zip': str(zip_path), **report})); return 0

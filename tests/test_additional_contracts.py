@@ -74,7 +74,7 @@ def test_c10_frozen_c9_scaler_and_no_new_fitting():
 
 def test_table_s8_schema_matches_production_parameter_counts():
     from graphpathology.graph import parameter_count
-    rows=json.loads((ROOT/'manuscript/tables/TableS8.json').read_text())['rows']
+    rows=json.loads((ROOT/'manuscript/history/tables/TableS8.json').read_text())['rows']
     assert len(rows)==9 and len({r['predictor'] for r in rows})==9
     for row in rows:
         expected=parameter_count(row['input'],row['hidden'],row['output']) if row['hidden'] else (row['input']+1)*row['output']

@@ -1,58 +1,74 @@
 # GraphPathology
 
-**Coverage and tissue geometry govern the reconstruction of spatial transcriptomics from sparse molecular measurements**
+**GraphPathology enables geometry-aware reconstruction of spatial transcriptomics from sparse molecular measurements**
 Truong-Son Hy, University of Alabama at Birmingham.
 
-This study asks how measured-location coverage and missing-region protocols affect reconstruction of a fixed expression panel. Image-only prediction, same-section molecular interpolation and image–molecular fusion receive different information. Distributed molecular anchors help reconstruction; contiguous regional completion is weaker. The tested fixed histology contribution did not reproducibly improve external interpolation. External public images are downsampled, and V1/V2 differ in weighting and scoring support as well as geometry. These results do not establish universal GNN superiority, transcriptome-wide recovery or clinical utility.
+[Combined paper + SI](manuscript/GraphPathology_Combined_Manuscript.pdf) · [Article only](manuscript/GraphPathology_Article_Only.pdf) · [Supplement](manuscript/GraphPathology_Supplementary.pdf)
+
+GraphPathology separates contextual image representations, reconstruction from observed same-section molecular anchors, and image–molecular fusion. Graph neural predictors are development comparisons; the external headline results come from molecular interpolation. The tested fixed image contribution did not reproducibly improve external interpolation. V1/V2 differ in weighting and scoring support as well as geometry. External images are downsampled. A potential fivefold reduction concerns selective acquisition and proportional variable location costs, not proven total assay savings or learned long-range correlations.
 
 | Cohort | Role | Panel |
 |---|---|---|
 | HEST NCBI783 / NCBI785 | Fitting | 50 ordered genes |
 | HEST TENX95 / TENX99 | Validation / primary development evaluation | 50 |
-| HER2ST A1–H1 | Transportability, subsequently calibration development on the same patients | 40-gene intersection |
+| HER2ST A1–H1 | Transportability, then calibration development on the same patients | 40-gene intersection |
 | Wu 1142243F, CID4465, CID4535 | Calibration | 50 |
 | Wu 1160920F, CID4290, CID44971 | Fresh evaluation | 50 |
 | Bassiouni, first section for each of 22 patients | Fresh replication, no refitting | 50 |
 
 ## Install and CPU quick start
 
-Tested on Python 3.12 with CPU torch 2.8.0 / torchvision 0.23.0. See [exact validation versions](configs/validation-environment.txt); the original execution record remains in the archive.
+Tested with Python 3.12, torch 2.8.0+cpu and torchvision 0.23.0+cpu. [Validation versions](configs/validation-environment.txt) are distinct from the original research environment.
 
 ```bash
 python3.12 -m venv .venv
+.venv/bin/python -m pip install -r configs/validation-environment.txt
 .venv/bin/python -m pip install -e '.[test]'
-.venv/bin/python -m pip install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cpu
 .venv/bin/python -m graphpathology smoke --output outputs/quickstart
 .venv/bin/python -m pytest -q
 ```
 
-If your OS lacks ensurepip, install its Python venv package, or use the tested bootstrap described in [REPRODUCING](docs/REPRODUCING.md). The smoke command runs two synthetic CPU routes and two head-training steps; it does not reproduce the original fitted predictions. Each output path must be new. Imports/help/tests do not fetch datasets or model weights. Basic asset inspection uses `python -m graphpathology doctor`.
+The smoke route uses tiny synthetic heads and two backward steps; it is a software fixture, not original fitted-prediction replay. Each output directory must be new. Imports/help/tests do not download datasets or original weights. If venv creation lacks ensurepip, see the tested bootstrap in [REPRODUCING.md](docs/REPRODUCING.md).
 
-## Repository layout
+## Paper and figures from frozen exports
 
-- `src/graphpathology/`: maintained numerical contracts and explicit CLI.
-- `checkpoints/legacy/`: original C1–C10, `reports/C0`, shared source/configuration, append-only registry and old manuscript, preserving relative paths and bytes.
-- `checkpoints/models/`: installation home for checksum-verified original fitted states. **No original fitted states were present in the checkout.**
-- `checkpoints/manifest.csv`: present and referenced missing assets, identities and canonical paths; [migration map](checkpoints/path_map.csv).
-- `manuscript/`: supplied revised PDFs and revision brief. The revised LaTeX/source export package was not supplied or found on GitHub.
-- `docs/`, `configs/`, `tests/`: reproduction guide, portable example and bounded regression suite.
-- `outputs/`: new ignored test/reproduction outputs.
-
-## Publication and reproducibility status
-
-The current article has **6 main figures, 12 supplementary figures, 2 main tables and 9 supplementary tables**. All 29 are listed in [REPRODUCTION_TARGETS.csv](docs/REPRODUCTION_TARGETS.csv). Legacy display numbers are not the current numbers: old `Fig5_source` supplies current Figure 4.
+The canonical author-supplied **PREFLIGHT_FIXED reconstructed** sources live in [manuscript/revised](manuscript/revised/README.md). They produce a 52-page combined manuscript, a 29-page article and a 23-page supplement. This is not a byte-identical recovery of the earlier 54-page source. All **29 display targets** (18 figures and 11 tables) are mapped in [REPRODUCTION_TARGETS.csv](docs/REPRODUCTION_TARGETS.csv).
 
 ```bash
 python -m graphpathology publication --dry-run
-python -m graphpathology publication --available-only --output outputs/publication
-python -m graphpathology build-documents --dry-run
+python -m graphpathology publication --output outputs/publication
+python -m graphpathology build-documents --publication outputs/publication --output outputs/paper
+python -m graphpathology arxiv --output outputs/arxiv
+```
+
+Regeneration runs the exact author renderers in isolated copies, compares every figure's numerical artist arrays/masks/colors/limits/order against the unmodified author baseline, and checks printed table cells, definitions, graphs and constants. It preserves scientific export bytes, including the full gene CSV.gz. Builds reject unresolved citations/references, duplicate destinations and TeX warnings. The combined document places the supplement after References with continuous pages and correct S numbering. The arXiv command creates a single-root source ZIP and compiles a clean extraction, with numeric ancillary files under `anc/`. No original model binaries, raw tissue data or research reruns are needed for these workflows.
+
+Install a TeX distribution (`pdflatex`, `bibtex8`/`bibtex`, Latin Modern, latex-extra packages) and Poppler (`pdfinfo`, `pdftotext`, `pdftoppm`) for document builds and inspection. Plotting uses the Python environment above. [Actual results and tolerances](docs/TEST_REPORT.md), [per-target status](docs/PUBLICATION_STATUS.json), [numerical regression](docs/PUBLICATION_VALIDATION.json).
+
+## Original predictions and retraining are separate workflows
+
+```bash
+python -m graphpathology doctor --require-models
+python -m graphpathology infer --config configs/replay.example.json --dry-run
+```
+
+The original fitted states are still missing, including all three selected primary heads. These commands report the required paths and checksums and never fall back to new/random weights. The maintained inference route starts from aligned embeddings and normalized targets; it is not a complete raw-cohort research orchestrator. Full raw-data ingestion, extraction, training and evaluation remain separately scoped future work, with the dependency order and prerequisites documented in [REPRODUCING.md](docs/REPRODUCING.md) and [DATA_AND_MODELS.md](docs/DATA_AND_MODELS.md). New training cannot substitute for replay of the original fits.
+
+## Organization and provenance
+
+- `src/graphpathology/`, `tests/`, `configs/`: maintained numerical package, CLI and bounded tests.
+- `manuscript/revised/`: current immutable author sources, vector figures, exports and metadata. [ZIP/file provenance](manuscript/PACKAGE_PROVENANCE.json).
+- `manuscript/history/`, `docs/history/`: explicitly superseded earlier PDFs and partial-validation reports.
+- `checkpoints/legacy/`: byte-preserved C1–C10, `reports/C0`, shared source/configuration and historical registry.
+- `checkpoints/models/`: canonical installation home for original states; [inventory](checkpoints/manifest.csv) records unavailable assets honestly.
+- `outputs/`: new ignored builds, regression traces and fixtures.
+
+```bash
 python -m graphpathology verify-archive --historical --report outputs/archive-audit.json
 ```
 
-The first validation returns nonzero for missing revised sources. `--available-only` generated 26 labeled export views using archived numerical tables and maintained plotting functions. Figures 1/2/6 need missing revised schematic/map inputs. **Neither revised LaTeX document could be built, and exact revised-display equivalence has not been established.** Original PDFs remain available for reading. No numerical values were estimated from plots. The old package verifier/audit remains historical evidence, not the validator for this article.
+This checks archived bytes and declared registry prefixes without running historical replay scripts. [Methods map](docs/MANUSCRIPT_MAP.csv), [migration map](checkpoints/path_map.csv), [migration notes](docs/MIGRATION.md), [remaining limitations](docs/REMAINING_WORK.md).
 
-[Full dependency order and workflows A–E](docs/REPRODUCING.md), [data/model acquisition](docs/DATA_AND_MODELS.md), [methods map](docs/MANUSCRIPT_MAP.csv), [migration](docs/MIGRATION.md), [test report](docs/TEST_REPORT.md), [remaining work](docs/REMAINING_WORK.md).
+## Citation and terms
 
-## Data use, citation and licensing
-
-Please cite the manuscript title and author above and cite the source studies listed in the manuscript. No DOI, journal acceptance or publication year is invented here. HEST, HER2ST, Wu and Bassiouni data retain their own terms; consult their official records before redistribution. The starting repository contains no root software LICENSE, so this revision does not invent a license grant. Upstream model weights retain their terms. Raw datasets, upstream weights and new scientific outcomes are not included as part of this revision.
+Use the manuscript title and author above; [CITATION.cff](CITATION.cff) supplies citation metadata. No journal acceptance or DOI is asserted. HEST, HER2ST, Wu, Bassiouni and upstream model weights retain their own terms. The original repository had no root software LICENSE; this revision does not invent a license grant or redistribute raw tissue data or upstream weights.
