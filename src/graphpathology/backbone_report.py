@@ -24,6 +24,12 @@ def value(x,precision):
     return '--' if not np.isfinite(x) else f'{x:.{precision}f}'
 
 
+def effect_text(row,multiplier=1,digits=4):
+    text=f"{row.median_effect*multiplier:+.{digits}f}"
+    if np.isfinite(row.ci_low):text+=f" [{row.ci_low*multiplier:+.{digits}f}, {row.ci_high*multiplier:+.{digits}f}]"
+    return text
+
+
 def make_table(patient,summary):
     rows=[r'\begin{table}[p]',r'\centering',r'\caption{\textbf{Matched graph-versus-local and anchor-reference comparisons.} Primary 20\% distributed coverage uses the same three mask seeds and hidden sites, with three training seeds averaged within patient. Both backbones received the same two-rate validation-only selection opportunity. Entries separate image-only prediction (A) from observed-residual reconstruction (B). Each metric pair gives candidate/reference cohort medians; effects are medians of paired patient changes, so they need not equal differences of these marginal medians. Brackets give improved/valid patients for that endpoint. Relative MSE is computed within patient after seed averaging. External image outputs use the same frozen C9 T1 map once; no same-section molecular values enter A, and all B comparators use identical anchors. Bassiouni intervals appear in Fig.~\ref{fig:matched_backbone_effects}; Wu effects are reported individually in the source tables. Local denotes the non-graph MLP on the same backbone.}',r'\label{tab:matched_backbone}',r'\scriptsize\setlength{\tabcolsep}{2pt}\renewcommand{\arraystretch}{1.08}',r'\begin{tabular}{lrrrrrr}\toprule',r'Candidate/reference & $r_C/r_R$ & MSE$_C$/MSE$_R$ & MAE$_C$/MAE$_R$ & $\Delta r$ [$n$] & $\Delta$MSE\% [$n$] & $\Delta$MAE [$n$]\\\midrule']
     for panel,route in [('A. Image-only prediction','image'),('B. Observed-residual reconstruction','exploratory_residual_anchor')]:
@@ -42,7 +48,7 @@ def make_table(patient,summary):
                     q=effects(summary,backbone,co,route,candidate,reference)
                     absolute=[value(c[k].median(),digits)+'/'+value(r[k].median(),digits) for k,digits in [('median_pearson',3),('mean_mse',4),('mean_mae',4)]]
                     paired=[]
-                    for endpoint,multiplier,digits in [('delta_pearson',1,4),('relative_mse',100,1),('delta_mae',1,4)]:
+                    for endpoint,multiplier,digits in [('delta_pearson',1,4),('relative_mse',100,2),('delta_mae',1,4)]:
                         v=q.loc[endpoint];number=value(v.median_effect*multiplier,digits);paired.append(number+f" [{int(v.n_improved)}/{int(v.n_patients)}]")
                     rows.append(f"{HEAD[candidate]}/{HEAD[reference]} & "+' & '.join(absolute+paired)+r'\\')
         rows.append(r'\midrule')
@@ -113,24 +119,30 @@ def report(root):
         title += [f'### {LABEL[backbone]}','', '| Cohort | Comparison | Median Δr | Median relative MSE (%) | Median ΔMAE | Improved patients (r/MSE/MAE) |','|---|---|---:|---:|---:|---|']
         for co in ['Development','Wu','Bassiouni']:
             for candidate in ['GCN_spatial','SAGE_spatial']:
-                q=effects(summary,backbone,co,'image',candidate,'local_local');r=q.loc['delta_pearson'];m=q.loc['relative_mse'];a=q.loc['delta_mae'];title += [f"| {co} | {HEAD[candidate]} − local | {r.median_effect:+.4f} | {100*m.median_effect:+.1f} | {a.median_effect:+.4f} | {int(r.n_improved)}/{int(r.n_patients)}; {int(m.n_improved)}/{int(m.n_patients)}; {int(a.n_improved)}/{int(a.n_patients)} |"]
+                q=effects(summary,backbone,co,'image',candidate,'local_local');r=q.loc['delta_pearson'];m=q.loc['relative_mse'];a=q.loc['delta_mae'];title += [f"| {co} | {HEAD[candidate]} − local | {effect_text(r)} | {effect_text(m,100,2)} | {effect_text(a)} | {int(r.n_improved)}/{int(r.n_patients)}; {int(m.n_improved)}/{int(m.n_patients)}; {int(a.n_improved)}/{int(a.n_patients)} |"]
         title+=['','Opposite Pearson/error directions represent a tradeoff. Mean and shuffled controls are reported separately below; these primary contrasts alone do not establish topology specificity.','']
     title+=['## Question B — observed-residual reconstruction, then molecular support','','All contrasts below use the same anchors and IDW weights within a run. Gains versus local and versus IDW answer separate questions.','']
     for backbone in ['resnet18','phikon']:
         title += [f'### {LABEL[backbone]}','', '| Cohort | Candidate / reference | Median Δr | Median relative MSE (%) | Median ΔMAE | Improved patients (r/MSE/MAE) |','|---|---|---:|---:|---:|---|']
         for co in ['Development','Wu','Bassiouni']:
             for candidate,ref in [('GCN_spatial','local_local'),('SAGE_spatial','local_local'),('local_local','idw_k16_p2_none'),('GCN_spatial','idw_k16_p2_none'),('SAGE_spatial','idw_k16_p2_none')]:
-                q=effects(summary,backbone,co,'exploratory_residual_anchor',candidate,ref);r=q.loc['delta_pearson'];m=q.loc['relative_mse'];a=q.loc['delta_mae'];title += [f"| {co} | {HEAD[candidate]} / {HEAD[ref]} | {r.median_effect:+.4f} | {100*m.median_effect:+.1f} | {a.median_effect:+.4f} | {int(r.n_improved)}/{int(r.n_patients)}; {int(m.n_improved)}/{int(m.n_patients)}; {int(a.n_improved)}/{int(a.n_patients)} |"]
+                q=effects(summary,backbone,co,'exploratory_residual_anchor',candidate,ref);r=q.loc['delta_pearson'];m=q.loc['relative_mse'];a=q.loc['delta_mae'];title += [f"| {co} | {HEAD[candidate]} / {HEAD[ref]} | {effect_text(r)} | {effect_text(m,100,2)} | {effect_text(a)} | {int(r.n_improved)}/{int(r.n_patients)}; {int(m.n_improved)}/{int(m.n_patients)}; {int(a.n_improved)}/{int(a.n_patients)} |"]
         title+=['']
     wu=paired[(paired.cohort=='Wu')&paired.candidate.isin(['GCN_spatial','SAGE_spatial'])&paired.reference.isin(['local_local','idw_k16_p2_none'])&paired.route.isin(['image','exploratory_residual_anchor'])]
     wu.to_csv(base/'summary/WU_INDIVIDUAL_PRIMARY_EFFECTS.csv',index=False);wu.to_csv(source/'WU_INDIVIDUAL_PRIMARY_EFFECTS.csv',index=False)
-    title += ['## Aggregation and topology controls','','These Bassiouni primary-condition contrasts assess specificity separately from the graph-versus-local question. Positive Pearson and negative errors favor the candidate. Mixed directions are tradeoffs.','','| Backbone | Route | Candidate / reference | Median Δr | Relative MSE (%) | ΔMAE | Improved patients (r/MSE/MAE) |','|---|---|---|---:|---:|---:|---|']
+    title += ['## Wu individual primary effects','','The Wu medians above are descriptive summaries of only three patients, without population intervals. All three patient effects are given here; training and mask seeds were averaged within each patient. Positive Pearson and negative errors favor the candidate. Bassiouni table brackets above are descriptive 95% patient-bootstrap intervals.','','| Backbone | Patient | Route | Candidate / reference | Δr | Relative MSE (%) | ΔMAE |','|---|---|---|---|---:|---:|---:|']
+    for backbone in ['resnet18','phikon']:
+        for _,r in select_primary(paired[(paired.cohort=='Wu')&(paired.backbone==backbone)]).iterrows():
+            if r.candidate not in ['local_local','GCN_spatial','SAGE_spatial'] or r.reference not in ['local_local','idw_k16_p2_none']:continue
+            if r.route not in ['image','exploratory_residual_anchor']:continue
+            title += [f"| {LABEL[backbone]} | {r.patient} | {'Image' if r.route=='image' else 'Residual'} | {HEAD[r.candidate]} / {HEAD[r.reference]} | {r.delta_pearson:+.4f} | {100*r.relative_mse:+.2f} | {r.delta_mae:+.4f} |"]
+    title += ['','## Aggregation and topology controls','','These Bassiouni primary-condition contrasts assess specificity separately from the graph-versus-local question. Positive Pearson and negative errors favor the candidate. Mixed directions are tradeoffs.','','| Backbone | Route | Candidate / reference | Median Δr | Relative MSE (%) | ΔMAE | Improved patients (r/MSE/MAE) |','|---|---|---|---:|---:|---:|---|']
     for backbone in ['resnet18','phikon']:
         for route in ['image','exploratory_residual_anchor']:
             for candidate in ['GCN_spatial','SAGE_spatial']:
                 for reference in ['MEAN_spatial',candidate.replace('spatial','shuffled')]:
                     q=effects(summary,backbone,'Bassiouni',route,candidate,reference);r=q.loc['delta_pearson'];m=q.loc['relative_mse'];a=q.loc['delta_mae']
-                    title += [f"| {LABEL[backbone]} | {'Image' if route=='image' else 'Residual'} | {HEAD[candidate]} / {HEAD[reference]} | {r.median_effect:+.4f} | {100*m.median_effect:+.1f} | {a.median_effect:+.4f} | {int(r.n_improved)}/22; {int(m.n_improved)}/22; {int(a.n_improved)}/22 |"]
+                    title += [f"| {LABEL[backbone]} | {'Image' if route=='image' else 'Residual'} | {HEAD[candidate]} / {HEAD[reference]} | {effect_text(r)} | {effect_text(m,100,2)} | {effect_text(a)} | {int(r.n_improved)}/22; {int(m.n_improved)}/22; {int(a.n_improved)}/22 |"]
     common=select_primary(pd.read_csv(base/'summary/COMMON_VALID_PATIENT_EFFECTS.csv'))
     title += ['','## Common-valid-gene sensitivity','','Primary definitions remain unchanged. The following separately labelled sensitivity intersects the finite-correlation genes of each paired run before patient averaging. Gene counts are patient means over mask/training seeds, not extra biological replicates.','','| Backbone | Route | Candidate / reference | Primary Δr | Common-valid Δr | Mean valid genes, patient range |','|---|---|---|---:|---:|---|']
     for backbone in ['resnet18','phikon']:
