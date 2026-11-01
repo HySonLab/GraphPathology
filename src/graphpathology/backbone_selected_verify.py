@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import pandas as pd
+import numpy as np
 from .assets import sha
 from .backbone_data import STUDY,config,record,write
 from .backbone_verify import verify as verify_initial
@@ -18,6 +19,10 @@ def verify(root,committed_only=False,require_complete=True):
     assert selection==json.loads((base/'VALIDATION_SELECTION.json').read_text())['records']
     states=skipped_states=0
     for r in candidates:
+        h=pd.read_csv(base/'histories'/(r['run_id']+'_history.csv'))
+        assert len(h)==r['epochs_ran'] and np.isfinite(h[['training_mse','validation_mse']].to_numpy()).all()
+        assert abs(h.iloc[r['selected_epoch']-1].validation_mse-r['validation_mse'])<1e-12
+        if r['artifact_origin']!='historical_resnet_lr1e3':assert r['serialization_exact']
         checkpoint=root/r['checkpoint']
         if checkpoint.exists():assert sha(checkpoint)==r['checkpoint_sha256'];states+=1
         elif committed_only:skipped_states+=1
@@ -55,7 +60,7 @@ def verify(root,committed_only=False,require_complete=True):
         effect=pd.read_csv(base/'summary/PAIRED_PATIENT_EFFECTS.csv');keys=['backbone','cohort','patient','route','design','condition','budget','candidate','reference'];assert not effect.duplicated(keys).any()
         counts=effect.groupby([k for k in keys if k!='patient']).size().reset_index(name='n');assert (counts.n==counts.cohort.map({'Development':1,'Wu':3,'Bassiouni':22})).all()
         sensitivity=pd.read_csv(base/'summary/COMMON_VALID_RUN_EFFECTS.csv.gz');assert sensitivity.common_valid_genes.between(0,50).all()
-    return record(root,status='COMPLETE' if require_complete else 'IN_PROGRESS_PRESERVATION_PASS',initial_evidence_preservation=prior,candidate_fits=72,validation_selected_fits=36,checkpoint_states_sha256_verified=states,private_checkpoint_states_absent=skipped_states,selected_evaluation_bundles=len(evaluations),new_selected_bundles=sum(r['status']=='COMPLETE' for r in evaluations),reused_selected_bundles=sum(r['status']=='REUSED_VERIFIED' for r in evaluations),gene_export_arrays_sha256_verified=genes_checked,private_gene_arrays_absent=gene_skips,selection_recomputed_from_validation_only=True,all_three_seeds_per_selected_configuration=True)
+    return record(root,status='COMPLETE' if require_complete else 'IN_PROGRESS_PRESERVATION_PASS',initial_evidence_preservation=prior,candidate_fits=72,candidate_learning_histories_verified=72,new_serialization_checks_preserved=54,validation_selected_fits=36,checkpoint_states_sha256_verified=states,private_checkpoint_states_absent=skipped_states,selected_evaluation_bundles=len(evaluations),new_selected_bundles=sum(r['status']=='COMPLETE' for r in evaluations),reused_selected_bundles=sum(r['status']=='REUSED_VERIFIED' for r in evaluations),gene_export_arrays_sha256_verified=genes_checked,private_gene_arrays_absent=gene_skips,selection_recomputed_from_validation_only=True,all_three_seeds_per_selected_configuration=True)
 
 if __name__=='__main__':
     import argparse

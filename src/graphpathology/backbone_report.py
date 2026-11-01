@@ -92,6 +92,28 @@ def resource_table(root,package):
     (package/'tables/BackboneResources.tex').write_text('\n'.join(lines)+'\n')
 
 
+def source_renderer(package):
+    """Ship the exact pure renderers with the editable source, without model imports."""
+    import inspect
+    text='# Regenerate matched displays from recorded exports only; no training or research downloads.\n'
+    text+='import json,tempfile,shutil\nfrom pathlib import Path\nimport numpy as np\nimport pandas as pd\n'
+    text+='STUDY='+repr(STUDY)+'\nLABEL='+repr(LABEL)+'\nHEAD='+repr(HEAD)+'\n\n'
+    for function in [select_primary,effects,value,make_table,plot,resource_table]:text+=inspect.getsource(function)+'\n'
+    text+=r"""
+if __name__=='__main__':
+    package=Path(__file__).resolve().parents[1];source=package/'source_data/backbone'
+    patient=select_primary(pd.read_csv(source/'PATIENT_METRICS.csv'));summary=select_primary(pd.read_csv(source/'PAIRED_SUMMARY.csv'));paired=select_primary(pd.read_csv(source/'PAIRED_PATIENT_EFFECTS.csv'))
+    (package/'tables/BackboneComparison.tex').write_text(make_table(patient,summary))
+    plot(paired,summary,package/'figures/backbone')
+    with tempfile.TemporaryDirectory() as directory:
+        root=Path(directory);base=root/f'experiments/journal_revision/{STUDY}';base.mkdir(parents=True)
+        for name in ['ALL_CANDIDATE_FIT_MANIFEST.json','SELECTED_FIT_MANIFEST.json']:shutil.copy2(source/name,base/name)
+        resource_table(root,package)
+    print('Regenerated paired table, patient-effect figure and fitting-resource table from recorded exports.')
+"""
+    (package/'scripts/regenerate_backbone_figures.py').write_text(text)
+
+
 def report(root):
     base=root/f'experiments/journal_revision/{STUDY}';status=json.loads((base/'ANALYSIS_STATUS.json').read_text())
     assert status['status']=='COMPLETE','No completed Phikon study: do not generate a final comparison table from expected outcomes.'
@@ -114,6 +136,8 @@ def report(root):
         assert abs(history.iloc[r['selected_epoch']-1].validation_mse-r['validation_mse'])<1e-12
         history.to_csv(source/(r['run_id']+'_history.csv'),index=False);history.to_csv(history_dir/(r['run_id']+'_history.csv'),index=False)
     resource_table(root,package)
+    for name in ['ALL_CANDIDATE_FIT_MANIFEST.json','SELECTED_FIT_MANIFEST.json','VALIDATION_SELECTION.json','ENVIRONMENT.json']:shutil.copy2(base/name,source/name)
+    source_renderer(package)
     title=['# Matched backbone comparison report','','Status: COMPLETE. ResNet18 selected heads/results: REUSED_VERIFIED; Phikon selected heads/results: COMPLETE. All 72 source-validation candidates are preserved; 36 validation-selected predictors are evaluated. This exploratory follow-up uses previously inspected patients, not fresh blind validation.','','Primary condition: historical distributed 20%, exact masks0/1/2; three training seeds averaged within patient. External predictions use the fixed C9 T1 contract once. Pearson, MSE and MAE are interpreted jointly.','','## Question A — graph context versus a matched local image head','']
     for backbone in ['resnet18','phikon']:
         title += [f'### {LABEL[backbone]}','', '| Cohort | Comparison | Median Δr | Median relative MSE (%) | Median ΔMAE | Improved patients (r/MSE/MAE) |','|---|---|---:|---:|---:|---|']
@@ -128,7 +152,7 @@ def report(root):
             for candidate,ref in [('GCN_spatial','local_local'),('SAGE_spatial','local_local'),('local_local','idw_k16_p2_none'),('GCN_spatial','idw_k16_p2_none'),('SAGE_spatial','idw_k16_p2_none')]:
                 q=effects(summary,backbone,co,'exploratory_residual_anchor',candidate,ref);r=q.loc['delta_pearson'];m=q.loc['relative_mse'];a=q.loc['delta_mae'];title += [f"| {co} | {HEAD[candidate]} / {HEAD[ref]} | {effect_text(r)} | {effect_text(m,100,2)} | {effect_text(a)} | {int(r.n_improved)}/{int(r.n_patients)}; {int(m.n_improved)}/{int(m.n_patients)}; {int(a.n_improved)}/{int(a.n_patients)} |"]
         title+=['']
-    wu=paired[(paired.cohort=='Wu')&paired.candidate.isin(['GCN_spatial','SAGE_spatial'])&paired.reference.isin(['local_local','idw_k16_p2_none'])&paired.route.isin(['image','exploratory_residual_anchor'])]
+    wu=paired[(paired.cohort=='Wu')&paired.candidate.isin(['local_local','GCN_spatial','SAGE_spatial'])&paired.reference.isin(['local_local','idw_k16_p2_none'])&paired.route.isin(['image','exploratory_residual_anchor'])]
     wu.to_csv(base/'summary/WU_INDIVIDUAL_PRIMARY_EFFECTS.csv',index=False);wu.to_csv(source/'WU_INDIVIDUAL_PRIMARY_EFFECTS.csv',index=False)
     title += ['## Wu individual primary effects','','The Wu medians above are descriptive summaries of only three patients, without population intervals. All three patient effects are given here; training and mask seeds were averaged within each patient. Positive Pearson and negative errors favor the candidate. Bassiouni table brackets above are descriptive 95% patient-bootstrap intervals.','','| Backbone | Patient | Route | Candidate / reference | Δr | Relative MSE (%) | ΔMAE |','|---|---|---|---|---:|---:|---:|']
     for backbone in ['resnet18','phikon']:

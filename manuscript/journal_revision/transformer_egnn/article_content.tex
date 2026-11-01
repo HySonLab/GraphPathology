@@ -41,7 +41,7 @@ The study makes four complementary contributions:
 \item \textbf{An explicit two-graph reconstruction framework.} GraphPathology distinguishes histological context from observed molecular support and evaluates molecular-only, image-only and combined predictors under defined information constraints. This formulation enables comparisons that separate the contribution of measured anchors from that of learned spatial representations.
 \item \textbf{A controlled test of measurement geometry.} With hidden targets, estimator and anchor count held fixed in 22 previously evaluated patients, excluding anchors from a central region reduced median paired Pearson correlation by 0.1541 and increased mean squared error by 45.0\% (median paired relative change) for inverse-distance interpolation at 20\% coverage. All 22 patients deteriorated; uniform interpolation showed the same direction.
 \item \textbf{Multi-cohort evidence for sparse molecular reconstruction.} Using 20\% distributed observations, reconstruction achieved median patient correlations of 0.359 and 0.416 in the original three-patient Wu and 22-patient Bassiouni evaluations, respectively. Comparisons across three measurement budgets and twenty molecular estimators characterize the dependence on coverage and reconstruction rule without selecting an external-data winner.
-\item \textbf{Controlled assessment of the added value of GNN representations.} Comparisons with local predictors, molecular baselines and architectural controls show that the tested GNN-based predictors did not consistently improve external reconstruction under the available image resolution and source-training conditions. Patient-level uncertainty summaries, spatial diagnostics and computational checks make the scope of both positive and negative findings explicit.
+\item \textbf{Matched tests of graph context and molecular support.} Comparisons within fixed visual backbones separate neighboring histology from measured molecular information. Paired patient effects, neighborhood-mean and shuffled controls characterize the scope of contextual gains while retaining material negative findings.
 \end{itemize}
 
 \section{Related Work}
@@ -134,7 +134,7 @@ We compared twenty fixed molecular estimators on identical distributed masks in 
 \FloatBarrier
 
 
-\subsection{Graph representations did not add a consistent external benefit}
+\subsection{Nonlocal and latent-coordinate updates did not improve molecular interpolation}
 The GNN comparisons included local multilayer perceptrons, fixed mean/GCN/GraphSAGE representations, bounded nonlocal models and fixed-distance or latent-coordinate message passing. Their architectural and optimization regimes are distinguished in Methods. In the 30-head minibatch development analysis, image-only seed-mean correlations for local, GCN and GraphSAGE predictors were 0.682, 0.654 and 0.678, with MSEs 0.9114, 0.8999 and 0.8859. Residual-anchor correlations were 0.821, 0.810 and 0.825, with MSEs 0.2567, 0.2510 and 0.2338; the identical-mask IDW reference was 0.792 and 0.2684. These one-patient results did not establish a topology-specific advantage (Fig.~\ref{fig:journal_learned}; Supplementary Table~S13). The full seed comparisons, including shuffled controls, remain available.
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/journal/JournalFigure8.pdf}
@@ -151,7 +151,7 @@ Component comparisons also failed to establish the proposed gains: the full nonl
 \FloatBarrier
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionNeuralPaired.pdf}
-\caption{\textbf{All 16 new architectures/controls versus molecular IDW in 22 Bassiouni patients.} Exploratory residual route at 20\% coverage; colors distinguish historical distributed V1 and identical-H region exclusion. Bars are descriptive 95\% patient percentile intervals for median paired effects after mask/training-seed averages. Positive correlation and negative relative MSE improve. The two designs have different scored support and are not subtracted here. All models are shown regardless of direction; nominally equal parameter counts do not imply equal effective function classes.}
+\caption{\textbf{All 16 full-section configurations versus molecular IDW in 22 Bassiouni patients.} Exploratory residual route at 20\% coverage; colors distinguish historical distributed V1 and identical-H region exclusion. Bars are descriptive 95\% patient percentile intervals for median paired effects after mask/training-seed averages. Positive correlation and negative relative MSE improve. The two designs have different scored support and are not subtracted here. All models are shown regardless of direction; nominally equal parameter counts do not imply equal effective function classes.}
 \label{fig:extension_neural}
 \end{figure}
 \FloatBarrier
