@@ -1,0 +1,1 @@
+Original fitted states belong here. None were present in the starting checkout. Install only checksum-verified originals listed in ../manifest.csv; never train replacement files as recorded originals.

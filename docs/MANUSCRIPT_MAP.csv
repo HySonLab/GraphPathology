@@ -1,0 +1,13 @@
+manuscript_section,maintained_function,historical_source,invariant_or_limit
+"4.1,4.6",external.predict,C9/contract.py,"Observed-only V1/V2 interpolation, frozen calibration and fixed fusion"
+4.2,core.mlp_model;vision.ensemble,C1/core.py;C4/C4A,Frozen ResNet18;512-256-50;three inverse-scaled original heads
+"4.3,4.4",graph.build_graph;graph.operator;graph.aggregate,C2/graph.py,Coordinate-local A;P/Q/R;one aggregation then head
+4.5,graph_controls.randomize,C3/C3A/graph_controls.py,"Matched topology controls, mixed conclusions"
+4.7,residual.feature_parts;residual.fit_residual,C5/engine.py,34 covariates plus unpenalized intercept;alpha10000;fixed n300/16
+4.8,gating.features;selection.select,C8/contract.py,Destination anchor variance and patient-disjoint calibration development
+4.9.1-4.9.3,data.read_slide;preprocessing.CountTransform,src/graphpathology,"Barcode/gene alignment, raw log1p and train-only fitting"
+4.9.4,policy.choose;policy.region,C7/policy.py,"Whole-section budgets, nested label-free trajectories"
+4.9.5,vision.patch_transform,C9/prepare_images.py,Nominal112um -> LANCZOS224 -> official256 -> center224
+4.9.6,core.train_mlp,C1/core.py,AdamW/validation-stopping numerical component;full orchestrator not migrated
+4.9.9,core.gene_metrics;core.summarize,C1/core.py,"Undefined constants,tied ranks,gene medians/errors means"
+"Figures1-6,S1-S12;Tables1-2,S1-S9",publication.run,C10/MANUSCRIPT,29-target manifest;26 export views;3 blocked

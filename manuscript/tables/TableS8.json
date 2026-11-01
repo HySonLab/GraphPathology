@@ -1,0 +1,77 @@
+{
+  "source": "Supplied Supplementary_Revised.pdf, Table S8; equations and dimensions in main Methods",
+  "rows": [
+    {
+      "predictor": "Initial ResNet18 ridge",
+      "input": 512,
+      "hidden": null,
+      "output": 50,
+      "parameters": 25650,
+      "settings": "Ridge penalty 100; intercept"
+    },
+    {
+      "predictor": "Initial ResNet18 MLP",
+      "input": 512,
+      "hidden": 128,
+      "output": 50,
+      "parameters": 72114,
+      "settings": "Lowest validation MSE; GELU; dropout 0.1"
+    },
+    {
+      "predictor": "ResNet18 mean pooling / GCN",
+      "input": 512,
+      "hidden": 128,
+      "output": 50,
+      "parameters": 72114,
+      "settings": "PX or QX on capped Delaunay; GELU; dropout 0.1"
+    },
+    {
+      "predictor": "ResNet18 mean-GraphSAGE",
+      "input": 1024,
+      "hidden": 67,
+      "output": 50,
+      "parameters": 72075,
+      "settings": "[X,RX] on capped Delaunay; GELU; dropout 0.1"
+    },
+    {
+      "predictor": "ResNet18 representation-comparison MLP",
+      "input": 512,
+      "hidden": 256,
+      "output": 50,
+      "parameters": 144178,
+      "settings": "Highest validation median gene Pearson; GELU; dropout 0.1"
+    },
+    {
+      "predictor": "Phikon local MLP",
+      "input": 768,
+      "hidden": 256,
+      "output": 50,
+      "parameters": 209714,
+      "settings": "Same candidate grid and selection; GELU; dropout 0.1"
+    },
+    {
+      "predictor": "Phikon spatial mean MLP",
+      "input": 768,
+      "hidden": 128,
+      "output": 50,
+      "parameters": 104882,
+      "settings": "PX; inherited graph and width; GELU; dropout 0.1"
+    },
+    {
+      "predictor": "Phikon spatial mean-GraphSAGE MLP",
+      "input": 1536,
+      "hidden": 67,
+      "output": 50,
+      "parameters": 106379,
+      "settings": "[X,RX]; inherited graph and width; GELU; dropout 0.1"
+    },
+    {
+      "predictor": "Sparse residual correction",
+      "input": 34,
+      "hidden": null,
+      "output": 50,
+      "parameters": 1750,
+      "settings": "Gene-specific ridge; unpenalized intercept; penalty 10000"
+    }
+  ]
+}
