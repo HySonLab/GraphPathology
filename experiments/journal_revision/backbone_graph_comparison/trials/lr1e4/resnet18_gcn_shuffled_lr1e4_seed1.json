@@ -1,0 +1,163 @@
+{
+  "classification": "exploratory_follow_up",
+  "protocol_commit": "60842a6b5",
+  "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+  "created_utc": "2026-11-01T18:06:44.613392+00:00",
+  "code_hashes": {
+    "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+    "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+    "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+    "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+    "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+    "src/graphpathology/backbone_analysis.py": "998061501418741cdcc82b630ad8011b6b60239545afefa38979e915272bb4a7",
+    "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+    "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+  },
+  "status": "COMPLETE",
+  "backbone": "resnet18",
+  "run_id": "resnet18_gcn_shuffled_lr1e4_seed1",
+  "model": "GCN",
+  "control": "shuffled",
+  "seed": 1,
+  "learning_rate": 0.0001,
+  "config": {
+    "hidden": 128,
+    "dropout": 0.1
+  },
+  "training": {
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "batch_size": 512,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001
+  },
+  "parameters": 72114,
+  "selected_epoch": 6,
+  "epochs_ran": 16,
+  "validation_mse": 0.9572667928479381,
+  "optimizer_updates": 224,
+  "selected_optimizer_updates": 84,
+  "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/resnet18_gcn_shuffled_lr1e4_seed1.pt",
+  "checkpoint_sha256": "18994fae7183fb06d038cc58f70608858232b63194db710e530b6823e08b358c",
+  "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "source_fit": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation": "TENX95",
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 0.9791246761191511,
+      "validation_mse": 1.0083736912048968
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.9331993410609403,
+      "validation_mse": 0.9951222213273195
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.890196286068588,
+      "validation_mse": 0.9812247301868556
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.8543691916373994,
+      "validation_mse": 0.9692471005154639
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.8296038374506569,
+      "validation_mse": 0.9608680935889176
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.8140953778116005,
+      "validation_mse": 0.9572667928479381
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.8035441824562279,
+      "validation_mse": 0.957250503382732
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.7956607210746597,
+      "validation_mse": 0.9597346568943299
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.789915150960513,
+      "validation_mse": 0.9628438305412371
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.7850331890438593,
+      "validation_mse": 0.9680842259987114
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.7807056415361416,
+      "validation_mse": 0.9714599307345361
+    },
+    {
+      "epoch": 12,
+      "training_mse": 0.7776288962160275,
+      "validation_mse": 0.9759988724226805
+    },
+    {
+      "epoch": 13,
+      "training_mse": 0.7745682585859672,
+      "validation_mse": 0.9786255637886598
+    },
+    {
+      "epoch": 14,
+      "training_mse": 0.7722582504397533,
+      "validation_mse": 0.9808236952319588
+    },
+    {
+      "epoch": 15,
+      "training_mse": 0.7700200480728259,
+      "validation_mse": 0.9838445554123711
+    },
+    {
+      "epoch": 16,
+      "training_mse": 0.767806276209594,
+      "validation_mse": 0.9859449903350516
+    }
+  ],
+  "graphs": {
+    "NCBI783": {
+      "edges": 8737,
+      "changed_edge_fraction": 0.9975964289801992,
+      "permutation_sha256": "4aadde84d81a5e0c4254d3a79ab2df75a3905550663f35aa4586ca13ca58a02b",
+      "adjacency_sha256": "8f73fcbdac925b6a0665cbecc3fe221cdbf514e6355856bbfa5c1bd73f2aaab4"
+    },
+    "NCBI785": {
+      "edges": 11774,
+      "changed_edge_fraction": 0.9984712077458807,
+      "permutation_sha256": "8b9077d0e18939a12e5ad631cd05a3875a1e49615c4dd865ee5fbd77f0f161c5",
+      "adjacency_sha256": "c4e7c5c5943bdaa09f57966ec6c164b102ccca71453069256f1cabc48fbb6d13"
+    },
+    "TENX95": {
+      "edges": 22949,
+      "changed_edge_fraction": 0.9992592269815678,
+      "permutation_sha256": "d29853ff738a6a3a6ce51af7d6b8ef175bcf4a6ff165d6193afc3b9a223d0707",
+      "adjacency_sha256": "4c6e44acdbcfa173c5dd2415c66cc2f83cd8c5b87f9d81dd3843ae0ec97e81a6"
+    }
+  },
+  "fit_seconds": 3.5347756009869045,
+  "peak_rss_mb": 545.03125,
+  "serialization_exact": true,
+  "artifact_origin": "refinement_lr1e4",
+  "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+  "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/resnet18_gcn_shuffled_lr1e4_seed1.json",
+  "input_cache_hashes": {
+    "NCBI783": "49adba0d4bf5b8b45dd9755aeac4f667d4eb7e82fe86d88ce7dfce33a785c3bf",
+    "NCBI785": "c7b2950b18d39dff9e3a210a5352246fe72af0750bfd5885c7ec1054ccdfb759",
+    "TENX95": "d8f690e55abb0773e945a14eac09bc5920a6b9b868478f873fc500d8fffaf641"
+  }
+}

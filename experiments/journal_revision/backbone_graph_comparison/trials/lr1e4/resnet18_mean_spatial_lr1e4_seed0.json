@@ -1,0 +1,172 @@
+{
+  "classification": "exploratory_follow_up",
+  "protocol_commit": "60842a6b5",
+  "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+  "created_utc": "2026-11-01T18:05:03.327707+00:00",
+  "code_hashes": {
+    "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+    "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+    "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+    "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+    "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+    "src/graphpathology/backbone_analysis.py": "998061501418741cdcc82b630ad8011b6b60239545afefa38979e915272bb4a7",
+    "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+    "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+  },
+  "status": "COMPLETE",
+  "backbone": "resnet18",
+  "run_id": "resnet18_mean_spatial_lr1e4_seed0",
+  "model": "MEAN",
+  "control": "spatial",
+  "seed": 0,
+  "learning_rate": 0.0001,
+  "config": {
+    "hidden": 128,
+    "dropout": 0.1
+  },
+  "training": {
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "batch_size": 512,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001
+  },
+  "parameters": 72114,
+  "selected_epoch": 9,
+  "epochs_ran": 19,
+  "validation_mse": 0.7660905082152062,
+  "optimizer_updates": 266,
+  "selected_optimizer_updates": 126,
+  "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/resnet18_mean_spatial_lr1e4_seed0.pt",
+  "checkpoint_sha256": "dba380d7506d66f9223452e0483df7b38a10a44cc8f2712e986f279ebc2163fd",
+  "feature_scaler": "checkpoints/journal_revision/hest_learned/journal_v2_feature_scaler.npz",
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "source_fit": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation": "TENX95",
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 0.9772780684683888,
+      "validation_mse": 0.9728499315399485
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.886289716319195,
+      "validation_mse": 0.9315154236469072
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.7972680112165124,
+      "validation_mse": 0.887500221488402
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.7132227036499247,
+      "validation_mse": 0.8420106918492268
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.6443718668739878,
+      "validation_mse": 0.8044746697809279
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.5905797473295026,
+      "validation_mse": 0.7820563788659793
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.5498551074726108,
+      "validation_mse": 0.7706467864046391
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.5183418181991033,
+      "validation_mse": 0.7664138812822165
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.4919152448794201,
+      "validation_mse": 0.7660905082152062
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.47017614971461336,
+      "validation_mse": 0.7667571077641753
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.4517964360634089,
+      "validation_mse": 0.7681170264175258
+    },
+    {
+      "epoch": 12,
+      "training_mse": 0.4375260070401774,
+      "validation_mse": 0.7720948473743556
+    },
+    {
+      "epoch": 13,
+      "training_mse": 0.42464832174123734,
+      "validation_mse": 0.7742945997100515
+    },
+    {
+      "epoch": 14,
+      "training_mse": 0.415539340741789,
+      "validation_mse": 0.7753524685889175
+    },
+    {
+      "epoch": 15,
+      "training_mse": 0.40592322019874755,
+      "validation_mse": 0.7780800579896907
+    },
+    {
+      "epoch": 16,
+      "training_mse": 0.3985110038659102,
+      "validation_mse": 0.777351200064433
+    },
+    {
+      "epoch": 17,
+      "training_mse": 0.3919502826562883,
+      "validation_mse": 0.778479965367268
+    },
+    {
+      "epoch": 18,
+      "training_mse": 0.38501762882862783,
+      "validation_mse": 0.7761912250322165
+    },
+    {
+      "epoch": 19,
+      "training_mse": 0.3807135955444507,
+      "validation_mse": 0.7761659149484537
+    }
+  ],
+  "graphs": {
+    "NCBI783": {
+      "edges": 8737,
+      "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+    },
+    "NCBI785": {
+      "edges": 11774,
+      "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+    },
+    "TENX95": {
+      "edges": 22949,
+      "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+    }
+  },
+  "fit_seconds": 2.5642910019960254,
+  "peak_rss_mb": 575.23828125,
+  "serialization_exact": true,
+  "artifact_origin": "refinement_lr1e4",
+  "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+  "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/resnet18_mean_spatial_lr1e4_seed0.json",
+  "input_cache_hashes": {
+    "NCBI783": "49adba0d4bf5b8b45dd9755aeac4f667d4eb7e82fe86d88ce7dfce33a785c3bf",
+    "NCBI785": "c7b2950b18d39dff9e3a210a5352246fe72af0750bfd5885c7ec1054ccdfb759",
+    "TENX95": "d8f690e55abb0773e945a14eac09bc5920a6b9b868478f873fc500d8fffaf641"
+  }
+}

@@ -48,6 +48,8 @@ def common_valid_runs(candidate,reference,baseline=False):
 
 def manifests(root):
     base=root/f'experiments/journal_revision/{STUDY}'
+    selected=base/'PRIMARY_EVALUATION_MANIFEST.json'
+    if selected.exists():return json.loads(selected.read_text())
     reused=json.loads((base/'REUSED_EVALUATION_MANIFEST.json').read_text())
     new_path=base/'EVALUATION_MANIFEST.json'
     new=json.loads(new_path.read_text()) if new_path.exists() else []
@@ -55,7 +57,9 @@ def manifests(root):
 
 
 def bundle_paths(root,item):
-    if item['status']=='REUSED_VERIFIED':return root/item['panel'],root/item['genes']
+    if 'panel' in item and 'genes' in item:
+        assert sha(root/item['panel'])==item['panel_sha256'] and sha(root/item['genes'])==item['genes_sha256']
+        return root/item['panel'],root/item['genes']
     p=root/f'experiments/journal_revision/{STUDY}/evaluation'/item['patient']/item['run_id']
     for name,digest in item['output_hashes'].items():assert sha(p/name)==digest
     return p/'PANEL.csv.gz',p/'GENES.csv.gz'

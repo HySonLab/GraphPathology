@@ -1,0 +1,129 @@
+{
+  "classification": "exploratory_follow_up",
+  "protocol_commit": "60842a6b5",
+  "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+  "created_utc": "2026-11-01T18:12:17.471003+00:00",
+  "code_hashes": {
+    "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+    "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+    "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+    "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+    "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+    "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+    "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+    "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+    "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+  },
+  "status": "COMPLETE",
+  "selection_uses_evaluation_expression": false,
+  "records": [
+    {
+      "backbone": "phikon",
+      "model": "GCN",
+      "control": "shuffled",
+      "selected_learning_rate": 0.0001,
+      "mean_validation_mse_lr1e3": 0.9204663941688146,
+      "mean_validation_mse_lr1e4": 0.9022934922680412,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "phikon",
+      "model": "GCN",
+      "control": "spatial",
+      "selected_learning_rate": 0.0001,
+      "mean_validation_mse_lr1e3": 0.8123497335427405,
+      "mean_validation_mse_lr1e4": 0.7599523665700172,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "phikon",
+      "model": "MEAN",
+      "control": "spatial",
+      "selected_learning_rate": 0.0001,
+      "mean_validation_mse_lr1e3": 0.8091649316741839,
+      "mean_validation_mse_lr1e4": 0.7570752624301976,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "phikon",
+      "model": "SAGE",
+      "control": "shuffled",
+      "selected_learning_rate": 0.0001,
+      "mean_validation_mse_lr1e3": 0.7123660666344501,
+      "mean_validation_mse_lr1e4": 0.7078298465689433,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "phikon",
+      "model": "SAGE",
+      "control": "spatial",
+      "selected_learning_rate": 0.001,
+      "mean_validation_mse_lr1e3": 0.7331727609536083,
+      "mean_validation_mse_lr1e4": 0.7385319715152492,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "phikon",
+      "model": "local",
+      "control": "local",
+      "selected_learning_rate": 0.0001,
+      "mean_validation_mse_lr1e3": 0.7548266484106531,
+      "mean_validation_mse_lr1e4": 0.7154541116301546,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "resnet18",
+      "model": "GCN",
+      "control": "shuffled",
+      "selected_learning_rate": 0.001,
+      "mean_validation_mse_lr1e3": 0.9021857213810138,
+      "mean_validation_mse_lr1e4": 0.9439767370060137,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "resnet18",
+      "model": "GCN",
+      "control": "spatial",
+      "selected_learning_rate": 0.001,
+      "mean_validation_mse_lr1e3": 0.7103894974226804,
+      "mean_validation_mse_lr1e4": 0.7347565037048969,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "resnet18",
+      "model": "MEAN",
+      "control": "spatial",
+      "selected_learning_rate": 0.001,
+      "mean_validation_mse_lr1e3": 0.7045917599602664,
+      "mean_validation_mse_lr1e4": 0.7300299210695876,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "resnet18",
+      "model": "SAGE",
+      "control": "shuffled",
+      "selected_learning_rate": 0.001,
+      "mean_validation_mse_lr1e3": 0.6877087662424829,
+      "mean_validation_mse_lr1e4": 0.6892279451245704,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "resnet18",
+      "model": "SAGE",
+      "control": "spatial",
+      "selected_learning_rate": 0.001,
+      "mean_validation_mse_lr1e3": 0.6725405692923111,
+      "mean_validation_mse_lr1e4": 0.6743829735824742,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    },
+    {
+      "backbone": "resnet18",
+      "model": "local",
+      "control": "local",
+      "selected_learning_rate": 0.001,
+      "mean_validation_mse_lr1e3": 0.6588745469555413,
+      "mean_validation_mse_lr1e4": 0.6600535330756013,
+      "selection_data": "TENX95 only; mean across all three seed-specific selected losses"
+    }
+  ]
+}

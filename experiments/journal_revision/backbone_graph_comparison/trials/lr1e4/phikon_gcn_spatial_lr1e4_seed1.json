@@ -1,0 +1,163 @@
+{
+  "classification": "exploratory_follow_up",
+  "protocol_commit": "60842a6b5",
+  "code_commit": "22df50e8c077afbba159ab6beae7a078cd58862b",
+  "created_utc": "2026-11-01T18:08:55.371416+00:00",
+  "code_hashes": {
+    "src/graphpathology/backbone_report.py": "76ab391b28142f2b3f0a1923131fd9cebf0cabb94aef5e9acffd9becba553871",
+    "src/graphpathology/backbone_data.py": "cb1132d63b633586e0bccca0f4af88cfcfeb49fd8e385f9a03ffc419045320e4",
+    "src/graphpathology/backbone_refinement.py": "04bc7158af321ed8dd1b36aad4d9ed44c55d9baea30fccea5bf67412d9906b87",
+    "src/graphpathology/backbone_train.py": "e6bbae53fb41a6b1c74ac52faef59e59cc6bfc56d27ad8007b054fa7fed5e43c",
+    "src/graphpathology/backbone_selected_evaluate.py": "ea413962f6177a71cb4af974aab0c254306e60d036af1fec5c04341dfdcca4d9",
+    "src/graphpathology/backbone_evaluate.py": "75e9fb7d361136a66cc13cb9b0f36d7926a93021c732badf250dcfb793e913d0",
+    "src/graphpathology/backbone_analysis.py": "356ac679595eb2aaae4703756b368da2ade2280c7633a41e839c4d294c09fa99",
+    "src/graphpathology/backbone_paper.py": "aef4f42b4d5527f4ee1ac5a8667492f7a262be5e3ecacd2e503988e565f385ca",
+    "src/graphpathology/backbone_verify.py": "71bffe2193a27f3519588eecf05a687a985be8388e56ff7492df2c87913adcc6"
+  },
+  "status": "COMPLETE",
+  "backbone": "phikon",
+  "run_id": "phikon_gcn_spatial_lr1e4_seed1",
+  "model": "GCN",
+  "control": "spatial",
+  "seed": 1,
+  "learning_rate": 0.0001,
+  "config": {
+    "hidden": 128,
+    "dropout": 0.1
+  },
+  "training": {
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "batch_size": 512,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001
+  },
+  "parameters": 104882,
+  "selected_epoch": 7,
+  "epochs_ran": 17,
+  "validation_mse": 0.7741651900773195,
+  "optimizer_updates": 238,
+  "selected_optimizer_updates": 98,
+  "checkpoint": "checkpoints/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_spatial_lr1e4_seed1.pt",
+  "checkpoint_sha256": "9d66320b7129e0138668b1aa839ac7cb071153918624359ffe661cdb38e833e4",
+  "feature_scaler": "checkpoints/journal_revision/backbone_graph_comparison/phikon_feature_scaler.npz",
+  "feature_scaler_sha256": "9870122c3ae0ebd57faf537b86ee95c3d8966232394722e31190853d3b8e4642",
+  "source_fit": [
+    "NCBI783",
+    "NCBI785"
+  ],
+  "validation": "TENX95",
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 0.9253428791814928,
+      "validation_mse": 0.9554969394329897
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.7658529877067887,
+      "validation_mse": 0.8891982119845361
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.6402004971643558,
+      "validation_mse": 0.8365783263530928
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.544638755732745,
+      "validation_mse": 0.8041820131282217
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.4777537150376198,
+      "validation_mse": 0.7874417284149484
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.432978680179702,
+      "validation_mse": 0.7780412270457474
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.4013953066093108,
+      "validation_mse": 0.7741651900773195
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.3784243113002179,
+      "validation_mse": 0.7746531189594072
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.3597779806350183,
+      "validation_mse": 0.7795049130154639
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.34559737497028586,
+      "validation_mse": 0.7850931258054124
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.33308424391834884,
+      "validation_mse": 0.7970279478092783
+    },
+    {
+      "epoch": 12,
+      "training_mse": 0.3240959227594918,
+      "validation_mse": 0.8088854703608247
+    },
+    {
+      "epoch": 13,
+      "training_mse": 0.3150557298024722,
+      "validation_mse": 0.8193757651417526
+    },
+    {
+      "epoch": 14,
+      "training_mse": 0.3086283489966172,
+      "validation_mse": 0.8366469273518041
+    },
+    {
+      "epoch": 15,
+      "training_mse": 0.3015537050861337,
+      "validation_mse": 0.8496509544136598
+    },
+    {
+      "epoch": 16,
+      "training_mse": 0.29595449120337336,
+      "validation_mse": 0.8603773558311856
+    },
+    {
+      "epoch": 17,
+      "training_mse": 0.29178560322637825,
+      "validation_mse": 0.873299331507732
+    }
+  ],
+  "graphs": {
+    "NCBI783": {
+      "edges": 8737,
+      "adjacency_sha256": "87930eb5112720df369750e58ce0de93f648c1bd06a1b5117f8ba5199d739449"
+    },
+    "NCBI785": {
+      "edges": 11774,
+      "adjacency_sha256": "98385b01604e78a23c7e0c3316d25d694b17c674ee8de8df8236ee56ba61711d"
+    },
+    "TENX95": {
+      "edges": 22949,
+      "adjacency_sha256": "6f21a0646144a08860976f10d49b0f91de22023919953fa08ea09a74ff3ae141"
+    }
+  },
+  "fit_seconds": 3.391025526987505,
+  "peak_rss_mb": 680.82421875,
+  "serialization_exact": true,
+  "artifact_origin": "refinement_lr1e4",
+  "protocol_refinement_sha256": "187613d9fc560ce971e826868277009e62b424ec37b8a7f0c7d53603f960fbaf",
+  "source_fit_record": "experiments/journal_revision/backbone_graph_comparison/trials/lr1e4/phikon_gcn_spatial_lr1e4_seed1.json",
+  "input_cache_hashes": {
+    "NCBI783": "d9f7159e54c9f4902df4d1641cbb5cd0e40f32f22b0c97c8f83f8663c0811e73",
+    "NCBI785": "59a33e1ad87254f25fb7ca95ac4f0d800217f69a069ad3a73a39fabf0de5b9c9",
+    "TENX95": "688a31df5d62dc8cf74a0339e639fdca42c20b2bf0882f9a2dc84833e5292b11"
+  }
+}
