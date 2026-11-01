@@ -62,7 +62,9 @@ def molecular_figures(root,data_root,package):
                 else:
                     values=truth if col==0 else yp if col==2 else err
                     artist=ax.scatter(xy[hidden,0],xy[hidden,1],c=values,s=4,cmap='magma' if col==3 else 'viridis',vmin=0 if col==3 else low,vmax=max(err.max(),1e-8) if col==3 else high,rasterized=True)
-                bar=fig.colorbar(artist,ax=ax,shrink=.65,pad=.015);bar.ax.tick_params(labelsize=7.5);bar.ax.yaxis.get_offset_text().set_fontsize(7);ax.set_aspect('equal');ax.invert_yaxis();ax.set_xticks([]);ax.set_yticks([])
+                clip_low=col==1 and y[obs,g].min()<low;clip_high=col==1 and y[obs,g].max()>high
+                extension='both' if clip_low and clip_high else 'min' if clip_low else 'max' if clip_high else 'neither'
+                bar=fig.colorbar(artist,ax=ax,shrink=.65,pad=.015,extend=extension);bar.ax.tick_params(labelsize=7.5);bar.ax.yaxis.get_offset_text().set_fontsize(7);ax.set_aspect('equal');ax.invert_yaxis();ax.set_xticks([]);ax.set_yticks([])
                 if row==0:ax.set_title(['Truth\nscored sites','Observed\nanchors (x)','Prediction\nscored sites','Absolute\nerror'][col],fontsize=8)
                 if col==0:ax.set_ylabel(gene+('\nconstant field' if constant_span else ''),fontsize=9)
             for index,i in enumerate(hidden):source.append({'regime':regime,'mask_sha256':record['mask_sha256'],'patient':'1160920F','barcode':data['barcodes'][i],'gene':gene,'x_um':xy[i,0],'y_um':xy[i,1],'role':'scored','truth':truth[index],'prediction':yp[index],'absolute_error':err[index]})
