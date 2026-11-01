@@ -1,32 +1,34 @@
-# Actual validation report
+# Publication synchronization validation
 
-Validation date: 2026-10-31 (America/Chicago). Starting revision: 03506defbe205cabd13865780d6a1224b348a781. Dedicated branch: codex/publication-reproducibility. Python 3.12; torch 2.8.0+cpu and torchvision 0.23.0+cpu, no downloaded encoder weights. Exact installed versions: configs/validation-environment.txt. Historical execution versions are preserved separately at checkpoints/legacy/configs/environment.txt. Tested versions do not establish bitwise original-model replay across environments.
+Validated on 2026-10-31 in the local host, using Python 3.12 and the installed versions in `configs/validation-environment.txt`; graphpathology editable version 0.3.0. Base: merged commit `96efca22d383dd37732bc62bc2c2b7842d92d915`. Branch: `codex/final-publication-sync`. The original research versions remain separate, unchanged archive records.
 
-## Executed
-
-| Command / check | Result | Measured duration |
+| Executed command/check | Actual result | Duration |
 |---|---|---|
-| Clean Python environment + editable install of .[test], CPU torch/torchvision | Installed; no system package modifications | Not separately measured |
-| `python -m pytest -q` | **84 passed, 0 failed, 0 skipped** | **5.39 s**, after relocation to the delivered repository |
-| `python -m graphpathology smoke --output 'outputs/quick start with spaces'` | 20 locations,50 genes,two synthetic training steps; both routes; serialization equality | Not separately measured |
-| `python -m graphpathology verify-archive --historical` | 74,253 pre-move SHA256 identities unchanged; no migration damage; available historical digests match;10 registry-prefix scopes retained | 13.15 s |
-| `python -m graphpathology publication --available-only --output outputs/publication` | 26 export views generated;three targets explicitly blocked;29-item report | Not separately measured |
-| `python scripts/validate_export_views.py --output outputs/publication` | 66 checks passed;printed Table2 cells,external curves/paired effects,source bytes/rows/nulls,traces | Not separately measured |
-| `python -m graphpathology publication --dry-run` | Expected exit2: missing revised inputs | Not separately measured |
-| `python -m graphpathology build-documents --dry-run` | Expected exit2: revised LaTeX/build source absent | Not separately measured |
-| `python -m graphpathology doctor --require-models` | Expected exit1: original fitted heads absent | Not separately measured |
-| `git push --dry-run origin HEAD:refs/heads/codex/publication-reproducibility` | Failed authentication: could not read Username, terminal prompts disabled | Not separately measured |
+| Editable install, `pip install --no-deps --no-build-isolation -e .` in the existing isolated validation venv | graphpathology 0.3.0 installed | Not separately timed |
+| `python -m pytest -q` | **98 passed, 0 failed, 0 skipped; no warnings** | **5.71 s** |
+| `python -m graphpathology publication --output outputs/publication-sync-final` | **29 targets validated; 71 regression checks** | **42.07 s** |
+| `python -m graphpathology build-documents --publication outputs/publication-sync --output outputs/publication-sync-documents` | Combined/article/supplement **52/29/23 pages**, no final TeX diagnostics | **9.92 s** |
+| `python -m graphpathology arxiv --output outputs/publication-sync-arxiv` | Single-root ZIP; clean extraction compiled without BibTeX; **52 pages** | **5.53 s** |
+| `python -m graphpathology verify-archive --historical --report outputs/publication-sync-archive.json` | **74,253 historical files unchanged**; available declarations/prefix scopes match; no new issues | **13.52 s** |
 
-Default tests cover numerical/data contracts, fixture hidden-label NaN/random corruption (including unscored V2 hidden rows),nested trajectories,graph formulas/ties/locality,parameter counts,frozen encoders,dropout,three-head inverse scaling,calibration moments/direction,gate population variance,34-column residual/intercept convention,CSV control typing,metrics/aggregation,missing-state errors,output safety,and CLI help from outside the checkout. No test collection imports archived runtime chains. No research registry is appended.
+Publication timings refer to the final full renderer/trace run, including the printed inline-S9/source equivalence and original-head-identity checks. An early validation-only pandas deprecation was fixed; the final test and regression runs are clean. The earlier 84-pass/26-view/66-check report is retained in `docs/history/INITIAL_TEST_REPORT.md` and is not current validation evidence.
 
-## Historical test disposition
+## Numerical evidence and limits
 
-All original test files remain byte-identical in checkpoints/legacy. Root C0 tests are retained in the supported suite. C1 numerical tests are promoted to test_core;C2 to test_graph;C3 rewiring to test_topology_controls;C4 CSV typing to test_csvio;C5 to test_residual;C6 to test_sampling;C9 to test_external. C3/C4 config/capacity and C7 label-free sampling checks are covered in test_additional_contracts/test_workflow. C8 patient access/selection/gate features are tested on explicit fixtures;C10 no-new-calibration is checked against its saved protocol and C9 scaler.
+`PUBLICATION_VALIDATION.json` lists all checks and tolerances. All 122 author-package file SHA256 values match the input ZIP; all 35 hash-listed scientific exports remain byte-identical after rendering. All 18 figures are regenerated with the unmodified author scripts in independent output and baseline copies. Their actual line/scatter/image/patch arrays, masks/NaNs, scalar colors, color limits, labels and ordering agree at rtol=atol=1e-12. This verifies the integration against the current author baseline; it does not independently validate the original scientific experiments.
 
-The original C7 real-scene feature/metadata checks,C8 real-scene calibration test,and C10 original predictor comparison cannot run without ignored research caches/states. Their files/assertions are preserved;they are not default passes or silently weakened/skipped tests. The maintained synthetic routes test software behavior,not equality to unavailable original patient predictions. Full legacy suite execution remains unvalidated and is not claimed.
+Independent checks protect all printed Table 2 metric cells and cohort medians, all 50 Table S1 gene ranks, all 150 printed Table S2 metrics and 25-patient ordering, Table S9 coverage cells/aggregation, Table 1 counts, Table S5 recorded audit cells, Table S7 support counts, Table S8 dimensions/counts, and definition-table schemas. The full per-gene CSV.gz remains intact. Figure 6's shared 98th-percentile cap is checked against the full export, including undisplayed capture-window rows, along with exact selected map points/errors. All 4,448 sampling rows are retained.
 
-## Publication limits and visual checks
+All 50-gene normalization, head-target and source/Wu calibration constants and the 512-feature scaler agree with archived NPZ/JSON originals. Synthetic Figure 2 matches the maintained production graph functions, exact undirected edge identities and three node permutations. Its rounded coordinate/distance exports justify a 2e-6-um distance tolerance; edge counts are exactly 94/22/98/85. Those are replacement illustration counts, not new patient results.
 
-15 PNG/SVG/PDF figure export views and11 editable table export views generated. Contact-sheet visual review found readable axes and no clipped data;the revised documents are not rebuilt or exactly layout-matched. The synthesis view was changed to five rows/two columns to match the current SI organization;plot values remain traced. Table previews are labeled;complete CSV/gzip data remain retained. Only selected numerical comparisons against the supplied manuscript could be checked without its revised source package. Full caption/citation/label resolution,36-node schematic equivalence,FOXA1 full-value color limit,and both LaTeX builds are blocked. See PUBLICATION_VALIDATION.json and PUBLICATION_STATUS.json.
+## Document and visual checks
 
-No cohort training,feature-extraction campaign,calibration search,full-cohort inference,large evaluation or historical verify.py replay was run. No random/zero parameters were installed as original models. All source data/model identities were preserved. GitHub Actions workflow is added but has not run remotely.
+All three document forms build from isolated source copies and regenerated figures. Final logs have no warnings, undefined references/citations, underfull/overfull boxes or duplicate destinations. Combined PDF has all 18 figure captions, 11 table captions and 29 bibliography entries. Supplement begins after References on page 30; page numbering is continuous through 52. `DOCUMENT_BUILD_REPORT.json` and `ARXIV_REPORT.json` record checks. The arXiv ZIP contains 34 TeX/figure/bibliography dependencies with only main.tex as a document root; numerical ancillary files are under anc/ and not TeX dependencies. Extra roots, compiled manuscript PDFs, logs and author notes are excluded.
+
+All 52 combined pages were rendered and reviewed in contact sheets; the article/supplement share the same content sources. No clipped or overlapping content was found in that review. The author's whitespace/float layout is preserved, including its section-divider pages. This is not byte-identical recovery of the earlier 54-page document.
+
+## Separate evidence
+
+The base-main GitHub CI run `41262294332` passed before this revision. It is evidence for the merged initial revision, not for these new changes. A bounded CPU workflow and a separate full publication/TeX CI workflow accompany this PR; their actual status is reported on GitHub. Initial local records and authentication failures remain historical notes under docs/history, not current blockers.
+
+No original fitted-head replay was possible. The three original heads and supporting fitted states remain missing; no research training, feature-extraction campaign, calibration search, full-cohort inference or historical replay was run. Default tests remain offline/CPU fixtures, with publication/TeX integration exercised separately. No historical tests were deleted or weakened to obtain a passing result; the previous asset-dependent limitations documented in the initial report remain.

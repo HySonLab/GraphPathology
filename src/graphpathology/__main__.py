@@ -12,9 +12,11 @@ def main(argv=None):
     p.add_argument('--historical',action='store_true');p.add_argument('--report',type=Path)
     p=sub.add_parser('resolve',help='Resolve an original path through the migration manifest');p.add_argument('path')
     p=sub.add_parser('smoke',help='Tiny CPU graph and external fixture routes (synthetic heads)');p.add_argument('--output',required=True);p.add_argument('--dry-run',action='store_true')
-    p=sub.add_parser('publication',help='Validate current 29 targets or regenerate available exported-data targets')
+    p=sub.add_parser('publication',help='Validate or regenerate all 29 publication targets from exact author sources')
     p.add_argument('--target',default='all');p.add_argument('--output');p.add_argument('--dry-run',action='store_true');p.add_argument('--available-only',action='store_true')
     p=sub.add_parser('build-documents',help='Build supplied revised LaTeX sources if available')
+    p.add_argument('--output');p.add_argument('--dry-run',action='store_true');p.add_argument('--publication',type=Path,help='Validated regenerated publication output')
+    p=sub.add_parser('arxiv',help='Package one-root arXiv sources and verify a clean extracted build')
     p.add_argument('--output');p.add_argument('--dry-run',action='store_true')
     p=sub.add_parser('infer',help='Bounded one-section replay from aligned embeddings and observed targets')
     p.add_argument('--config',required=True,type=Path);p.add_argument('--dry-run',action='store_true')
@@ -48,9 +50,9 @@ def main(argv=None):
         if args.command=='infer':
             from .workflow import infer
             print(json.dumps(infer(root,args.config,args.dry_run),indent=2));return 0
-        if args.command in ['publication','build-documents']:
-            from .publication import run,build
-            return run(root,args) if args.command=='publication' else build(root,args)
+        if args.command in ['publication','build-documents','arxiv']:
+            from .publication import run,build,arxiv
+            return run(root,args) if args.command=='publication' else arxiv(root,args) if args.command=='arxiv' else build(root,args)
     except (ValueError,FileNotFoundError,FileExistsError,KeyError) as exc:
         print('ERROR: '+str(exc),file=sys.stderr);return 2
 
