@@ -1,0 +1,146 @@
+{
+  "repository": "https://github.com/HySonLab/GraphPathology",
+  "archived_revision": "03506defbe205cabd13865780d6a1224b348a781",
+  "verified_on": "2026-10-31",
+  "encoder": {
+    "name": "ResNet18",
+    "pretrained_weights": "torchvision IMAGENET1K_V1",
+    "frozen": true,
+    "endpoint": "Global average pooling, flatten, fc replaced by identity",
+    "output_dimension": 512
+  },
+  "external_preprocessing": [
+    "Nominal112-micrometre square, rounded to native pixels",
+    "LANCZOS resize224x224",
+    "Bilinear shorter-edge resize256",
+    "Center crop224x224",
+    "RescaleRGB0to1",
+    "Normalize mean[0.485,0.456,0.406],SD[0.229,0.224,0.225]"
+  ],
+  "head": {
+    "layers": [
+      {
+        "type": "Linear",
+        "in": 512,
+        "out": 256,
+        "bias": true
+      },
+      {
+        "type": "GELU",
+        "approximate": "none"
+      },
+      {
+        "type": "Dropout",
+        "p": 0.1
+      },
+      {
+        "type": "Linear",
+        "in": 256,
+        "out": 50,
+        "bias": true
+      }
+    ],
+    "trainable_parameters": 144178,
+    "initialization": "PyTorch Linear default: uniform plus/minus1/sqrt(fan_in) for weights and biases"
+  },
+  "training": {
+    "train_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "validation_patient": "TENX95",
+    "training_locations": 7015,
+    "loss": "Mean squared error over minibatch location-gene entries in additionally standardized target units",
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "weight_decay_on_biases": true,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "batch_size": 512,
+    "last_partial_batch": true,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001,
+    "schedule": null,
+    "precision": "float32",
+    "device": "CPU",
+    "threads": 4,
+    "deterministic_algorithms": true,
+    "configuration_selection": "Seed0 grid: highest validation median gene Pearson, then lower validation MSE, then canonical parameter ordering",
+    "width_candidates": [
+      128,
+      256
+    ],
+    "dropout_candidates": [
+      0,
+      0.1
+    ],
+    "within_fit_selection": "Restore best validation MSE with qualifying decrease greater than min_delta",
+    "fits": [
+      {
+        "seed": 0,
+        "best_epoch": 12,
+        "epochs_run": 22,
+        "parameters": 144178,
+        "validation_median_pearson": 0.6858333517438993,
+        "validation_mse": 0.6584382707915918,
+        "model_sha256": "4aaa11ab8998627dd4cac9a2b8da59e9fc8e43182e31ffee85f9204a0500b91e",
+        "source_commit": "91fa207f107df57e2cdbe2c44ed3c17e71919ffc"
+      },
+      {
+        "seed": 1,
+        "best_epoch": 11,
+        "epochs_run": 21,
+        "parameters": 144178,
+        "validation_median_pearson": 0.6797878970587004,
+        "validation_mse": 0.6632499139336491,
+        "model_sha256": "6c86019b731b67549b175d8b39a2ff4a3ced30d5a612ee2d8cdd4ee57f3e67e6",
+        "source_commit": "91fa207f107df57e2cdbe2c44ed3c17e71919ffc"
+      },
+      {
+        "seed": 2,
+        "best_epoch": 12,
+        "epochs_run": 22,
+        "parameters": 144178,
+        "validation_median_pearson": 0.686121087886763,
+        "validation_mse": 0.6550902456739546,
+        "model_sha256": "51ebf67a05e986586efe4564bc797cac6e31dd7352308b0fba7cf0ff0e9c9e68",
+        "source_commit": "91fa207f107df57e2cdbe2c44ed3c17e71919ffc"
+      }
+    ]
+  },
+  "scalers": {
+    "fit_on": "Pooled source training locations only",
+    "standard_deviation": "population",
+    "small_scale_threshold": 1e-08,
+    "small_scale_replacement": 1.0,
+    "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+    "head_target_scaler_sha256": "53c082753b4756db62f28fb2ef91f010d84359979245ed1a7eb89edbf4e001a4"
+  },
+  "ensemble": "Disable dropout; inverse target scaling per head; arithmetic mean of three predictions; castfloat32",
+  "fusion": {
+    "image_weight": 0.2,
+    "molecular_weight": 0.8,
+    "source_patients": [
+      "NCBI783",
+      "NCBI785"
+    ],
+    "calibration_patients": [
+      "1142243F",
+      "CID4465",
+      "CID4535"
+    ],
+    "patient_weighting": "equal total weight per patient",
+    "moments_fit_to": "All retained observed target vectors of designated calibration patients, not image predictions or sparse anchor subsets",
+    "carried_unchanged_to": "Bassiouni"
+  },
+  "availability": {
+    "implementation_configs_logs_scalers_public": true,
+    "fitted_head_binaries_in_archived_source_tree": false,
+    "experiments_rerun_during_editorial_revision": false
+  }
+}

@@ -1,0 +1,507 @@
+{
+  "label": "post_v1_exploratory",
+  "protocol_commit": "2e03fae636d6f6527d25db58f4cbab72f7c1a286",
+  "code_commit": "558413f5a044abd07a7482565a1a5134fe7ec19e",
+  "created_utc": "2026-11-01T07:29:16.612052+00:00",
+  "code_hashes": {
+    "src/graphpathology/extension_train.py": "7153de4e05fe50da0f19591186ccd97b9b73b5a085ab745fca614e832f6ac5e7",
+    "src/graphpathology/extension_data.py": "ae9e9ea671766674f49a7208d2780fec6c9df59a05364c21ed56444139c0813c",
+    "src/graphpathology/extension_evaluate.py": "f3c9c27fe0e56f8d82f92168912cde9434033551d5b5cf8d13d4e58ec98b1a14",
+    "src/graphpathology/extension_models.py": "322403a60f0ad8a525e3dbbb3baef5b03bb384084858908e90471c00e23b0286",
+    "src/graphpathology/extension.py": "4c057450ff0050e4cf6e34bfdf5f33829e082f3112afa25328a8d5f787e8c80e"
+  },
+  "environment": {
+    "protocol_commit": "2e70b30722b56317e82005999ed90d8faeb2537a",
+    "python": "3.12.3",
+    "executable": "/home/hytruongson/Documents/Codex/2026-10-31/pleas/work/venv/bin/python",
+    "cuda_available": false,
+    "packages": {
+      "torch": "2.8.0+cpu",
+      "torchvision": "0.23.0+cpu",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.1.0",
+      "h5py": "3.16.0",
+      "scikit-learn": "1.9.1",
+      "requests": "2.34.2",
+      "matplotlib": "3.11.2",
+      "pytest": "9.2.0"
+    },
+    "compute": "CPU; 4 BLAS/torch threads; no paid service",
+    "acquisition_deviation": "Molecular and HEST acquisition overlapped with two workers per process (up to four aggregate download workers); no analytical settings changed."
+  },
+  "device": "cpu",
+  "threads": 4,
+  "status": "COMPLETE",
+  "variant": "gps_shuffled",
+  "seed": 1,
+  "parameters": 121018,
+  "selected_epoch": 46,
+  "epochs_ran": 56,
+  "validation_mse": 0.7055023908615112,
+  "elapsed_seconds": 22.14857147899602,
+  "peak_rss_mb": 629.6328125,
+  "best_checkpoint_relative": "checkpoints/journal_revision/transformer_egnn/gps_shuffled_seed1/best.pt",
+  "best_checkpoint_sha256": "afb6a49a846a5e198abe6446549154a8ca738d82a3960d46659f70ab0fee9201",
+  "input_cache_hashes": {
+    "NCBI783": "49adba0d4bf5b8b45dd9755aeac4f667d4eb7e82fe86d88ce7dfce33a785c3bf",
+    "NCBI785": "c7b2950b18d39dff9e3a210a5352246fe72af0750bfd5885c7ec1054ccdfb759",
+    "TENX95": "d8f690e55abb0773e945a14eac09bc5920a6b9b868478f873fc500d8fffaf641"
+  },
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "graph_controls": {
+    "NCBI783": {
+      "control": "shuffled"
+    },
+    "NCBI785": {
+      "control": "shuffled"
+    },
+    "TENX95": {
+      "control": "shuffled"
+    }
+  },
+  "training": {
+    "label": "post_v1_exploratory",
+    "variants": {
+      "gps_full": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_local": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "local",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_no_relative": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_self": {
+        "family": "gps",
+        "control": "self",
+        "attention": "self",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_shuffled": {
+        "family": "gps",
+        "control": "shuffled",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_degree_length": {
+        "family": "gps",
+        "control": "degree_length",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "distance_fixed": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_latent": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "distance_disabled": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_self": {
+        "family": "egnn",
+        "control": "self",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_shuffled": {
+        "family": "egnn",
+        "control": "shuffled",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_degree_length": {
+        "family": "egnn",
+        "control": "degree_length",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "matched_local": {
+        "family": "local",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_mean": {
+        "family": "MEAN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_gcn": {
+        "family": "GCN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_sage": {
+        "family": "SAGE",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72075
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "hidden": 64,
+    "layers": 2,
+    "heads": 4,
+    "landmarks": 32,
+    "local_attention_slots": 8,
+    "distance_scale_um": 250,
+    "dropout": 0.1,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001,
+    "loss": "mean squared error across all50 training targets",
+    "training_steps_per_epoch": 2,
+    "threads": 4,
+    "precision": "float32",
+    "old_frozen_baselines": 30
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 1.2704890966415405,
+      "validation_mse": 1.0314381122589111
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.9488389790058136,
+      "validation_mse": 0.9101787805557251
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.820711761713028,
+      "validation_mse": 0.8435379266738892
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.7264956831932068,
+      "validation_mse": 0.8037453889846802
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.652425616979599,
+      "validation_mse": 0.7813116908073425
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.6015099287033081,
+      "validation_mse": 0.7716767191886902
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.5652487874031067,
+      "validation_mse": 0.7706958055496216
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.52888123691082,
+      "validation_mse": 0.7739046216011047
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.49699291586875916,
+      "validation_mse": 0.7782312631607056
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.4739518463611603,
+      "validation_mse": 0.782368540763855
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.4544590413570404,
+      "validation_mse": 0.7840968370437622
+    },
+    {
+      "epoch": 12,
+      "training_mse": 0.43893443048000336,
+      "validation_mse": 0.7826759219169617
+    },
+    {
+      "epoch": 13,
+      "training_mse": 0.4278171956539154,
+      "validation_mse": 0.7812824845314026
+    },
+    {
+      "epoch": 14,
+      "training_mse": 0.4175758957862854,
+      "validation_mse": 0.7789822816848755
+    },
+    {
+      "epoch": 15,
+      "training_mse": 0.40734319388866425,
+      "validation_mse": 0.7761135697364807
+    },
+    {
+      "epoch": 16,
+      "training_mse": 0.39903178811073303,
+      "validation_mse": 0.7711430191993713
+    },
+    {
+      "epoch": 17,
+      "training_mse": 0.392688050866127,
+      "validation_mse": 0.7675560712814331
+    },
+    {
+      "epoch": 18,
+      "training_mse": 0.3859580308198929,
+      "validation_mse": 0.7616589069366455
+    },
+    {
+      "epoch": 19,
+      "training_mse": 0.3806344270706177,
+      "validation_mse": 0.7586326003074646
+    },
+    {
+      "epoch": 20,
+      "training_mse": 0.37561966478824615,
+      "validation_mse": 0.7560366988182068
+    },
+    {
+      "epoch": 21,
+      "training_mse": 0.37046465277671814,
+      "validation_mse": 0.7513922452926636
+    },
+    {
+      "epoch": 22,
+      "training_mse": 0.3654676675796509,
+      "validation_mse": 0.7480056285858154
+    },
+    {
+      "epoch": 23,
+      "training_mse": 0.3617318570613861,
+      "validation_mse": 0.7440339922904968
+    },
+    {
+      "epoch": 24,
+      "training_mse": 0.3576621562242508,
+      "validation_mse": 0.7405945658683777
+    },
+    {
+      "epoch": 25,
+      "training_mse": 0.3538699746131897,
+      "validation_mse": 0.7370994687080383
+    },
+    {
+      "epoch": 26,
+      "training_mse": 0.35032622516155243,
+      "validation_mse": 0.7333553433418274
+    },
+    {
+      "epoch": 27,
+      "training_mse": 0.34716223180294037,
+      "validation_mse": 0.7296733260154724
+    },
+    {
+      "epoch": 28,
+      "training_mse": 0.3436356335878372,
+      "validation_mse": 0.7274234294891357
+    },
+    {
+      "epoch": 29,
+      "training_mse": 0.3402604013681412,
+      "validation_mse": 0.7253318428993225
+    },
+    {
+      "epoch": 30,
+      "training_mse": 0.33838677406311035,
+      "validation_mse": 0.7225876450538635
+    },
+    {
+      "epoch": 31,
+      "training_mse": 0.3351108580827713,
+      "validation_mse": 0.7206827402114868
+    },
+    {
+      "epoch": 32,
+      "training_mse": 0.332170695066452,
+      "validation_mse": 0.7196451425552368
+    },
+    {
+      "epoch": 33,
+      "training_mse": 0.32887697219848633,
+      "validation_mse": 0.7190976738929749
+    },
+    {
+      "epoch": 34,
+      "training_mse": 0.32582342624664307,
+      "validation_mse": 0.7187089323997498
+    },
+    {
+      "epoch": 35,
+      "training_mse": 0.3240046501159668,
+      "validation_mse": 0.7176681756973267
+    },
+    {
+      "epoch": 36,
+      "training_mse": 0.3211294859647751,
+      "validation_mse": 0.7164495587348938
+    },
+    {
+      "epoch": 37,
+      "training_mse": 0.3184622526168823,
+      "validation_mse": 0.7151594758033752
+    },
+    {
+      "epoch": 38,
+      "training_mse": 0.31625308096408844,
+      "validation_mse": 0.713588297367096
+    },
+    {
+      "epoch": 39,
+      "training_mse": 0.31444233655929565,
+      "validation_mse": 0.7129449844360352
+    },
+    {
+      "epoch": 40,
+      "training_mse": 0.3115402013063431,
+      "validation_mse": 0.7120746374130249
+    },
+    {
+      "epoch": 41,
+      "training_mse": 0.309366911649704,
+      "validation_mse": 0.71062171459198
+    },
+    {
+      "epoch": 42,
+      "training_mse": 0.30710095167160034,
+      "validation_mse": 0.7102473378181458
+    },
+    {
+      "epoch": 43,
+      "training_mse": 0.30516307055950165,
+      "validation_mse": 0.708699643611908
+    },
+    {
+      "epoch": 44,
+      "training_mse": 0.3025812655687332,
+      "validation_mse": 0.7086438536643982
+    },
+    {
+      "epoch": 45,
+      "training_mse": 0.3001764416694641,
+      "validation_mse": 0.7097569108009338
+    },
+    {
+      "epoch": 46,
+      "training_mse": 0.2991100400686264,
+      "validation_mse": 0.7055023908615112
+    },
+    {
+      "epoch": 47,
+      "training_mse": 0.303077295422554,
+      "validation_mse": 0.7060324549674988
+    },
+    {
+      "epoch": 48,
+      "training_mse": 0.295855849981308,
+      "validation_mse": 0.7188999652862549
+    },
+    {
+      "epoch": 49,
+      "training_mse": 0.32567325234413147,
+      "validation_mse": 0.7184156775474548
+    },
+    {
+      "epoch": 50,
+      "training_mse": 0.30545467138290405,
+      "validation_mse": 0.7224384546279907
+    },
+    {
+      "epoch": 51,
+      "training_mse": 0.34796030819416046,
+      "validation_mse": 0.7348877191543579
+    },
+    {
+      "epoch": 52,
+      "training_mse": 0.3103442043066025,
+      "validation_mse": 0.7193179726600647
+    },
+    {
+      "epoch": 53,
+      "training_mse": 0.31760554015636444,
+      "validation_mse": 0.7229392528533936
+    },
+    {
+      "epoch": 54,
+      "training_mse": 0.317159503698349,
+      "validation_mse": 0.7190899848937988
+    },
+    {
+      "epoch": 55,
+      "training_mse": 0.3006478250026703,
+      "validation_mse": 0.7185227274894714
+    },
+    {
+      "epoch": 56,
+      "training_mse": 0.29913046956062317,
+      "validation_mse": 0.7387612462043762
+    }
+  ],
+  "optimizer_state_included": true,
+  "selection_patient": "TENX95",
+  "fitting_patients": [
+    "NCBI783",
+    "NCBI785"
+  ]
+}
