@@ -1,5 +1,6 @@
 """New, explicitly labelled CPU development fits; never substitutes historical checkpoints."""
 import copy
+import gzip
 import json
 from pathlib import Path
 import time
@@ -173,6 +174,8 @@ def _evaluate(root,data_root,output,checkpoint_root):
                 np.testing.assert_array_equal(f['barcodes'],sample['barcodes']);observed=np.flatnonzero(f['observed']);hidden=np.flatnonzero(~f['observed'])
             masks.append({'budget':budget,'replicate':replicate,'observed':observed,'hidden':hidden,'mask_sha256':sha(p)})
     panel=[];genes=[];predictions={};checks=0;start=time.monotonic()
+    input_hashes={s:sha(data_root/'processed/journal_v2_hest'/(s+'.npz')) for s in SAMPLES}
+    evaluation_cache=data_root/'processed/journal_v2_evaluation';evaluation_cache.mkdir(parents=True,exist_ok=True)
     for record in records:
         run_id=record['run_id'];checkpoint=checkpoint_root/(run_id+'.pt')
         if sha(checkpoint)!=record['checkpoint_sha256']:raise ValueError('Checkpoint mismatch at evaluation')
@@ -180,6 +183,13 @@ def _evaluate(root,data_root,output,checkpoint_root):
         net=mlp_model(x.shape[1],len(sample['genes']),record['config'])
         state=torch.load(checkpoint,map_location='cpu',weights_only=True);net.load_state_dict(state['state_dict']);net.eval()
         image=predict(net,x,'B2').astype(float);predictions[(record['model'],record['control'],record['seed'])]=image
+        cached=evaluation_cache/(run_id+'.json.gz')
+        if cached.exists():
+            with gzip.open(cached,'rt') as f:saved=json.load(f)
+            if saved['input_hashes']!=input_hashes or saved['checkpoint_sha256']!=record['checkpoint_sha256']:raise ValueError('Evaluation checkpoint inputs changed')
+            panel.extend(saved['panel']);genes.extend(saved['genes']);checks+=saved['corruption_checks']
+            print('EVALUATION METRICS RESUMED',run_id,flush=True);continue
+        panel_start=len(panel);gene_start=len(genes);check_start=checks
         for mask in masks:
             obs=mask['observed'];hid=mask['hidden'];base={k:v for k,v in mask.items() if k not in ['observed','hidden']}
             y=sample['targets'].astype(float);pred=hybrids(sample['xy_um'],y,image,obs,hid)
@@ -192,13 +202,25 @@ def _evaluate(root,data_root,output,checkpoint_root):
                 m=gene_metrics(y[hid],yp);attributes={**base,'run_id':run_id,'model':record['model'],'control':record['control'],'training_seed':record['seed'],'route':route}
                 panel.append({**attributes,'n_observed':len(obs),'n_hidden':len(hid),**summarize(m)})
                 for j,gene in enumerate(sample['genes']):genes.append({**attributes,'gene':gene,**{k:float(m[k][j]) for k in ['pearson','spearman','mse','mae']}})
-        print('EVALUATED',run_id,flush=True)
+        with gzip.open(cached,'wt') as f:json.dump({'input_hashes':input_hashes,'checkpoint_sha256':record['checkpoint_sha256'],'panel':panel[panel_start:],'genes':genes[gene_start:],'corruption_checks':checks-check_start},f)
+        print('EVALUATED AND CHECKPOINTED',run_id,flush=True)
     # Identity controls must equal the matching trained local model, not count as independent evidence.
     identity_checks=[]
     for seed in [0,1,2]:
         for model in ['MEAN','GCN']:
-            np.testing.assert_array_equal(predictions[('local','local',seed)],predictions[(model,'self',seed)])
-            identity_checks.append({'seed':seed,'control':model+'_self','bitwise_equal_local':True})
+            base=predictions[('local','local',seed)];other=predictions[(model,'self',seed)]
+            tolerance=32*np.finfo(np.float32).eps
+            np.testing.assert_allclose(base,other,rtol=tolerance,atol=tolerance)
+            for sample_name in SAMPLES:
+                equivalent=representation(data,scaled,graphs,model,'self',seed)[sample_name]
+                np.testing.assert_array_equal(equivalent,scaled[sample_name])
+            local_state=torch.load(checkpoint_root/f'journal_v2_local_local_seed{seed}.pt',map_location='cpu',weights_only=True)['state_dict']
+            self_state=torch.load(checkpoint_root/f'journal_v2_{model.lower()}_self_seed{seed}.pt',map_location='cpu',weights_only=True)['state_dict']
+            weight_delta=max(float(torch.max(abs(local_state[k]-self_state[k]))) for k in local_state)
+            if weight_delta>tolerance:raise ValueError('Self-control weights differ beyond float32 precision tolerance')
+            identity_checks.append({'seed':seed,'control':model+'_self','bitwise_equal_local':bool(np.array_equal(base,other)),
+                                    'max_prediction_abs_delta':float(np.max(abs(base-other))),'max_weight_abs_delta':weight_delta,
+                                    'inputs_bitwise_equal':True,'float32_rtol':float(tolerance),'float32_atol':float(tolerance)})
     table=pd.DataFrame(panel);table.to_csv(output/'EVALUATION_RUN_METRICS.csv',index=False)
     pd.DataFrame(genes).to_csv(output/'EVALUATION_GENE_METRICS.csv.gz',index=False)
     means=table.groupby(['model','control','training_seed','budget','route'])[['median_pearson','mean_mse','mean_mae']].mean().reset_index()
