@@ -507,14 +507,14 @@ GraphSAGE & 2 & 39 & 49 & 2.81 & 570 \\\bottomrule\end{longtable}
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionAttentionReach.pdf}
-\caption{\textbf{Conditional attention reach.} Dots are individual patient summaries after equal seed/head/layer means; large dots are cohort medians. Colors identify250/600/1200micrometer thresholds. This is a software/connectivity diagnostic, not evidence of molecular correlation. All GPS variants, seeds and patients are exported.}
+\caption{\textbf{Conditional attention reach.} Dots are individual patient summaries after equal seed/head/layer means; large dots are cohort medians. Colors identify 250/600/1200 micrometer thresholds. This is a software/connectivity diagnostic, not evidence of molecular correlation. All GPS variants, seeds and patients are exported.}
 \label{fig:ExtensionAttentionReach}
 \end{figure}
 \FloatBarrier
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=\textwidth]{figures/extension/ExtensionLearningCurves.pdf}
-\caption{\textbf{All48 source-only training histories.} Every one of16 configurations and all three seeds are retained. Solid curves show training MSE, dashed curves validation MSE. Blue, orange and green identify seeds0,1 and2, respectively. Only TENX95 validation MSE selected epochs; evaluation outcomes did not select architecture or seeds.}
+\caption{\textbf{All 48 source-only training histories.} Every one of 16 configurations and all three seeds are retained. Solid curves show training MSE, dashed curves validation MSE. Blue, orange and green identify seeds 0, 1 and 2, respectively. Only TENX95 validation MSE selected epochs; evaluation outcomes did not select architecture or seeds.}
 \label{fig:ExtensionLearningCurves}
 \end{figure}
 \FloatBarrier
@@ -606,7 +606,7 @@ Conditional leave-one-patient-out sensitivity fits used the remaining three deve
 \subsection{Original graph controls and pathology representation}
 The matched controls in Supplementary Fig.~S5 retained the GraphSAGE head and training settings. The self-only control used $[X,X]$. Vertex permutation preserved the graph's degree distribution, while double-edge rewiring preserved each node's degree. The additional distance-constrained rewiring preserved the numbers of physical edge lengths in $[0,175)$, $[175,250)$ and $[250,\infty)$~\um{}. Rewiring targeted five accepted swaps per edge, with limits of 100 attempts per edge for degree-only rewiring and 1,000 for distance-constrained rewiring; the latter used candidate endpoints within 275~\um{}. Five graph randomization seeds were crossed with the three model seeds. The Phikon spatial sensitivity comparison reused the selected graph, hidden widths and dropout: mean pooling used $768\rightarrow128\rightarrow50$, and GraphSAGE used $1536\rightarrow67\rightarrow50$, with true and degree-plus-length-matched graphs. These inherited widths do not constitute exact parameter matching between encoders.
 
-Phikon used the public \texttt{owkin/phikon} ViT-B/16 model, pinned to \href{https://huggingface.co/owkin/phikon/tree/057cc0295895c2df3dd7681a89680da6015cbefe}{revision \texttt{057cc0295895}}. Its 12-layer transformer produced the 768-dimensional final-layer-normalized classification-token representation, without a pooler. The official \texttt{ViTImageProcessor} processed the same RGB patches as the ResNet18 analysis: $224\times224$ pixels, rescaling by $1/255$ and ImageNet channel means and standard deviations. There was no recropping, stain normalization or augmentation. Extraction used the model in evaluation mode with frozen weights, float32 precision, batches of 16 and eight CPU threads (Transformers 4.57.3, PyTorch scaled dot-product attention). The head and validation selection were as specified above; the encoder was not fine-tuned.
+The historical Phikon representation is defined in the main Methods subsection ``Registration and frozen image features''. Its C4 extraction used float32 evaluation-mode inference, batches of 16 and eight CPU threads (Transformers 4.57.3 and PyTorch scaled dot-product attention). It used the same archived RGB patches without recropping. Historical head selection and target scaling followed the development procedures above; these differ from the direct-C0-target, validation-MSE contract of the matched-backbone follow-up. Neither analysis fine-tuned the encoder.
 
 \subsection{Development ridge residual correction}
 The learned-propagation model in Supplementary Fig.~S7 is a gene-specific ridge residual correction using fixed graph summaries. Its image prediction $H$ is the equal average of the three frozen local MLP predictions from the representation comparison. Let $o$ be the observed-location indicator and $Z$ the expression matrix containing permitted observed vectors and zeros elsewhere. A self-inclusive row-normalized operator $P$ was constructed from the symmetrized six-nearest-neighbor graph capped at 250~\um{}. The observed masses and molecular messages were

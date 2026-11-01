@@ -78,7 +78,7 @@ def check(root,output,committed_only=False):
  report={'status':'PASS_EDITORIAL_INTEGRITY','base_commit':base['base_commit'],'protected_scientific_files_unchanged':len(base['protected_files'])-len(skipped),'author_local_gene_exports_not_installed':len(skipped),'prior_snapshot_files_checked':prior_checked,'new_fitted_states_sha256_verified':fit_count,'archive':archive['migration'],'numerical_table_bodies_unchanged':checked_tables,'headline_claims':claims,'abstract_words':len(abstract.split()),'matrix_captions_checked':9,'new_training_acquisition_or_prediction':False,'prior_snapshot':base['prior_source_snapshot']}
  Path(output).parent.mkdir(parents=True,exist_ok=True);Path(output).write_text(json.dumps(report,indent=2)+'\n');return report
 
-def package(root,output,check_directory):
+def package(root,output,check_directory,report_path=None):
  from .publication import compile_documents
  p=root/PACKAGE;files=[]
  for f in sorted(p.rglob('*')):
@@ -97,7 +97,7 @@ def package(root,output,check_directory):
  with zipfile.ZipFile(output) as z:z.extractall(stage)
  assert all(sha(stage/r['path'])==r['sha256'] for r in records)
  report={'status':'PASS_CLEAN_SOURCE_WITHOUT_BIBTEX','source_zip':str(output),'bytes':output.stat().st_size,'sha256':sha(output),'source_files':len(files),'documents':compile_documents(stage,bibliography=False),'research_data_or_checkpoints_needed':False}
- (root/'experiments/editorial/CLEAN_SOURCE_REPORT.json').write_text(json.dumps(report,indent=2)+'\n');return report
+ Path(report_path or root/'experiments/editorial/CLEAN_SOURCE_REPORT.json').write_text(json.dumps(report,indent=2)+'\n');return report
 
 def main():
  parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2]);sub=parser.add_subparsers(dest='action',required=True)

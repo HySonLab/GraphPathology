@@ -98,7 +98,7 @@ def summaries(effects,cfg):
     for identity,g in effects.groupby(keys,dropna=False):
         for metric in ['delta_pearson','relative_mse','delta_mae']:
             values=g[metric].to_numpy(float);finite=values[np.isfinite(values)]
-            if identity[1]=='Bassiouni':stats=patient_bootstrap(values,'positive' if metric=='delta_pearson' else 'negative',cfg['bootstrap_resamples'],cfg['bootstrap_seed'])
+            if identity[1]=='Bassiouni':stats=patient_bootstrap(values,n_resamples=cfg['bootstrap_resamples'],seed=cfg['bootstrap_seed'],direction='positive' if metric=='delta_pearson' else 'negative')
             else:stats={'n_patients':len(finite),'median_effect':float(np.median(finite)) if len(finite) else np.nan,'ci_low':np.nan,'ci_high':np.nan,'bootstrap_resamples':0,'bootstrap_seed':cfg['bootstrap_seed']}
             stats['n_improved']=int(np.sum(finite>0 if metric=='delta_pearson' else finite<0))
             rows.append(dict(zip(keys,identity))|{'effect':metric,**stats})

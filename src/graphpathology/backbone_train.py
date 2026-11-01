@@ -56,7 +56,7 @@ Source snapshot: ab0811134bb1d62719206ab11a43bd7c4dd5d813. Contract audit preced
 
 ## Usable matched ResNet18 configurations
 
-Every row below uses frozen torchvision ResNet18 IMAGENET1K_V1 (official f37072fd weights,512-D), official resize256/center-crop224 normalization, identical registered112um-field RGB patches, source-only scaler fit on NCBI783/NCBI785, C0-normalized50-gene targets without another head target scaler, AdamW0.001/decay0.0001, pooled512-row minibatches/max80/patience10/min-delta0.0001. TENX95 alone selects minimum MSE. All external heads receive the frozen C9 T1 map once. The exact source/development/external masks0/1/2 and all three routes are available in extension evaluation bundles. Those are distinct from original ten-mask headline analyses. Checkpoint, prediction, support and export hashes are checked before reuse; no arrays will be invented.
+Every row below uses frozen torchvision ResNet18 IMAGENET1K_V1 (official f37072fd weights,512-D), official resize256/center-crop224 normalization, identical registered112um-field RGB patches (effective ResNet field87.5% of that width, approximately98um nominal), source-only scaler fit on NCBI783/NCBI785, C0-normalized50-gene targets without another head target scaler, AdamW0.001/decay0.0001, pooled512-row minibatches/max80/patience10/min-delta0.0001. TENX95 alone selects minimum MSE. All external heads receive the frozen C9 T1 map once. The exact source/development/external masks0/1/2 and all three routes are available in extension evaluation bundles. Those are distinct from original ten-mask headline analyses. Checkpoint, prediction, support and export hashes are checked before reuse; no arrays will be invented.
 
 | Configuration | Seed | Parameters | Selected/run epochs | Checkpoint | Reuse |
 |---|---:|---:|---:|---|---|
@@ -111,6 +111,8 @@ def train(root):
             np.testing.assert_array_equal(predict(net,xt[:32],'B2'),predict(restored,xt[:32],'B2'))
             assert fit['parameters']==parameter_count(xt.shape[1],head['hidden'],50)
             r=record(root,status='COMPLETE',backbone='phikon',run_id=run_id,model=model,control=control,seed=seed,config=head,training=cfg['training'],parameters=fit['parameters'],selected_epoch=fit['best_epoch'],epochs_ran=fit['epochs_run'],optimizer_updates=math.ceil(n/cfg['training']['batch_size'])*fit['epochs_run'],selected_optimizer_updates=math.ceil(n/cfg['training']['batch_size'])*fit['best_epoch'],checkpoint=str(state_path.relative_to(root)),checkpoint_sha256=sha(state_path),feature_scaler_sha256=sha(scaler_path),input_cache_hashes={s:sha(root/f'data/journal_revision/{STUDY}/phikon'/(s+'.npz')) for s in data},source_fit=cfg['source_fit'],validation=cfg['validation'],graphs=graphs,fit_seconds=time.monotonic()-begin,peak_rss_mb=memory.peak/2**20,history=fit['history'],serialization_exact=True)
+            r['protocol_json_sha256']=sha(root/f'configs/journal_revision/{STUDY}/protocol.json')
+            r['implementation_hashes']={name:sha(root/'src/graphpathology'/name) for name in ['core.py','graph.py','backbone_train.py','backbone_data.py']}
             write(path,r);records.append(r);print('MATCHED FIT COMPLETE',run_id,fit['best_epoch'],flush=True)
             if (time.monotonic()-start)/3600>cfg['head_max_wall_hours'] or memory.peak/2**30>cfg['max_rss_gib']:raise RuntimeError('Declared head resource ceiling exceeded')
     write(root/f'experiments/journal_revision/{STUDY}/FIT_MANIFEST.json',records);return records

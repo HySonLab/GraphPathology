@@ -300,6 +300,10 @@ def plot_more(root,package):
 
 
 def build(root,output=None,bibliography=True):
+ if (root/'manuscript/journal_revision/transformer_egnn/SOURCE_LAYOUT_MANIFEST.json').exists():
+  if output is None:raise FileExistsError('Maintained matched-backbone source is authoritative; specify a fresh build-output directory.')
+  from .backbone_paper import build as build_current
+  return build_current(root,output)
  from .publication import compile_documents
  base=root/'experiments/journal_revision/transformer_egnn';status=json.loads((base/'summary/STATUS.json').read_text());assert status['status']=='COMPLETE' and status['patients']==26
  package=prepare(root) if output is None else Path(output)

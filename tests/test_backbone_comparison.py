@@ -41,3 +41,12 @@ def test_shuffled_control_changes_spatial_alignment():
     assert 1-a.multiply(b).nnz/a.nnz>.5
     np.testing.assert_array_equal(np.sort(p),np.arange(200))
     assert np.allclose(np.sort(np.asarray(a.sum(1)).ravel()),np.sort(np.asarray(b.sum(1)).ravel()))
+
+
+def test_bassiouni_summary_uses_patient_bootstrap_and_direction():
+    from graphpathology.backbone_analysis import summaries
+    frame=pd.DataFrame({'backbone':['resnet18']*22,'cohort':['Bassiouni']*22,'design':['historical_V1']*22,'condition':['historical']*22,'budget':[.2]*22,'route':['image']*22,'candidate':['GCN_spatial']*22,'reference':['local_local']*22,'delta_pearson':[.01]*22,'relative_mse':[-.1]*22,'delta_mae':[-.02]*22})
+    result=summaries(frame,{'bootstrap_resamples':10000,'bootstrap_seed':20261101})
+    assert set(result.n_patients)=={22} and set(result.n_improved)=={22}
+    assert set(result.bootstrap_resamples)=={10000}
+    assert (result.ci_low==result.ci_high).all()
