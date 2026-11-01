@@ -37,8 +37,9 @@ def numerical(root,output):
     for r in rows:
         for key in ['panel','genes']:
             p=root/r[key];assert sha(p)==r[key+'_sha256'];files[str(p.relative_to(root))]=p
-        if r['status']=='COMPLETE':
-            p=(root/r['panel']).parent/'COMPLETE.json';files[str(p.relative_to(root))]=p
+        for name in ['BINS.csv.gz','COMPLETE.json']:
+            p=(root/r['panel']).parent/name
+            if p.exists():files[str(p.relative_to(root))]=p
     for patient in sorted({r['patient'] for r in rows}):
         for name in ['MOLECULAR.csv','MOLECULAR_GENES.csv.gz']:
             p=root/'experiments/journal_revision/transformer_egnn/evaluation'/patient/name;assert p.is_file();files[str(p.relative_to(root))]=p
@@ -52,6 +53,7 @@ def numerical(root,output):
     output=Path(output).resolve();output.parent.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile(output,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
         for name,path in sorted(files.items()):z.write(path,name)
+        z.writestr('README.txt','Author-local numerical review bundle: per-run/per-gene and distance-bin metrics, exact support manifests, paired patient summaries, all candidate histories and provenance. Raw tissue/count matrices, pretrained encoders, head binaries and full prediction caches are excluded. The separate head-state bundle restores documented states/scalers. No public release or DOI is claimed.\n')
         z.writestr('NUMERICAL_BUNDLE_MANIFEST.json',json.dumps({'files':manifest,'patient_model_bundles':936,'publication_status':'Author-local; not a public release.'},indent=2)+'\n')
     with zipfile.ZipFile(output) as z:assert z.testzip() is None
     result=record(root,status='COMPLETE',bundle='author_local_numerical',path=str(output),bytes=output.stat().st_size,sha256=sha(output),patient_model_bundles=936,files=manifest)

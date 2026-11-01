@@ -1,22 +1,27 @@
-# Scientific Reports editorial manuscript
+# Current Scientific Reports matched-backbone manuscript
 
-This is the current author-review manuscript. Its scientific narrative centers on controlled measurement placement in 22 patients, with the complete original reconstruction results and negative graph comparisons retained. The abstract is 172 words and names GNNs only at a high level. Detailed development methods are consolidated in Supplementary Methods S6.
+This author-review version centers controlled measurement placement in 22 previously evaluated patients. Its expanded Introduction and separate Related Work explain the distinction between image context and observed molecular support. The abstract is 178 words and uses the general GNN description without an architecture inventory. The original molecular headline correlations remain correctly attributed.
 
-See `EDITORIAL_CHANGELOG.md`, `CLAIM_EVIDENCE_AUDIT.md` and `AUTHOR_RELEASE_CHECKLIST.md`. All 40 figures, 22 tables and 31 references remain. The [pre-edit manuscript snapshot](https://github.com/HySonLab/GraphPathology/tree/d1a0d1bb4e9d802b92186c010b1f86f3efdff2d6/manuscript/journal_revision/transformer_egnn) is preserved in Git history. Original arXiv sources, earlier journal files, experimental protocols, numerical exports and fitted states are unchanged.
+The matched follow-up separates graph versus local prediction within ResNet18 and Phikon from reconstruction with identical molecular anchors and from anchor-only IDW. GCN-assisted reconstruction improves all three endpoints over local-assisted prediction in all 22 Bassiouni patients with both encoders, while IDW remains stronger on the cohort-median endpoints. Image-only comparisons and other heads include mixed and negative findings. Neighborhood averaging and shuffled controls qualify topology-specific interpretation. All earlier empirical evidence, including the nonlocal and latent-coordinate negative findings, remains present.
 
-Build the current source without research downloads or training:
+The [comparison protocol and reproduction guide](../../../docs/MATCHED_BACKBONE_COMPARISON.md) describe actual source/validation-guided selection and resource revisions. This is exploratory follow-up on inspected patients, not fresh blind validation. The original arXiv v1 and earlier journal packages remain preserved. The pre-edit current-source snapshot is [commit ab0811134](https://github.com/HySonLab/GraphPathology/tree/ab0811134bb1d62719206ab11a43bd7c4dd5d813/manuscript/journal_revision/transformer_egnn).
 
-```bash
-python -m graphpathology.extension paper --build-output outputs/editorial-manuscript
-python -m graphpathology.editorial check --output outputs/editorial-integrity.json
-```
+`CURRENT_DISPLAY_MAP.csv` is the current numbering and page map. `DISPLAY_BASELINE.json` and `DISPLAY_CHANGES.json` document deliberate changes. Historical V1, JOURNAL and EXTENSION target ledgers remain historical regression records. The conceptual information-boundary schematic is archived outside this active package; no empirical display was removed. The current manuscript has 40 figures, 24 tables and 40 cited references. The verified PDFs have 94 combined pages, 42 article pages and 52 supplement pages, with no final TeX diagnostics. The build report records the checks.
 
-A checkout without author-local full gene files/states uses `check --committed-only`; skipped files are explicitly counted. For a clean standalone ZIP that is tested without BibTeX:
+Build maintained sources without research downloads or model execution:
 
 ```bash
-python -m graphpathology.editorial package --output outputs/GraphPathology_Scientific_Reports_Submission_Source.zip --check-directory work/source-check
+python -m graphpathology.backbone_paper build --output outputs/matched-manuscript
+python -m graphpathology.backbone_selected_verify --output outputs/matched-integrity.json
+python -m graphpathology.editorial check --output outputs/prior-integrity.json
 ```
 
-The source ZIP contains `.bbl` files and all figure assets; `bash build.sh` typesets all three documents. Use `bash build.sh --bibtex` after editing references. `scripts/regenerate_extension_figures.py` redraws from existing summary tables, then applies the current readable route/cohort labels. No raw research inputs or checkpoints are needed for document/figure regeneration. Do not invoke the historical research assembly to overwrite this editorial source.
+A public checkout uses `--committed-only` for integrity checks; absent author-local states and full gene arrays are explicitly counted, not replayed. Source output and extraction directories must be new:
 
-The full per-gene and model bundles remain author-local, with release-ready manifests and no claimed public deposit. Three original primary image-head binaries remain missing; publication generation is distinct from full original image-model replay. AI-assisted computational tools are disclosed in Methods, and the author's Editorial Board disclosure remains in Competing interests. PR #3 stays draft/unmerged for author review; no journal submission has occurred.
+```bash
+python -m graphpathology.backbone_paper package --output outputs/matched-source.zip --check-directory outputs/matched-source-check
+```
+
+The standalone source ZIP contains fresh `.bbl` files, vector assets, editable tables, source summaries and the exact pure plotting/table functions. `bash build.sh` builds all three PDFs without BibTeX; use `bash build.sh --bibtex` after editing references. `python scripts/regenerate_backbone_figures.py` regenerates the new comparison displays from `source_data/backbone/` with NumPy, pandas and Matplotlib, without model weights or research downloads. `scripts/regenerate_extension_figures.py` maintains earlier displays and removes the retired schematic from the active path. Historical research assembly cannot overwrite this maintained opening or restore the schematic.
+
+See `EDITORIAL_CHANGELOG.md`, `CLAIM_EVIDENCE_AUDIT.md` and `AUTHOR_RELEASE_CHECKLIST.md`. Full gene exports and head-state bundles remain author-local; no release or DOI is claimed. The original three primary image-head binaries remain missing. Sole-human authorship, the approved distinction between author direction and AI assistance, and the Editorial Board disclosure remain intact. PR #3 stays draft and unmerged; no submission occurred.
