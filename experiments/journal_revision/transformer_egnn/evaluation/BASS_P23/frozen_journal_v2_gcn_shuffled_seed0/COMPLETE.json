@@ -1,0 +1,70 @@
+{
+  "label": "post_v1_exploratory",
+  "protocol_commit": "2e03fae636d6f6527d25db58f4cbab72f7c1a286",
+  "code_commit": "51a01fc0d424da9f23afb4fbc00f986cc785fde6",
+  "created_utc": "2026-11-01T08:39:35.404676+00:00",
+  "code_hashes": {
+    "src/graphpathology/extension_diagnostics.py": "0a368df67dc0c5e7395eb63669ee0b5de94675a4bf19e347a242d4de099ae4a3",
+    "src/graphpathology/extension_train.py": "7153de4e05fe50da0f19591186ccd97b9b73b5a085ab745fca614e832f6ac5e7",
+    "src/graphpathology/extension_data.py": "dc4e615a142c88d5b7160a8eca9d0629cd4b1bdce15afe26c79b88d9d9178c3a",
+    "src/graphpathology/extension_evaluate.py": "6f52a76d0737190ebb039a987e448f835575177a52b6f72be08c9e9e641040d1",
+    "src/graphpathology/extension_verify.py": "93106b83fd8941607671696687bd587711baa36e6082ed80ed50e65a9fc16913",
+    "src/graphpathology/extension_bundle.py": "da00a91737fe21bc84c7c39ded3bb968232900e5f3d9541ae979a7b04e489bbc",
+    "src/graphpathology/extension_benchmark.py": "85acf18c0be4338267b1ec90552d9620cf28132b02c63463bdf9de2571d90ef5",
+    "src/graphpathology/extension_paper.py": "1171492003d94b23e6b1934199bc9ffccca86b7ec90a5bf549cb8139f1371dd3",
+    "src/graphpathology/extension_geo.py": "796645d55243842de103f3387b0dbdcf72d281cf2a55cf56c52d82e113926f96",
+    "src/graphpathology/extension_models.py": "322403a60f0ad8a525e3dbbb3baef5b03bb384084858908e90471c00e23b0286",
+    "src/graphpathology/extension.py": "8caef1013963018ff77fa2b7ed5a8898cd68d804835ca71a92c6b7162a33744f",
+    "src/graphpathology/extension_report.py": "c2f55af5b7c7e770d1f5a336e3645510159eff58d5b1c395b8f32d177cf3e026"
+  },
+  "environment": {
+    "protocol_commit": "2e70b30722b56317e82005999ed90d8faeb2537a",
+    "python": "3.12.3",
+    "executable": "/home/hytruongson/Documents/Codex/2026-10-31/pleas/work/venv/bin/python",
+    "cuda_available": false,
+    "packages": {
+      "torch": "2.8.0+cpu",
+      "torchvision": "0.23.0+cpu",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.1.0",
+      "h5py": "3.16.0",
+      "scikit-learn": "1.9.1",
+      "requests": "2.34.2",
+      "matplotlib": "3.11.2",
+      "pytest": "9.2.0"
+    },
+    "compute": "CPU; 4 BLAS/torch threads; no paid service",
+    "acquisition_deviation": "Molecular and HEST acquisition overlapped with two workers per process (up to four aggregate download workers); no analytical settings changed."
+  },
+  "device": "cpu",
+  "threads": 1,
+  "status": "COMPLETE",
+  "patient": "BASS_P23",
+  "model": {
+    "id": "frozen_journal_v2_gcn_shuffled_seed0",
+    "origin": "frozen",
+    "variant": "GCN_shuffled",
+    "seed": 0,
+    "checkpoint": "checkpoints/journal_revision/hest_learned/journal_v2_gcn_shuffled_seed0.pt",
+    "checkpoint_sha256": "6766cb8c20d93ff5a49585db36c2c7578276df12ad69e772d7600505065226ca",
+    "old_model": "GCN",
+    "old_control": "shuffled",
+    "old_config": {
+      "hidden": 128,
+      "dropout": 0.1
+    }
+  },
+  "input_cache_sha256": "c9323defa5b4deb7f73511c0f88e67922d9d60b8b973e07a7eaea5cb61f39735",
+  "prediction_sha256": "5b464934dcfe7c90b84c0884f7a9b75cef0f3dd3a94eab49d38a94e9a36cab48",
+  "n_mask_sets": 36,
+  "n_route_rows": 108,
+  "exact_label_corruption_checks": 144,
+  "elapsed_seconds": 2.9393800670004566,
+  "output_hashes": {
+    "PANEL.csv.gz": "398af876e396ba7fe1c617f3028804e87be4b0e581b5e52652f28d41e63fdf6d",
+    "GENES.csv.gz": "73a3503046f303f8d59c0e1d0e73bdf9d5bd8f60ac61ef84e4224074765317cd",
+    "BINS.csv.gz": "47dd2d3e08fbf268f106d25add4d294652dab06f316d4c662d5460d163c1f2ab"
+  },
+  "calibration": "frozen original C9 T1; no refit"
+}
