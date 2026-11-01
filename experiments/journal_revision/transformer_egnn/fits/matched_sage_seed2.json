@@ -1,0 +1,472 @@
+{
+  "label": "post_v1_exploratory",
+  "protocol_commit": "2e03fae636d6f6527d25db58f4cbab72f7c1a286",
+  "code_commit": "3bb84e35ec5ebd5a18fc7044970bb682b137b1ce",
+  "created_utc": "2026-11-01T07:36:40.316780+00:00",
+  "code_hashes": {
+    "src/graphpathology/extension_train.py": "7153de4e05fe50da0f19591186ccd97b9b73b5a085ab745fca614e832f6ac5e7",
+    "src/graphpathology/extension_data.py": "ae9e9ea671766674f49a7208d2780fec6c9df59a05364c21ed56444139c0813c",
+    "src/graphpathology/extension_evaluate.py": "5ad30d0a7a6c9c7fff99cdde5659dd42c5b7e3a4bf44dd306477db57425137fc",
+    "src/graphpathology/extension_models.py": "322403a60f0ad8a525e3dbbb3baef5b03bb384084858908e90471c00e23b0286",
+    "src/graphpathology/extension.py": "4c057450ff0050e4cf6e34bfdf5f33829e082f3112afa25328a8d5f787e8c80e"
+  },
+  "environment": {
+    "protocol_commit": "2e70b30722b56317e82005999ed90d8faeb2537a",
+    "python": "3.12.3",
+    "executable": "/home/hytruongson/Documents/Codex/2026-10-31/pleas/work/venv/bin/python",
+    "cuda_available": false,
+    "packages": {
+      "torch": "2.8.0+cpu",
+      "torchvision": "0.23.0+cpu",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.1.0",
+      "h5py": "3.16.0",
+      "scikit-learn": "1.9.1",
+      "requests": "2.34.2",
+      "matplotlib": "3.11.2",
+      "pytest": "9.2.0"
+    },
+    "compute": "CPU; 4 BLAS/torch threads; no paid service",
+    "acquisition_deviation": "Molecular and HEST acquisition overlapped with two workers per process (up to four aggregate download workers); no analytical settings changed."
+  },
+  "device": "cpu",
+  "threads": 4,
+  "status": "COMPLETE",
+  "variant": "matched_sage",
+  "seed": 2,
+  "parameters": 72075,
+  "selected_epoch": 39,
+  "epochs_ran": 49,
+  "validation_mse": 0.670473039150238,
+  "elapsed_seconds": 2.8091589269970427,
+  "peak_rss_mb": 569.59765625,
+  "best_checkpoint_relative": "checkpoints/journal_revision/transformer_egnn/matched_sage_seed2/best.pt",
+  "best_checkpoint_sha256": "880c78ddc9838f17a3b3101874879cf942bfb4a25f064e8599cad5ecb28142fd",
+  "input_cache_hashes": {
+    "NCBI783": "49adba0d4bf5b8b45dd9755aeac4f667d4eb7e82fe86d88ce7dfce33a785c3bf",
+    "NCBI785": "c7b2950b18d39dff9e3a210a5352246fe72af0750bfd5885c7ec1054ccdfb759",
+    "TENX95": "d8f690e55abb0773e945a14eac09bc5920a6b9b868478f873fc500d8fffaf641"
+  },
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "graph_controls": {
+    "NCBI783": {
+      "control": "spatial"
+    },
+    "NCBI785": {
+      "control": "spatial"
+    },
+    "TENX95": {
+      "control": "spatial"
+    }
+  },
+  "training": {
+    "label": "post_v1_exploratory",
+    "variants": {
+      "gps_full": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_local": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "local",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_no_relative": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_self": {
+        "family": "gps",
+        "control": "self",
+        "attention": "self",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_shuffled": {
+        "family": "gps",
+        "control": "shuffled",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_degree_length": {
+        "family": "gps",
+        "control": "degree_length",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "distance_fixed": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_latent": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "distance_disabled": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_self": {
+        "family": "egnn",
+        "control": "self",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_shuffled": {
+        "family": "egnn",
+        "control": "shuffled",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_degree_length": {
+        "family": "egnn",
+        "control": "degree_length",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "matched_local": {
+        "family": "local",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_mean": {
+        "family": "MEAN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_gcn": {
+        "family": "GCN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_sage": {
+        "family": "SAGE",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72075
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "hidden": 64,
+    "layers": 2,
+    "heads": 4,
+    "landmarks": 32,
+    "local_attention_slots": 8,
+    "distance_scale_um": 250,
+    "dropout": 0.1,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001,
+    "loss": "mean squared error across all50 training targets",
+    "training_steps_per_epoch": 2,
+    "threads": 4,
+    "precision": "float32",
+    "old_frozen_baselines": 30
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 1.0083073377609253,
+      "validation_mse": 0.9339407086372375
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.8670183718204498,
+      "validation_mse": 0.8767973780632019
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.7979941666126251,
+      "validation_mse": 0.8446286916732788
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.7336587905883789,
+      "validation_mse": 0.8254640698432922
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.6782872080802917,
+      "validation_mse": 0.8148475289344788
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.6317435204982758,
+      "validation_mse": 0.8067449331283569
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.5887111127376556,
+      "validation_mse": 0.7997719049453735
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.5525031387805939,
+      "validation_mse": 0.7938424348831177
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.5238294750452042,
+      "validation_mse": 0.7886220216751099
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.4977639317512512,
+      "validation_mse": 0.7837490439414978
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.4808596074581146,
+      "validation_mse": 0.7782325744628906
+    },
+    {
+      "epoch": 12,
+      "training_mse": 0.460403174161911,
+      "validation_mse": 0.7733632922172546
+    },
+    {
+      "epoch": 13,
+      "training_mse": 0.4458227753639221,
+      "validation_mse": 0.7683061361312866
+    },
+    {
+      "epoch": 14,
+      "training_mse": 0.4315807819366455,
+      "validation_mse": 0.7622222304344177
+    },
+    {
+      "epoch": 15,
+      "training_mse": 0.42203716933727264,
+      "validation_mse": 0.7566322684288025
+    },
+    {
+      "epoch": 16,
+      "training_mse": 0.40994375944137573,
+      "validation_mse": 0.7509055137634277
+    },
+    {
+      "epoch": 17,
+      "training_mse": 0.39739684760570526,
+      "validation_mse": 0.744448721408844
+    },
+    {
+      "epoch": 18,
+      "training_mse": 0.38914644718170166,
+      "validation_mse": 0.7391147017478943
+    },
+    {
+      "epoch": 19,
+      "training_mse": 0.3802819103002548,
+      "validation_mse": 0.735051691532135
+    },
+    {
+      "epoch": 20,
+      "training_mse": 0.37250642478466034,
+      "validation_mse": 0.7312828898429871
+    },
+    {
+      "epoch": 21,
+      "training_mse": 0.3650142401456833,
+      "validation_mse": 0.7266783118247986
+    },
+    {
+      "epoch": 22,
+      "training_mse": 0.35715480148792267,
+      "validation_mse": 0.7216000556945801
+    },
+    {
+      "epoch": 23,
+      "training_mse": 0.3524826914072037,
+      "validation_mse": 0.7167987823486328
+    },
+    {
+      "epoch": 24,
+      "training_mse": 0.34560003876686096,
+      "validation_mse": 0.7120633125305176
+    },
+    {
+      "epoch": 25,
+      "training_mse": 0.34037335216999054,
+      "validation_mse": 0.7068714499473572
+    },
+    {
+      "epoch": 26,
+      "training_mse": 0.33586227893829346,
+      "validation_mse": 0.7013190984725952
+    },
+    {
+      "epoch": 27,
+      "training_mse": 0.33041083812713623,
+      "validation_mse": 0.6967059969902039
+    },
+    {
+      "epoch": 28,
+      "training_mse": 0.3253109008073807,
+      "validation_mse": 0.6917892098426819
+    },
+    {
+      "epoch": 29,
+      "training_mse": 0.32065199315547943,
+      "validation_mse": 0.6862571835517883
+    },
+    {
+      "epoch": 30,
+      "training_mse": 0.31540945172309875,
+      "validation_mse": 0.6812728643417358
+    },
+    {
+      "epoch": 31,
+      "training_mse": 0.3120473027229309,
+      "validation_mse": 0.6777287125587463
+    },
+    {
+      "epoch": 32,
+      "training_mse": 0.30885641276836395,
+      "validation_mse": 0.6756031513214111
+    },
+    {
+      "epoch": 33,
+      "training_mse": 0.30492040514945984,
+      "validation_mse": 0.6736965179443359
+    },
+    {
+      "epoch": 34,
+      "training_mse": 0.30275069177150726,
+      "validation_mse": 0.671681821346283
+    },
+    {
+      "epoch": 35,
+      "training_mse": 0.2970535606145859,
+      "validation_mse": 0.6707779765129089
+    },
+    {
+      "epoch": 36,
+      "training_mse": 0.2937040627002716,
+      "validation_mse": 0.6708492040634155
+    },
+    {
+      "epoch": 37,
+      "training_mse": 0.29097552597522736,
+      "validation_mse": 0.6710160970687866
+    },
+    {
+      "epoch": 38,
+      "training_mse": 0.2878590226173401,
+      "validation_mse": 0.6708330512046814
+    },
+    {
+      "epoch": 39,
+      "training_mse": 0.28498536348342896,
+      "validation_mse": 0.670473039150238
+    },
+    {
+      "epoch": 40,
+      "training_mse": 0.2816225737333298,
+      "validation_mse": 0.670590341091156
+    },
+    {
+      "epoch": 41,
+      "training_mse": 0.27850960195064545,
+      "validation_mse": 0.6711332201957703
+    },
+    {
+      "epoch": 42,
+      "training_mse": 0.27663326263427734,
+      "validation_mse": 0.6708808541297913
+    },
+    {
+      "epoch": 43,
+      "training_mse": 0.27382682263851166,
+      "validation_mse": 0.6710353493690491
+    },
+    {
+      "epoch": 44,
+      "training_mse": 0.27120159566402435,
+      "validation_mse": 0.6712504029273987
+    },
+    {
+      "epoch": 45,
+      "training_mse": 0.26998254656791687,
+      "validation_mse": 0.6713293790817261
+    },
+    {
+      "epoch": 46,
+      "training_mse": 0.2668003439903259,
+      "validation_mse": 0.6707437038421631
+    },
+    {
+      "epoch": 47,
+      "training_mse": 0.2640232592821121,
+      "validation_mse": 0.6713622212409973
+    },
+    {
+      "epoch": 48,
+      "training_mse": 0.26273467391729355,
+      "validation_mse": 0.6719949841499329
+    },
+    {
+      "epoch": 49,
+      "training_mse": 0.26015912741422653,
+      "validation_mse": 0.6709943413734436
+    }
+  ],
+  "optimizer_state_included": true,
+  "selection_patient": "TENX95",
+  "fitting_patients": [
+    "NCBI783",
+    "NCBI785"
+  ]
+}

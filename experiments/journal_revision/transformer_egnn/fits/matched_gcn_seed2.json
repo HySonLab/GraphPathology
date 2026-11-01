@@ -1,0 +1,322 @@
+{
+  "label": "post_v1_exploratory",
+  "protocol_commit": "2e03fae636d6f6527d25db58f4cbab72f7c1a286",
+  "code_commit": "3bb84e35ec5ebd5a18fc7044970bb682b137b1ce",
+  "created_utc": "2026-11-01T07:36:31.367242+00:00",
+  "code_hashes": {
+    "src/graphpathology/extension_train.py": "7153de4e05fe50da0f19591186ccd97b9b73b5a085ab745fca614e832f6ac5e7",
+    "src/graphpathology/extension_data.py": "ae9e9ea671766674f49a7208d2780fec6c9df59a05364c21ed56444139c0813c",
+    "src/graphpathology/extension_evaluate.py": "5ad30d0a7a6c9c7fff99cdde5659dd42c5b7e3a4bf44dd306477db57425137fc",
+    "src/graphpathology/extension_models.py": "322403a60f0ad8a525e3dbbb3baef5b03bb384084858908e90471c00e23b0286",
+    "src/graphpathology/extension.py": "4c057450ff0050e4cf6e34bfdf5f33829e082f3112afa25328a8d5f787e8c80e"
+  },
+  "environment": {
+    "protocol_commit": "2e70b30722b56317e82005999ed90d8faeb2537a",
+    "python": "3.12.3",
+    "executable": "/home/hytruongson/Documents/Codex/2026-10-31/pleas/work/venv/bin/python",
+    "cuda_available": false,
+    "packages": {
+      "torch": "2.8.0+cpu",
+      "torchvision": "0.23.0+cpu",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pandas": "3.1.0",
+      "h5py": "3.16.0",
+      "scikit-learn": "1.9.1",
+      "requests": "2.34.2",
+      "matplotlib": "3.11.2",
+      "pytest": "9.2.0"
+    },
+    "compute": "CPU; 4 BLAS/torch threads; no paid service",
+    "acquisition_deviation": "Molecular and HEST acquisition overlapped with two workers per process (up to four aggregate download workers); no analytical settings changed."
+  },
+  "device": "cpu",
+  "threads": 4,
+  "status": "COMPLETE",
+  "variant": "matched_gcn",
+  "seed": 2,
+  "parameters": 72114,
+  "selected_epoch": 9,
+  "epochs_ran": 19,
+  "validation_mse": 0.790246844291687,
+  "elapsed_seconds": 1.3597888379954384,
+  "peak_rss_mb": 522.44140625,
+  "best_checkpoint_relative": "checkpoints/journal_revision/transformer_egnn/matched_gcn_seed2/best.pt",
+  "best_checkpoint_sha256": "f74a2fa048ce487605b008604c5bd49f333f48c60bd8f833049ded95fabfa03b",
+  "input_cache_hashes": {
+    "NCBI783": "49adba0d4bf5b8b45dd9755aeac4f667d4eb7e82fe86d88ce7dfce33a785c3bf",
+    "NCBI785": "c7b2950b18d39dff9e3a210a5352246fe72af0750bfd5885c7ec1054ccdfb759",
+    "TENX95": "d8f690e55abb0773e945a14eac09bc5920a6b9b868478f873fc500d8fffaf641"
+  },
+  "feature_scaler_sha256": "6335381832baf11e87366152a9942a8167ba988891faca99e240cebd83851820",
+  "graph_controls": {
+    "NCBI783": {
+      "control": "spatial"
+    },
+    "NCBI785": {
+      "control": "spatial"
+    },
+    "TENX95": {
+      "control": "spatial"
+    }
+  },
+  "training": {
+    "label": "post_v1_exploratory",
+    "variants": {
+      "gps_full": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_local": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "local",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_no_relative": {
+        "family": "gps",
+        "control": "spatial",
+        "attention": "global",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_self": {
+        "family": "gps",
+        "control": "self",
+        "attention": "self",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_shuffled": {
+        "family": "gps",
+        "control": "shuffled",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "gps_degree_length": {
+        "family": "gps",
+        "control": "degree_length",
+        "attention": "global",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 121018
+      },
+      "distance_fixed": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_latent": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "distance_disabled": {
+        "family": "egnn",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 87154
+      },
+      "egnn_self": {
+        "family": "egnn",
+        "control": "self",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_shuffled": {
+        "family": "egnn",
+        "control": "shuffled",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "egnn_degree_length": {
+        "family": "egnn",
+        "control": "degree_length",
+        "attention": "none",
+        "relative_distance": true,
+        "latent_updates": true,
+        "parameters": 87282
+      },
+      "matched_local": {
+        "family": "local",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_mean": {
+        "family": "MEAN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_gcn": {
+        "family": "GCN",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72114
+      },
+      "matched_sage": {
+        "family": "SAGE",
+        "control": "spatial",
+        "attention": "none",
+        "relative_distance": false,
+        "latent_updates": false,
+        "parameters": 72075
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "hidden": 64,
+    "layers": 2,
+    "heads": 4,
+    "landmarks": 32,
+    "local_attention_slots": 8,
+    "distance_scale_um": 250,
+    "dropout": 0.1,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "max_epochs": 80,
+    "patience": 10,
+    "min_delta": 0.0001,
+    "loss": "mean squared error across all50 training targets",
+    "training_steps_per_epoch": 2,
+    "threads": 4,
+    "precision": "float32",
+    "old_frozen_baselines": 30
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "training_mse": 1.0074338018894196,
+      "validation_mse": 0.9669745564460754
+    },
+    {
+      "epoch": 2,
+      "training_mse": 0.8889225721359253,
+      "validation_mse": 0.9279453754425049
+    },
+    {
+      "epoch": 3,
+      "training_mse": 0.805954247713089,
+      "validation_mse": 0.8960628509521484
+    },
+    {
+      "epoch": 4,
+      "training_mse": 0.7260112166404724,
+      "validation_mse": 0.8663263320922852
+    },
+    {
+      "epoch": 5,
+      "training_mse": 0.6692833602428436,
+      "validation_mse": 0.8408815264701843
+    },
+    {
+      "epoch": 6,
+      "training_mse": 0.6298214793205261,
+      "validation_mse": 0.8198866248130798
+    },
+    {
+      "epoch": 7,
+      "training_mse": 0.5962283909320831,
+      "validation_mse": 0.8046427369117737
+    },
+    {
+      "epoch": 8,
+      "training_mse": 0.5647572129964828,
+      "validation_mse": 0.7943547964096069
+    },
+    {
+      "epoch": 9,
+      "training_mse": 0.5327577888965607,
+      "validation_mse": 0.790246844291687
+    },
+    {
+      "epoch": 10,
+      "training_mse": 0.5030272752046585,
+      "validation_mse": 0.7930708527565002
+    },
+    {
+      "epoch": 11,
+      "training_mse": 0.4831029772758484,
+      "validation_mse": 0.7980833649635315
+    },
+    {
+      "epoch": 12,
+      "training_mse": 0.4613535404205322,
+      "validation_mse": 0.8040152788162231
+    },
+    {
+      "epoch": 13,
+      "training_mse": 0.45131930708885193,
+      "validation_mse": 0.8080042004585266
+    },
+    {
+      "epoch": 14,
+      "training_mse": 0.435845211148262,
+      "validation_mse": 0.8087528347969055
+    },
+    {
+      "epoch": 15,
+      "training_mse": 0.42950303852558136,
+      "validation_mse": 0.8088324666023254
+    },
+    {
+      "epoch": 16,
+      "training_mse": 0.42096592485904694,
+      "validation_mse": 0.8086473345756531
+    },
+    {
+      "epoch": 17,
+      "training_mse": 0.4127671718597412,
+      "validation_mse": 0.8077270984649658
+    },
+    {
+      "epoch": 18,
+      "training_mse": 0.40658725798130035,
+      "validation_mse": 0.8083211183547974
+    },
+    {
+      "epoch": 19,
+      "training_mse": 0.3995157480239868,
+      "validation_mse": 0.8088493347167969
+    }
+  ],
+  "optimizer_state_included": true,
+  "selection_patient": "TENX95",
+  "fitting_patients": [
+    "NCBI783",
+    "NCBI785"
+  ]
+}
