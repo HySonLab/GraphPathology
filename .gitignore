@@ -11,3 +11,9 @@ checkpoints/models/*
 # New journal-v2 trained binaries/caches are separate from released evidence.
 checkpoints/journal_revision/
 experiments/journal_revision/results/**/.evaluation.lock
+
+# Full extension per-gene exports are preserved in a hashed, release-ready author bundle.
+# Keep panels, support bins, completion records and manifests reviewable in Git.
+/experiments/journal_revision/transformer_egnn/evaluation/**/GENES.csv.gz
+/experiments/journal_revision/transformer_egnn/evaluation/**/MOLECULAR_GENES.csv.gz
+/experiments/journal_revision/transformer_egnn/bassiouni_anchors/**/GENE_METRICS.csv.gz

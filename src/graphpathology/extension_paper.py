@@ -85,14 +85,14 @@ def plot_all(root,package):
     fig.legend(*axs[0].get_legend_handles_labels(),loc='lower center',ncol=3,fontsize=11)
    fig.tight_layout(rect=(0,.04,1,1) if cohort=='Wu' else (0,0,1,1));save(fig,'ExtensionMatrix_'+cohort+'_'+route)
  # Reach is a software diagnostic, not evidence of molecular biology.
- reach=pd.read_csv(src/'ATTENTION_REACH.csv' if (src/'ATTENTION_REACH.csv').exists() else base/'diagnostics/ATTENTION_REACH.csv');reach.to_csv(src/'ATTENTION_REACH.csv',index=False)
+ reach=pd.read_csv(src/'ATTENTION_REACH.csv' if (src/'ATTENTION_REACH.csv').exists() else base/'diagnostics/ATTENTION_REACH.csv');reach.to_csv(src/'ATTENTION_REACH.csv',index=False) if not (src/'ATTENTION_REACH.csv').exists() else None
  return figures
 
 
 def prepare(root):
- package=root/'manuscript/journal_transformer_egnn'
+ package=root/'manuscript/journal_revision/transformer_egnn'
  if package.exists():raise ValueError('Refuse to overwrite an existing versioned manuscript; build into a clean checkout/output instead')
- shutil.copytree(root/'manuscript/journal_revision',package,ignore=lambda p,n:[x for x in n if x.startswith('GraphPathology_') and x.endswith('.pdf')])
+ shutil.copytree(root/'manuscript/journal_revision',package,ignore=lambda p,n:[x for x in n if x=='transformer_egnn' or (x.startswith('GraphPathology_') and x.endswith('.pdf'))])
  for name in ['JOURNAL_BUILD_REPORT.json']:
   if (package/name).exists():(package/name).unlink()
  src=package/'source_data/extension';src.mkdir(parents=True)
@@ -247,7 +247,7 @@ def plot_more(root,package):
  def save(fig,name):
   fig.savefig(out/(name+'.pdf'),bbox_inches='tight');fig.savefig(out/(name+'.png'),dpi=160,bbox_inches='tight');plt.close(fig);figures.append(name)
  reaches=[pd.read_csv(base/'diagnostics/ATTENTION_REACH.csv')]+[pd.read_csv(p) for p in sorted((base/'diagnostics/recovered').glob('*/ATTENTION_REACH.csv'))] if not (src/'ALL_ATTENTION_REACH.csv').exists() else [pd.read_csv(src/'ALL_ATTENTION_REACH.csv')]
- reach=pd.concat(reaches,ignore_index=True);reach['cohort']=np.where(reach.patient=='TENX99','Development',np.where(reach.patient.str.startswith('BASS_'),'Bassiouni','Wu'));reach.to_csv(src/'ALL_ATTENTION_REACH.csv',index=False)
+ reach=pd.concat(reaches,ignore_index=True);reach['cohort']=np.where(reach.patient=='TENX99','Development',np.where(reach.patient.str.startswith('BASS_'),'Bassiouni','Wu'));reach.to_csv(src/'ALL_ATTENTION_REACH.csv',index=False) if not (src/'ALL_ATTENTION_REACH.csv').exists() else None
  metrics=['physical_fraction_beyond','assigned_fraction_beyond','attention_mass_beyond'];variants=[v for v in VARIANTS if v.startswith('gps_')]
  r=reach.groupby(['cohort','patient','variant','threshold_um','seed'])[metrics].mean().groupby(['cohort','patient','variant','threshold_um']).mean().reset_index()
  fig,axs=plt.subplots(3,3,figsize=(10,8),sharex=True,sharey=True)
@@ -282,7 +282,7 @@ def plot_more(root,package):
  else:
   bins=pd.concat(frames,ignore_index=True);bins=bins[(bins.design=='B2_identical_H')&(bins.condition=='region_exclusion')&(bins.budget==.2)]
   keys=['patient','variant','origin','route','training_seed','low_um'];bm=bins.groupby(keys)[['mean_mse','mean_mae','n_locations']].mean().groupby([k for k in keys if k!='training_seed']).mean().reset_index();bm.to_csv(src/'BASSIOUNI_DISTANCE_PATIENT_METRICS.csv',index=False)
- support=bm[(bm.variant=='idw_k16_p2')].groupby('low_um').agg(n_patients=('patient','nunique'),median_locations_per_mask=('n_locations','median'),min_locations_per_mask=('n_locations','min'),max_locations_per_mask=('n_locations','max'));support.to_csv(src/'BASSIOUNI_DISTANCE_SUPPORT.csv')
+ support=bm[(bm.variant=='idw_k16_p2')].groupby('low_um').agg(n_patients=('patient','nunique'),median_locations_per_mask=('n_locations','median'),min_locations_per_mask=('n_locations','min'),max_locations_per_mask=('n_locations','max'));support.to_csv(src/'BASSIOUNI_DISTANCE_SUPPORT.csv') if not (src/'BASSIOUNI_DISTANCE_SUPPORT.csv').exists() else None
  fig,axs=plt.subplots(3,1,figsize=(9,10),sharex=True)
  for ax,route in zip(axs,ROUTES):
   for j,variant in enumerate(list(VARIANTS)+['idw_k16_p2','uniform_k16']):
@@ -301,7 +301,7 @@ def build(root,output=None,bibliography=True):
  package=prepare(root) if output is None else Path(output)
  if output is not None:
   if package.exists():raise ValueError('Build destination must not exist')
-  shutil.copytree(root/'manuscript/journal_transformer_egnn',package)
+  shutil.copytree(root/'manuscript/journal_revision/transformer_egnn',package)
  else:
   figures=plot_all(root,package)+plot_more(root,package);assemble(root,package,figures)
   text=(package/'supplementary_content.tex').read_text()
