@@ -41,6 +41,29 @@ def prepare(root, data_root):
     records = []
     for sample in SAMPLES:
         dest = cache / (sample + '.npz'); meta = dest.with_suffix('.json')
+        if dest.exists() and not meta.exists():
+            # A complete cache may survive interruption between NPZ close and metadata write.
+            # Verify every aligned array plus three exact original-batch forwards before recovery.
+            recovery_start=time.monotonic()
+            slide=read_slide(raw,sample,float(metadata.loc[sample,'pixel_size_um_estimated']))
+            with np.load(dest) as f: recovered={k:f[k].copy() for k in f.files}
+            idx=[list(slide.genes).index(g) for g in genes]
+            expected_y=normalized(root,slide.counts[:,idx].astype(float)).astype(np.float32)
+            for key,value in [('barcodes',slide.barcodes),('genes',np.array(genes)),('xy_um',slide.xy_um),('targets',expected_y)]: np.testing.assert_array_equal(recovered[key],value)
+            if recovered['embeddings'].shape!=(len(slide.barcodes),512) or not np.isfinite(recovered['embeddings']).all():raise ValueError('Interrupted feature cache is incomplete')
+            starts=[0,(len(slide.barcodes)//2//64)*64,((len(slide.barcodes)-1)//64)*64]
+            with h5py.File(slide.patch_path) as f:
+                for begin in starts:
+                    batch=torch.stack([transform(Image.fromarray(im)) for im in f['img'][begin:begin+64]])
+                    with torch.inference_mode(): expected=net(batch).numpy()
+                    np.testing.assert_array_equal(recovered['embeddings'][begin:begin+len(expected)],expected)
+            record=provenance(root,sample=sample,n_locations=len(slide.barcodes),cache_sha256=sha(dest),encoder_sha256=weight_sha,
+                              status='RECOVERED_VERIFIED_COMPLETE_CACHE_AFTER_METADATA_INTERRUPTION',verified_forward_batch_starts=starts,
+                              recovery_validation_seconds=time.monotonic()-recovery_start,elapsed_seconds=None,
+                              original_full_feature_runtime='Not reconstructed after process interruption',max_alignment_error_px=slide.coordinate_error_px,
+                              source_expression_sha256=sha(raw/'IDC/adata'/(sample+'.h5ad')),source_patches_sha256=sha(slide.patch_path),
+                              normalization_sha256=sha(root/'checkpoints/legacy/reports/C0/C0_NORMALIZATION.json'))
+            meta.write_text(json.dumps(record,indent=2)+'\n');print('FEATURE CACHE RECOVERED AND VERIFIED',sample,flush=True)
         if dest.exists():
             record = json.loads(meta.read_text())
             if sha(dest) != record['cache_sha256']: raise ValueError('New feature cache modified')
