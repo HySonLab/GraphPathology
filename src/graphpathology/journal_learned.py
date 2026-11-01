@@ -182,7 +182,7 @@ def evaluate(root,data_root,output,checkpoint_root):
     means.to_csv(output/'SEED_METRICS.csv',index=False)
     seeds=means.groupby(['model','control','budget','route'])[['median_pearson','mean_mse','mean_mae']].agg(['mean','std','min','max'])
     seeds.columns=['_'.join(c) for c in seeds.columns];seeds.reset_index().to_csv(output/'TRAINING_SEED_SUMMARY.csv',index=False)
-    result=provenance(root,status='COMPLETE_DEVELOPMENT_ONLY',protocol_E_commit='7e3cc167f',fit_models=len(records),n_evaluation_patients=1,
+    result=provenance(root,status='COMPLETE_DEVELOPMENT_ONLY',protocol_E_commit='7e3cc167fd066e8c9a104cfc696f6cbd4e343682',fit_models=len(records),n_evaluation_patients=1,
                       n_evaluation_rows=len(panel),hidden_corruption_checks=checks,identity_checks=identity_checks,elapsed_seconds=time.monotonic()-start,
                       warning='TENX99 was already used in v1 development; masks/training seeds/genes are not biological replicates. No model or hybrid selected from outcomes.')
     (output/'EVALUATION_STATUS.json').write_text(json.dumps(result,indent=2)+'\n');return result

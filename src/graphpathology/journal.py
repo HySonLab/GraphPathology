@@ -16,6 +16,7 @@ from .journal_methods import predict_anchors
 def provenance(root, **extra):
     return {'protocol_commit': PROTOCOL_COMMIT, 'code_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip(),
             'code_hashes': {str(p.relative_to(root)): sha(p) for p in sorted((root / 'src/graphpathology').glob('journal*.py'))},
+            'working_tree_dirty': bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True).strip()),
             'device': 'cpu', 'environment': json.loads((root / 'experiments/journal_revision/ENVIRONMENT.json').read_text()), **extra}
 
 
@@ -77,8 +78,20 @@ def main():
     p = sub.add_parser('learned-prepare')
     p = sub.add_parser('learned-train'); p.add_argument('--output', type=Path, required=True); p.add_argument('--checkpoints', type=Path, required=True)
     p = sub.add_parser('learned-evaluate'); p.add_argument('--output', type=Path, required=True); p.add_argument('--checkpoints', type=Path, required=True)
+    p = sub.add_parser('paper'); p.add_argument('--build-output', type=Path, required=True)
     args = parser.parse_args(); root = args.root.resolve(); data = args.data.resolve()
-    if args.action == 'acquire':
+    protected=[root/'checkpoints/legacy',root/'manuscript/revised',root/'results']
+    for name in ['data','output','checkpoints','build_output']:
+        value=getattr(args,name,None)
+        if value is not None:
+            resolved=Path(value).resolve()
+            if any(resolved==p or p in resolved.parents for p in protected): raise ValueError('Journal writes cannot target immutable v1 evidence')
+    if args.action == 'paper':
+        from .journal_figures import initialize_package,learned_figure
+        from .journal_paper import assemble,build
+        package=initialize_package(root); learned_figure(root,package); assemble(root,package)
+        print(json.dumps(build(root,args.build_output),indent=2))
+    elif args.action == 'acquire':
         from .journal_acquire import acquire
         print(json.dumps(acquire(root, data, args.cohorts, args.dry_run), indent=2))
     elif args.action == 'original-uncertainty':
