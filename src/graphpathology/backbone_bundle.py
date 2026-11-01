@@ -15,6 +15,8 @@ def weights(root,output):
             path=root/r[name];assert sha(path)==digest;files[str(path.relative_to(root))]=path
     for name in ['PROTOCOL.md','PROTOCOL_V2_TRAINING_REFINEMENT.md','RESOURCE_ADJUSTMENT.md','ALL_CANDIDATE_FIT_MANIFEST.json','SELECTED_FIT_MANIFEST.json','VALIDATION_SELECTION.json','ENVIRONMENT.json','ENCODER_ACQUISITION.json']:
         path=base/name;files[str(path.relative_to(root))]=path
+    for path in (base/'histories').glob('*.csv'):files[str(path.relative_to(root))]=path
+    assert len(list((base/'histories').glob('*.csv')))==72
     config=root/f'configs/journal_revision/{STUDY}/protocol.json';files[str(config.relative_to(root))]=config
     license_path=root/f'data/journal_revision/{STUDY}/encoder/LICENSE.txt';files['licenses/PHIKON_LICENSE.txt']=license_path
     manifest=[{'path':name,'bytes':path.stat().st_size,'sha256':sha(path)} for name,path in sorted(files.items())]
@@ -40,7 +42,7 @@ def numerical(root,output):
     for patient in sorted({r['patient'] for r in rows}):
         for name in ['MOLECULAR.csv','MOLECULAR_GENES.csv.gz']:
             p=root/'experiments/journal_revision/transformer_egnn/evaluation'/patient/name;assert p.is_file();files[str(p.relative_to(root))]=p
-    for directory in ['summary','fixed_lr1e3_resnet_summary','supports','fits','trials']:
+    for directory in ['summary','fixed_lr1e3_resnet_summary','supports','fits','trials','histories']:
         for path in (base/directory).rglob('*'):
             if path.is_file():files[str(path.relative_to(root))]=path
     for path in base.glob('*.json'):

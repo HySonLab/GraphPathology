@@ -101,8 +101,12 @@ def report(root):
     for r in candidates:
         rows.append({'backbone':r['backbone'],'model':r['model'],'control':r['control'],'seed':r['seed'],'learning_rate':r['learning_rate'],'selected_for_evaluation':(r['backbone'],r['model'],r['control'],r['seed'],r['learning_rate']) in selected_keys,'status':r['status'],'parameters':r['parameters'],'selected_epoch':r['selected_epoch'],'epochs_ran':r['epochs_ran'],'optimizer_updates':r.get('optimizer_updates',14*r['epochs_ran']),'validation_mse':r['validation_mse'],'fit_seconds':r['fit_seconds'],'peak_rss_mb':r['peak_rss_mb'],'checkpoint':r['checkpoint'],'checkpoint_sha256':r['checkpoint_sha256']})
     fits=pd.DataFrame(rows);fits.to_csv(base/'MODEL_MANIFEST.csv',index=False);fits.to_csv(source/'MODEL_MANIFEST.csv',index=False)
+    history_dir=base/'histories';history_dir.mkdir(exist_ok=True)
     for r in candidates:
-        if 'history' in r:pd.DataFrame(r['history']).to_csv(source/(r['run_id']+'_history.csv'),index=False)
+        history=pd.DataFrame(r['history']) if 'history' in r else pd.read_csv(root/Path(r['source_fit_record']).with_name(Path(r['source_fit_record']).stem+'_history.csv'))
+        assert len(history)==r['epochs_ran'] and np.isfinite(history[['training_mse','validation_mse']].to_numpy()).all()
+        assert abs(history.iloc[r['selected_epoch']-1].validation_mse-r['validation_mse'])<1e-12
+        history.to_csv(source/(r['run_id']+'_history.csv'),index=False);history.to_csv(history_dir/(r['run_id']+'_history.csv'),index=False)
     resource_table(root,package)
     title=['# Matched backbone comparison report','','Status: COMPLETE. ResNet18 selected heads/results: REUSED_VERIFIED; Phikon selected heads/results: COMPLETE. All 72 source-validation candidates are preserved; 36 validation-selected predictors are evaluated. This exploratory follow-up uses previously inspected patients, not fresh blind validation.','','Primary condition: historical distributed 20%, exact masks0/1/2; three training seeds averaged within patient. External predictions use the fixed C9 T1 contract once. Pearson, MSE and MAE are interpreted jointly.','','## Question A — graph context versus a matched local image head','']
     for backbone in ['resnet18','phikon']:
