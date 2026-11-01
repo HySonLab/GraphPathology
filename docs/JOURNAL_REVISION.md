@@ -13,7 +13,7 @@ The main protocol was committed before new comparator outcomes: `2e70b30722b5631
 | B2: identical H, equal anchor count | COMPLETE for Wu, one preregistered central region, two operators, ten seeds, all budgets; Bassiouni BLOCKED |
 | C: patient uncertainty | COMPLETE original-export reanalysis, 22 Bassiouni and three Wu patients; bootstrap patients only (10,000, seed20261101); no primary Wu bootstrap claim |
 | D: predeclared gene maps | COMPLETE actual Wu1160920F V1/central-V2, ERBB2/EPCAM/FOXA1/POSTN; BASS_P01 BLOCKED; no synthetic replacement |
-| E: new local/mean/GCN/GraphSAGE heads | Real HEST inputs and official encoder acquired; see `results/hest_learned/EVALUATION_STATUS.json` for executed completion and exact all-seed outputs |
+| E: new local/mean/GCN/GraphSAGE heads | COMPLETE: 30 new heads, 1,080 route rows and 1,080 exact label-corruption checks;one previously used development patient;see `results/hest_learned/EVALUATION_STATUS.json` |
 | Harmonic extension, FPS B2, novel/multihop architectures | SKIPPED in protocol V1, not failed experiments |
 | Historical selected heads | Still missing; new journal fits never substitute for their original identities |
 
