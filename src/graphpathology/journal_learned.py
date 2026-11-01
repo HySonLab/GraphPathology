@@ -133,7 +133,7 @@ def hybrids(xy,y,image,observed,hidden):
             'fixed_20pct_image':.2*image[hidden]+.8*anchor, 'exploratory_residual_anchor':image[hidden]+residual}
 
 
-def evaluate(root,data_root,output,checkpoint_root):
+def _evaluate(root,data_root,output,checkpoint_root):
     from .journal import provenance
     from .core import mlp_model,predict
     data=load_prepared(data_root); records=json.loads((output/'FIT_MANIFEST.json').read_text())
@@ -184,5 +184,24 @@ def evaluate(root,data_root,output,checkpoint_root):
     seeds.columns=['_'.join(c) for c in seeds.columns];seeds.reset_index().to_csv(output/'TRAINING_SEED_SUMMARY.csv',index=False)
     result=provenance(root,status='COMPLETE_DEVELOPMENT_ONLY',protocol_E_commit='7e3cc167fd066e8c9a104cfc696f6cbd4e343682',fit_models=len(records),n_evaluation_patients=1,
                       n_evaluation_rows=len(panel),hidden_corruption_checks=checks,identity_checks=identity_checks,elapsed_seconds=time.monotonic()-start,
+                      input_cache_hashes={s:sha(data_root/'processed/journal_v2_hest'/(s+'.npz')) for s in SAMPLES},
+                      output_hashes={n:sha(output/n) for n in ['EVALUATION_RUN_METRICS.csv','EVALUATION_GENE_METRICS.csv.gz','SEED_METRICS.csv','TRAINING_SEED_SUMMARY.csv']},
                       warning='TENX99 was already used in v1 development; masks/training seeds/genes are not biological replicates. No model or hybrid selected from outcomes.')
     (output/'EVALUATION_STATUS.json').write_text(json.dumps(result,indent=2)+'\n');return result
+
+
+def evaluate(root,data_root,output,checkpoint_root):
+    import fcntl
+    output.mkdir(parents=True,exist_ok=True)
+    with (output/'.evaluation.lock').open('w') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        status=output/'EVALUATION_STATUS.json'
+        if status.exists():
+            record=json.loads(status.read_text())
+            for name,digest in record['output_hashes'].items():
+                if sha(output/name)!=digest:raise ValueError('Completed neural evidence modified')
+            for sample,digest in record['input_cache_hashes'].items():
+                if sha(data_root/'processed/journal_v2_hest'/(sample+'.npz'))!=digest:raise ValueError('Completed neural input cache changed')
+            print('EVALUATION RESUMED: verified existing evidence; not overwritten',flush=True)
+            return record
+        return _evaluate(root,data_root,output,checkpoint_root)
