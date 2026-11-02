@@ -1,0 +1,76 @@
+{
+  "training_elapsed_seconds": 14.921612899997854,
+  "training_peak_rss_bytes": 611311616,
+  "environment": {
+    "python": "3.12.3",
+    "torch": "2.8.0+cpu",
+    "numpy": "2.5.4",
+    "platform": "Linux-6.8.0-147-generic-x86_64-with-glibc2.39",
+    "logical_cpu": 12,
+    "device": "cpu",
+    "dtype": "float32",
+    "threads": 4,
+    "deterministic_algorithms": true,
+    "cuda_available": false
+  },
+  "stages": {
+    "tier_a": {
+      "completed_patients": {
+        "Bassiouni": 22,
+        "Wu": 3
+      },
+      "run_rows": 22500,
+      "paired_rows": 1725,
+      "summary_rows": 414,
+      "elapsed_seconds": 521.2230727220012,
+      "status": "EXACT_REPLAY",
+      "primary_gene_values_checked": 3375000,
+      "panel_rows_checked": 22500,
+      "corruption_checks": 45000,
+      "secondary_spearman": "Near-tie sensitivity; no strict secondary-rank exactness claim."
+    },
+    "tier_b": {
+      "origin": "RETRAINED_NOT_ORIGINAL",
+      "patients": 25,
+      "training_seeds": 3,
+      "mask_seeds": 10,
+      "panel_rows": 2000,
+      "hidden_corruption_checks": 4000,
+      "elapsed_seconds": 57.75732055499975,
+      "ensemble_criteria_pass": true,
+      "scope": "Historical primary M0 and M3,20% distributed V1 only; other original neural branches are not replayed."
+    },
+    "tier_c": {
+      "status": "PARTIAL",
+      "references_checked": 150,
+      "unique_best_states": 132,
+      "safe_resume_files": 48,
+      "real_patient": "BASS_P19",
+      "locations": 554,
+      "real_mask": "original V1 random seed0,20% anchors",
+      "scope": "All recovered model references; one actual small patient/mask, three prediction routes. No whole-cohort accuracy claim.",
+      "reference_replays": 114,
+      "safe_forward_only": 36,
+      "elapsed_seconds": 12.50931483900058
+    },
+    "matched": {
+      "status": "EXACT_REPLAY",
+      "patients": 22,
+      "selected_models": 12,
+      "panel_rows": 792,
+      "elapsed_seconds": 67.39239920700493,
+      "scope": "Actual recovered-weight forward predictions, original three neural masks,20% distributed residual GCN-versus-local, both backbones."
+    }
+  },
+  "new_training_fits": 3,
+  "public_research_dataset_bytes_downloaded_this_task": 0,
+  "paid_computing_services_used": false,
+  "note": "Research inputs were recovered caches; fresh license files and the clean-checkout encoder download are recorded separately.",
+  "clean_checkout_elapsed_seconds": 100.40996408600768,
+  "artifact_download_payload_bytes": 706622974,
+  "official_encoder_download_bytes": 46830571,
+  "license_download_payload_bytes": 49971,
+  "additional_anonymous_full_download_payload_bytes": 1665114,
+  "github_protocol_transfer_bytes": "Not instrumented",
+  "public_artifact_storage_bytes": 706647760
+}
