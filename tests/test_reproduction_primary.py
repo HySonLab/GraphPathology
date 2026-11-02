@@ -87,3 +87,47 @@ def test_training_save_load_retains_selected_validation_state(tmp_path):
     restored.load_state_dict(torch.load(path, weights_only=True)); restored.eval()
     with torch.inference_mode(): np.testing.assert_array_equal(restored(torch.from_numpy(x)).numpy(), expected)
     assert fit['best_epoch'] <= fit['epochs_run'] <= 3
+
+
+def test_reused_matched_state_keeps_original_export_path(tmp_path):
+    from graphpathology.reproduction_artifacts import matched_reference
+    path = tmp_path / 'experiments/journal_revision/transformer_egnn/evaluation/P/frozen_old/PANEL.csv.gz'
+    path.parent.mkdir(parents=True); path.write_bytes(b'reference')
+    assert matched_reference(tmp_path, 'P', 'old') == path
+    assert matched_reference(tmp_path, 'P', 'unselected_validation_only_trial') is None
+
+
+def test_strict_table_replay_does_not_hide_changed_support_or_failed_metrics():
+    import pandas as pd
+    from graphpathology.reproduction_replay import compare_tables
+    old = pd.DataFrame({'id':['a','b'],'value':[1.,2.]})
+    new = old.copy(); new.loc[1,'value'] += .01
+    assert compare_tables(new,old,['id'],['value'])['status'] == 'NOT_REPRODUCED'
+    with pytest.raises(ValueError,match='support'):
+        compare_tables(old.iloc[:1],old,['id'],['value'])
+
+
+def test_external_alignment_preserves_float64_instead_of_source_float32_contract():
+    from graphpathology.reproduction_replay import validate_external_alignment
+    y = np.array([[1.123456789012345]],dtype=np.float64)
+    cached = {'targets':y,'barcodes':np.array(['a']),'genes':np.array(['g']),'xy_um':np.zeros((1,2))}
+    real = {'targets':y.copy(),'barcodes':cached['barcodes'],'genes':cached['genes'],'xy':cached['xy_um']}
+    validate_external_alignment(cached,real)
+    with pytest.raises(ValueError,match='float64'):
+        validate_external_alignment({**cached,'targets':y.astype(np.float32)},real)
+
+
+def test_recovered_runtime_comes_from_archived_metadata(tmp_path):
+    from graphpathology.reproduction_artifacts import reference_threads
+    reference = tmp_path / 'PANEL.csv.gz'
+    (tmp_path / 'COMPLETE.json').write_text(json.dumps({'threads':1}))
+    assert reference_threads(reference) == 1
+    (tmp_path / 'COMPLETE.json').write_text('{}')
+    assert reference_threads(reference) == 4
+    assert reference_threads(None) == 4
+
+
+@pytest.mark.parametrize('features',[np.zeros((0,512)),np.zeros((3,511)),np.full((3,512),np.nan)])
+def test_reproduction_inference_rejects_invalid_feature_inputs(tmp_path,features):
+    with pytest.raises(ValueError,match='feature matrix'):
+        image_predictions(tmp_path/'missing-model',features)

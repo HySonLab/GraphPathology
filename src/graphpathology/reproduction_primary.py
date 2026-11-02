@@ -125,7 +125,7 @@ def audit_inputs(root, cfg):
 
 def load_heads(folder):
     manifest = json.loads((folder / 'MANIFEST.json').read_text())
-    if manifest['origin'] != ORIGIN or len(manifest['heads']) != 3:
+    if manifest['origin'] != ORIGIN or [r['seed'] for r in manifest['heads']] != [0,1,2]:
         raise ValueError('Replacement identity/ensemble size mismatch')
     heads = []
     for item in manifest['heads']:
@@ -145,6 +145,9 @@ def load_heads(folder):
 
 
 def image_predictions(folder, features):
+    features=np.asarray(features)
+    if features.ndim!=2 or features.shape[1]!=512 or len(features)==0 or not np.isfinite(features).all():
+        raise ValueError('Finite nonempty N by512 frozen feature matrix required')
     _, heads, sx, sy = load_heads(folder)
     x = sx.transform(features)
     individual = [sy.inverse(predict(h, x, 'B2')) for h in heads]
@@ -214,7 +217,8 @@ def main():
         output = checked_namespace(root, args.output, 'reproduction/runs')
         if output.exists(): raise FileExistsError(output)
         with np.load(args.features, allow_pickle=False) as f: features = f['embeddings']
-        image, _ = image_predictions(args.checkpoints, features)
+        torch.set_num_threads(4); torch.use_deterministic_algorithms(True)
+        with threadpool_limits(4): image, _ = image_predictions(args.checkpoints, features)
         output.parent.mkdir(parents=True, exist_ok=True)
         np.savez_compressed(output, prediction=image, origin=np.array(ORIGIN))
 
