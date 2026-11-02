@@ -72,8 +72,9 @@ box(5.12,3.69,1.96,1.10,'Three MLP heads\nLinear: 512 → 256\nGELU → dropout 
     fc='#f4f0f8',ec='#9b83ad',size=8.6)
 arrow(1.38,4.24,1.55,4.24);arrow(3.54,4.24,3.71,4.24);arrow(4.93,4.24,5.10,4.24)
 text(.12,3.40,'Patch processing: LANCZOS → 224; official resize → 256;\ncenter crop → 224; ImageNet channel normalization',8.0,va='center')
-text(6.10,3.36,'Invert target scaling for each head;\nmean of three 50-gene predictions',8.0,ha='center')
-arrow(6.10,3.68,6.10,3.57,color=violet)
+text(6.10,3.28,'Invert target scaling for each head;\nmean of three 50-gene predictions',8.0,ha='center')
+# Extend the downward connector and leave clear space above its output label.
+arrow(6.10,3.665,6.10,3.44,color=violet)
 ax.plot([.1,7.1],[3.05,3.05],color='#cad3da',lw=.8)
 
 heading(2.83,'c','Molecular interpolation and fixed fusion')
