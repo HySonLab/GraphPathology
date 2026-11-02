@@ -3,7 +3,11 @@
 **GraphPathology enables geometry-aware reconstruction of spatial transcriptomics from sparse molecular measurements**
 Truong-Son Hy, University of Alabama at Birmingham.
 
-[arXiv v1 combined paper + SI](manuscript/GraphPathology_Combined_Manuscript.pdf) · [Article only](manuscript/GraphPathology_Article_Only.pdf) · [Supplement](manuscript/GraphPathology_Supplementary.pdf)
+**Latest manuscript (Scientific Reports revision):** [Combined paper + SI](manuscript/journal_revision/transformer_egnn/GraphPathology_Combined_Manuscript_Transformer_EGNN.pdf) · [Article only](manuscript/journal_revision/transformer_egnn/GraphPathology_Article_Only_Transformer_EGNN.pdf) · [Supplement](manuscript/journal_revision/transformer_egnn/GraphPathology_Supplementary_Transformer_EGNN.pdf) · [Editable sources and build guide](manuscript/journal_revision/transformer_egnn/README.md)
+
+The latest manuscript centers the controlled measurement-placement experiments in 22 patients and includes the matched-backbone GNN comparisons. This is the current manuscript for author review and submission preparation; no journal acceptance is claimed.
+
+Historical version: [arXiv v1 combined paper + SI](manuscript/GraphPathology_Combined_Manuscript.pdf) · [Article only](manuscript/GraphPathology_Article_Only.pdf) · [Supplement](manuscript/GraphPathology_Supplementary.pdf)
 
 GraphPathology separates contextual image representations, reconstruction from observed same-section molecular anchors, and image–molecular fusion. Image and graph predictors are evaluated separately from molecular reconstruction; the original external headline results come from molecular interpolation. The tested fixed image contribution did not reproducibly improve external interpolation. V1/V2 differ in weighting and scoring support as well as geometry. External images are downsampled. A potential fivefold reduction concerns selective acquisition and proportional variable location costs, not proven total assay savings or learned long-range correlations.
 
@@ -34,9 +38,19 @@ python3.12 -m venv .venv
 
 The smoke route uses tiny synthetic heads and two backward steps; it is a software fixture, not original fitted-prediction replay. Each output directory must be new. Imports/help/tests do not download datasets or original weights. If venv creation lacks ensurepip, see the tested bootstrap in [REPRODUCING.md](docs/REPRODUCING.md).
 
-## Paper and figures from frozen exports
+## Build the latest manuscript
 
-The canonical author-supplied **PREFLIGHT_FIXED reconstructed** sources live in [manuscript/revised](manuscript/revised/README.md). They produce a 52-page combined manuscript, a 29-page article and a 23-page supplement. This is not a byte-identical recovery of the earlier 54-page source. All **29 display targets** (18 figures and 11 tables) are mapped in [REPRODUCTION_TARGETS.csv](docs/REPRODUCTION_TARGETS.csv).
+The maintained Scientific Reports sources are in [manuscript/journal_revision/transformer_egnn](manuscript/journal_revision/transformer_egnn/README.md). Build all three documents from committed sources without downloading research data or running experiments:
+
+```bash
+python -m graphpathology.backbone_paper build --output outputs/current-manuscript
+```
+
+The output directory must be new. TeX Live, BibTeX and Poppler are required. The latest archived PDFs include the corrected Figure 1b arrow from [PR #5](https://github.com/HySonLab/GraphPathology/pull/5).
+
+## Historical arXiv v1 paper and figures from frozen exports
+
+The preserved author-supplied **PREFLIGHT_FIXED reconstructed** sources live in [manuscript/revised](manuscript/revised/README.md). They produce a 52-page combined manuscript, a 29-page article and a 23-page supplement. This is not a byte-identical recovery of the earlier 54-page source. All **29 display targets** (18 figures and 11 tables) are mapped in [REPRODUCTION_TARGETS.csv](docs/REPRODUCTION_TARGETS.csv).
 
 ```bash
 python -m graphpathology publication --dry-run
@@ -61,7 +75,8 @@ The original fitted states are still missing, including all three selected prima
 ## Organization and provenance
 
 - `src/graphpathology/`, `tests/`, `configs/`: maintained numerical package, CLI and bounded tests.
-- `manuscript/revised/`: current immutable author sources, vector figures, exports and metadata. [ZIP/file provenance](manuscript/PACKAGE_PROVENANCE.json).
+- `manuscript/journal_revision/transformer_egnn/`: latest manuscript sources, vector figures and archived PDFs.
+- `manuscript/revised/`: immutable historical arXiv v1 author sources, vector figures, exports and metadata. [ZIP/file provenance](manuscript/PACKAGE_PROVENANCE.json).
 - `manuscript/history/`, `docs/history/`: explicitly superseded earlier PDFs and partial-validation reports.
 - `checkpoints/legacy/`: byte-preserved C1–C10, `reports/C0`, shared source/configuration and historical registry.
 - `checkpoints/models/`: canonical installation home for original states; [inventory](checkpoints/manifest.csv) records unavailable assets honestly.
@@ -79,8 +94,8 @@ Use the manuscript title and author above; [CITATION.cff](CITATION.cff) supplies
 
 ### Post-v1 bounded Transformer / EGNN extension
 
-The separate [extension documentation](docs/GRAPH_TRANSFORMER_EGNN.md) and [scientific report](experiments/journal_revision/transformer_egnn/SCIENTIFIC_REPORT.md) describe 48 new controlled fits and 78-model evaluation in 26 previously inspected patients. Exact GEO range recovery completed the 22-patient matched spatial baseline study. The primary neural models did not improve same-information IDW; all negative findings, controls and patient effects are retained. The versioned journal manuscript is under [manuscript/journal_revision/transformer_egnn](manuscript/journal_revision/transformer_egnn/). Earlier arXiv, journal and A–E evidence remains unchanged. Full gene exports/checkpoints have hashed author-local bundles and a release-ready manifest; raw datasets/model binaries are excluded from Git. Draft PR #3 requires author review before merge.
+The separate [extension documentation](docs/GRAPH_TRANSFORMER_EGNN.md) and [scientific report](experiments/journal_revision/transformer_egnn/SCIENTIFIC_REPORT.md) describe 48 new controlled fits and 78-model evaluation in 26 previously inspected patients. Exact GEO range recovery completed the 22-patient matched spatial baseline study. The primary neural models did not improve same-information IDW; all negative findings, controls and patient effects are retained. The versioned journal manuscript is under [manuscript/journal_revision/transformer_egnn](manuscript/journal_revision/transformer_egnn/). Earlier arXiv, journal and A–E evidence remains unchanged. Verified redistributable model heads and supporting numerical artifacts are available in the [research artifacts release](https://github.com/HySonLab/GraphPathology/releases/tag/research-artifacts-v1); see the [release and reproduction guide](docs/RELEASES.md). Phikon model weights remain private pending clarification of licensing and redistribution permissions. Raw datasets and model binaries are excluded from Git.
 
 ### Current matched-backbone Scientific Reports revision
 
-The maintained [journal manuscript](manuscript/journal_revision/transformer_egnn/) centers the controlled 22-patient measurement-placement result, with an expanded Introduction and a separate Related Work section. The [matched-backbone follow-up](docs/MATCHED_BACKBONE_COMPARISON.md) separates graph-versus-local prediction within ResNet18 and Phikon from the value beyond identical molecular support. All previous empirical findings remain; the conceptual information-boundary schematic is archived outside the active paper. New fits and validation-guided selection are separate from original states and earlier optimization regimes. See the [exploratory protocol](experiments/journal_revision/backbone_graph_comparison/PROTOCOL.md) and study manifests for actual execution and availability. Author-local weights and numerical bundles are not public deposits. The author approved the final AI disclosure and authorized merging [PR #3](https://github.com/HySonLab/GraphPathology/pull/3); the PR records its current status.
+The maintained [journal manuscript](manuscript/journal_revision/transformer_egnn/) centers the controlled 22-patient measurement-placement result, with an expanded Introduction and a separate Related Work section. The [matched-backbone follow-up](docs/MATCHED_BACKBONE_COMPARISON.md) separates graph-versus-local prediction within ResNet18 and Phikon from the value beyond identical molecular support. All previous empirical findings remain; the conceptual information-boundary schematic is archived outside the active paper. New fits and validation-guided selection are separate from original states and earlier optimization regimes. See the [exploratory protocol](experiments/journal_revision/backbone_graph_comparison/PROTOCOL.md) and study manifests for actual execution and availability. The [release and reproduction guide](docs/RELEASES.md) distinguishes recovered models, newly retrained replacements and artifacts withheld from publication. Phikon model weights remain private. The latest manuscript and its Figure 1b correction are archived on `main`.
