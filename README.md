@@ -3,13 +3,15 @@
 **GraphPathology enables geometry-aware reconstruction of spatial transcriptomics from sparse molecular measurements**
 Truong-Son Hy, University of Alabama at Birmingham.
 
-**Latest manuscript (Scientific Reports revision):** [Combined paper + SI](manuscript/journal_revision/transformer_egnn/GraphPathology_Combined_Manuscript_Transformer_EGNN.pdf) · [Article only](manuscript/journal_revision/transformer_egnn/GraphPathology_Article_Only_Transformer_EGNN.pdf) · [Supplement](manuscript/journal_revision/transformer_egnn/GraphPathology_Supplementary_Transformer_EGNN.pdf) · [Editable sources and build guide](manuscript/journal_revision/transformer_egnn/README.md)
+**Latest manuscript:** [Combined paper + SI](manuscript/journal_revision/transformer_egnn/GraphPathology_Combined_Manuscript_Transformer_EGNN.pdf) · [Article only](manuscript/journal_revision/transformer_egnn/GraphPathology_Article_Only_Transformer_EGNN.pdf) · [Supplement](manuscript/journal_revision/transformer_egnn/GraphPathology_Supplementary_Transformer_EGNN.pdf) · [Editable sources and build guide](manuscript/journal_revision/transformer_egnn/README.md)
 
-The latest manuscript centers the controlled measurement-placement experiments in 22 patients and includes the matched-backbone GNN comparisons. This is the current manuscript for author review and submission preparation; no journal acceptance is claimed.
+GraphPathology investigates how spatial measurement geometry, histology representations and graph learning affect reconstruction of spatial transcriptomics from sparse molecular observations. Controlled experiments in 22 patients emphasize the importance of where molecular measurements are collected, alongside how predictions are computed.
 
-Historical version: [arXiv v1 combined paper + SI](manuscript/GraphPathology_Combined_Manuscript.pdf) · [Article only](manuscript/GraphPathology_Article_Only.pdf) · [Supplement](manuscript/GraphPathology_Supplementary.pdf)
+The study compares image-only prediction, molecular interpolation and image–molecular fusion. Matched comparisons evaluate graph and local predictors with the same encoder and molecular support. GCN-assisted reconstruction improves over local-assisted prediction across the 22-patient cohort with both tested encoders, while anchor-only inverse-distance interpolation remains stronger on cohort-median endpoints. Mixed and negative findings, neighborhood averaging and shuffled controls qualify the interpretation of graph topology. The tested fixed image contribution did not reproducibly improve external molecular interpolation.
 
-GraphPathology separates contextual image representations, reconstruction from observed same-section molecular anchors, and image–molecular fusion. Image and graph predictors are evaluated separately from molecular reconstruction; the original external headline results come from molecular interpolation. The tested fixed image contribution did not reproducibly improve external interpolation. V1/V2 differ in weighting and scoring support as well as geometry. External images are downsampled. A potential fivefold reduction concerns selective acquisition and proportional variable location costs, not proven total assay savings or learned long-range correlations.
+Distributed and contiguous observation settings differ in weighting and scoring support as well as geometry. Previously inspected cohorts are not fresh blind validation. A potential fivefold reduction concerns selective acquisition and proportional variable location costs, rather than demonstrated total assay savings.
+
+## Data and study design
 
 | Cohort | Role | Panel |
 |---|---|---|
@@ -17,12 +19,10 @@ GraphPathology separates contextual image representations, reconstruction from o
 | HEST TENX95 / TENX99 | Validation / primary development evaluation | 50 |
 | HER2ST A1–H1 | Transportability, then calibration development on the same patients | 40-gene intersection |
 | Wu 1142243F, CID4465, CID4535 | Calibration | 50 |
-| Wu 1160920F, CID4290, CID44971 | Held-out at v1; now inspected | 50 |
-| Bassiouni, first section for each of 22 patients | Held-out at v1, no refitting; now inspected | 50 |
+| Wu 1160920F, CID4290, CID44971 | Initially held-out evaluation; subsequently inspected | 50 |
+| Bassiouni, first section for each of 22 patients | Initially held-out evaluation without refitting; subsequently inspected | 50 |
 
-## Post-v1 Scientific Reports journal revision
-
-[Journal experiments and reproduction](docs/JOURNAL_REVISION.md) · [Separate journal sources/PDFs](manuscript/journal_revision/README.md) · [Versioned exploratory protocol](experiments/journal_revision/PROTOCOL_V1.md). New real-data matched-information and identical-target analyses, patient uncertainty and controlled neural training are separate from the arXiv v1 package. The later exact GEO range recovery completed the 22-patient Bassiouni matched spatial comparisons; the earlier source-transfer failure is retained in the historical reports. See the journal status for precise completed/blocked/skipped work. Previously inspected cohorts are not a new blind validation.
+See the [experimental workflow](docs/JOURNAL_REVISION.md), [matched-backbone comparison](docs/MATCHED_BACKBONE_COMPARISON.md) and [graph architecture experiments](docs/GRAPH_TRANSFORMER_EGNN.md) for protocols, baselines, controls, selection procedures and limitations.
 
 ## Install and CPU quick start
 
@@ -36,66 +36,46 @@ python3.12 -m venv .venv
 .venv/bin/python -m pytest -q
 ```
 
-The smoke route uses tiny synthetic heads and two backward steps; it is a software fixture, not original fitted-prediction replay. Each output directory must be new. Imports/help/tests do not download datasets or original weights. If venv creation lacks ensurepip, see the tested bootstrap in [REPRODUCING.md](docs/REPRODUCING.md).
+The smoke route uses tiny synthetic heads and two backward steps to verify the software. Each output directory must be new. Imports, help and tests do not download datasets or model weights. If venv creation lacks ensurepip, see [REPRODUCING.md](docs/REPRODUCING.md).
 
 ## Build the latest manuscript
 
-The maintained Scientific Reports sources are in [manuscript/journal_revision/transformer_egnn](manuscript/journal_revision/transformer_egnn/README.md). Build all three documents from committed sources without downloading research data or running experiments:
+The maintained [manuscript sources and build guide](manuscript/journal_revision/transformer_egnn/README.md) include the article, supplementary information, vector figures and tables. Build all three documents from committed sources without downloading research data or running experiments:
 
 ```bash
 python -m graphpathology.backbone_paper build --output outputs/current-manuscript
 ```
 
-The output directory must be new. TeX Live, BibTeX and Poppler are required. The latest archived PDFs include the corrected Figure 1b arrow from [PR #5](https://github.com/HySonLab/GraphPathology/pull/5).
+The output directory must be new. TeX Live, BibTeX and Poppler are required. Builds check figure and table numbering, references, continuous page numbering and TeX diagnostics.
 
-## Historical arXiv v1 paper and figures from frozen exports
+## Models and reproducibility
 
-The preserved author-supplied **PREFLIGHT_FIXED reconstructed** sources live in [manuscript/revised](manuscript/revised/README.md). They produce a 52-page combined manuscript, a 29-page article and a 23-page supplement. This is not a byte-identical recovery of the earlier 54-page source. All **29 display targets** (18 figures and 11 tables) are mapped in [REPRODUCTION_TARGETS.csv](docs/REPRODUCTION_TARGETS.csv).
+Verified redistributable model heads, configurations, checksums and supporting numerical artifacts are available in the [research artifacts release](https://github.com/HySonLab/GraphPathology/releases/tag/research-artifacts-v1). The [release and reproduction guide](docs/RELEASES.md) distinguishes recovered checkpoints, newly retrained replacements and artifacts withheld from publication, with verification and restoration instructions. Phikon model weights remain private pending clarification of licensing and redistribution permissions.
 
-```bash
-python -m graphpathology publication --dry-run
-python -m graphpathology publication --output outputs/publication
-python -m graphpathology build-documents --publication outputs/publication --output outputs/paper
-python -m graphpathology arxiv --output outputs/arxiv
-```
-
-Regeneration runs the exact author renderers in isolated copies, compares every figure's numerical artist arrays/masks/colors/limits/order against the unmodified author baseline, and checks printed table cells, definitions, graphs and constants. It preserves scientific export bytes, including the full gene CSV.gz. Builds reject unresolved citations/references, duplicate destinations and TeX warnings. The combined document places the supplement after References with continuous pages and correct S numbering. The arXiv command creates a single-root source ZIP and compiles a clean extraction, with numeric ancillary files under `anc/`. No original model binaries, raw tissue data or research reruns are needed for these workflows.
-
-Install a TeX distribution (`pdflatex`, `bibtex8`/`bibtex`, Latin Modern, latex-extra packages) and Poppler (`pdfinfo`, `pdftotext`, `pdftoppm`) for document builds and inspection. Plotting uses the Python environment above. [Actual results and tolerances](docs/TEST_REPORT.md), [per-target status](docs/PUBLICATION_STATUS.json), [numerical regression](docs/PUBLICATION_VALIDATION.json).
-
-## Original predictions and retraining are separate workflows
+The three original selected primary head checkpoints remain missing; retrained replacements have separate identities and never silently substitute for them. To inspect the original checkpoint requirements and bounded inference configuration:
 
 ```bash
 python -m graphpathology doctor --require-models
 python -m graphpathology infer --config configs/replay.example.json --dry-run
 ```
 
-The original fitted states are still missing, including all three selected primary heads. These commands report the required paths and checksums and never fall back to new/random weights. The maintained inference route starts from aligned embeddings and normalized targets; it is not a complete raw-cohort research orchestrator. The separate explicit [journal research workflow](docs/JOURNAL_REVISION.md) now supports public-data acquisition, frozen feature extraction, controlled new training and evaluation. New journal fits have independent identities and cannot substitute for replay of original fits. The original bounded inference route retains its existing contract.
+These commands report required paths and checksums. The maintained inference route starts from aligned embeddings and normalized targets. The [experimental workflow](docs/JOURNAL_REVISION.md) documents public-data acquisition, frozen feature extraction, training and evaluation. Reproduction reports retain numerical differences, negative findings and incomplete checks transparently.
 
-## Organization and provenance
+## Repository organization
 
-- `src/graphpathology/`, `tests/`, `configs/`: maintained numerical package, CLI and bounded tests.
-- `manuscript/journal_revision/transformer_egnn/`: latest manuscript sources, vector figures and archived PDFs.
-- `manuscript/revised/`: immutable historical arXiv v1 author sources, vector figures, exports and metadata. [ZIP/file provenance](manuscript/PACKAGE_PROVENANCE.json).
-- `manuscript/history/`, `docs/history/`: explicitly superseded earlier PDFs and partial-validation reports.
-- `checkpoints/legacy/`: byte-preserved C1–C10, `reports/C0`, shared source/configuration and historical registry.
-- `checkpoints/models/`: canonical installation home for original states; [inventory](checkpoints/manifest.csv) records unavailable assets honestly.
-- `outputs/`: new ignored builds, regression traces and fixtures.
+- `src/graphpathology/`, `tests/`, `configs/`: numerical package, CLI, tests and configurations.
+- `manuscript/journal_revision/transformer_egnn/`: latest manuscript sources, figures and PDFs.
+- `manuscript/revised/`, `manuscript/history/`, `docs/history/`: preserved source packages, earlier documents and validation records; [package provenance](manuscript/PACKAGE_PROVENANCE.json).
+- `reproduction/`: recovery inventories, reproduction reports, verification records and release manifests.
+- `checkpoints/`: model inventories, installation locations and preserved analysis archives.
+- `outputs/`: ignored builds, regression traces and fixtures.
+
+Archived analysis integrity can be checked without running archived research scripts:
 
 ```bash
 python -m graphpathology verify-archive --historical --report outputs/archive-audit.json
 ```
 
-This checks archived bytes and declared registry prefixes without running historical replay scripts. [Methods map](docs/MANUSCRIPT_MAP.csv), [migration map](checkpoints/path_map.csv), [migration notes](docs/MIGRATION.md), [remaining limitations](docs/REMAINING_WORK.md).
-
 ## Citation and terms
 
-Use the manuscript title and author above; [CITATION.cff](CITATION.cff) supplies citation metadata. No journal acceptance or DOI is asserted. HEST, HER2ST, Wu, Bassiouni and upstream model weights retain their own terms. The original repository had no root software LICENSE; this revision does not invent a license grant or redistribute raw tissue data or upstream weights.
-
-### Post-v1 bounded Transformer / EGNN extension
-
-The separate [extension documentation](docs/GRAPH_TRANSFORMER_EGNN.md) and [scientific report](experiments/journal_revision/transformer_egnn/SCIENTIFIC_REPORT.md) describe 48 new controlled fits and 78-model evaluation in 26 previously inspected patients. Exact GEO range recovery completed the 22-patient matched spatial baseline study. The primary neural models did not improve same-information IDW; all negative findings, controls and patient effects are retained. The versioned journal manuscript is under [manuscript/journal_revision/transformer_egnn](manuscript/journal_revision/transformer_egnn/). Earlier arXiv, journal and A–E evidence remains unchanged. Verified redistributable model heads and supporting numerical artifacts are available in the [research artifacts release](https://github.com/HySonLab/GraphPathology/releases/tag/research-artifacts-v1); see the [release and reproduction guide](docs/RELEASES.md). Phikon model weights remain private pending clarification of licensing and redistribution permissions. Raw datasets and model binaries are excluded from Git.
-
-### Current matched-backbone Scientific Reports revision
-
-The maintained [journal manuscript](manuscript/journal_revision/transformer_egnn/) centers the controlled 22-patient measurement-placement result, with an expanded Introduction and a separate Related Work section. The [matched-backbone follow-up](docs/MATCHED_BACKBONE_COMPARISON.md) separates graph-versus-local prediction within ResNet18 and Phikon from the value beyond identical molecular support. All previous empirical findings remain; the conceptual information-boundary schematic is archived outside the active paper. New fits and validation-guided selection are separate from original states and earlier optimization regimes. See the [exploratory protocol](experiments/journal_revision/backbone_graph_comparison/PROTOCOL.md) and study manifests for actual execution and availability. The [release and reproduction guide](docs/RELEASES.md) distinguishes recovered models, newly retrained replacements and artifacts withheld from publication. Phikon model weights remain private. The latest manuscript and its Figure 1b correction are archived on `main`.
+Use the manuscript title and author above; [CITATION.cff](CITATION.cff) supplies citation metadata. HEST, HER2ST, Wu, Bassiouni and upstream model weights retain their own terms. See the [release guide](docs/RELEASES.md) for artifact-specific distribution conditions. Raw tissue data and upstream pretrained encoder weights are not redistributed in this repository. The repository has no root software LICENSE; inclusion here does not establish a software license grant.
