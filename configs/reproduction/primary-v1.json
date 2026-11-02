@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "study": "historical_primary_resnet18_retraining_v1",
+  "origin": "RETRAINED_NOT_ORIGINAL",
+  "train": ["NCBI783", "NCBI785"],
+  "validation": ["TENX95"],
+  "development_evaluation_only": ["TENX99"],
+  "seeds": [0, 1, 2],
+  "model": {"hidden": 256, "dropout": 0.1},
+  "training": {"learning_rate": 0.001, "weight_decay": 0.0001, "batch_size": 512, "max_epochs": 80, "patience": 10, "min_delta": 0.0001},
+  "threads": 4,
+  "feature_scaler": "checkpoints/legacy/C4/C4A/preprocessing/resnet18_reference/primary/S2-50/feature.npz",
+  "target_scaler": "checkpoints/legacy/C4/C4A/preprocessing/resnet18_reference/primary/S2-50/target.npz",
+  "normalization": "checkpoints/legacy/reports/C0/C0_NORMALIZATION.json",
+  "transport": "checkpoints/legacy/C9/C9A/T1_SCALER.json",
+  "historical_details": "manuscript/revised/methods_data/primary_model_details.json",
+  "agreement": {"median_pearson_absolute": 0.05, "relative_mean_mse": 0.15, "relative_mean_mae": 0.15}
+}
